@@ -1,0 +1,18 @@
+{
+  "success": true,
+  "command": "status",
+  "data": {
+    "count": 1,
+    "instances": [
+      {
+        "port": 7800,
+        "project": "D:\\2FileBuildWorkPlace\\Unity Project\\Example Project\\HDRP-Sample-6000.5.9",
+        "version": "6000.5.9f1",
+        "pid": 1544,
+        "state": "ready"
+      }
+    ]
+  },
+  "errors": [],
+  "warnings": []
+}

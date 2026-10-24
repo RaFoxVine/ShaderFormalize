@@ -1,0 +1,310 @@
+ModuleDecl:0 {
+    loc : SourceLoc(4918492) D:\DTemp\Temp\shaderformalize-selection-20261024\sample.slang:1
+    modifiers :  { 
+    }
+    parentDecl : null
+    nameAndLoc : NameLoc{"sample", SourceLoc(0) }
+    inferredCapabilityRequirements : null
+    _prevInContainerWithSameName : null
+    _directMemberDecls :  { 
+        StructDecl:1,
+        VarDecl:2,
+        EmptyDecl:3,
+        VarDecl:4,
+        VarDecl:5,
+        VarDecl:6,
+        FuncDecl:7}
+    mapDeclToAssociatedDecls :  { 
+    }
+    languageVersion : 2018
+    defaultVisibility : internal
+    mapTypeToCandidateExtensions :  { 
+    }
+}
+StructDecl:1 {
+    loc : SourceLoc(4918500) D:\DTemp\Temp\shaderformalize-selection-20261024\sample.slang:1
+    modifiers :  { 
+        ImplicitParameterGroupElementTypeModifier:8
+    }
+    parentDecl : ModuleDecl:0
+    nameAndLoc : NameLoc{"SLANG_ParameterGroup_Params", SourceLoc(0) }
+    inferredCapabilityRequirements : null
+    _prevInContainerWithSameName : null
+    _directMemberDecls :  { 
+        VarDecl:9,
+        VarDecl:10}
+    typeTags : 0
+    aliasedType :  { 
+        null,
+        null
+    }
+}
+VarDecl:2 {
+    loc : SourceLoc(4918500) D:\DTemp\Temp\shaderformalize-selection-20261024\sample.slang:1
+    modifiers :  { 
+        TransparentModifier:11
+        ParameterGroupReflectionName:12
+        HLSLRegisterSemantic:13
+        ImplicitParameterGroupVariableModifier:14
+    }
+    parentDecl : ModuleDecl:0
+    nameAndLoc : NameLoc{"SLANG_parameterGroup_Params", SourceLoc(0) }
+    inferredCapabilityRequirements : null
+    _prevInContainerWithSameName : null
+    type :  { 
+        GenericAppExpr:15,
+        null
+    }
+    initExpr : null
+    val : null
+}
+EmptyDecl:3 {
+    loc : SourceLoc(4918552) D:\DTemp\Temp\shaderformalize-selection-20261024\sample.slang:1
+    modifiers :  { 
+    }
+    parentDecl : ModuleDecl:0
+    nameAndLoc : NameLoc{null, SourceLoc(0) }
+    inferredCapabilityRequirements : null
+    _prevInContainerWithSameName : null
+}
+VarDecl:4 {
+    loc : SourceLoc(4918572) D:\DTemp\Temp\shaderformalize-selection-20261024\sample.slang:2
+    modifiers :  { 
+        HLSLRegisterSemantic:16
+    }
+    parentDecl : ModuleDecl:0
+    nameAndLoc : NameLoc{"colorTexture", SourceLoc(4918572) D:\DTemp\Temp\shaderformalize-selection-20261024\sample.slang:2 }
+    inferredCapabilityRequirements : null
+    _prevInContainerWithSameName : null
+    type :  { 
+        GenericAppExpr:17,
+        null
+    }
+    initExpr : null
+    val : null
+}
+VarDecl:5 {
+    loc : SourceLoc(4918614) D:\DTemp\Temp\shaderformalize-selection-20261024\sample.slang:3
+    modifiers :  { 
+        HLSLRegisterSemantic:18
+    }
+    parentDecl : ModuleDecl:0
+    nameAndLoc : NameLoc{"samplerA", SourceLoc(4918614) D:\DTemp\Temp\shaderformalize-selection-20261024\sample.slang:3 }
+    inferredCapabilityRequirements : null
+    _prevInContainerWithSameName : null
+    type :  { 
+        VarExpr:19,
+        null
+    }
+    initExpr : null
+    val : null
+}
+VarDecl:6 {
+    loc : SourceLoc(4918652) D:\DTemp\Temp\shaderformalize-selection-20261024\sample.slang:4
+    modifiers :  { 
+        HLSLRegisterSemantic:20
+    }
+    parentDecl : ModuleDecl:0
+    nameAndLoc : NameLoc{"samplerB", SourceLoc(4918652) D:\DTemp\Temp\shaderformalize-selection-20261024\sample.slang:4 }
+    inferredCapabilityRequirements : null
+    _prevInContainerWithSameName : null
+    type :  { 
+        VarExpr:21,
+        null
+    }
+    initExpr : null
+    val : null
+}
+FuncDecl:7 {
+    loc : SourceLoc(4918684) D:\DTemp\Temp\shaderformalize-selection-20261024\sample.slang:5
+    modifiers :  { 
+        HLSLSimpleSemantic:22
+    }
+    parentDecl : ModuleDecl:0
+    nameAndLoc : NameLoc{"main", SourceLoc(4918684) D:\DTemp\Temp\shaderformalize-selection-20261024\sample.slang:5 }
+    inferredCapabilityRequirements : null
+    _prevInContainerWithSameName : null
+    _directMemberDecls :  { 
+        ParamDecl:23}
+    returnType :  { 
+        VarExpr:24,
+        null
+    }
+    errorType :  { 
+        null,
+        null
+    }
+    primaryDecl : null
+    nextDecl : null
+}
+ImplicitParameterGroupElementTypeModifier:8 {
+    loc : SourceLoc(0)
+    keywordName : null
+}
+VarDecl:9 {
+    loc : SourceLoc(4918531) D:\DTemp\Temp\shaderformalize-selection-20261024\sample.slang:1
+    modifiers :  { 
+    }
+    parentDecl : StructDecl:1
+    nameAndLoc : NameLoc{"tint", SourceLoc(4918531) D:\DTemp\Temp\shaderformalize-selection-20261024\sample.slang:1 }
+    inferredCapabilityRequirements : null
+    _prevInContainerWithSameName : null
+    type :  { 
+        VarExpr:25,
+        null
+    }
+    initExpr : null
+    val : null
+}
+VarDecl:10 {
+    loc : SourceLoc(4918543) D:\DTemp\Temp\shaderformalize-selection-20261024\sample.slang:1
+    modifiers :  { 
+    }
+    parentDecl : StructDecl:1
+    nameAndLoc : NameLoc{"factor", SourceLoc(4918543) D:\DTemp\Temp\shaderformalize-selection-20261024\sample.slang:1 }
+    inferredCapabilityRequirements : null
+    _prevInContainerWithSameName : null
+    type :  { 
+        VarExpr:26,
+        null
+    }
+    initExpr : null
+    val : null
+}
+TransparentModifier:11 {
+    loc : SourceLoc(0)
+    keywordName : null
+}
+ParameterGroupReflectionName:12 {
+    loc : SourceLoc(0)
+    keywordName : null
+    nameAndLoc : NameLoc{"Params", SourceLoc(4918500) D:\DTemp\Temp\shaderformalize-selection-20261024\sample.slang:1 }
+}
+HLSLRegisterSemantic:13 {
+    loc : SourceLoc(4918509) D:\DTemp\Temp\shaderformalize-selection-20261024\sample.slang:1
+    keywordName : null
+    name :  { identifier, SourceLoc(4918509) D:\DTemp\Temp\shaderformalize-selection-20261024\sample.slang:1, "register" }
+    registerName :  { identifier, SourceLoc(4918518) D:\DTemp\Temp\shaderformalize-selection-20261024\sample.slang:1, "b0" }
+    componentMask :  { <unknown>, SourceLoc(0), "" }
+    spaceName :  { <unknown>, SourceLoc(0), "" }
+}
+ImplicitParameterGroupVariableModifier:14 {
+    loc : SourceLoc(0)
+    keywordName : null
+}
+GenericAppExpr:15 {
+    loc : SourceLoc(4918500) D:\DTemp\Temp\shaderformalize-selection-20261024\sample.slang:1
+    type : rvalue null
+    arguments :  { 
+        VarExpr:27
+    }
+    functionExpr : VarExpr:28
+}
+HLSLRegisterSemantic:16 {
+    loc : SourceLoc(4918587) D:\DTemp\Temp\shaderformalize-selection-20261024\sample.slang:2
+    keywordName : null
+    name :  { identifier, SourceLoc(4918587) D:\DTemp\Temp\shaderformalize-selection-20261024\sample.slang:2, "register" }
+    registerName :  { identifier, SourceLoc(4918596) D:\DTemp\Temp\shaderformalize-selection-20261024\sample.slang:2, "t0" }
+    componentMask :  { <unknown>, SourceLoc(0), "" }
+    spaceName :  { <unknown>, SourceLoc(0), "" }
+}
+GenericAppExpr:17 {
+    loc : SourceLoc(4918554) D:\DTemp\Temp\shaderformalize-selection-20261024\sample.slang:2
+    type : rvalue null
+    arguments :  { 
+        VarExpr:29
+    }
+    functionExpr : VarExpr:30
+}
+HLSLRegisterSemantic:18 {
+    loc : SourceLoc(4918625) D:\DTemp\Temp\shaderformalize-selection-20261024\sample.slang:3
+    keywordName : null
+    name :  { identifier, SourceLoc(4918625) D:\DTemp\Temp\shaderformalize-selection-20261024\sample.slang:3, "register" }
+    registerName :  { identifier, SourceLoc(4918634) D:\DTemp\Temp\shaderformalize-selection-20261024\sample.slang:3, "s0" }
+    componentMask :  { <unknown>, SourceLoc(0), "" }
+    spaceName :  { <unknown>, SourceLoc(0), "" }
+}
+VarExpr:19 {
+    loc : SourceLoc(4918601) D:\DTemp\Temp\shaderformalize-selection-20261024\sample.slang:3
+    type : rvalue null
+    declRef : 
+}
+HLSLRegisterSemantic:20 {
+    loc : SourceLoc(4918663) D:\DTemp\Temp\shaderformalize-selection-20261024\sample.slang:4
+    keywordName : null
+    name :  { identifier, SourceLoc(4918663) D:\DTemp\Temp\shaderformalize-selection-20261024\sample.slang:4, "register" }
+    registerName :  { identifier, SourceLoc(4918672) D:\DTemp\Temp\shaderformalize-selection-20261024\sample.slang:4, "s1" }
+    componentMask :  { <unknown>, SourceLoc(0), "" }
+    spaceName :  { <unknown>, SourceLoc(0), "" }
+}
+VarExpr:21 {
+    loc : SourceLoc(4918639) D:\DTemp\Temp\shaderformalize-selection-20261024\sample.slang:4
+    type : rvalue null
+    declRef : 
+}
+HLSLSimpleSemantic:22 {
+    loc : SourceLoc(4918714) D:\DTemp\Temp\shaderformalize-selection-20261024\sample.slang:5
+    keywordName : null
+    name :  { identifier, SourceLoc(4918714) D:\DTemp\Temp\shaderformalize-selection-20261024\sample.slang:5, "SV_Target" }
+}
+ParamDecl:23 {
+    loc : SourceLoc(4918696) D:\DTemp\Temp\shaderformalize-selection-20261024\sample.slang:5
+    modifiers :  { 
+        HLSLSimpleSemantic:31
+    }
+    parentDecl : FuncDecl:7
+    nameAndLoc : NameLoc{"uv", SourceLoc(4918696) D:\DTemp\Temp\shaderformalize-selection-20261024\sample.slang:5 }
+    inferredCapabilityRequirements : null
+    _prevInContainerWithSameName : null
+    type :  { 
+        VarExpr:32,
+        null
+    }
+    initExpr : null
+    val : null
+}
+VarExpr:24 {
+    loc : SourceLoc(4918677) D:\DTemp\Temp\shaderformalize-selection-20261024\sample.slang:5
+    type : rvalue null
+    declRef : 
+}
+VarExpr:25 {
+    loc : SourceLoc(4918524) D:\DTemp\Temp\shaderformalize-selection-20261024\sample.slang:1
+    type : rvalue null
+    declRef : 
+}
+VarExpr:26 {
+    loc : SourceLoc(4918537) D:\DTemp\Temp\shaderformalize-selection-20261024\sample.slang:1
+    type : rvalue null
+    declRef : 
+}
+VarExpr:27 {
+    loc : SourceLoc(4918500) D:\DTemp\Temp\shaderformalize-selection-20261024\sample.slang:1
+    type : rvalue null
+    declRef : 
+}
+VarExpr:28 {
+    loc : SourceLoc(4918500) D:\DTemp\Temp\shaderformalize-selection-20261024\sample.slang:1
+    type : rvalue null
+    declRef : 
+}
+VarExpr:29 {
+    loc : SourceLoc(4918564) D:\DTemp\Temp\shaderformalize-selection-20261024\sample.slang:2
+    type : rvalue null
+    declRef : 
+}
+VarExpr:30 {
+    loc : SourceLoc(4918554) D:\DTemp\Temp\shaderformalize-selection-20261024\sample.slang:2
+    type : rvalue null
+    declRef : 
+}
+HLSLSimpleSemantic:31 {
+    loc : SourceLoc(4918701) D:\DTemp\Temp\shaderformalize-selection-20261024\sample.slang:5
+    keywordName : null
+    name :  { identifier, SourceLoc(4918701) D:\DTemp\Temp\shaderformalize-selection-20261024\sample.slang:5, "TEXCOORD0" }
+}
+VarExpr:32 {
+    loc : SourceLoc(4918689) D:\DTemp\Temp\shaderformalize-selection-20261024\sample.slang:5
+    type : rvalue null
+    declRef : 
+}
