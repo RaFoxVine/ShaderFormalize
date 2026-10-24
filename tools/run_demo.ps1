@@ -11,5 +11,7 @@ try {
     if ($LASTEXITCODE -ne 0) { throw 'Formal/import verification failed; see artifacts/acceptance' }
     python tools/run_unity.py --project $UnityProject
     if ($LASTEXITCODE -ne 0) { throw 'Unity GPU verification failed; see artifacts/unity' }
-    Write-Host 'Demo passed: independent Lean checking and finite Unity GPU checks.'
+    python tools/run_unity.py --example unlit --project $UnityProject
+    if ($LASTEXITCODE -ne 0) { throw 'Unlit material/HDRP scene verification failed; see artifacts/unlit/unity' }
+    Write-Host 'Demo passed: lerp + Unlit Lean checks, GPU/CPU cases and reloaded HDRP scene.'
 } finally { Pop-Location }

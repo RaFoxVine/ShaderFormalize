@@ -61,7 +61,7 @@ New-Item -ItemType Directory -Force -Path $env:CURL_HOME | Out-Null
 # The current host's IPv6 route stalls on GitHub release assets. Keep the
 # transport preference local to this toolchain, with bounded connection waits.
 foreach ($filename in @('.curlrc','_curlrc')) {
-    Set-Content -LiteralPath (Join-Path $env:CURL_HOME $filename) -Value "ipv4`nconnect-timeout = 15" -Encoding ascii
+    Set-Content -LiteralPath (Join-Path $env:CURL_HOME $filename) -Value "ipv4`nconnect-timeout = 15`nmax-time = 120" -Encoding ascii
 }
 # Process-local Git transport settings; do not edit machine or repository config.
 $gitConfigCount = 0

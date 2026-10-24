@@ -1,90 +1,90 @@
 # ShaderFormalize
 
-验证两份手工改写的 HLSL，在给定输入范围内是否具有相同的**理想实数计算结果**。当前是首个可运行闭环，用一个受限例子验证源码转换、agent 写证明、Lean 检查与 Unity 运行之间的连接。
+将两份手工改写的 HLSL 转成数学表达式，由 agent 编写证明，再让 Lean 检查它们在指定输入范围内的实数计算结果是否相同。当前已支持带材质参数、局部变量和赋值的片元计算，并在 Unity HDRP 中运行。
 
-例子：
+当前材质是纯色 Unlit，自行计算环境项、Lambert 方向光和平方边缘光。左球使用原始代码，右球使用代数改写后的代码：
 
-```hlsl
-// 原始
-return lerp(a, b, saturate(t));
-// 改写
-return a + (b - a) * t;
-```
+![原始与改写材质的真实 HDRP 相机输出](planning/evidence/unlit-preview-2026-10-24.png)
 
-`a`、`b` 是任意四维实数向量，输入条件是 `0 ≤ t ≤ 1`。Python 调用项目内固定版本 DXC，读取带类型的语法树，生成 Lean 定义与完整命题。`proof/AgentProof.lean` 是 agent 手写的证明。检查器另建一个模块，将该证明绑定到本次生成的目标，并检查其依赖的公理。Unity 使用相同 HLSL 文件执行若干输入，检查包装、编译与 GPU 回读能否工作。
+主要输入是底色、光照颜色/方向、边缘光颜色/强度、环境亮度，以及插值法线和观察方向。材质参数可在 Unity Inspector 调整。原始写法分步计算，改写版复用结果并展开分配律；源文件见 [原始 HLSL](examples/unlit/original.hlsl) 和 [改写 HLSL](examples/unlit/optimized.hlsl)。
 
-## 本地运行
+2026-10-24 完整验收通过：Lean 确认两份片元计算在约定实数域内等价；39 项回归、9 项证明控制及旧/新 Unity 检查通过。新材质 144 组 GPU/CPU 输入最大误差约 2.62×10⁻⁷；同一球体切换材质的对齐图像误差为 0，保存重载后的实际 HDRP 相机检查通过。[精简验收证据](planning/evidence/unlit-material-2026-10-24.json)
 
-首版环境为 Windows x64、PowerShell 7、Python 3.9 或更新版本（仅标准库）。Unity 测试需要已经打开并可由 `unity` CLI 连接的 Editor；本次使用 Unity 6000.5.9f1、HDRP 17.5.0、Direct3D12。正式验证本身不依赖 Unity。
+## 在本机运行
 
-在仓库根目录运行：
+环境为 Windows x64、PowerShell 7、Python 3.9+（标准库）、Git、curl。Unity 检查需要已打开并能由 unity CLI 连接的 Editor；当前验证工程使用 Unity 6000.5.9f1、HDRP 17.5.0、Direct3D12。Lean 与固定 DXC 安装在本仓库内，正式证明本身不依赖 Unity。
 
 ```powershell
-# 首次：官方归档校验并安装到本目录，拉取锁定的 Lake 依赖，取预编译缓存。
+# 首次配置本地工具及锁定依赖的编译缓存。
 pwsh -File tools/bootstrap.ps1
 
-# 生成模型并检查已有 agent 证明。
-python tools/shaderformalize.py check
-
-# 正例、故意改错、放宽范围、伪造证明等完整检查。
-python tools/verify_demo.py
-
-# 在已打开的 Unity 工程运行同一批 HLSL。
-python tools/run_unity.py --project '你的 Unity 工程绝对路径'
-
-# 完整验收；首次可加 -Bootstrap。
+# 完整验收：旧 lerp、新材质、证明负例、数值对照和真实 HDRP 场景。
 pwsh -File tools/run_demo.ps1 -UnityProject '你的 Unity 工程绝对路径'
+
+# 只运行新材质的数学验证。
+python tools/shaderformalize.py check --original examples/unlit/original.hlsl --optimized examples/unlit/optimized.hlsl --constraints examples/unlit/constraints.json --agent-proof proof/UnlitProof.lean --output artifacts/unlit/proof
+
+# 只创建/检查 Unity 材质与演示场景。
+python tools/run_unity.py --example unlit --project '你的 Unity 工程绝对路径'
 ```
 
-默认产物写到 `artifacts/current/`、`artifacts/acceptance/`、`artifacts/unity/`。获得工作目录写锁后先写 `IN_PROGRESS`，成功或失败都会更新 `result.json`；并发请求返回 `INCONCLUSIVE`，保留正在运行者的报告。完整工具日志保存在同目录。检查不同输入时用 `--original`、`--optimized`、`--constraints`、`--agent-proof`、`--output` 指定；修改源码后需要 agent 为新目标提供适当的证明，工具不自动搜索证明。
+Unity 资产生成在 Assets/ShaderFormalizeUnlit/。打开其中的 **UnlitComparison.unity** 可以看到两个球；original.mat 和 optimized.mat 是可编辑材质。保存的场景相机启用，并仅对自身关闭雾、曝光控制与后处理，避免既有工程效果覆盖材质；未改项目全局设置。运行器保存并重载场景，使用场景实际 Camera 的 HDRP RenderPipeline.StandardRequest 渲染回读，并另行对齐同一球体比较两份材质。
 
-```powershell
-python tools/shaderformalize.py prepare --optimized examples/lerp/wrong.hlsl
-```
+预览输出为 artifacts/unlit/unity/preview.png；GPU 报告与完整 CLI 日志在同目录。数学报告位于对应 --output 目录，完整验收摘要在 artifacts/acceptance/result.json。持有写锁的运行先写 IN_PROGRESS，失败会更新报告；并发检查返回 INCONCLUSIVE，不覆盖当前运行者的报告。
 
-`prepare` 只生成模型，不表示已经证明。约束格式目前仅接受第三个标量参数的闭区间，端点必须是字符串，按精确十进制有理数读取：
+## 数学验证具体保证什么
+
+证明对象是 main 的片元材质计算：float 按实数解释，向量按相应数量的实数分量解释。两份程序采用同一顶点/插值/Unity 包装；本次没有形式证明顶点变换、光栅化、纹理过滤或整条 HDRP 管线。Unity 验证负责实际包装、编译、GPU 输出和已保存场景是否能工作，采用有限样本和浮点容差。
+
+工具自动生成源码对应定义与待证明命题；证明由 agent 写在 proof/UnlitProof.lean，不自动搜索证明。检查器另建模块，导入本次生成定义和提交证明，将定理绑定到完整目标，并审计传递公理，只允许 propext、Classical.choice、Quot.sound。sorry、自定义公理和伪造同名目标不能得到 PROVED。
+
+DXC、源码适配器和语义定义仍属于可信边界，尚未形式证明转换器本身。Lean 文件是本地可信开发输入，会由 Lean 执行，不作为陌生代码沙箱。
+
+## 输入范围与归一化
+
+材质使用 schema 2，完整约束见 examples/unlit/constraints.json：
 
 ```json
-{"schema": 1, "ranges": {"t": {"min": "0", "max": "1"}}}
+{
+  "schema": 2,
+  "ranges": {
+    "_BaseColor": {"min": "0", "max": "1"},
+    "_LightColor": {"min": "0", "max": "1"},
+    "_RimColor": {"min": "0", "max": "1"},
+    "_Ambient": {"min": "0", "max": "1"},
+    "_RimStrength": {"min": "0", "max": "4"}
+  },
+  "nonzero_vectors": ["normalWS", "viewWS", "_LightDirection.xyz"]
+}
 ```
 
-矛盾区间、拼错字段、数字型端点都会拒绝。两侧参数顺序、名称、类型、semantic 和输出 semantic 必须一致。
+向量范围表示每个分量都在同一闭区间；未列出的输入不加区间限制。端点是精确十进制字符串。normalize(v) 解释为 v / sqrt(dot(v,v))；零长度输入在 HLSL 中结果不定，因此每次实际执行的 normalize 都需要显式匹配的非零前提，形式上为 dot(v,v)>0。[Microsoft 规范](https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-normalize)
 
-## 当前支持边界与结果含义
+当前非零前提支持输入向量、分量选择及局部别名。缺少前提、名字/分量错误、矛盾区间或全零区间与非零条件冲突均拒绝。即使归一化结果随后被覆盖或未用于返回值，也检查其前提。对任意计算表达式归一化的输入域描述暂不支持，不自动添加更强假设。
 
-导入器接受单个 `float4 main(float4, float4, float)` 像素函数，各参数带 semantic，返回 `SV_Target` 或 `SV_Target0`，函数体只有一个 return 表达式。表达式支持参数、十进制数字、括号、加减乘、一元负号、`lerp`、`saturate` 及对应的隐式标量广播。数字使用源码中的原始文字，避免把 DXC 打印的已舍入数值当成精确值。接受规范十进制整数与十进制浮点文字；八进制、十六进制和整数类型后缀暂不支持。输入采用 LF 或 CRLF 换行，拒绝预处理符号、反斜杠拼行和其他换行字符（即使位于注释内）。
+## 目前的语言范围
 
-局部变量、用户函数、预处理、分支、循环、矩阵、纹理、uniform buffer、除法、导数等均暂不支持，遇到未知结构就拒绝。当前还不能导入普通 Unity 项目的完整 Shader；本次验证的是入口表达式这一层。后续扩展必须同时补全导入规则、数学语义和验证例子。
+- 一个返回 float4 的像素 main，值参数带 semantic；可有一个显式 register(b0) 的 cbuffer，字段为 float/float2/float3/float4。
+- 局部声明、初始化、整变量赋值及 +=、-=、*=。每次赋值生成不可变的新绑定，按声明身份区分同名变量。读取未初始化值、修改参数/uniform、非末尾 return 等拒绝。
+- 十进制数字、括号、加减乘、负号、向量构造、xyzw/rgba 分量、标量广播、dot、normalize、lerp、saturate。
+- 参数顺序、名称、类型、semantic、cbuffer 名/寄存器/字段顺序及输出 semantic 必须一致，不使用反射猜配。
+
+分支/循环、矩阵、原始除法、任意 pow、纹理/Buffer、用户函数和预处理暂不支持，未知 AST 结构会拒绝。数字使用源码原始文字，拒绝八进制/十六进制/整数后缀；接受 LF/CRLF，拒绝预处理符号、反斜杠拼行和其他换行字符（包括注释中）。
 
 | 状态 | 含义 |
 |---|---|
-| `PREPARED` | 已导入并生成命题，尚未检查证明 |
-| `PROVED` | Lean 检查本次目标与证明通过，绑定定理没有额外公理 |
-| `UNPROVED` | 当前证明未通过，或依赖不允许的公理；不能据此断言两份源码不等价 |
-| `UNSUPPORTED` / `INVALID_INPUT` | 输入超出支持范围或不合法 |
-| `ENVIRONMENT_ERROR` / `INCONCLUSIVE` | 本地工具缺失、超时或已有检查占用生成目录 |
+| PREPARED | 已导入并生成命题，尚未检查证明 |
+| PROVED | 本次目标和证明通过 Lean 检查与公理审计 |
+| UNPROVED | 当前证明未通过；不能据此断言源码不等价 |
+| UNSUPPORTED / INVALID_INPUT | 超出支持范围或输入/约束不合法 |
+| ENVIRONMENT_ERROR / INCONCLUSIVE | 工具缺失/变化、超时或工作目录被占用 |
 
-Lean 中 `float` 被解释为实数，`float4` 被解释为四个实数；`lerp(a,b,t)=a+(b-a)*t`，`saturate(t)=min(1,max(0,t))`。这不证明实际浮点逐位一致，也不证明编译器正确。DXC、受限 AST 适配器和 Lean 语义定义仍属于可信边界，当前没有对源码到模型的转换器本身作形式证明。证明脚本是本地可信开发输入，会由 Lean 执行，不能将来自陌生人的 Lean 文件当成安全沙箱输入。
+旧 examples/lerp/ 与 schema 1 标量区间仍保留：默认 python tools/shaderformalize.py check 验证 lerp(a,b,saturate(t)) 与 a+(b-a)*t，前提为 0≤t≤1。它继续参与统一验收。
 
-Unity 报告 `PASSED` 仅代表有限样本在容差内通过：使用线性浮点 RenderTexture，回读原始/改写/故意改错三侧，并与 CPU 公式比较，拒绝空输出和非有限值；额外检查范围外输入能表现出差异。数学上的任意输入结论由 Lean 证明提供。
+## 源码、依赖和生成物
 
-## 文件与依赖管理
+工具按职责划分：shader_ast.py 读取固定 DXC 的类型/位置与精确数字，shader_frontend.py 检查表达式与顺序语句，shader_lean.py 检查输入域并生成 Lean，shaderformalize.py 管理快照、写锁和证明绑定。shader_eval.py 只提供有限数值回归对照，不生成数学证明。
 
-- `examples/lerp/`：真实 HLSL 输入、范围与错误改写。
-- `tools/`：启动、严格导入、命题生成、证明检查与验收脚本。
-- `proof/ShaderFormalize/Model.lean`：当前数学语义；`proof/AgentProof.lean`：手写证明。
-- `unity/RunProbe.cs`：通过 CLI 在现有 Editor 执行的 GPU 测试脚本。
-- `dependencies.lock.json`：官方 Lean/DXC/leantar 下载地址、版本与 SHA256；DXC 使用固定文件哈希，绝不回退到 PATH 上的另一版本。
-- `proof/lake-manifest.json`：Lake 固定 mathlib 与传递 Git revision；传递条目来自锁定 mathlib 自带的 manifest。初始化浅拉取精确提交，ProofWidgets 另保留指向同一提交的发布 tag。mathlib 是原生包管理依赖，因此不额外叠加 Git submodule；依赖源码不复制进仓库。
+proof/ShaderFormalize/Model.lean 定义实数语义。FetchCache.lean 复用锁定 mathlib 的原始哈希/下载/解压实现，仅获取当前所需模块。dependencies.lock.json 固定官方 Lean/DXC/leantar 归档与二进制 SHA256；proof/lake-manifest.json 固定 mathlib 和传递 Git revision。采用 Lean 自带依赖锁，不另叠加 submodule。工具与缓存都在本仓库，进程配置不改全局 PATH/elan/Git/curl 设置。
 
-`.tools/` 放本地工具，`proof/.lake/` 放 Lake 包和构建结果，`.cache/` 放下载与 mathlib 缓存，`artifacts/` 放可重建的模型、日志和 GPU 结果。生成的 `proof/GeneratedModel.lean`、`SubmittedProof.lean`、`Verify.lean` 也不提交。安装脚本将 Lean/Lake/mathlib 缓存位置限制在本目录，只设置当前进程环境，不改全局 PATH、elan 或用户配置。Python、Git、curl 与已存在的 Unity/CLI 由开发机提供。`proof/ShaderFormalize/FetchCache.lean` 在初始化时复用 mathlib 的哈希、下载与解压代码，仅遍历 Real.Basic 的依赖；不改变数学语义。
-
-Unity 仅在指定工程的 `Assets/ShaderFormalizeProbe/` 创建三个 HLSL 副本与三个 ShaderLab 包装，不改场景；这些文件由样例重建。暂时保留以便在 Editor 检查；需要移除时可在 Unity 中删除整个 `ShaderFormalizeProbe` 文件夹（连同 `.meta`）。GPU 临时材质、纹理会在脚本 finally 中释放。
-
-发布 Git 时提交源码、依赖锁、手写证明与文档；不要提交本地工具、Unity Library、下载包和运行日志。下载归档在安装校验完成后可以删除；保留工具与构建缓存能避免重复下载。
-
-## 当前验收
-
-2026-10-24 完整运行 `tools/run_demo.ps1` 通过：25 项回归，错误改写、放宽范围、自定义公理、`sorry`、伪造目标五类负例均被拒绝，正例得到 `PROVED`。Unity 实际执行 10 组范围内输入、回读 160 个像素，最大误差约 3.73×10⁻⁸，容差为 10⁻⁵。独立实现复审通过。
-
-精简机器结果见 [验收证据](planning/evidence/first-closure-2026-10-24.json)，执行与修复经过见 [执行记录](planning/first-closure/implementation-evidence.md)。下载归档和分片已清理约 1.36 GB；工具与缓存保留。另有约 21 MB 中断 Git 拉取临时包因自动审批策略拦截未删除，位于已忽略的依赖目录，不影响提交或运行。
+.tools/、.cache/、proof/.lake/、artifacts/ 与生成 Lean 模块均由 Git 忽略；提交源码、锁、手写证明、说明和精简验收证据。Unity Library 不复制进仓库，资产由模板和脚本重建。上轮下载归档/分片已清理约 1.36 GB；保留本地依赖和构建缓存，另有约 21 MB 中断 Git 临时包因审批策略拦截保留于忽略目录。

@@ -27,7 +27,7 @@ def main():
     output = ROOT / "artifacts/acceptance"
     output.mkdir(parents=True, exist_ok=True)
     write_json(output / "result.json", {"status": "IN_PROGRESS"})
-    suite = unittest.defaultTestLoader.discover(str(ROOT / "tools"), pattern="test_shaderformalize.py")
+    suite = unittest.defaultTestLoader.discover(str(ROOT / "tools"), pattern="test_*.py")
     result = unittest.TextTestRunner(verbosity=1).run(suite)
     if not result.wasSuccessful():
         write_json(output / "result.json", {"status": "FAILED", "message": "Importer/infrastructure regression failed"})
@@ -62,6 +62,13 @@ end ShaderFormalize.AgentProof
         controls.append(check_case("forged-target", "UNPROVED", "--agent-proof", fake))
         # Leave the working generated model/proof in the successful, canonical state.
         controls.append(check_case("positive", "PROVED"))
+        material = ROOT / "examples/unlit"
+        material_args = ["--original", material / "original.hlsl", "--constraints", material / "constraints.json", "--agent-proof", ROOT / "proof/UnlitProof.lean"]
+        missing = output / "missing-direction-domain.json"
+        write_json(missing, {"schema": 2, "ranges": {}, "nonzero_vectors": []})
+        controls.append(check_case("unlit-missing-domain", "INVALID_INPUT", *material_args, "--optimized", material / "optimized.hlsl", "--constraints", missing))
+        controls.append(check_case("unlit-wrong", "UNPROVED", *material_args, "--optimized", material / "wrong.hlsl"))
+        controls.append(check_case("unlit-positive", "PROVED", *material_args, "--optimized", material / "optimized.hlsl"))
         write_json(output / "result.json", {"status": "PASSED", "regression_tests": result.testsRun, "controls": controls})
         return 0
     except (OSError, ValueError, RuntimeError, subprocess.TimeoutExpired) as error:

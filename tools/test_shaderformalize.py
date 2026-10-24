@@ -50,8 +50,10 @@ class SourceImportTests(unittest.TestCase):
                 self.compile_model(self.source.replace("lerp(a, b, saturate(t))", "a * " + number))
 
     def test_locals_not_silently_dropped(self):
-        with self.assertRaises(ModelError):
-            self.compile_model(self.source.replace("return", "float x = t; return"))
+        from shader_eval import evaluate_model
+        source = self.source.replace("return lerp(a, b, saturate(t));", "float x = t; x += 1; x *= 2; return a * x;")
+        model, _ = self.compile_model(source)
+        self.assertEqual(evaluate_model(model, [[1, 2, 3, 4], [0, 0, 0, 0], [.25]]), [2.5, 5, 7.5, 10])
 
     def test_user_intrinsic_spoof_rejected(self):
         with self.assertRaises(ModelError):

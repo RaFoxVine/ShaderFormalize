@@ -1,0 +1,162 @@
+{
+  "schema": 1,
+  "date": "2026-10-24",
+  "status": "PASSED",
+  "command": "pwsh -NoProfile -File tools/run_demo.ps1 -UnityProject '<local HDRP project>'",
+  "acceptance": {
+    "status": "PASSED",
+    "regression_tests": 39,
+    "controls": [
+      {
+        "case": "wrong-expression",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "missing-range-premise",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "custom-axiom",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "sorry-proof",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "forged-target",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "positive",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "unlit-missing-domain",
+        "expected": "INVALID_INPUT",
+        "actual": "INVALID_INPUT"
+      },
+      {
+        "case": "unlit-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "unlit-positive",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      }
+    ]
+  },
+  "unlit_formal": {
+    "status": "PROVED",
+    "inputs": [
+      {
+        "role": "original",
+        "path": "examples/unlit/original.hlsl",
+        "sha256": "1bd9a452d7bc0a0ccabf71fd1c02542a2c194ab87b3d6894566634313fe0200f",
+        "dxc_seconds": 0.094
+      },
+      {
+        "role": "optimized",
+        "path": "examples/unlit/optimized.hlsl",
+        "sha256": "862d940125df9b38a80fddf502377a912b4ad1fa1e25388d464e35ca42c596a4",
+        "dxc_seconds": 0.047
+      }
+    ],
+    "constraints": {
+      "schema": 2,
+      "ranges": {
+        "_BaseColor": {
+          "min": "0",
+          "max": "1"
+        },
+        "_LightColor": {
+          "min": "0",
+          "max": "1"
+        },
+        "_RimColor": {
+          "min": "0",
+          "max": "1"
+        },
+        "_Ambient": {
+          "min": "0",
+          "max": "1"
+        },
+        "_RimStrength": {
+          "min": "0",
+          "max": "4"
+        }
+      },
+      "nonzero_vectors": [
+        "normalWS",
+        "viewWS",
+        "_LightDirection.xyz"
+      ]
+    },
+    "generated_sha256": "b6eb2fdaac6b423c622a42d5cfc96bcbe24104b41d730c3bf60cc86d66d4409c",
+    "dxc_files": {
+      "dxcompiler.dll": "5888d3e590f5bfd8743484e7f31313996734adec5741506271a5c6368cbe8ba9",
+      "dxc.exe": "ce11bb02f6027055e0b9f8c062d13b14f373c876a16557a4fa744314117d31e7",
+      "dxil.dll": "0cf5fa4b90f74550166108b3870c883f4a85243976b246b1da3ea90ad5b92015"
+    },
+    "guarantee": "ideal real-number model of the accepted source subset; translator and DXC remain trusted",
+    "theorem": "ShaderFormalize.Verification.checked",
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "agent_proof_sha256": "bfb0e583b8b54223e5c56d67c1d9e081e1b0d49a196f5e61df62ad38133e1487",
+    "semantic_model_sha256": "5a3af29b09a4696a1632b0e30595d5465d9486cd71d604bdb1fbcea512133d4e",
+    "lake_manifest_sha256": "56e940f0e5f093d6124567592bb4b1d3f0c62d6408aea2678700ffffefa14e6e",
+    "lean_build_seconds": 65.141,
+    "lean_verify_seconds": 27.438,
+    "lean_version": "Lean (version 4.24.0, x86_64-w64-windows-gnu, commit 797c613eb9b6d4ec95db23e3e00af9ac6657f24b, Release)"
+  },
+  "unlit_unity": {
+    "status": "PASSED",
+    "unity": "6000.5.9f1",
+    "graphics": "Direct3D12",
+    "hashes": {
+      "original": "1bd9a452d7bc0a0ccabf71fd1c02542a2c194ab87b3d6894566634313fe0200f",
+      "optimized": "862d940125df9b38a80fddf502377a912b4ad1fa1e25388d464e35ca42c596a4",
+      "wrong": "2c031f08313515cdae7890e03512f7ced4c9770c3ce9850babcc6653cc5ca780"
+    },
+    "numericCases": 144,
+    "numericPixels": 2304,
+    "tolerance": 0.0001,
+    "maxError": 2.6244463757763015E-07,
+    "wrongDifference": 0.9415104389190674,
+    "meshMaxError": 0,
+    "leftPixels": 18232,
+    "rightPixels": 18232,
+    "scenePath": "Assets/ShaderFormalizeUnlit/UnlitComparison.unity",
+    "sceneReloaded": true,
+    "sceneCamera": "HDRP RenderPipeline.StandardRequest",
+    "preview": "preview.png",
+    "guarantee": "Finite GPU/CPU and saved-scene HDRP checks; Lean separately proves fragment real-number equivalence",
+    "shader_template_sha256": "0c2d990715d592a7917dad2a27b75579a3038451d2d78a34f6b7d967fdeea812"
+  },
+  "legacy_unity": {
+    "status": "PASSED",
+    "validCases": 10,
+    "validPixels": 160,
+    "maxError": 3.725290298461914E-08,
+    "wrongDifference": 6,
+    "outsideDifference": 3
+  },
+  "dependencies_lock_sha256": "9acfaf31d323e18a29aed29553315da698c61b4d2037bd7bc4b6e18bba502370",
+  "preview_sha256": "75cc2268e1033bc5e77f0d8cbe94b9f08ea90c0dcceffebe2ca7c3c355fea107",
+  "review": {
+    "plan": "Independent P round 2 PASS",
+    "implementation": "Independent Q round 2 PASS; no blocking findings"
+  },
+  "boundary": "Formal equivalence of fragment real-number calculation; DXC/adapter/semantics trusted. GPU/CPU and saved HDRP scene checks are finite samples."
+}

@@ -11,7 +11,7 @@ import sys
 import time
 from contextlib import contextmanager
 
-from shader_model import ModelError, generate_lean, import_shader, load_constraints, validate_source
+from shader_model import ModelError, generate_lean, import_shader, constraint_spec, validate_source
 
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -127,11 +127,11 @@ def prepare(args, output):
         models.append(model)
         inputs.append({"role": label, "path": str(path), "sha256": hashlib.sha256(source_bytes).hexdigest(), "dxc_seconds": duration})
         write_json(output / f"{label}.model.json", model)
-    if models[0]["interface"] != models[1]["interface"] or models[0]["output_semantic"] != models[1]["output_semantic"]:
+    if models[0]["interface"] != models[1]["interface"] or models[0]["buffer"] != models[1]["buffer"] or models[0]["output_semantic"] != models[1]["output_semantic"]:
         raise ModelError("The two source interfaces differ", "INVALID_INPUT")
     constraints = read_json(args.constraints)
-    lower, upper = load_constraints(constraints, models[0]["interface"])
-    generated = generate_lean(models[0], models[1], lower, upper)
+    spec = constraint_spec(constraints, models[0], models[1])
+    generated = generate_lean(models[0], models[1], spec=spec)
     write_text(PROOF / "GeneratedModel.lean", generated)
     write_text(output / "GeneratedModel.lean", generated)
     return {

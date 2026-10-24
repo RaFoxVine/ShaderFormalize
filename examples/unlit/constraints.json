@@ -1,0 +1,11 @@
+{
+  "schema": 2,
+  "ranges": {
+    "_BaseColor": {"min": "0", "max": "1"},
+    "_LightColor": {"min": "0", "max": "1"},
+    "_RimColor": {"min": "0", "max": "1"},
+    "_Ambient": {"min": "0", "max": "1"},
+    "_RimStrength": {"min": "0", "max": "4"}
+  },
+  "nonzero_vectors": ["normalWS", "viewWS", "_LightDirection.xyz"]
+}
