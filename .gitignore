@@ -1,0 +1,10 @@
+.tools/
+.cache/
+artifacts/
+proof/.lake/
+proof/GeneratedModel.lean
+proof/Verify.lean
+proof/SubmittedProof.lean
+local.settings.json
+__pycache__/
+*.pyc

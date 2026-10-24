@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "lean": {
+    "version": "4.24.0",
+    "url": "https://github.com/leanprover/lean4/releases/download/v4.24.0/lean-4.24.0-windows.zip",
+    "sha256": "c2fcf1cba1089e526e184de2a6f6763a6e15596a2991f096dfacd4a6e3ce2cdd",
+    "binaries": {
+      "lean.exe": "20bc808248e38cf072f84f4eb389f8f98e5925d703bcbfa400d9dd44f310c4db",
+      "lake.exe": "82375bd6d578a680032606c38a313899a99d47ea5fd33fdc9872e1b2e0d9f7b1"
+    }
+  },
+  "dxc": {
+    "version": "v1.8.2505.1",
+    "url": "https://github.com/microsoft/DirectXShaderCompiler/releases/download/v1.8.2505.1/dxc_2025_07_14.zip",
+    "sha256": "9ad895a6b039e3a8f8c22a1009f866800b840a74b50db9218d13319e215ea8a4",
+    "binaries": {
+      "dxcompiler.dll": "5888d3e590f5bfd8743484e7f31313996734adec5741506271a5c6368cbe8ba9",
+      "dxc.exe": "ce11bb02f6027055e0b9f8c062d13b14f373c876a16557a4fa744314117d31e7",
+      "dxil.dll": "0cf5fa4b90f74550166108b3870c883f4a85243976b246b1da3ea90ad5b92015"
+    }
+  },
+  "mathlib": {
+    "url": "https://github.com/leanprover-community/mathlib4.git",
+    "revision": "f897ebcf72cd16f89ab4577d0c826cd14afaafc7",
+    "upstream_manifest_sha256": "c37834225d776f57a4e23bb8e48b138825fa6c3d4310394fb6a703a120edcb70"
+  },
+  "leantar": {
+    "binary_sha256": "a623f68963b36b1c33ebe1c4fa0f73f4103f3282b940320a9c1d1b543744c3d2",
+    "url": "https://github.com/digama0/leangz/releases/download/v0.1.15/leantar-v0.1.15-x86_64-pc-windows-msvc.zip",
+    "version": "0.1.15",
+    "sha256": "10848b49fac091bc07bfee0ab426319e121f1103193f499c17bbd4e9ce604614"
+  }
+}

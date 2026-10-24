@@ -1,0 +1,2 @@
+# Preserve the demo's byte hashes across Windows checkouts.
+*.hlsl text eol=lf

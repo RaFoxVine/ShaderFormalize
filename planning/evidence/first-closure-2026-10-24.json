@@ -1,0 +1,98 @@
+{
+  "schema": 1,
+  "date": "2026-10-24",
+  "status": "PASSED",
+  "regression_tests": 25,
+  "controls": [
+    {
+      "case": "wrong-expression",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED"
+    },
+    {
+      "case": "missing-range-premise",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED"
+    },
+    {
+      "case": "custom-axiom",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED"
+    },
+    {
+      "case": "sorry-proof",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED"
+    },
+    {
+      "case": "forged-target",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED"
+    },
+    {
+      "case": "positive",
+      "expected": "PROVED",
+      "actual": "PROVED"
+    }
+  ],
+  "formal": {
+    "status": "PROVED",
+    "theorem": "ShaderFormalize.Verification.checked",
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "constraints": {
+      "schema": 1,
+      "ranges": {
+        "t": {
+          "min": "0",
+          "max": "1"
+        }
+      }
+    },
+    "generated_sha256": "ba2c53774aab2d2bff85adcf99c805ca2660e73b96ce99df72e55918a03255e0",
+    "agent_proof_sha256": "af907b2a6a3baab2f8b13985de886070ceaa5aa2db1308617facc594542466a8",
+    "semantic_model_sha256": "a797adf3e183485e96d1b0f883fc63cf3cf7c9421f9204fb94e4dc82415fc6d9",
+    "lake_manifest_sha256": "56e940f0e5f093d6124567592bb4b1d3f0c62d6408aea2678700ffffefa14e6e",
+    "lean_version": "Lean (version 4.24.0, x86_64-w64-windows-gnu, commit 797c613eb9b6d4ec95db23e3e00af9ac6657f24b, Release)",
+    "lean_build_seconds": 22.485,
+    "lean_verify_seconds": 22.719,
+    "guarantee": "ideal real-number model of the accepted source subset; translator and DXC remain trusted",
+    "inputs": [
+      {
+        "role": "original",
+        "sha256": "66444f4a51a8163dbc3d6e892ca4f9ce8c91549fa77e5c5a6234fea519fa9384"
+      },
+      {
+        "role": "optimized",
+        "sha256": "3abedf745c6b0038e3790986d5a808625f20bd3aa9493f45046b5264e46b8bbb"
+      }
+    ]
+  },
+  "unity": {
+    "status": "PASSED",
+    "unity": "6000.5.9f1",
+    "graphics": "Direct3D12",
+    "colorSpace": "Linear",
+    "hashes": {
+      "original": "66444f4a51a8163dbc3d6e892ca4f9ce8c91549fa77e5c5a6234fea519fa9384",
+      "optimized": "3abedf745c6b0038e3790986d5a808625f20bd3aa9493f45046b5264e46b8bbb",
+      "wrong": "646c2c1a31c30c975f2a46a9a7b5bd601c5a91557f7ff8372abb401e762f5c87"
+    },
+    "validCases": 10,
+    "validPixels": 160,
+    "tolerance": 1e-05,
+    "maxError": 3.725290298461914e-08,
+    "wrongDifference": 6,
+    "outsideDifference": 3,
+    "guarantee": "finite GPU samples with tolerance; formal proof is checked separately by Lean"
+  },
+  "dependency_lock_sha256": "9acfaf31d323e18a29aed29553315da698c61b4d2037bd7bc4b6e18bba502370",
+  "cleanup": {
+    "retained": "installed local tools, Lake dependencies, build caches, reports and a 20889599-byte interrupted Git temporary pack (cleanup blocked by approval policy)",
+    "removed": "verified download archives and Lean range parts",
+    "removed_bytes": 1360686079
+  }
+}
