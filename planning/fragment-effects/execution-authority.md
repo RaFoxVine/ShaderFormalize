@@ -1,6 +1,6 @@
 # 本轮执行授权
 
-- status: active
+- status: completed
 - source: direct_user
 - node_frame: planning/fragment-effects/plan.md，修订1，sha256 4cc7b86729ff7d8910aec8312078cb1ec65c696694385c740b9432181b0d5073
 - target_slices: tasks.md 两项 Approved，全体完成共同交付纹理/裁剪/导数正常Shader验证。
@@ -12,4 +12,4 @@
 - acceptance_boundary: 实际机器证据和独立Q交付；人工H-X另行发生。
 - delegated_session: none
 - recorded_at_local: 2026-10-25T18:11:36.8091500+08:00
-- state_reason: 用户已授权实施；独立P通过；由根agent唯一写入。
+- state_reason: 最终默认命令exit0，82项回归/18证明控制/四套Unity通过；独立Q第二轮通过，57文件及正式proof/GPU哈希匹配。实现与证据随本地提交保存，人工H-X另行进行。

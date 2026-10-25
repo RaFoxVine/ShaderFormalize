@@ -38,6 +38,14 @@ def numeric_type(size):
     return "float" if size == 1 else f"float{size}"
 
 
+def component_mask(node):
+    # DXC prints lvalue selectors as "vectorcomponent xy", rvalues as "'type' xy".
+    match = re.search(r"(?:\bvectorcomponent |' )([xyzwrgba]+)$", node.text)
+    if node.kind != "HLSLVectorElementExpr" or match is None:
+        raise ModelError("Unsupported vector component expression")
+    return match.group(1)
+
+
 def value_type(value):
     return value["type"] if value["kind"] == "record" else value["width"]
 
@@ -89,6 +97,8 @@ class TypeRegistry:
                 if child.kind != "FieldDecl" or len(child.children) > 1:
                     raise ModelError("Struct methods, initializers and unknown members are unsupported")
                 field_name = declaration_name(child)
+                if self.node_type(child) in ("void", "bool", "Texture2D", "SamplerState"):
+                    raise ModelError("Struct fields must be numeric or plain records")
                 if any(field["name"] == field_name for field in record["fields"]):
                     raise ModelError("Repeated struct field")
                 record["fields"].append({"name": field_name, "id": identifier(child), "type": self.node_type(child),
@@ -104,11 +114,17 @@ class TypeRegistry:
         if not types:
             raise ModelError("Missing value type")
         name = types[0].removeprefix("const ")
+        if name in ("void", "bool", "SamplerState"):
+            return name
+        if name in ("Texture2D", "Texture2D<float4>"):
+            return "Texture2D"
         if name in self.records:
             return name
         return width(node)
 
     def named_type(self, name):
+        if name == "void":
+            return "void"
         if name in self.records:
             return name
         match = re.fullmatch(r"float([234])?", name)
@@ -146,7 +162,7 @@ class TypeRegistry:
 
     def member(self, node, owner_type):
         match = re.search(r" lvalue \.([A-Za-z_][A-Za-z0-9_]*) (0x[0-9a-fA-F]+)$", node.text)
-        if isinstance(owner_type, int) or match is None:
+        if owner_type not in self.records or match is None:
             raise ModelError("Unsupported struct member access")
         for field in self.records[owner_type]["fields"]:
             if field["id"] == match.group(2) and field["name"] == match.group(1) and field["type"] == self.node_type(node):

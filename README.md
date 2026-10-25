@@ -1,101 +1,95 @@
 # ShaderFormalize
 
-将两份手工改写的 HLSL 转成数学表达式，由 agent 编写证明，再让 Lean 检查它们在指定输入范围内的实数计算结果是否相同。当前支持入口/嵌套结构体、按值辅助函数、材质参数、局部变量和赋值，并在 Unity HDRP 中运行。
+将两份 HLSL 经 DXC 已定类型的语法树转成理想实数模型，由手写 Lean 证明检查它们在指定输入范围内是否等价。当前能处理正常的结构体和辅助函数组织，以及 Texture2D 采样、裁剪和抽象导数；演示材质在 Unity HDRP 中实际运行。
 
-当前材质是纯色 Unlit，自行计算环境项、Lambert 方向光和平方边缘光。左球使用原始代码，右球使用代数改写后的代码：
+最新 [原版纹理材质](examples/textured/original.hlsl) 使用 UV 变换、Surface 结构体、读取/裁剪/着色辅助函数；[等价改写版](examples/textured/optimized.hlsl) 改变函数划分并展开颜色计算。材质读取底图、指定 mip 与显式梯度采样，使用 ddx/ddy 计算纹理梯度和 footprint，通过 alpha 与高度裁剪。两边都直接接受正常源码，不要求先拍平，也不自动生成改写版。
 
-![原始与改写材质的真实 HDRP 相机输出](planning/evidence/unlit-preview-2026-10-24.png)
+2026-10-25 完整默认验收及独立实现复核第二轮通过：82项回归、18项证明控制及lerp/Unlit/structured/textured四套Unity检查全部成功。新材质Lean为`PROVED`，仅三个允许公理；24组参数/49152像素GPU与独立CPU公式最大误差约5.79×10⁻⁸，裁剪mask一致，23592个保留、25560个丢弃，8604个阈值恰好相等的片元保留。五种UV/导数/LOD/Sampler/裁剪错误均有实际GPU反例；保存重载HDRP相机对齐误差0、隔离污染0。57个实现/输入/模板/证明文件与最终快照哈希一致。[精简机器证据](planning/evidence/textured-material-2026-10-25.json)，[执行与复核记录](planning/fragment-effects/implementation-evidence.md)。
 
-主要输入是底色、光照颜色/方向、边缘光颜色/强度、环境亮度，以及插值法线和观察方向。材质参数可在 Unity Inspector 调整。原始写法分步计算，改写版复用结果并展开分配律；源文件见 [原始 HLSL](examples/unlit/original.hlsl) 和 [改写 HLSL](examples/unlit/optimized.hlsl)。
+![原始与等价改写纹理材质的实际HDRP相机输出](planning/evidence/textured-preview-2026-10-25.png)
 
-2026-10-24 完整验收通过：Lean 确认两份片元计算在约定实数域内等价；39 项回归、9 项证明控制及旧/新 Unity 检查通过。新材质 144 组 GPU/CPU 输入最大误差约 2.62×10⁻⁷；同一球体切换材质的对齐图像误差为 0，保存重载后的实际 HDRP 相机检查通过。[精简验收证据](planning/evidence/unlit-material-2026-10-24.json)
+## 本机运行
 
-新增 [结构化原始 HLSL](examples/structured/original.hlsl) 与 [结构化改写 HLSL](examples/structured/optimized.hlsl) 使用相同效果，入口改为 PSInput.geometry，内部用嵌套结构体和多层辅助函数组织。原始通过 BuildSurface / EvaluateLighting / ShadeSurface 计算；改写使用不同内部类型及函数划分，复用结果并展开分配律。验证接受正常源码，不要求用户先拍平函数或结构体，也不自动生成改写版。
-
-2026-10-25 完整验收通过：65项回归、12项正负控制及lerp/Unlit/structured三套Unity检查全部通过，结构化两份源码为PROVED，独立实现复核第二轮通过。结构化材质GPU/CPU最大误差2.6244×10⁻⁷，对齐图像误差0；隐藏两球后的场景隔离污染像素0。[本轮精简证据](planning/evidence/structured-material-2026-10-25.json)
-
-## 在本机运行
-
-环境为 Windows x64、PowerShell 7、Python 3.9+（标准库）、Git、curl。Unity 检查需要已打开并能由 unity CLI 连接的 Editor；当前验证工程使用 Unity 6000.5.9f1、HDRP 17.5.0、Direct3D12。Lean 与固定 DXC 安装在本仓库内，正式证明本身不依赖 Unity。
+Windows x64、PowerShell 7、Python 3.9+标准库、Git、curl。数学验证不依赖Unity；GPU检查需要已打开且unity CLI可连接的Editor。本机为Unity6000.5.9f1、HDRP17.5.0、Direct3D12。本地Lean4.24/DXC及锁定mathlib均在仓库内，不依赖VS Code的elan配置。
 
 ```powershell
-# 首次配置本地工具及锁定依赖的编译缓存。
+# 首次安装固定本地工具及当前所需编译缓存。
 pwsh -File tools/bootstrap.ps1
 
-# 完整验收：lerp、Unlit、结构化材质、证明负例与真实 HDRP 场景。
+# 默认完整验收：全部回归、证明正负控制、四套Unity GPU/真实HDRP场景。
 pwsh -File tools/run_demo.ps1 -UnityProject '你的 Unity 工程绝对路径'
 
-# 只运行结构化材质的数学验证。
-python tools/shaderformalize.py check --original examples/structured/original.hlsl --optimized examples/structured/optimized.hlsl --constraints examples/structured/constraints.json --agent-proof proof/StructuredProof.lean --output artifacts/structured/proof
+# 仅检查纹理材质数学等价。
+python tools/shaderformalize.py check --original examples/textured/original.hlsl --optimized examples/textured/optimized.hlsl --constraints examples/textured/constraints.json --agent-proof proof/TexturedProof.lean --output artifacts/textured/proof
 
-# 只创建/检查 Unity 材质与演示场景。
-python tools/run_unity.py --example structured --project '你的 Unity 工程绝对路径'
+# 仅生成材质/场景并执行真实GPU检查。
+python tools/run_unity.py --example textured --project '你的 Unity 工程绝对路径'
 ```
 
-结构化材质的 Unity 资产生成在 Assets/ShaderFormalizeStructured/。打开其中的 **StructuredComparison.unity** 可以看到两个球；original.mat 和 optimized.mat 是可编辑材质。旧 --example unlit 继续生成 Assets/ShaderFormalizeUnlit/UnlitComparison.unity。保存的场景相机启用，并仅对自身关闭雾、曝光控制与后处理，避免既有工程效果覆盖材质；未改项目全局设置。运行器保存并重载场景，使用场景实际 Camera 的 HDRP RenderPipeline.StandardRequest 渲染回读，并另行对齐同一球体比较两份材质。
+打开 Unity 的 `Assets/ShaderFormalizeTextured/TexturedComparison.unity` 查看两颗带透明裁剪的球。original.mat / optimized.mat、含自定义mip的ControlledTexture.asset均持久化，可在Inspector调整参数。预览与报告位于 artifacts/textured/unity/。脚本复制被证明HLSL的精确字节，报告校验源哈希；数学报告位于指定 --output，完整摘要在 artifacts/acceptance/result.json。
 
-若目标场景已经打开，验证会另存 *.Validation.unity，报告同时给出 requestedScenePath 与实际 scenePath，保留已打开的场景。回读时为本次场景分配独立剔除掩码，避免已打开的旧球体进入图像；临时隐藏本次两球后，必须只剩背景（isolationPixels=0）。隔离设置只在重载后的验证期间使用，保存的场景仍可正常打开运行。
+仍保留 --example lerp / unlit / structured：对应基础lerp、手写方向光/环境项/平方边缘光、正常结构化同效果。旧例及其证明继续参与完整验收；旧记录见[结构化材质证据](planning/evidence/structured-material-2026-10-25.json)。
 
-结构化材质预览输出为 artifacts/structured/unity/preview.png；GPU 报告与完整 CLI 日志在同目录。旧 Unlit 输出仍在 artifacts/unlit/unity/。数学报告位于对应 --output 目录，完整验收摘要在 artifacts/acceptance/result.json。持有写锁的运行先写 IN_PROGRESS，失败会更新报告；并发检查返回 INCONCLUSIVE，不覆盖当前运行者的报告。
+Unity运行器保存并重新载入演示场景，再用其中实际Camera的HDRP StandardRequest回读，并在相同几何/相机上切换材质比较。相机只在自身关闭雾/曝光控制/后处理，未改项目全局设置。若目标场景已打开，另存 *.Validation.unity（必要时唯一化），保留用户场景。回读时分配本次场景独立剔除掩码，隐藏自有两球后必须只剩背景。验证临时状态在finally恢复，不保存到用户场景。
 
-## 数学验证具体保证什么
+纹理例的数值pass使用64×32规则UV平面和16×16受控点采样纹理。UVCalibration校验包装层插值坐标，CPU独立计算texel、mip、梯度footprint、颜色和保留条件；每次绘制前清成负alpha背景，单独比较裁剪mask，包含clip零边界。测试并非只比较两份GPU结果。预览是实际保存场景的HDRP相机输出。
 
-证明对象是 main 的片元材质计算：float 按实数解释，向量按相应数量的实数分量解释。两份程序采用同一顶点/插值/Unity 包装；本次没有形式证明顶点变换、光栅化、纹理过滤或整条 HDRP 管线。Unity 验证负责实际包装、编译、GPU 输出和已保存场景是否能工作，采用有限样本和浮点容差。
+## 证明保证
 
-工具自动生成源码对应定义与待证明命题；证明由 agent 写在 proof/StructuredProof.lean 等文件，不自动搜索证明。检查器另建模块，导入本次生成定义和提交证明，将定理绑定到完整目标，并审计传递公理，只允许 propext、Classical.choice、Quot.sound。sorry、自定义公理和伪造同名目标不能得到 PROVED。
+float解释为实数，向量为实数分量。普通数值程序保留schema2模型。涉及片元操作时使用schema3：varying输入为任意位置集合 E 上的完整函数，uniform仍为常量；输出为 E→Option Vec4，None表示丢弃，Some表示颜色。证明比较完整输出函数，包含裁剪结果。
 
-DXC、源码适配器和语义定义仍属于可信边界，尚未形式证明转换器本身。Lean 文件是本地可信开发输入，会由 Lean 执行，不作为陌生代码沙箱。
+纹理/导数由定理全称量化的共享 `Fragment.Ops E` 提供。这是双方使用的同一组任意操作参数，不是新增公理：
 
-## 输入范围与归一化
+- 采样保留纹理、Sampler、三种模式，以及完整UV、LOD或显式梯度函数；不假定过滤公式。
+- 导数保留ddx/ddy及fine/coarse模式，作用于完整输入函数，向量逐分量；没有链式/乘积等微积分规则。
+- 操作同时接收执行前裁剪条件函数的有序序列。输入函数与上下文相同，则同一共享操作结果相同。此模型不模拟quad邻居/helper lane，也不默许把导数或隐式采样跨裁剪移动。
+- clip(v)当且仅当每个分量≥0时保留，含0；discard无条件丢弃；if(p) discard保留¬p。裁剪条件引用执行当时的不可变快照，后续变量写入不改变它。
 
-材质使用 schema 2，完整约束见 examples/unlit/constraints.json：
+采样参数与裁剪边界依据官方定义：[Sample](https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-to-sample)、[SampleLevel](https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-to-samplelevel)、[SampleGrad](https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-to-samplegrad)、[clip](https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-clip)。共享操作模型只要求同一操作对同一完整输入给出相同输出。
+
+因此Lean保证的是接受子集的理想实数/共享操作模型等价，不是GPU浮点逐位相同、过滤器实现或整条HDRP管线正确。两版采用相同顶点/插值/包装；顶点变换、光栅化和实际硬件行为由有限GPU测试覆盖，未形式证明。DXC、源码适配器和语义定义仍在可信边界内，转换器自身尚未形式证明。
+
+工具生成定义及完整待证命题，proof/TexturedProof.lean等为手写证明。检查器另建模块绑定本次完整目标，并审计传递公理，仅允许propext、Classical.choice、Quot.sound。sorry、自定义公理、伪造同名目标均拒绝。报告保存源码、生成定义、证明、所用语义模块与依赖锁哈希。Lean证明是本地可信开发输入，不作为陌生代码沙箱。
+
+## 输入范围
+
+约束继续用schema2：ranges的键为输入完整名称，值为精确十进制字符串闭区间；向量逐分量、varying逐位置施加，未列输入不限区间。例如：
 
 ```json
-{
-  "schema": 2,
-  "ranges": {
-    "_BaseColor": {"min": "0", "max": "1"},
-    "_LightColor": {"min": "0", "max": "1"},
-    "_RimColor": {"min": "0", "max": "1"},
-    "_Ambient": {"min": "0", "max": "1"},
-    "_RimStrength": {"min": "0", "max": "4"}
-  },
-  "nonzero_vectors": ["normalWS", "viewWS", "_LightDirection.xyz"]
-}
+{"schema":2,"ranges":{"_Tint":{"min":"0","max":"1"},"_Cutoff":{"min":"0","max":"1"}},"nonzero_vectors":[]}
 ```
 
-向量范围表示每个分量都在同一闭区间；未列出的输入不加区间限制。端点是精确十进制字符串。normalize(v) 解释为 v / sqrt(dot(v,v))；零长度输入在 HLSL 中结果不定，因此每次实际执行的 normalize 都需要显式匹配的非零前提，形式上为 dot(v,v)>0。[Microsoft 规范](https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-normalize)
+结构体叶用 input.geometry.normalWS 等完整路径。normalize解释为 v/sqrt(dot(v,v))，每个实际执行的normalize必须有匹配的 nonzero_vectors 输入或swizzle前提，表示dot(v,v)>0；支持沿赋值/参数/字段/返回追踪别名。缺失/错误/矛盾前提拒绝，不替用户猜测。所有执行绑定和裁剪条件都检查，即使结果被覆盖、调用实参未被消费或结果未返回；未调用函数只检查语法，不增加域前提。暂不支持计算表达式归一化的域描述。[HLSL normalize定义](https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-normalize)
 
-当前非零前提支持输入向量、分量选择及局部别名。缺少前提、名字/分量错误、矛盾区间或全零区间与非零条件冲突均拒绝。即使归一化结果随后被覆盖或未用于返回值，也检查其前提。对任意计算表达式归一化的输入域描述暂不支持，不自动添加更强假设。
+## 支持的源码
 
-结构化入口使用完整叶路径作为名称，例如 input.geometry.normalWS；范围和 nonzero_vectors 都可以使用该名称。完整叶名优先匹配，然后才解析末尾可选 swizzle，避免名为 xyz 的字段与分量选择混淆。函数实参即使被忽略或覆盖，也保留其求值和域检查；未调用函数不增加 normalize 前提。
+- 一个返回float4、SV_Target的像素main；numeric值参数或叶字段带semantic的嵌套结构体输入；可选一个register(b0) cbuffer，float/float2/float3/float4字段。
+- 具名嵌套结构体、字段读写、整记录按值复制/返回；默认按值非递归辅助函数及重载、读取uniform。入口参数/uniform不可写，helper参数可修改自己的副本。单字段读取只需该字段初始化；整记录复制/实参/返回须全部初始化。
+- 局部声明/初始化/嵌套块、完整变量或字段的=、+=、-=、*=；精确十进制、括号、加减乘、负号、向量构造、swizzle、标量广播、dot/normalize/lerp/saturate。
+- 全局Texture2D<float4>（含默认Texture2D）和SamplerState，显式register(tN)/register(sN)，无重复槽位/别名。Sample(sampler,float2)、SampleLevel(sampler,float2,float)、SampleGrad(sampler,float2,float2,float2)。不接受offset/status/clamp等附加重载。
+- ddx/ddy及各自fine/coarse的float1..4；clip(float1..4)、discard、if(两个float标量的< <= > >= == !=比较) discard，可有只含discard的花括号，无else。
+- void辅助函数可包含上述裁剪/void调用，可无return或末尾return;。裁剪只能位于main/void helper语句；numeric/record helper不可改变裁剪状态，避免表达式求值顺序产生效果歧义。void调用只能是语句。
 
-## 目前的语言范围
+两份入口参数名/顺序/类型/完整名义布局/semantic、cbuffer字段布局及资源名/类型/顺序/槽位、输出semantic均须完全一致，错误直接拒绝，不靠反射猜配。内部结构体/函数名可不同。
 
-- 一个返回 float4 的像素 main，输入可以是带 semantic 的值参数，或在叶字段带 semantic 的嵌套结构体；可有一个显式 register(b0) 的 cbuffer，字段为 float/float2/float3/float4。
-- 普通具名嵌套结构体、字段读写、整结构体复制/返回、默认按值辅助函数及重载。DXC 决定字段/函数声明身份；导入器按已定类型的树建立数学值。参数帧与记录更新均按值隔离，辅助函数可读取 uniform。
-- 局部声明、初始化、嵌套块、完整变量/字段赋值及 +=、-=、*=。每次赋值生成不可变的新绑定；helper 的按值参数可在其帧内修改，入口参数与 uniform 保持不可写。单字段读取只需该字段初始化；结构体复制/传参/返回必须全部叶字段初始化。
-- 十进制数字、括号、加减乘、负号、向量构造、xyzw/rgba 分量、标量广播、dot、normalize、lerp、saturate。
-- 参数顺序、名称、入口结构体名和完整字段布局/semantic、cbuffer 名/寄存器/字段顺序及输出 semantic 必须一致，不使用反射猜配。内部结构体/函数名可不同。
+仍不支持一般bool局部/输入或分支、循环、out/inout、原型/递归、结构体聚合初始化/方法、资源参数/别名、向量分量左值、矩阵/数组、原始除法、任意pow、其它纹理/Buffer/compute操作以及预处理。所有函数体静态检查具体语句/表达式/调用，不能把未知代码藏在未调用helper中。未知类型/节点/重载明确拒绝。
 
-out/inout、函数原型/递归、结构体构造或聚合初始化、方法、向量分量左值、bool/分支/循环、矩阵/数组、原始除法、任意 pow、纹理/Buffer/裁剪/导数和预处理暂不支持。所有函数体静态检查节点、操作和调用身份；未知代码拒绝，不能通过藏在未调用 helper 中绕过。intrinsic 保留名不允许用户函数重定义。上限为64个结构体/每结构体64字段、16层结构体嵌套、每个结构体4096数值叶、128函数、32层调用、64输入叶、4096数值绑定，超限明确拒绝。结构体在展开前缓存计算深度和叶数，避免少量共享类型产生指数展开。
-
-数字使用源码原始文字，拒绝八进制/十六进制/整数后缀；接受 LF/CRLF，拒绝预处理符号、反斜杠拼行和其他换行字符（包括注释中）。
+上限：64结构体/每结构64字段、16嵌套层、每记录4096数值叶、128函数、32调用层、64输入叶、4096数值绑定、128裁剪事件、每种资源16个。结构图在展开前缓存深度/叶数；SSA与裁剪事件交错记录，每个采样/导数先求参数，再立即留一个绑定，只引用已有上下文前缀；嵌套操作不会重复内联整棵程序。采样/导数结果可直接取分量，如 _BaseMap.Sample(...).rgb。数字使用原始源码文字，拒绝八/十六进制/整数后缀；接受LF/CRLF，不接受预处理/拼行及其它物理换行字符（含注释）。
 
 | 状态 | 含义 |
 |---|---|
 | PREPARED | 已导入并生成命题，尚未检查证明 |
-| PROVED | 本次目标和证明通过 Lean 检查与公理审计 |
-| UNPROVED | 当前证明未通过；不能据此断言源码不等价 |
-| UNSUPPORTED / INVALID_INPUT | 超出支持范围或输入/约束不合法 |
-| ENVIRONMENT_ERROR / INCONCLUSIVE | 工具缺失/变化、超时或工作目录被占用 |
+| PROVED | 本次完整目标及证明通过Lean与公理审计 |
+| UNPROVED | 当前证明未通过，不能据此断言两份源码不等价 |
+| UNSUPPORTED / INVALID_INPUT | 超出支持范围或输入/约束错误 |
+| ENVIRONMENT_ERROR / INCONCLUSIVE | 工具缺失/变化、超时或目录占用 |
 
-旧 examples/lerp/ 与 schema 1 标量区间仍保留：默认 python tools/shaderformalize.py check 验证 lerp(a,b,saturate(t)) 与 a+(b-a)*t，前提为 0≤t≤1。它继续参与统一验收。
+运行使用Windows文件锁；持锁者写IN_PROGRESS及最终报告；并发检查返回INCONCLUSIVE，不覆盖运行者报告。旧schema1/默认lerp命令保留。
 
-## 源码、依赖和生成物
+## 文件与依赖
 
-工具按职责划分：shader_ast.py 读取固定 DXC 的位置与精确数字，shader_types.py 解释声明身份/结构体类型和值，shader_validation.py 按语句/表达式/左值位置检查所有函数，shader_frontend.py 将函数局部执行转成不可变数值绑定，shader_lean.py 检查输入域并生成 Lean，shaderformalize.py 管理接口配对、快照、写锁和证明绑定。shader_eval.py 只提供有限数值回归对照，不生成数学证明。
+shader_ast.py读取固定DXC树和精确数字；shader_types.py解释声明/记录；shader_effects.py统一资源/方法/裁剪语法规则；shader_validation.py按位置静态检查全部函数；shader_frontend.py解释成SSA与效果事件；shader_lean.py检查域并生成旧数值模型，shader_fragment.py提升完整函数及效果；shaderformalize.py负责配对、快照、锁、目标绑定和审计。shader_eval.py与shader_fragment_eval.py只用于有限回归/具体反例，不生成形式证明。
 
-proof/ShaderFormalize/Model.lean 定义实数语义。FetchCache.lean 复用锁定 mathlib 的原始哈希/下载/解压实现，仅获取当前所需模块。dependencies.lock.json 固定官方 Lean/DXC/leantar 归档与二进制 SHA256；proof/lake-manifest.json 固定 mathlib 和传递 Git revision。采用 Lean 自带依赖锁，不另叠加 submodule。工具与缓存都在本仓库，进程配置不改全局 PATH/elan/Git/curl 设置。
+proof/ShaderFormalize/Model.lean和Fragment.lean定义数学语义。dependencies.lock.json固定官方工具与二进制SHA256；proof/lake-manifest.json固定mathlib/传递Git revision，无额外submodule；FetchCache复用锁定mathlib的缓存实现。进程局部配置不修改全局PATH/elan/Git/curl。
 
-.tools/、.cache/、proof/.lake/、artifacts/ 与生成 Lean 模块均由 Git 忽略；提交源码、锁、手写证明、说明和精简验收证据。Unity Library 不复制进仓库，资产由模板和脚本重建。上轮下载归档/分片已清理约 1.36 GB；保留本地依赖和构建缓存，另有约 21 MB 中断 Git 临时包因审批策略拦截保留于忽略目录。
+.tools/、.cache/、proof/.lake/、artifacts/、生成Lean模块由Git忽略；提交源码/锁/手写证明/模板/必要说明与精简证据。Unity资产由脚本重建，不把Library复制入仓库。实验和完整日志留artifacts便于诊断，正式材料见planning/evidence；用户资料不清理。

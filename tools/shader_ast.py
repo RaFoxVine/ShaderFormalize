@@ -55,6 +55,15 @@ def parse_tree(dump):
     for line in dump.splitlines():
         if not line.strip():
             continue
+        null = re.fullmatch(r"([ |`-]*)<<<NULL>>>", line)
+        if null is not None:
+            depth = len(null.group(1)) // 2
+            if len(null.group(1)) % 2 or not 1 <= depth <= len(stack):
+                raise ModelError("Invalid null AST slot")
+            node = AstNode("Null", "", last_source_line, 1)
+            stack[depth - 1].children.append(node)
+            stack = stack[:depth] + [node]
+            continue
         match = re.fullmatch(r"([ |`-]*)([A-Za-z][A-Za-z0-9_]*)(.*)", line)
         if match is None:
             raise ModelError("Unrecognized AST dump line")

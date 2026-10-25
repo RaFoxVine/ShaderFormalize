@@ -1,7 +1,8 @@
 # 状态
 
-- 设计与DXC探针：Verified，独立P第一轮确认可执行。
-- 导入、函数级语义、Lean例子：Approved（plan.md 修订1及实现不变量补充）。
-- Unity及正负控制、统一验收、独立Q：Approved（同一精确范围）。
+- 设计与DXC探针：Verified，独立P第一轮通过。
+- 导入、完整函数语义、正常HLSL及Lean证明：Verified，最终82项回归/18控制通过，新正例PROVED；支持采样结果直接swizzle和嵌套opaque线性绑定。
+- Unity及正负控制、统一验收：Verified，默认命令exit0，四例全部GPU/场景通过，新例24组49152像素/裁剪边界和五种实际负例检出。
+- 独立Q、文档/证据及本地提交：Verified，独立Q第二轮最终通过，无未关闭发现；57文件哈希匹配，README和证据已更新，随本次本地提交交付。
 
-以 execution-authority.md 为授权记录；初验和独立Q后方可标记Verified。人工H-X与正式归档另行发生。
+人工H-X与正式归档另行发生。

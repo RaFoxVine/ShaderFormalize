@@ -129,7 +129,8 @@ def prepare(args, output):
         write_json(output / f"{label}.model.json", model)
     if (models[0]["interface"] != models[1]["interface"] or models[0]["buffer"] != models[1]["buffer"]
             or models[0]["output_semantic"] != models[1]["output_semantic"]
-            or models[0]["entry_layout"] != models[1]["entry_layout"]):
+            or models[0]["entry_layout"] != models[1]["entry_layout"]
+            or models[0].get("resources", []) != models[1].get("resources", [])):
         raise ModelError("The two source interfaces differ", "INVALID_INPUT")
     constraints = read_json(args.constraints)
     spec = constraint_spec(constraints, models[0], models[1])
@@ -138,6 +139,7 @@ def prepare(args, output):
     write_text(output / "GeneratedModel.lean", generated)
     return {
         "status": "PREPARED", "inputs": inputs, "constraints": constraints,
+        "model_schema": max(model["schema"] for model in models),
         "generated_sha256": sha256(PROOF / "GeneratedModel.lean"),
         "dxc_files": read_json(ROOT / "dependencies.lock.json")["dxc"]["binaries"],
         "guarantee": "ideal real-number model of the accepted source subset; translator and DXC remain trusted",
@@ -200,6 +202,8 @@ end ShaderFormalize.Verification
         "status": "PROVED", "theorem": "ShaderFormalize.Verification.checked", "axioms": axioms,
         "agent_proof_sha256": hashlib.sha256(proof_bytes).hexdigest(),
         "semantic_model_sha256": sha256(PROOF / "ShaderFormalize" / "Model.lean"),
+        "semantic_modules": {name: sha256(PROOF / "ShaderFormalize" / name) for name in
+                             (["Model.lean", "Fragment.lean"] if summary["model_schema"] == 3 else ["Model.lean"])},
         "lake_manifest_sha256": sha256(PROOF / "lake-manifest.json"),
         "lean_build_seconds": build_seconds, "lean_verify_seconds": verify_seconds,
         "lean_version": version.stdout.strip(),

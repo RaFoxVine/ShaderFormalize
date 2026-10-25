@@ -2,7 +2,8 @@
 import re
 
 from shader_ast import ModelError, literal, quoted, source_header
-from shader_types import declaration_name
+from shader_types import component_mask, declaration_name
+from shader_effects import discard_condition
 
 
 def lvalue_type(node, program):
@@ -23,6 +24,8 @@ def validate_declaration(node, program):
     if node.kind != "VarDecl" or len(node.children) > 1:
         raise ModelError("Unsupported local declaration")
     kind = program.types.node_type(node)
+    if not isinstance(kind, int) and kind not in program.types.records:
+        raise ModelError("Local declarations must be numeric or plain records")
     declaration_name(node)
     flags = source_header(node.text).group("tail").rpartition("'")[2].strip()
     allowed = ("cinit", "nrvo cinit") if node.children else ("", "nrvo")
@@ -34,8 +37,15 @@ def validate_declaration(node, program):
             raise ModelError("Initializer type mismatch")
 
 
-def validate_expression(node, program):
+def validate_expression(node, program, allow_void=False):
     kind = program.types.node_type(node)
+    if kind == "void" and not allow_void:
+        raise ModelError("Void calls are only supported as statements")
+    if node.kind == "CXXMemberCallExpr":
+        _, _, _, arguments = program.resources.sample(node, program.types)
+        for argument in arguments:
+            validate_expression(argument, program)
+        return
     if node.kind in ("DeclRefExpr", "MemberExpr"):
         lvalue_type(node, program)
         return
@@ -81,10 +91,9 @@ def validate_expression(node, program):
     if node.kind == "HLSLVectorElementExpr" and len(node.children) == 1:
         validate_expression(node.children[0], program)
         owner = program.types.node_type(node.children[0])
-        match = re.search(r"\bvectorcomponent ([xyzwrgba]+)$", node.text)
-        if match is None or not isinstance(owner, int) or owner == 1 or len(match.group(1)) != kind:
+        mask = component_mask(node)
+        if not isinstance(owner, int) or owner == 1 or len(mask) != kind:
             raise ModelError("Unsupported vector component expression")
-        mask = match.group(1)
         alphabet = "xyzw" if mask[0] in "xyzw" else "rgba"
         if any(c not in alphabet or alphabet.index(c) >= owner for c in mask):
             raise ModelError("Invalid vector component mask")
@@ -101,13 +110,13 @@ def validate_expression(node, program):
     raise ModelError(f"Unsupported expression: {node.kind}")
 
 
-def validate_block(body, result_type, program):
+def validate_block(body, result_type, program, effects_allowed=False):
     returned = False
     for statement in body.children:
         if returned:
             raise ModelError("Statements after return are outside the straight-line subset")
         if statement.kind == "CompoundStmt":
-            returned = validate_block(statement, result_type, program)
+            returned = validate_block(statement, result_type, program, effects_allowed)
         elif statement.kind == "DeclStmt" and statement.children:
             for child in statement.children:
                 validate_declaration(child, program)
@@ -126,8 +135,52 @@ def validate_block(body, result_type, program):
             if program.types.node_type(statement.children[0]) != result_type:
                 raise ModelError("Function return type mismatch")
             returned = True
+        elif statement.kind == "ReturnStmt" and not statement.children and result_type == "void":
+            returned = True
         elif statement.kind == "CallExpr":
+            if program.types.node_type(statement) == "void" and not effects_allowed:
+                raise ModelError("Numeric/record helpers must not change clipping state")
+            validate_expression(statement, program, allow_void=True)
+        elif statement.kind == "CXXMemberCallExpr":
             validate_expression(statement, program)
+        elif statement.kind in ("IfStmt", "DiscardStmt") and effects_allowed:
+            if statement.kind == "IfStmt":
+                condition = discard_condition(statement, program)
+                for child in condition.children:
+                    validate_expression(child, program)
+            elif statement.children:
+                raise ModelError("Unexpected discard children")
         else:
             raise ModelError(f"Unsupported statement: {statement.kind}")
     return returned
+
+
+def visit_calls(key, graph, active, completed):
+    if key in active:
+        raise ModelError("Recursive helper definitions are unsupported, including uncalled helpers")
+    if key in completed:
+        return
+    active.add(key)
+    for target in graph[key]:
+        visit_calls(target, graph, active, completed)
+    active.remove(key)
+    completed.add(key)
+
+
+def validate_call_graph(program):
+    # Grammar checks cover every definition; so must the nonrecursive subset rule.
+    graph = {}
+    for key, function in program.functions.items():
+        targets = set()
+        nodes = [function["body"]]
+        while nodes:
+            node = nodes.pop()
+            if node.kind == "CallExpr":
+                called, _, _ = program.checked_call(node)
+                if called is not None:
+                    targets.add(called["id"])
+            nodes.extend(node.children)
+        graph[key] = targets
+    completed = set()
+    for key in graph:
+        visit_calls(key, graph, set(), completed)

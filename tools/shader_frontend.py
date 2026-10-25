@@ -1,12 +1,13 @@
 """Interpret typed DXC declarations into immutable numeric bindings, over reals."""
 import re
 
-from shader_validation import validate_block, validate_declaration
+from shader_validation import validate_block, validate_call_graph, validate_declaration
 from shader_ast import ModelError, literal, parse_tree, quoted, source_header, validate_source, width
-from shader_types import (TypeRegistry, declaration_name, identifier, initialized, numeric_type,
+from shader_types import (TypeRegistry, component_mask, declaration_name, identifier, initialized, numeric_type,
                           operation, read_path, reference, replace_path, semantic, value_type)
+from shader_effects import DERIVATIVES, Resources, discard_condition
 
-INTRINSICS = {"lerp", "saturate", "dot", "normalize"}
+INTRINSICS = {"lerp", "saturate", "dot", "normalize", "clip"} | DERIVATIVES
 
 
 def swizzle_indices(mask, size):
@@ -57,6 +58,8 @@ def function_declaration(node, types):
                 raise ModelError("Only default by-value parameters; no out/inout/default arguments")
             parameters.append({"id": identifier(child), "name": declaration_name(child), "type": types.node_type(child),
                                "semantic": semantic(child.children[0]) if child.children else None})
+            if not isinstance(parameters[-1]["type"], int) and parameters[-1]["type"] not in types.records:
+                raise ModelError("Helper/entry parameters must be numeric or plain records")
         elif child.kind == "CompoundStmt" and body is None:
             body = child
         elif child.kind == "SemanticDecl" and output is None:
@@ -98,7 +101,7 @@ class Program:
         validate_source(source)
         self.source = source
         root = parse_tree(dump)
-        records, functions = [], []
+        records, functions, resources = [], [], []
         self.buffer, self.fields = None, []
         for node in root.children:
             if node.kind == "CXXRecordDecl":
@@ -107,11 +110,14 @@ class Program:
                 functions.append(node)
             elif node.kind == "HLSLBufferDecl" and self.buffer is None:
                 self.buffer, self.fields = buffer_declaration(node)
+            elif node.kind == "VarDecl":
+                resources.append(node)
             elif node.kind == "EmptyDecl" and not node.children and not source_header(node.text).group("tail").strip():
                 continue
             else:
                 raise ModelError(f"Unsupported top-level declaration: {node.kind}")
         self.types = TypeRegistry(records)
+        self.resources = Resources(resources, self.types)
         self.functions, self.main = {}, None
         for node in functions:
             function = function_declaration(node, self.types)
@@ -125,9 +131,13 @@ class Program:
         if self.main is None:
             raise ModelError("Missing main entry")
         for function in self.functions.values():
-            if not validate_block(function["body"], function["type"], self):
+            if not validate_block(function["body"], function["type"], self,
+                                  function is self.main or function["type"] == "void") and function["type"] != "void":
                 raise ModelError("Every function requires a terminal return")
+        validate_call_graph(self)
         self.bindings, self.stack = [], []
+        self.effects, self.events = [], []
+        self.fragment = bool(resources)
         self.globals = {}
 
     def snapshot(self, value, name):
@@ -141,7 +151,23 @@ class Program:
             raise ModelError("Program exceeds 4096 numeric bindings")
         index = len(self.bindings)
         self.bindings.append({"index": index, "name": name, "width": value["width"], "expression": value})
+        self.events.append({"binding": index})
         return reference("local", value["width"], index)
+
+    def effect(self, value):
+        if len(self.effects) >= 128:
+            raise ModelError("Program exceeds 128 clipping events")
+        self.fragment = True
+        self.events.append({"effect": len(self.effects)})
+        self.effects.append(value)
+
+    def sample(self, node, symbols):
+        mode, texture, sampler, nodes = self.resources.sample(node, self.types)
+        arguments = [self.expression(child, symbols) for child in nodes]
+        self.fragment = True
+        value = dict(operation("sample", 4, arguments), mode=mode, texture=texture,
+                     sampler=sampler, context=len(self.effects))
+        return self.snapshot(value, "texture." + mode)
 
     def lvalue(self, node, symbols):
         if node.kind == "ParenExpr" and len(node.children) == 1:
@@ -162,6 +188,8 @@ class Program:
 
     def expression(self, node, symbols):
         kind = self.types.node_type(node)
+        if node.kind == "CXXMemberCallExpr":
+            return self.sample(node, symbols)
         if node.kind in ("DeclRefExpr", "MemberExpr"):
             symbol, path, expected = self.lvalue(node, symbols)
             value = initialized(read_path(symbol["value"], path))
@@ -202,11 +230,11 @@ class Program:
                 raise ModelError("Constructor component count mismatch")
             return operation("construct", kind, arguments)
         if node.kind == "HLSLVectorElementExpr" and len(node.children) == 1:
-            match = re.search(r"\bvectorcomponent ([xyzwrgba]+)$", node.text)
+            mask = component_mask(node)
             child = self.expression(node.children[0], symbols)
-            if match is None or not isinstance(value_type(child), int) or child["width"] == 1:
+            if not isinstance(value_type(child), int) or child["width"] == 1:
                 raise ModelError("Unsupported vector component expression")
-            indices = swizzle_indices(match.group(1), child["width"])
+            indices = swizzle_indices(mask, child["width"])
             if len(indices) != kind:
                 raise ModelError("Component selection type mismatch")
             return dict(operation("swizzle", kind, [child]), indices=indices)
@@ -244,9 +272,13 @@ class Program:
             valid = isinstance(size, int) and size > 1 and widths == [size]
         elif name == "dot":
             valid = size == 1 and len(widths) == 2 and isinstance(widths[0], int) and widths[0] > 1 and widths[0] == widths[1]
-        if not valid or not isinstance(size, int):
+        elif name in DERIVATIVES:
+            valid = isinstance(size, int) and widths == [size]
+        elif name == "clip":
+            valid = size == "void" and len(widths) == 1 and isinstance(widths[0], int)
+        if not valid or (not isinstance(size, int) and size != "void"):
             raise ModelError("Only defined helpers and whitelisted compiler intrinsics are supported")
-        expected = numeric_type(size) + "(" + ",".join(numeric_type(w) for w in widths) + ")"
+        expected = ("void" if size == "void" else numeric_type(size)) + "(" + ",".join(numeric_type(w) for w in widths) + ")"
         signature = signature.replace(" ", "")
         for n in (2, 3, 4):
             signature = signature.replace(f"vector<float,{n}>", f"float{n}")
@@ -259,6 +291,14 @@ class Program:
         arguments = [self.expression(child, symbols) for child in node.children[1:]]
         if function is not None:
             return self.invoke(function, arguments)
+        if name == "clip":
+            argument = self.snapshot(arguments[0], "clip.argument")
+            self.effect(operation("keep", "bool", [argument]))
+            return {"kind": "void", "width": "void"}
+        if name in DERIVATIVES:
+            self.fragment = True
+            value = dict(operation("derivative", size, arguments), mode=name, context=len(self.effects))
+            return self.snapshot(value, name)
         return operation(name, size, arguments)
 
     def invoke(self, function, arguments):
@@ -277,7 +317,9 @@ class Program:
             symbols[param["id"]] = make_symbol(param["name"], param["type"], "ParmVar", function is not self.main, argument)
         self.stack.append(function["id"])
         try:
-            result = self.block(function["body"], symbols)
+            returned, result = self.block(function["body"], symbols)
+            if function["type"] == "void":
+                return {"kind": "void", "width": "void"}
             if result is None or value_type(initialized(result)) != function["type"]:
                 raise ModelError("Function needs a terminal return with matching type")
             # Every call leaves bindings, including calls whose results are unused.
@@ -286,12 +328,13 @@ class Program:
             self.stack.pop()
 
     def block(self, body, symbols):
+        did_return = False
         returned = None
         for statement in body.children:
-            if returned is not None:
+            if did_return:
                 raise ModelError("Statements after return are outside the straight-line subset")
             if statement.kind == "CompoundStmt":
-                returned = self.block(statement, dict(symbols))
+                did_return, returned = self.block(statement, dict(symbols))
             elif statement.kind == "DeclStmt" and statement.children:
                 for declaration in statement.children:
                     validate_declaration(declaration, self)
@@ -325,11 +368,22 @@ class Program:
                 symbol["value"] = replace_path(symbol["value"], path, value)
             elif statement.kind == "ReturnStmt" and len(statement.children) == 1:
                 returned = initialized(self.expression(statement.children[0], symbols))
-            elif statement.kind == "CallExpr":
-                self.snapshot(self.expression(statement, symbols), "unused.call")
+                did_return = True
+            elif statement.kind == "ReturnStmt" and not statement.children:
+                did_return = True
+            elif statement.kind in ("CallExpr", "CXXMemberCallExpr"):
+                value = self.expression(statement, symbols)
+                if value_type(value) != "void":
+                    self.snapshot(value, "unused.call")
+            elif statement.kind == "DiscardStmt":
+                self.effect(operation("never", "bool", []))
+            elif statement.kind == "IfStmt":
+                condition = discard_condition(statement, self)
+                arguments = [self.snapshot(self.expression(child, symbols), "discard.argument") for child in condition.children]
+                self.effect(dict(operation("unless", "bool", arguments), operator=quoted(condition.text)[-1]))
             else:
                 raise ModelError(f"Unsupported statement: {statement.kind}")
-        return returned
+        return did_return, returned
 
     def model(self):
         interface, entry_layout, arguments = [], [], []
@@ -345,8 +399,11 @@ class Program:
         if not 1 <= len(interface) <= 64 or len({item["name"] for item in interface}) != len(interface):
             raise ModelError("Invalid/ambiguous input declarations")
         result = self.invoke(self.main, arguments)
-        return {"schema": 2, "interface": interface, "entry_layout": entry_layout, "buffer": self.buffer,
-                "output_semantic": self.main["output"], "bindings": self.bindings, "expression": result}
+        model = {"schema": 3 if self.fragment else 2, "interface": interface, "entry_layout": entry_layout, "buffer": self.buffer,
+                 "output_semantic": self.main["output"], "bindings": self.bindings, "expression": result}
+        if self.fragment:
+            model.update(resources=self.resources.layout, events=self.events, effects=self.effects)
+        return model
 
 
 def import_shader(source, dump):

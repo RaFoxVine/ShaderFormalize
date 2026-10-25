@@ -108,7 +108,7 @@ def constraint_spec(data, original, optimized):
     covered = {expression_key(expr) for expr in spec["nonzero"]}
     for model in (original, optimized):
         # Visit every executed binding, even if overwritten or unused in return.
-        values = [binding["expression"] for binding in model["bindings"]] + [model["expression"]]
+        values = [binding["expression"] for binding in model["bindings"]] + [model["expression"]] + model.get("effects", [])
         for value in values:
             for arg in normalization_inputs(value, model["bindings"]):
                 if expression_key(arg) not in covered:
@@ -215,6 +215,9 @@ def model_definition(name, model, parameters):
 def generate_lean(original, optimized, lower=None, upper=None, spec=None):
     if spec is None:
         spec = {"ranges": [(2, lower, upper)], "nonzero": []}
+    if original["schema"] == 3 or optimized["schema"] == 3:
+        from shader_fragment import generate_fragment
+        return generate_fragment(original, optimized, spec)
     interface = original["interface"]
     parameters = " ".join(f"(p{x['index']} : {lean_type(x['width'])})" for x in interface)
     names = " ".join(f"p{x['index']}" for x in interface)

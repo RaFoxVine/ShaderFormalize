@@ -1,0 +1,443 @@
+{
+  "date": "2026-10-25",
+  "base_commit": "04b26e8",
+  "planning_authorization_commit": "780c448",
+  "status": "PASSED",
+  "command": "pwsh -File tools/run_demo.ps1 -UnityProject D:/2FileBuildWorkPlace/Unity Project/Example Project/HDRP-Sample-6000.5.9",
+  "formal": {
+    "status": "PASSED",
+    "regression_tests": 82,
+    "controls": [
+      {
+        "case": "wrong-expression",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "missing-range-premise",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "custom-axiom",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "sorry-proof",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "forged-target",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "positive",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "unlit-missing-domain",
+        "expected": "INVALID_INPUT",
+        "actual": "INVALID_INPUT"
+      },
+      {
+        "case": "unlit-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "unlit-positive",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "structured-missing-domain",
+        "expected": "INVALID_INPUT",
+        "actual": "INVALID_INPUT"
+      },
+      {
+        "case": "structured-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "structured-positive",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "textured-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "textured-wrong-uv",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "textured-wrong-derivative",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "textured-wrong-lod",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "textured-wrong-sampler",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "textured-positive",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      }
+    ]
+  },
+  "textured_proof": {
+    "status": "PROVED",
+    "inputs": [
+      {
+        "role": "original",
+        "path": "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\examples\\textured\\original.hlsl",
+        "sha256": "a9d9d36bdaf6151ed9e8b3c57dadf9ffd887b297e332874dc61d26abc2cb5c01",
+        "dxc_seconds": 0.047
+      },
+      {
+        "role": "optimized",
+        "path": "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\examples\\textured\\optimized.hlsl",
+        "sha256": "dc068a46b7d8d138d1f1c0c73536d0d676fab9d2d61da27f9835c7a69bdbd70d",
+        "dxc_seconds": 0.047
+      }
+    ],
+    "constraints": {
+      "schema": 2,
+      "ranges": {
+        "_Tint": {
+          "min": "0",
+          "max": "1"
+        },
+        "_Cutoff": {
+          "min": "0",
+          "max": "1"
+        },
+        "_Bottom": {
+          "min": "0",
+          "max": "1"
+        },
+        "_Mip": {
+          "min": "0",
+          "max": "4"
+        },
+        "_DetailStrength": {
+          "min": "0",
+          "max": "2"
+        }
+      },
+      "nonzero_vectors": []
+    },
+    "model_schema": 3,
+    "generated_sha256": "154796db151cef5fd85efa6fbf569f4d1dc6deb5f4f9038e56bd207376e040b8",
+    "dxc_files": {
+      "dxcompiler.dll": "5888d3e590f5bfd8743484e7f31313996734adec5741506271a5c6368cbe8ba9",
+      "dxc.exe": "ce11bb02f6027055e0b9f8c062d13b14f373c876a16557a4fa744314117d31e7",
+      "dxil.dll": "0cf5fa4b90f74550166108b3870c883f4a85243976b246b1da3ea90ad5b92015"
+    },
+    "guarantee": "ideal real-number model of the accepted source subset; translator and DXC remain trusted",
+    "theorem": "ShaderFormalize.Verification.checked",
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "agent_proof_sha256": "9bc224cce89c955f816e709e026a759e765abf83e3a70e8f14a823032a29556b",
+    "semantic_model_sha256": "5a3af29b09a4696a1632b0e30595d5465d9486cd71d604bdb1fbcea512133d4e",
+    "semantic_modules": {
+      "Model.lean": "5a3af29b09a4696a1632b0e30595d5465d9486cd71d604bdb1fbcea512133d4e",
+      "Fragment.lean": "c7a4195c9b5b84ce39a959e1fff8870ccb4a6f9e302bda8aa957302bf1ea069a"
+    },
+    "lake_manifest_sha256": "56e940f0e5f093d6124567592bb4b1d3f0c62d6408aea2678700ffffefa14e6e",
+    "lean_build_seconds": 39.25,
+    "lean_verify_seconds": 24.156,
+    "lean_version": "Lean (version 4.24.0, x86_64-w64-windows-gnu, commit 797c613eb9b6d4ec95db23e3e00af9ac6657f24b, Release)"
+  },
+  "gpu": {
+    "lerp": {
+      "status": "PASSED",
+      "unity": "6000.5.9f1",
+      "graphics": "Direct3D12",
+      "colorSpace": "Linear",
+      "hashes": {
+        "original": "66444f4a51a8163dbc3d6e892ca4f9ce8c91549fa77e5c5a6234fea519fa9384",
+        "optimized": "3abedf745c6b0038e3790986d5a808625f20bd3aa9493f45046b5264e46b8bbb",
+        "wrong": "646c2c1a31c30c975f2a46a9a7b5bd601c5a91557f7ff8372abb401e762f5c87"
+      },
+      "validCases": 10,
+      "validPixels": 160,
+      "tolerance": 1e-05,
+      "maxError": 3.725290298461914e-08,
+      "wrongDifference": 6,
+      "outsideDifference": 3,
+      "cases": [
+        {
+          "pair": 0,
+          "t": 0,
+          "inRange": true,
+          "maxError": 0
+        },
+        {
+          "pair": 0,
+          "t": 0.125,
+          "inRange": true,
+          "maxError": 1.210719347000122e-08
+        },
+        {
+          "pair": 0,
+          "t": 0.5,
+          "inRange": true,
+          "maxError": 2.980232238769531e-08
+        },
+        {
+          "pair": 0,
+          "t": 0.875,
+          "inRange": true,
+          "maxError": 2.2351741790771484e-08
+        },
+        {
+          "pair": 0,
+          "t": 1,
+          "inRange": true,
+          "maxError": 2.2351741790771484e-08
+        },
+        {
+          "pair": 0,
+          "t": -0.5,
+          "inRange": false,
+          "maxError": 0
+        },
+        {
+          "pair": 0,
+          "t": 1.5,
+          "inRange": false,
+          "maxError": 0
+        },
+        {
+          "pair": 1,
+          "t": 0,
+          "inRange": true,
+          "maxError": 0
+        },
+        {
+          "pair": 1,
+          "t": 0.125,
+          "inRange": true,
+          "maxError": 2.0489096641540527e-08
+        },
+        {
+          "pair": 1,
+          "t": 0.5,
+          "inRange": true,
+          "maxError": 3.725290298461914e-08
+        },
+        {
+          "pair": 1,
+          "t": 0.875,
+          "inRange": true,
+          "maxError": 1.1175870895385742e-08
+        },
+        {
+          "pair": 1,
+          "t": 1,
+          "inRange": true,
+          "maxError": 1.4901161193847656e-08
+        },
+        {
+          "pair": 1,
+          "t": -0.5,
+          "inRange": false,
+          "maxError": 0
+        },
+        {
+          "pair": 1,
+          "t": 1.5,
+          "inRange": false,
+          "maxError": 0
+        }
+      ],
+      "guarantee": "finite GPU samples with tolerance; formal proof is checked separately by Lean"
+    },
+    "unlit": {
+      "status": "PASSED",
+      "unity": "6000.5.9f1",
+      "graphics": "Direct3D12",
+      "hashes": {
+        "original": "1bd9a452d7bc0a0ccabf71fd1c02542a2c194ab87b3d6894566634313fe0200f",
+        "optimized": "862d940125df9b38a80fddf502377a912b4ad1fa1e25388d464e35ca42c596a4",
+        "wrong": "2c031f08313515cdae7890e03512f7ced4c9770c3ce9850babcc6653cc5ca780"
+      },
+      "numericCases": 144,
+      "numericPixels": 2304,
+      "tolerance": 0.0001,
+      "maxError": 2.6244463757763015e-07,
+      "wrongDifference": 0.9415104389190674,
+      "meshMaxError": 0,
+      "leftPixels": 18232,
+      "rightPixels": 18232,
+      "scenePath": "Assets/ShaderFormalizeUnlit/UnlitComparison.Validation.unity",
+      "requestedScenePath": "Assets/ShaderFormalizeUnlit/UnlitComparison.unity",
+      "sceneReloaded": true,
+      "sceneCamera": "HDRP RenderPipeline.StandardRequest",
+      "sceneIsolation": true,
+      "isolationPixels": 0,
+      "preview": "preview.png",
+      "guarantee": "Finite GPU/CPU and saved-scene HDRP checks; Lean separately proves fragment real-number equivalence",
+      "shader_template_sha256": "0c2d990715d592a7917dad2a27b75579a3038451d2d78a34f6b7d967fdeea812"
+    },
+    "structured": {
+      "status": "PASSED",
+      "unity": "6000.5.9f1",
+      "graphics": "Direct3D12",
+      "hashes": {
+        "original": "f0ebc32db9764288f372a6b31b6e47f0f7b84b6901620146fe7fdf616bb2f4aa",
+        "optimized": "4e12a0b5ab833c0b4b7f97d7100d9d2b55de81eabdf0f9fb3007c941cb8e5059",
+        "wrong": "9459f0d74e0e421e574b87011e319099942488a09f2af5c717e67b2cc2a2b334"
+      },
+      "numericCases": 144,
+      "numericPixels": 2304,
+      "tolerance": 0.0001,
+      "maxError": 2.6244463757763015e-07,
+      "wrongDifference": 0.9415104389190674,
+      "meshMaxError": 0,
+      "leftPixels": 18232,
+      "rightPixels": 18232,
+      "scenePath": "Assets/ShaderFormalizeStructured/StructuredComparison.unity",
+      "requestedScenePath": "Assets/ShaderFormalizeStructured/StructuredComparison.unity",
+      "sceneReloaded": true,
+      "sceneCamera": "HDRP RenderPipeline.StandardRequest",
+      "sceneIsolation": true,
+      "isolationPixels": 0,
+      "preview": "preview.png",
+      "guarantee": "Finite GPU/CPU and saved-scene HDRP checks; Lean separately proves fragment real-number equivalence",
+      "shader_template_sha256": "c831670828ef4500a4079523292c69622c355faf7b2756c14d25001b3656dc82"
+    },
+    "textured": {
+      "status": "PASSED",
+      "unity": "6000.5.9f1",
+      "graphics": "Direct3D12",
+      "hashes": {
+        "original": "a9d9d36bdaf6151ed9e8b3c57dadf9ffd887b297e332874dc61d26abc2cb5c01",
+        "optimized": "dc068a46b7d8d138d1f1c0c73536d0d676fab9d2d61da27f9835c7a69bdbd70d",
+        "wrong": "f6cbeb2c7221eb536db1d9c7bb597b780038cf70b1de8c51dfdeac689ddc8527",
+        "wrong-uv": "6fe2ba4c98b1a0f44e7bcd35d93382429830c3983bc094332517305e12ab6036",
+        "wrong-derivative": "f297b9a024154995ce8ec2f6ffeedc54449a0e5a07bdb7af51f1bb6e4ed14f2d",
+        "wrong-lod": "c0c0f707b0092a93f2a670a3a8d40b0ee12d2e2b41e4ea28f713564b94415136",
+        "wrong-sampler": "0e58f959698ba4f768d5c11f0a2d939a581d5ccc72d28c9f05d3fb71cbeb114f"
+      },
+      "numericCases": 24,
+      "numericPixels": 49152,
+      "keptPixels": 23592,
+      "discardedPixels": 25560,
+      "boundaryKeptPixels": 8604,
+      "uvGridError": 0,
+      "tolerance": 0.0001,
+      "maxError": 5.789122503596644e-08,
+      "wrongDifference": 1,
+      "negativeColorDifference": {
+        "wrong": 5.960464477539063e-08,
+        "wrong-uv": 1,
+        "wrong-derivative": 0.004302918910980225,
+        "wrong-lod": 0.02701932191848755,
+        "wrong-sampler": 1
+      },
+      "negativeMaskDifference": {
+        "wrong": 8604,
+        "wrong-uv": 11652,
+        "wrong-derivative": 0,
+        "wrong-lod": 0,
+        "wrong-sampler": 9252
+      },
+      "meshMaxError": 0,
+      "leftPixels": 10865,
+      "rightPixels": 10899,
+      "scenePath": "Assets/ShaderFormalizeTextured/TexturedComparison.unity",
+      "requestedScenePath": "Assets/ShaderFormalizeTextured/TexturedComparison.unity",
+      "sceneReloaded": true,
+      "sceneCamera": "HDRP RenderPipeline.StandardRequest",
+      "sceneIsolation": true,
+      "isolationPixels": 0,
+      "preview": "preview.png",
+      "guarantee": "Finite GPU/CPU and saved-scene HDRP checks; Lean separately proves fragment real-number equivalence",
+      "shader_template_sha256": "69f0a6dcb7ae59c7280a1962093d9e9778554e106b685f10748dd5e3515f162f"
+    }
+  },
+  "source_sha256": {
+    "dependencies.lock.json": "9acfaf31d323e18a29aed29553315da698c61b4d2037bd7bc4b6e18bba502370",
+    "examples/lerp/constraints.json": "96c72809a039c8045b5189d54f3e863fef1aed8e35941206e6332ab6765f2313",
+    "examples/lerp/optimized.hlsl": "3abedf745c6b0038e3790986d5a808625f20bd3aa9493f45046b5264e46b8bbb",
+    "examples/lerp/original.hlsl": "66444f4a51a8163dbc3d6e892ca4f9ce8c91549fa77e5c5a6234fea519fa9384",
+    "examples/lerp/wrong.hlsl": "646c2c1a31c30c975f2a46a9a7b5bd601c5a91557f7ff8372abb401e762f5c87",
+    "examples/structured/constraints.json": "b9756230658c7c876f93d09e41e23c53071aff1d22ffb36ac0bec606515b0124",
+    "examples/structured/optimized.hlsl": "4e12a0b5ab833c0b4b7f97d7100d9d2b55de81eabdf0f9fb3007c941cb8e5059",
+    "examples/structured/original.hlsl": "f0ebc32db9764288f372a6b31b6e47f0f7b84b6901620146fe7fdf616bb2f4aa",
+    "examples/structured/wrong.hlsl": "9459f0d74e0e421e574b87011e319099942488a09f2af5c717e67b2cc2a2b334",
+    "examples/textured/constraints.json": "2b86f4e11cc0dabb76784d2cc25411437d01199aacd96f16aa8595ec0b9c5314",
+    "examples/textured/optimized.hlsl": "dc068a46b7d8d138d1f1c0c73536d0d676fab9d2d61da27f9835c7a69bdbd70d",
+    "examples/textured/original.hlsl": "a9d9d36bdaf6151ed9e8b3c57dadf9ffd887b297e332874dc61d26abc2cb5c01",
+    "examples/textured/wrong-derivative.hlsl": "f297b9a024154995ce8ec2f6ffeedc54449a0e5a07bdb7af51f1bb6e4ed14f2d",
+    "examples/textured/wrong-lod.hlsl": "c0c0f707b0092a93f2a670a3a8d40b0ee12d2e2b41e4ea28f713564b94415136",
+    "examples/textured/wrong-sampler.hlsl": "0e58f959698ba4f768d5c11f0a2d939a581d5ccc72d28c9f05d3fb71cbeb114f",
+    "examples/textured/wrong-uv.hlsl": "6fe2ba4c98b1a0f44e7bcd35d93382429830c3983bc094332517305e12ab6036",
+    "examples/textured/wrong.hlsl": "f6cbeb2c7221eb536db1d9c7bb597b780038cf70b1de8c51dfdeac689ddc8527",
+    "examples/unlit/constraints.json": "91e660cff44bcbfe74dd6082c7439680dda6cf78f755bd610f678181ba9af664",
+    "examples/unlit/optimized.hlsl": "862d940125df9b38a80fddf502377a912b4ad1fa1e25388d464e35ca42c596a4",
+    "examples/unlit/original.hlsl": "1bd9a452d7bc0a0ccabf71fd1c02542a2c194ab87b3d6894566634313fe0200f",
+    "examples/unlit/wrong.hlsl": "2c031f08313515cdae7890e03512f7ced4c9770c3ce9850babcc6653cc5ca780",
+    "proof/AgentProof.lean": "af907b2a6a3baab2f8b13985de886070ceaa5aa2db1308617facc594542466a8",
+    "proof/lake-manifest.json": "56e940f0e5f093d6124567592bb4b1d3f0c62d6408aea2678700ffffefa14e6e",
+    "proof/lakefile.lean": "9c646bdbadcbad915293ee35fc138637ae2f8facafb897a0e40e73b59551f6fc",
+    "proof/lean-toolchain": "42779d67b81608af8a12aa4328d2ab47ca201925b3b2bd68369587b5340bb434",
+    "proof/ShaderFormalize/FetchCache.lean": "20d769e9f63ca41fd0e24820afcf8f0917799a00a3846c261b00a0e7e4cab7e6",
+    "proof/ShaderFormalize/Fragment.lean": "c7a4195c9b5b84ce39a959e1fff8870ccb4a6f9e302bda8aa957302bf1ea069a",
+    "proof/ShaderFormalize/Model.lean": "5a3af29b09a4696a1632b0e30595d5465d9486cd71d604bdb1fbcea512133d4e",
+    "proof/StructuredProof.lean": "bfb0e583b8b54223e5c56d67c1d9e081e1b0d49a196f5e61df62ad38133e1487",
+    "proof/TexturedProof.lean": "9bc224cce89c955f816e709e026a759e765abf83e3a70e8f14a823032a29556b",
+    "proof/UnlitProof.lean": "bfb0e583b8b54223e5c56d67c1d9e081e1b0d49a196f5e61df62ad38133e1487",
+    "tools/bootstrap.ps1": "21099d8511ffa5675b92a629b59224d88cc492605b9516dff612aaf28561591f",
+    "tools/run_demo.ps1": "f6aaf4fd2f01832292d3a2193ee7bc2d9f69850350cc550bdcae8b3d071953a1",
+    "tools/run_unity.py": "91c2faa404043fe6f7f4e76d828570a648afb7805496afca11fc8c2ee3ed5eca",
+    "tools/seed_dependencies.py": "a09236eea153d5ab2a9c2c6efc10f3e4aa5bc5fb1009837d1262cd6bf93314a6",
+    "tools/shader_ast.py": "c9b4d2b0d9f56112aae520015b1ff52efc74a71e6057e63fbb6689b94a1fdef5",
+    "tools/shader_effects.py": "2c9eb1c0681285a8ec8001d52e65879974b7ddf094bcf34e6db222f1ce0bbe2f",
+    "tools/shader_eval.py": "ae4b975165ba38ca9a081a085a2353fcd6251746d059d5963a2b5bd2206f8d72",
+    "tools/shader_fragment.py": "6681b776e256e60559003e8ef3099c2f95fc7f5345722a2ba2871d66f0cb6b07",
+    "tools/shader_fragment_eval.py": "260c92a88e03382aeb199ae613f1b2f6974c8d5cf9440e82406e8eb949c7aab8",
+    "tools/shader_frontend.py": "4c1c162a68a978f3bc81785397a126d42b1f9dc5806b27ec69b5b49f95616953",
+    "tools/shader_lean.py": "e83c61bcf40889e2ba541982fdfdfdba30ac798baabbaae32ad25dca36e0292e",
+    "tools/shader_model.py": "26ab13684bd54c4fcd59891721ccba20bef52da7d54c0d00180c41ca48b97ccc",
+    "tools/shader_types.py": "180f1a4ccd85317874e7d5ecf408f90aa9df8df27775794387f7054bbe881359",
+    "tools/shader_validation.py": "debb96d7bd75c786f288c516659a9b0bebbd69094174dcbc55c37b40ba43de5a",
+    "tools/shaderformalize.py": "22aff0de9bc54fd59e26468a6e7bd48b40cff9fe753db5688c1ccb2e16dee47c",
+    "tools/test_fragment.py": "44a3b10007d52e9d9f1fef543f830bf7c578989360f9b323f4e8daa906a0d5fe",
+    "tools/test_shaderformalize.py": "b58972d10e96f8e0666c66425adc1c266b07fda77c6141d297433b557ba0c4fb",
+    "tools/test_structured.py": "830a061187283454579cbd56612a5afd4a63dcadf9c064df3130eadd28357d74",
+    "tools/test_unlit.py": "99db3c8c1c0ed61fe361dc276807c014f9f4cd617f37dc52c5fe4033ce3f3468",
+    "tools/verify_demo.py": "2907465678decad2182dbbbc477a9176743d9898a7e41749ea9a309ffa1d0078",
+    "unity/RunProbe.cs": "e184dadf576ec4ea94230ac97093228bbc96a01638f3095fe674ebbb414d1cce",
+    "unity/RunTextured.cs": "8e373a1b31ae0ce1f4c06ff926b804dbcfa2066ac894fa8de8f602291ac6a27a",
+    "unity/RunUnlit.cs": "eef4238b14435a54eed9829358563efca8605e1c83439e3b599bad32fd235a03",
+    "unity/Structured.shader.template": "c831670828ef4500a4079523292c69622c355faf7b2756c14d25001b3656dc82",
+    "unity/Textured.shader.template": "69f0a6dcb7ae59c7280a1962093d9e9778554e106b685f10748dd5e3515f162f",
+    "unity/Unlit.shader.template": "0c2d990715d592a7917dad2a27b75579a3038451d2d78a34f6b7d967fdeea812"
+  },
+  "independent_review": {
+    "P": "round 1 passed",
+    "Q": "round 2 passed; no open findings; final raw reports and 57 source/proof/semantic hashes independently verified"
+  },
+  "guarantee": "Ideal real fragment equivalence for arbitrary shared full-field operations and ordered clipping contexts; finite CPU/GPU and actual saved-scene HDRP validation separately."
+}

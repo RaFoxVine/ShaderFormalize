@@ -15,5 +15,7 @@ try {
     if ($LASTEXITCODE -ne 0) { throw 'Unlit material/HDRP scene verification failed; see artifacts/unlit/unity' }
     python tools/run_unity.py --example structured --project $UnityProject
     if ($LASTEXITCODE -ne 0) { throw 'Structured material/HDRP scene verification failed; see artifacts/structured/unity' }
-    Write-Host 'Demo passed: lerp, Unlit and structured HLSL proofs, GPU/CPU cases and reloaded HDRP scenes.'
+    python tools/run_unity.py --example textured --project $UnityProject
+    if ($LASTEXITCODE -ne 0) { throw 'Textured material/clip/derivative verification failed; see artifacts/textured/unity' }
+    Write-Host 'Demo passed: lerp, Unlit, structured and textured HLSL proofs, GPU/CPU cases and reloaded HDRP scenes.'
 } finally { Pop-Location }
