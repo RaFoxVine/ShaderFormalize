@@ -150,7 +150,7 @@ def validate_block(body, result_type, program, effects_allowed=False):
         elif statement.kind == "ReturnStmt" and not statement.children and result_type == "void":
             returned = True
         elif statement.kind == "CallExpr":
-            if program.types.node_type(statement) == "void" and not effects_allowed:
+            if program.types.node_type(statement) == "void" and not effects_allowed and not program.allows_void_call(statement):
                 raise ModelError("Numeric/record helpers must not change clipping state")
             validate_expression(statement, program, allow_void=True)
         elif statement.kind == "CXXMemberCallExpr":
@@ -236,7 +236,7 @@ def validate_call_graph(program):
     graph = {}
     for key, function in program.functions.items():
         targets = set()
-        nodes = [function["body"]]
+        nodes = list(program.function_roots(function))
         while nodes:
             node = nodes.pop()
             if node.kind == "CallExpr":

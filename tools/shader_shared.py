@@ -11,6 +11,10 @@ def leaves(value):
     return [] if value["kind"] == "void" else [value]
 
 
+def result_leaves(frame):
+    return leaves(frame["expression"]) + [leaf for value in frame.get("outputs", []) for leaf in leaves(value)]
+
+
 class SharedProgram(PackingProgram):
     def __init__(self, source, dump):
         super().__init__(source, dump)
@@ -49,7 +53,7 @@ class SharedProgram(PackingProgram):
             self.current_guard = {"kind": "helper_entry", "width": "bool"}
             parameters = []
 
-            arguments = [self.shape(param["type"], "helper_parameter", parameters) for param in function["parameters"]]
+            arguments = self.compile_arguments(function, parameters)
             result = PackingProgram.invoke(self, function, arguments)
             depth = 1 + max([self.helpers[call["helper"]]["depth"] for call in self.calls] or [0])
             if depth >= 32:
@@ -58,17 +62,23 @@ class SharedProgram(PackingProgram):
             if self.total_bindings > 65536:
                 raise ModelError("Shared program exceeds 65536 helper bindings")
             index = len(self.helpers)
-            self.helpers.append({"name": function["name"], "parameters": parameters,
+            self.helpers.append(dict({"name": function["name"], "parameters": parameters,
                                  "depth": depth, "interface": self.interface,
                                  "bindings": self.bindings, "events": self.events,
                                  "effects": self.effects, "calls": self.calls,
-                                 "expression": result, "alive": self.alive})
+                                 "alive": self.alive}, **self.helper_result(function, result)))
             self.helper_indices[key] = index
             return index
         finally:
             self.compiling.pop()
             for name, value in saved.items():
                 setattr(self, name, value)
+
+    def compile_arguments(self, function, parameters):
+        return [self.shape(param["type"], "helper_parameter", parameters) for param in function["parameters"]]
+
+    def helper_result(self, function, result):
+        return {"expression": result}
 
     def validate_helper_initialization(self):
         for function in self.functions.values():
@@ -85,6 +95,10 @@ class SharedProgram(PackingProgram):
             if value_type(initialized(argument)) != param["type"] or has_payload(argument):
                 raise ModelError("Shared helper argument type/carrier mismatch")
             flattened.extend(leaves(self.snapshot(argument, function["name"] + ".argument")))
+        index = self.call_event(function, flattened)
+        return self.shape(function["type"], "call_result", [], index)
+
+    def call_event(self, function, flattened):
         helper = self.helper(function)
         if len(self.calls) >= 4096:
             raise ModelError("Function exceeds 4096 shared call events")
@@ -93,7 +107,7 @@ class SharedProgram(PackingProgram):
         self.events.append({"call": index})
         self.alive = self.snapshot(logical("and", self.alive,
             {"kind": "call_alive", "width": "bool", "index": index}), "call.alive")
-        return self.shape(function["type"], "call_result", [], index)
+        return index
 
     def model(self):
         model = super().model()

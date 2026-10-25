@@ -54,10 +54,7 @@ def function_declaration(node, types):
     parameters, body, output, stages = [], None, None, 0
     for child in node.children:
         if child.kind == "ParmVarDecl":
-            if len(child.children) > 1:
-                raise ModelError("Only default by-value parameters; no out/inout/default arguments")
-            parameters.append({"id": identifier(child), "name": declaration_name(child), "type": types.node_type(child),
-                               "semantic": semantic(child.children[0]) if child.children else None})
+            parameters.append(types.parameter_metadata(child))
             if not types.is_value_type(parameters[-1]["type"]):
                 raise ModelError("Helper/entry parameters must be numeric or plain records")
         elif child.kind == "CompoundStmt" and body is None:
@@ -71,6 +68,8 @@ def function_declaration(node, types):
     if body is None or len(parameters) > 64:
         raise ModelError("Function must have a definition; prototypes are unsupported")
     if name == "main":
+        if any(p.get("mode", "in") != "in" or p.get("default") is not None for p in parameters):
+            raise ModelError("Entry parameters must be ordinary inputs without defaults")
         if result_type != 4 or output not in ("SV_TARGET", "SV_TARGET0") or stages != 1:
             raise ModelError("Expected a float4 pixel main with one color output")
     elif output is not None or stages or any(p["semantic"] is not None for p in parameters):
@@ -102,6 +101,18 @@ class Program:
     type_registry = TypeRegistry
 
     def validate_extension(self, node):
+        return False
+
+    def prepare_function_validation(self):
+        pass
+
+    def validate_extra_definitions(self):
+        pass
+
+    def function_roots(self, function):
+        return [function["body"]]
+
+    def allows_void_call(self, node):
         return False
 
     def __init__(self, source, dump):
@@ -137,11 +148,13 @@ class Program:
                 self.main = function
         if self.main is None:
             raise ModelError("Missing main entry")
+        self.prepare_function_validation()
         for function in self.functions.values():
             if not validate_block(function["body"], function["type"], self,
                                   function is self.main or function["type"] == "void") and function["type"] != "void":
                 raise ModelError("Every function requires a terminal return")
         validate_call_graph(self)
+        self.validate_extra_definitions()
         self.bindings, self.stack = [], []
         self.invocations = 0
         self.effects, self.events = [], []
@@ -394,7 +407,7 @@ class Program:
                     raise ModelError("Assignment operand type mismatch")
                 if statement.kind == "CompoundAssignOperator":
                     match = re.search(r" lvalue '(\+=|-=|\*=)' ComputeLHSTy='[^']+'(?::'[^']+')? ComputeResultTy='[^']+'(?::'[^']+')?$", statement.text)
-                    if match is None or not isinstance(kind, int) or width(statement) != kind:
+                    if match is None or not isinstance(kind, int) or self.types.node_type(statement) != kind:
                         raise ModelError("Unsupported compound assignment")
                     old = initialized(read_path(symbol["value"], path))
                     value = operation({"+=": "add", "-=": "subtract", "*=": "multiply"}[match.group(1)], kind, [old, value])
@@ -446,8 +459,8 @@ class Program:
 
 def import_shader(source, dump, frontend="auto"):
     if frontend == "shared":
-        from shader_shared import SharedProgram
-        return SharedProgram(source, dump).model()
+        from shader_copyback import CopybackProgram
+        return CopybackProgram(source, dump).model()
     if frontend != "auto":
         raise ModelError("Unknown frontend", "INVALID_INPUT")
     from shader_control_values import uses_control

@@ -168,7 +168,7 @@ class ControlProgram(Program):
                 if statement.children:
                     value = self.snapshot(initialized(self.expression(statement.children[0], state.symbols)), "return.value")
                 mask = self.snapshot(self.current_guard, "return.mask")
-                self.frame["returns"].append((mask, value))
+                self.frame["returns"].append((mask, self.capture_return(value, state.symbols)))
                 state.mask, state.stopped = truth(False), True
             elif statement.kind == "DiscardStmt":
                 self.clipping(operation("never", "bool", []))
@@ -185,31 +185,40 @@ class ControlProgram(Program):
         entry = self.guard()
         symbols = dict(self.globals)
         for param, argument in zip(function["parameters"], arguments):
-            if value_type(initialized(argument)) != param["type"]:
-                raise ModelError("Function argument type mismatch")
-            if function is not self.main:
-                argument = self.snapshot(argument, function["name"] + "." + param["name"])
-            symbols[param["id"]] = make_symbol(param["name"], param["type"], "ParmVar", function is not self.main, argument)
-        frame = {"returns": [], "entry": entry}
+            symbols[param["id"]] = self.parameter_symbol(function, param, argument)
+        frame = {"returns": [], "entry": entry, "function": function}
         self.frame = frame
         self.current_guard = truth(True)
         self.stack.append(function["id"])
         try:
             flow = Flow(symbols, truth(True))
             self.execute(function["body"], flow)
-            self.current_guard = truth(True)
-            if function["type"] == "void":
-                return {"kind": "void", "width": "void"}
-            result = zero_value(function["type"], self.types)
-            for mask, value in reversed(frame["returns"]):
-                if value is None or value_type(value) != function["type"]:
-                    raise ModelError("Control return type mismatch")
-                result = self.select(mask, value, result, function["name"] + ".result")
-            return result
+            return self.function_result(function, frame, flow)
         finally:
             self.stack.pop()
             self.frame = caller_frame
             self.current_guard = caller_guard
+
+    def parameter_symbol(self, function, param, argument):
+        if value_type(initialized(argument)) != param["type"]:
+            raise ModelError("Function argument type mismatch")
+        if function is not self.main:
+            argument = self.snapshot(argument, function["name"] + "." + param["name"])
+        return make_symbol(param["name"], param["type"], "ParmVar", function is not self.main, argument)
+
+    def capture_return(self, value, symbols):
+        return value
+
+    def function_result(self, function, frame, flow):
+        self.current_guard = truth(True)
+        if function["type"] == "void":
+            return {"kind": "void", "width": "void"}
+        result = zero_value(function["type"], self.types)
+        for mask, value in reversed(frame["returns"]):
+            if value is None or value_type(value) != function["type"]:
+                raise ModelError("Control return type mismatch")
+            result = self.select(mask, value, result, function["name"] + ".result")
+        return result
 
     def model(self):
         model = super().model()

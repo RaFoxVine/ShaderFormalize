@@ -1,7 +1,7 @@
 """Shared helper definitions, concrete call results and guarded domain conclusions."""
 from shader_ast import ModelError
 from shader_packing_lean import PackingEmitter
-from shader_shared import leaves
+from shader_shared import result_leaves
 from shader_lean import fin_index
 from shader_control_lean import generate_control
 from shader_packing import has_payload
@@ -80,7 +80,7 @@ class SharedFrameValidator:
             if kind == "call_alive":
                 expected = "bool"
             else:
-                result = leaves(self.helpers[self.calls[expr["index"]]["helper"]]["expression"])
+                result = result_leaves(self.helpers[self.calls[expr["index"]]["helper"]])
                 check_reference(expr["field"], len(result))
                 expected = result[expr["field"]]["width"]
         payload = kind == "local" and self.bindings[expr["index"]]["expression"].get("payload", False)
@@ -143,6 +143,13 @@ class SharedFrameValidator:
         if has_payload(frame["expression"]):
             raise ModelError("Shared return cannot be a carrier")
         self.check(frame["alive"], True)
+        outputs = frame.get("outputs", [])
+        if not isinstance(outputs, list) or len(outputs) > 64:
+            raise ModelError("Invalid shared output table")
+        for value in outputs:
+            self.check(value)
+            if has_payload(value):
+                raise ModelError("Shared copy-out cannot be a carrier")
 
 
 class SharedEmitter(PackingEmitter):
@@ -206,7 +213,7 @@ class SharedEmitter(PackingEmitter):
         if self.helper_index is None:
             return super().finish_definition(lines)
         values = []
-        for leaf in leaves(self.model["expression"]):
+        for leaf in result_leaves(self.model):
             self.collect_domains(leaf, {"kind": "boolean", "width": "bool", "value": True})
             values.append(self.field(leaf))
         values.append(self.field(self.model["alive"]))
@@ -221,7 +228,7 @@ class SharedEmitter(PackingEmitter):
         definitions = []
         for index, helper in enumerate(self.helpers):
             result = [f"structure {self.prefix}Result{index} (E : Type) where"]
-            for i, leaf in enumerate(leaves(helper["expression"])):
+            for i, leaf in enumerate(result_leaves(helper)):
                 result.append(f"  r{i} : E → {self.value_type(leaf)}")
             result += ["  alive : E → Prop", "  defined : Prop"]
             definitions.append("\n".join(result))

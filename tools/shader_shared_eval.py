@@ -1,6 +1,6 @@
 """Recursive finite call frames; no generated Lean text is interpreted here."""
 from shader_control_eval import control_events, control_field
-from shader_shared import leaves
+from shader_shared import result_leaves
 from shader_shared_lean import validate_shared
 
 
@@ -33,7 +33,7 @@ class SharedFrame:
 
     def run(self):
         locals_, effects = control_events(self.model, self.inputs, self.count, self.operations)
-        values = [self.value(leaf, locals_, effects) for leaf in leaves(self.model["expression"])]
+        values = [self.value(leaf, locals_, effects) for leaf in result_leaves(self.model)]
         return values, self.value(self.model["alive"], locals_, effects)
 
 

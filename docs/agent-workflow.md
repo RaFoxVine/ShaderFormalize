@@ -33,6 +33,8 @@ helper返回值按函数内部路径选择，保留调用范围外的完整字�
 
 函数图较大时，可在prepare和check都加`--frontend shared`。它生成schema6，每个helper保留一份实际Lean定义；每个调用仍携带完整字段、裁剪状态和定义域结论。默认auto保留旧模型，shared双方必须统一选择。正常结构化材质的证明是`proof/SharedStructuredProof.lean`；支持边界和命令见[共享函数](shared-functions.md)。
 
+shared还接受默认参数与整变量/struct字段的out/inout。正常组合材质见`examples/copyback`和`proof/CopybackStructuredProof.lean`；可以单独运行`pwsh -File tools/run_demo.ps1 -Example copyback`。输入/输出别名及未规定顺序的兄弟表达式存在读写冲突时拒绝，不自行选择求值顺序。
+
 ## 写证明并交给检查器
 
 手写Lean文件应导入GeneratedModel，并提供完整名字 `ShaderFormalize.AgentProof.equivalent`，类型为 `ShaderFormalize.Generated.expected`。现有proof/BranchedProof.lean和proof/ControlDomainProof.lean分别展示材质分支和有条件归一化的完整证明，可据实际目标采用不同策略。

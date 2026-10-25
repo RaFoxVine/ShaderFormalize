@@ -83,6 +83,12 @@ class TypeRegistry:
         return (isinstance(kind, int) or kind in self.records or kind in self.extra_leaves
                 or (self.allow_bool and kind == "bool"))
 
+    def parameter_metadata(self, node):
+        if len(node.children) > 1:
+            raise ModelError("Only default by-value parameters; no out/inout/default arguments")
+        return {"id": identifier(node), "name": declaration_name(node), "type": self.node_type(node),
+                "semantic": semantic(node.children[0]) if node.children else None}
+
     def __init__(self, declarations, allow_bool=False):
         self.allow_bool = allow_bool
         self.records = {}
