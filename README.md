@@ -18,6 +18,8 @@
 
 Windows x64、PowerShell 7、Python 3.9+标准库、Git、curl。本地 Lean4.24/DXC 及锁定 mathlib 安装到仓库内，不依赖 VS Code 的 elan 配置；固定下载地址、版本与哈希在依赖锁中。
 
+另一台Windows机器从[异地启动指南](docs/windows-setup.md)开始，使用同名工作分支和本地bootstrap；Git不携带本机工具缓存或Unity工程。
+
 ```powershell
 # 首次安装固定本地工具及当前所需编译缓存。
 pwsh -File tools/bootstrap.ps1

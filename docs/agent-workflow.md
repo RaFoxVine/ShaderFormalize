@@ -6,6 +6,8 @@
 
 本机支持Windows x64、PowerShell7、Python3.9+标准库、Git和curl。仓库内工具由dependencies.lock.json固定，本地Lean/DXC在.tools，mathlib及传递revision由proof/lake-manifest.json固定。
 
+新机器或新的干净目录请先按[Windows启动指南](windows-setup.md)取得工作分支并重建本地工具；不能依赖原工作区的ignored缓存。
+
 ```powershell
 pwsh -File tools/bootstrap.ps1
 pwsh -File tools/run_demo.ps1

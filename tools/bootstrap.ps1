@@ -13,7 +13,7 @@ function Get-LockedArchive($dependency, $filename) {
     }
     Write-Host "Downloading $filename"
     # Use the same process-local IPv4 transport as the mathlib cache fetcher.
-    # Bound first-byte stalls without changing the machine's network settings.
+    # Bound connection waits and whole transfers without changing machine settings.
     & curl.exe -4 --location --fail --silent --show-error --connect-timeout 15 --max-time 1800 --retry 3 --retry-delay 2 --output $archive $dependency.url
     if ($LASTEXITCODE -ne 0) { throw "Download failed: $filename (curl exit $LASTEXITCODE)" }
     if ((Get-FileHash -Algorithm SHA256 -LiteralPath $archive).Hash.ToLowerInvariant() -ne $dependency.sha256) {

@@ -1,0 +1,13 @@
+# Windows异地复现执行记录（进行中）
+
+plan.md修订2经独立P第二轮Ready，caf6cfa在代码前持久化派生grant。用户确认异地Windows x64，overnight portability当前运行。首次真空clone为artifacts/portability/Fresh Checkout，源caf6cfa，.cache/.tools/proof/.lake均不存在，clone --no-local，子进程剔除外部Lean/模块/Git环境并使用专属空Git配置，PATH无Unity。两锁SHA留存fresh-bootstrap.json，不复制原工具或依赖。
+
+检查发现上游cache对404和空curl流可能不失败。a3fccd7 checkpoint补正式requireCacheFiles、默认bootstrap模块导入烟测，SkipMathlibCache明确只准备工具/源码。缺失缓存控制通过正式wrapper返回非零且指出Missing.Control；主目录BootstrapSmoke导入通过，129项Python回归通过。CLI子进程清除LEAN_PATH/LEAN_SRC_PATH/LEAN_SYSROOT并有父环境不变回归。
+
+fresh第一次Invoke-WebRequest下载225秒仍0字节；核对owned Python44944/pwsh47552后停止该安装子进程，保存初始失败状态。IPv4 curl HEAD及1MiB范围请求成功，下载改用既有curl前提、IPv4和连接/整体传输有界重试，未修改全局网络配置。真实归档下载校验后展开，未借用原下载包。
+
+第二次安装在ProofWidgets release失败，退出1，完整第一次网络原因未知；同一`lake -v build proofwidgets:release`在专属clone重试成功，实际stdout/stderr另保存。上游错误输出器将stdout错印stderr，未修改vendor。失败摘要和source commit/时长保存在attempts；安装重试日志曾覆盖前一次fixed.log，原失败诊断有工具输出和Q读取记录，后续尝试保留各自标识，不声称完整旧日志仍存在。
+
+再次更新到649a4ec（两锁一致）重跑安装，1387份缓存全部下载、解压，正式wrapper及独立模块导入通过，bootstrap报告ready。该次完整日志为artifacts/portability/fresh-bootstrap-fixed.log，初始真空和前两次尝试状态见fresh-bootstrap.json。下一步更新到包含CLI隔离/指南的准确commit，在同一已按锁重建的副本运行lerp/packed正式证明；不把原目录证明当作fresh证明。
+
+独立Q第一轮无关键代码缺陷，指出需要完成fresh两正例、准确列出leantar受检恢复目标和curl超时措辞。指南已列Lean/DXC目录和.cache/mathlib/leantar-0.1.15.exe单文件；注释改为连接与整体传输有界。最终Q和精简证据尚待真实结果。

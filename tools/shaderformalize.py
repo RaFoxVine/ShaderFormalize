@@ -64,6 +64,8 @@ def write_json(path, value):
 
 def local_environment():
     environment = os.environ.copy()
+    for name in ("LEAN_PATH", "LEAN_SRC_PATH", "LEAN_SYSROOT"):
+        environment.pop(name, None)
     lean_bin = ROOT / ".tools" / "lean-4.24.0-windows" / "bin"
     environment["PATH"] = str(lean_bin) + os.pathsep + environment.get("PATH", "")
     environment["MATHLIB_CACHE_DIR"] = str(ROOT / ".cache" / "mathlib")
