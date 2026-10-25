@@ -1,5 +1,5 @@
 # 当前工作
 
-- Windows x64干净目录复现（plan.md修订2）：Implementing，独立P第二轮Ready；精确授权见execution-authority.md。
-- 实施：CLI/安装子进程隔离Lean路径，正式缓存缺失wrapper和默认模块导入烟测通过，129项Python回归通过。真空clone已实际下载工具/固定Git依赖/1387缓存并bootstrap成功；失败重试记录见implementation-evidence.md。最终准确源码版本的fresh lerp/packed检查待执行。
-- 后续：独立Q、当前启动指南/精简证据、本地提交，publish条目统一推送。
+- Windows x64干净目录复现（plan.md修订2）：Completed，独立P第二轮Ready、Q第二轮Verified；精确授权见execution-authority.md。
+- 实施：CLI/安装子进程隔离Lean路径，正式缓存缺失wrapper和模块导入烟测通过，129项Python回归通过。真空clone已实际下载固定工具/九个Git依赖/1387缓存并bootstrap成功；69d058a精确版本的fresh lerp/packed均PROVED、原公理审计通过、Git状态前后干净。
+- 证据：planning/evidence/windows-fresh-2026-10-26.json。当前Windows指南已更新，失败尝试与旧日志覆盖边界如实记录；publish条目统一推送。此项不覆盖后续frame/共享后端的语义变更。

@@ -1,0 +1,268 @@
+{
+  "date": "2026-10-26",
+  "status": "PASSED",
+  "scope": "Windows x64 fresh checkout, source commit 69d058a; excludes later function-frame changes",
+  "source_commit": "69d058a84170fcd78e0c2ac617b31db9419a894a",
+  "initial_empty_directories": {
+    ".cache": false,
+    ".tools": false,
+    "proof/.lake": false
+  },
+  "source_and_install_commits": {
+    "initial": "caf6cfae41f01e63aa6fb28e2231223fcb9f7e2e",
+    "successful_install": "649a4ecbdaf3bfa7413ff3e795c4d2c91da30efa",
+    "formal_checks": "69d058a84170fcd78e0c2ac617b31db9419a894a"
+  },
+  "dependency_lock_sha256": {
+    "dependencies.lock.json": "eb2502ea5dc10629119cd08ac87b242a3c3a072c0446e53dd7bf641fb0f5d587",
+    "proof/lake-manifest.json": "30e84037d4c7684408b7b63dad0e195c6da9d247389a5be7ff02e7526c35e495"
+  },
+  "bootstrap_attempts": [
+    {
+      "commit": "caf6cfae41f01e63aa6fb28e2231223fcb9f7e2e",
+      "exit_code": 4294967295,
+      "duration_seconds": 225.046,
+      "reason": "Invoke-WebRequest stayed at zero bytes for 225 seconds; stopped owned process after IPv4 curl succeeded"
+    },
+    {
+      "commit": "a3fccd746cc881335477320c73d68afeb9f1e5b3",
+      "exit_code": 1,
+      "duration_seconds": 935.828,
+      "reason": "ProofWidgets release failed during bootstrap; the exact lake -v build proofwidgets:release retry succeeded"
+    }
+  ],
+  "bootstrap_status": "BOOTSTRAPPED",
+  "bootstrap_log": "artifacts/portability/fresh-bootstrap-fixed.log",
+  "final_bootstrap_log": "artifacts/portability/fresh-bootstrap-final.log",
+  "final_bootstrap_log_sha256": "f2e7ed3148eadc4ddee5c05e6c4abde1966d12ebda717ba6d623fe9b5033b901",
+  "checks": [
+    {
+      "case": "lerp",
+      "exit_code": 0,
+      "duration_seconds": 112.531,
+      "result_path": "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\artifacts\\portability\\Fresh Checkout\\artifacts\\fresh-lerp\\result.json",
+      "result": {
+        "status": "PROVED",
+        "inputs": [
+          {
+            "role": "original",
+            "path": "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\artifacts\\portability\\Fresh Checkout\\examples\\lerp\\original.hlsl",
+            "sha256": "66444f4a51a8163dbc3d6e892ca4f9ce8c91549fa77e5c5a6234fea519fa9384",
+            "dxc_seconds": 0.25
+          },
+          {
+            "role": "optimized",
+            "path": "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\artifacts\\portability\\Fresh Checkout\\examples\\lerp\\optimized.hlsl",
+            "sha256": "3abedf745c6b0038e3790986d5a808625f20bd3aa9493f45046b5264e46b8bbb",
+            "dxc_seconds": 0.031
+          }
+        ],
+        "constraints": {
+          "schema": 1,
+          "ranges": {
+            "t": {
+              "min": "0",
+              "max": "1"
+            }
+          }
+        },
+        "model_schema": 2,
+        "generated_sha256": "6faeecdaaa6762950e7ccb870118ff5f251e267650587cd59a01dc20a7a633d9",
+        "dxc_files": {
+          "dxcompiler.dll": "5888d3e590f5bfd8743484e7f31313996734adec5741506271a5c6368cbe8ba9",
+          "dxc.exe": "ce11bb02f6027055e0b9f8c062d13b14f373c876a16557a4fa744314117d31e7",
+          "dxil.dll": "0cf5fa4b90f74550166108b3870c883f4a85243976b246b1da3ea90ad5b92015"
+        },
+        "guarantee": "ideal real-number model of the accepted source subset; translator and DXC remain trusted",
+        "theorem": "ShaderFormalize.Verification.checked",
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "agent_proof_sha256": "af907b2a6a3baab2f8b13985de886070ceaa5aa2db1308617facc594542466a8",
+        "semantic_model_sha256": "5a3af29b09a4696a1632b0e30595d5465d9486cd71d604bdb1fbcea512133d4e",
+        "semantic_modules": {
+          "Model.lean": "5a3af29b09a4696a1632b0e30595d5465d9486cd71d604bdb1fbcea512133d4e"
+        },
+        "lake_manifest_sha256": "30e84037d4c7684408b7b63dad0e195c6da9d247389a5be7ff02e7526c35e495",
+        "lean_build_seconds": 87.094,
+        "lean_verify_seconds": 24.625,
+        "lean_version": "Lean (version 4.24.0, x86_64-w64-windows-gnu, commit 797c613eb9b6d4ec95db23e3e00af9ac6657f24b, Release)"
+      }
+    },
+    {
+      "case": "packed",
+      "exit_code": 0,
+      "duration_seconds": 72.578,
+      "result_path": "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\artifacts\\portability\\Fresh Checkout\\artifacts\\fresh-packed\\result.json",
+      "result": {
+        "status": "PROVED",
+        "inputs": [
+          {
+            "role": "original",
+            "path": "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\artifacts\\portability\\Fresh Checkout\\examples\\packed\\original.hlsl",
+            "sha256": "1b00e5687dd2ed5aab76c00c213ce1216bb708fcc57a8724177672fa26201a8f",
+            "dxc_seconds": 0.078
+          },
+          {
+            "role": "optimized",
+            "path": "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\artifacts\\portability\\Fresh Checkout\\examples\\packed\\optimized.hlsl",
+            "sha256": "8a2ac1cf0e337028098eff95711769f686bfaace0a78b73ac61cffc1a629b321",
+            "dxc_seconds": 0.031
+          }
+        ],
+        "constraints": {
+          "schema": 2,
+          "ranges": {},
+          "nonzero_vectors": []
+        },
+        "model_schema": 5,
+        "generated_sha256": "104acefe228169bf7e7d805e5c8b71552a79dd8d2a174fec66df1d1e913cbbf9",
+        "dxc_files": {
+          "dxcompiler.dll": "5888d3e590f5bfd8743484e7f31313996734adec5741506271a5c6368cbe8ba9",
+          "dxc.exe": "ce11bb02f6027055e0b9f8c062d13b14f373c876a16557a4fa744314117d31e7",
+          "dxil.dll": "0cf5fa4b90f74550166108b3870c883f4a85243976b246b1da3ea90ad5b92015"
+        },
+        "guarantee": "ideal real-number model with exact uint32 fields and guarded conversions; translator and DXC remain trusted",
+        "theorem": "ShaderFormalize.Verification.checked",
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "agent_proof_sha256": "23f6f7c83b3fb47984fbb8d59d72a30b568c0040f98defd092da34c1b84b3d6e",
+        "semantic_model_sha256": "5a3af29b09a4696a1632b0e30595d5465d9486cd71d604bdb1fbcea512133d4e",
+        "semantic_modules": {
+          "Model.lean": "5a3af29b09a4696a1632b0e30595d5465d9486cd71d604bdb1fbcea512133d4e",
+          "Fragment.lean": "c7a4195c9b5b84ce39a959e1fff8870ccb4a6f9e302bda8aa957302bf1ea069a",
+          "Control.lean": "1bdb1e21015cd10e05593ec42bf1c8c6d522ed9d9ffb2ac6f33f8bda4f90b44b",
+          "Packing.lean": "b7a28c0eeb178976e7060e1053bd45926eccf6e395d6087b3851632ef841f350"
+        },
+        "lake_manifest_sha256": "30e84037d4c7684408b7b63dad0e195c6da9d247389a5be7ff02e7526c35e495",
+        "lean_build_seconds": 41.11,
+        "lean_verify_seconds": 30.797,
+        "lean_version": "Lean (version 4.24.0, x86_64-w64-windows-gnu, commit 797c613eb9b6d4ec95db23e3e00af9ac6657f24b, Release)"
+      }
+    }
+  ],
+  "packages": [
+    {
+      "name": "plausible",
+      "expected": "dfd06ebfe8d0e8fa7faba9cb5e5a2e74e7bd2805",
+      "actual": "dfd06ebfe8d0e8fa7faba9cb5e5a2e74e7bd2805",
+      "has_alternates": false
+    },
+    {
+      "name": "LeanSearchClient",
+      "expected": "99657ad92e23804e279f77ea6dbdeebaa1317b98",
+      "actual": "99657ad92e23804e279f77ea6dbdeebaa1317b98",
+      "has_alternates": false
+    },
+    {
+      "name": "importGraph",
+      "expected": "d768126816be17600904726ca7976b185786e6b9",
+      "actual": "d768126816be17600904726ca7976b185786e6b9",
+      "has_alternates": false
+    },
+    {
+      "name": "proofwidgets",
+      "expected": "556caed0eadb7901e068131d1be208dd907d07a2",
+      "actual": "556caed0eadb7901e068131d1be208dd907d07a2",
+      "has_alternates": false
+    },
+    {
+      "name": "aesop",
+      "expected": "725ac8cd67acd70a7beaf47c3725e23484c1ef50",
+      "actual": "725ac8cd67acd70a7beaf47c3725e23484c1ef50",
+      "has_alternates": false
+    },
+    {
+      "name": "Qq",
+      "expected": "dea6a3361fa36d5a13f87333dc506ada582e025c",
+      "actual": "dea6a3361fa36d5a13f87333dc506ada582e025c",
+      "has_alternates": false
+    },
+    {
+      "name": "batteries",
+      "expected": "8da40b72fece29b7d3fe3d768bac4c8910ce9bee",
+      "actual": "8da40b72fece29b7d3fe3d768bac4c8910ce9bee",
+      "has_alternates": false
+    },
+    {
+      "name": "Cli",
+      "expected": "91c18fa62838ad0ab7384c03c9684d99d306e1da",
+      "actual": "91c18fa62838ad0ab7384c03c9684d99d306e1da",
+      "has_alternates": false
+    },
+    {
+      "name": "mathlib",
+      "expected": "f897ebcf72cd16f89ab4577d0c826cd14afaafc7",
+      "actual": "f897ebcf72cd16f89ab4577d0c826cd14afaafc7",
+      "has_alternates": false
+    }
+  ],
+  "binaries": {
+    "lean/lean.exe": {
+      "expected": "20bc808248e38cf072f84f4eb389f8f98e5925d703bcbfa400d9dd44f310c4db",
+      "actual": "20bc808248e38cf072f84f4eb389f8f98e5925d703bcbfa400d9dd44f310c4db"
+    },
+    "lean/lake.exe": {
+      "expected": "82375bd6d578a680032606c38a313899a99d47ea5fd33fdc9872e1b2e0d9f7b1",
+      "actual": "82375bd6d578a680032606c38a313899a99d47ea5fd33fdc9872e1b2e0d9f7b1"
+    },
+    "dxc/dxcompiler.dll": {
+      "expected": "5888d3e590f5bfd8743484e7f31313996734adec5741506271a5c6368cbe8ba9",
+      "actual": "5888d3e590f5bfd8743484e7f31313996734adec5741506271a5c6368cbe8ba9"
+    },
+    "dxc/dxc.exe": {
+      "expected": "ce11bb02f6027055e0b9f8c062d13b14f373c876a16557a4fa744314117d31e7",
+      "actual": "ce11bb02f6027055e0b9f8c062d13b14f373c876a16557a4fa744314117d31e7"
+    },
+    "dxc/dxil.dll": {
+      "expected": "0cf5fa4b90f74550166108b3870c883f4a85243976b246b1da3ea90ad5b92015",
+      "actual": "0cf5fa4b90f74550166108b3870c883f4a85243976b246b1da3ea90ad5b92015"
+    },
+    "leantar": {
+      "expected": "a623f68963b36b1c33ebe1c4fa0f73f4103f3282b940320a9c1d1b543744c3d2",
+      "actual": "a623f68963b36b1c33ebe1c4fa0f73f4103f3282b940320a9c1d1b543744c3d2"
+    }
+  },
+  "environment": {
+    "curl": "C:\\Windows\\system32\\curl.exe",
+    "python": "D:\\1ProgramDownloaded\\Python3.9\\python.exe",
+    "git": "C:\\Program Files\\Git\\cmd\\git.EXE",
+    "pwsh": "E:\\1Download\\PowerShell-7\\7\\pwsh.EXE",
+    "unity_discoverable": null,
+    "git_status_before": "",
+    "git_status_after": "",
+    "checkout_alternates": false
+  },
+  "controls": {
+    "missing_cache": {
+      "case": "missing-required-cache",
+      "exit_code": 1,
+      "duration_seconds": 11.891,
+      "diagnostic": "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\artifacts\\portability\\cache-controls\\Missing.lean:2:0: error: Missing 1 required mathlib cache archive(s):\nMissing.Control: D:/2FileBuildWorkPlace/Formalize/ShaderFormalize/artifacts/portability/cache-controls/empty-cache\\0000000000000001.ltar\n",
+      "source": "import ShaderFormalize.FetchCache\n#eval ShaderFormalize.Bootstrap.requireCacheFiles (\"D:/2FileBuildWorkPlace/Formalize/ShaderFormalize/artifacts/portability/cache-controls/empty-cache\" : System.FilePath) (({} : Cache.IO.ModuleHashMap).insert `Missing.Control 1)\n"
+    },
+    "python_regressions": {
+      "count": 129,
+      "status": "PASSED",
+      "log": "artifacts/portability/final-python.log"
+    },
+    "bootstrap_smoke_log": "artifacts/portability/bootstrap-smoke.log"
+  },
+  "review": {
+    "P": "round2 Execution Ready",
+    "Q": "round2 Verified; input, locks, binary/9 package/target/proof/semantic hashes independently checked"
+  },
+  "limits": [
+    "fresh clone is local Git source, dependencies actually downloaded; no seeded tools or compiler cache",
+    "two dependency locks remained identical across source updates before reuse",
+    "first ProofWidgets failure detail unknown; direct identical retry succeeded",
+    "the second failure full log was overwritten by retry; attempts and previously captured diagnostic preserved; not claimed complete",
+    "core 128/32 packing suite has its own immutable evidence; this item does not rerun all formal controls",
+    "no Unity/global installation/dependency version change/merge/archive; final push belongs to publish item"
+  ]
+}
