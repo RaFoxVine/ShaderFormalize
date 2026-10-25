@@ -12,7 +12,10 @@ function Get-LockedArchive($dependency, $filename) {
         return $archive
     }
     Write-Host "Downloading $filename"
-    Invoke-WebRequest -Uri $dependency.url -OutFile $archive -TimeoutSec 1800
+    # Use the same process-local IPv4 transport as the mathlib cache fetcher.
+    # Bound first-byte stalls without changing the machine's network settings.
+    & curl.exe -4 --location --fail --silent --show-error --connect-timeout 15 --max-time 1800 --retry 3 --retry-delay 2 --output $archive $dependency.url
+    if ($LASTEXITCODE -ne 0) { throw "Download failed: $filename (curl exit $LASTEXITCODE)" }
     if ((Get-FileHash -Algorithm SHA256 -LiteralPath $archive).Hash.ToLowerInvariant() -ne $dependency.sha256) {
         throw "Checksum mismatch: $filename"
     }
@@ -51,6 +54,9 @@ if ((Get-FileHash -Algorithm SHA256 -LiteralPath $leantar).Hash.ToLowerInvariant
 }
 
 # Only this script/process sees these variables; do not change user/global settings.
+foreach ($name in @('LEAN_PATH','LEAN_SRC_PATH','LEAN_SYSROOT')) {
+    [Environment]::SetEnvironmentVariable($name, $null, 'Process')
+}
 $env:PATH = $leanBin + [IO.Path]::PathSeparator + $env:PATH
 $env:MATHLIB_CACHE_DIR = Join-Path $workspace '.cache/mathlib'
 $env:LAKE_HOME = Join-Path $workspace '.cache/lake'
@@ -97,6 +103,12 @@ try {
     if (-not $SkipMathlibCache) {
         & (Join-Path $leanBin 'lake.exe') --no-cache exe fetchMathlibCache
         if ($LASTEXITCODE -ne 0) { throw 'mathlib cache download failed' }
+        & (Join-Path $leanBin 'lake.exe') env lean ShaderFormalize/BootstrapSmoke.lean
+        if ($LASTEXITCODE -ne 0) { throw 'Required Lean modules cannot be loaded; bootstrap is incomplete' }
     }
 } finally { Pop-Location }
-Write-Host 'Local toolchain ready. Run: python tools/shaderformalize.py check'
+if ($SkipMathlibCache) {
+    Write-Host 'Local tools and pinned sources ready; mathlib cache was skipped.'
+} else {
+    Write-Host 'Local toolchain ready. Run: python tools/shaderformalize.py check'
+}
