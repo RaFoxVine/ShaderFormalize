@@ -27,3 +27,15 @@
 - stop: 副本有tracked改动、两锁变化、工具/依赖核验失败、外部环境/Unity渗入、形式检查失败。
 - recorded_at: 2026-10-26；源码最终shared Q/41控制仍独立进行，不以追加复现替代。
 - result: 副本2fc87bb三例PROVED、Git前后clean；独立事实复核通过。六工具文件/九依赖/两锁匹配，无alternates/Unity。见../evidence/windows-shared-2026-10-26.json；不覆盖5961f8e/b074163错误路径补丁，不称为第二次空目录安装。
+
+## Grant windows-refresh-003@revision-1
+
+- status: active
+- source: 同一sealed running overnight portability目标内的追加源码验证，既有Ready隔离协议不变，无产品/配置/依赖变更。
+- target: 已有独立Fresh Checkout由2fc87bb更新到64992ea；只fetch Git源码，复用副本自身固定工具/缓存。不得复制主目录工具或proof产物。
+- actions: 状态干净后detach确切64992ea，逐项核对两锁/六工具/九依赖/无alternates/无Unity/子环境隔离；分别运行copyback材质、copyback完整场导数、packed三个正式正例；另存fresh-copyback-verification及对应日志，不覆盖之前两次记录；事实复核、精简证据和本地提交。
+- authorization: 用户明确明天在另一台Windows x64拉取最新仓库；免重复人工审阅和portability委派持续有效。此项沿用已P/Q通过的同锁追加复现步骤，仅目标源码和正例变化，轻量自查。
+- exclusions: 产品代码/版本/全局配置/Unity改动、复制构建物、主proof工作区写入、删除、push/merge/archive。
+- stop: 副本有tracked变更、锁/工具/依赖不匹配、环境污染或形式正例失败。
+- acceptance: 三例实际PROVED、哈希和审计核验、Git前后clean；独立事实复核，不替代主目录165/47及copyback Q。
+- recorded_at: 2026-10-26；代码64992ea已提交，主目录最终全套仍在运行。
