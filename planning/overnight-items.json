@@ -1,0 +1,68 @@
+[
+  {
+    "id": "packing",
+    "target": "ShaderFormalize/hdrp-forward/integer-packing",
+    "goal": "完成packing-plan修订1的128项核心回归、32项正式证明控制、Q证据闭合、当前文档与本地提交。",
+    "ceiling": "PLAN_AND_CODE",
+    "grant_source": "direct_user",
+    "grant_reference": "planning/hdrp-forward/packing-authority.md@packing-plan-revision-1",
+    "allowed_actions": ["plan", "review", "code", "test", "local commit", "evidence"],
+    "exclusions": ["push within this item", "merge", "archive", "new dependency", "global configuration", "Unity writes", "IEEE float model"],
+    "dependencies": [],
+    "stop_conditions": ["改变实数/精确uint及定义域保证", "关键验证器不可用且无等价检查", "独立Q三轮后仍有关键未闭合问题"],
+    "authorization_message_exact": "OK，继续吧。反正我们是需要把它跑通的，把它跑通吧，补齐暂时还没有的能力。",
+    "unique_referent_evidence": "已有精确计划、独立P通过和ea3bfda授权提交，当前真实正例PROVED，完整回归正在运行。"
+  },
+  {
+    "id": "language",
+    "target": "ShaderFormalize/hdrp-forward/general-language",
+    "goal": "经Ready规划及独立P/Q扩展共享函数表示、默认参数、out/inout、矩阵/数组和可证明终止的普通循环，使一份包含这些能力的正常写法Shader与等价改写版通过真实DXC到Lean检查；原有语义和失败保证保留。",
+    "ceiling": "PLAN_AND_CODE",
+    "grant_source": "delegated_session",
+    "allowed_actions": ["investigate", "plan", "independent P/Q", "derive exact grants", "code", "test", "local commit", "current documentation"],
+    "exclusions": ["push within this item", "merge", "archive", "global configuration", "Unity writes", "new dependency without authorization", "IEEE float semantics", "arbitrary memory writes or compute concurrency"],
+    "dependencies": ["packing"],
+    "stop_conditions": ["需改变用户已确认的实数和定义域保证", "不能证明循环终止而需要静默fuel截断", "需要浮点位编码", "独立审阅关键问题三轮未闭合"],
+    "authorization_message_exact": "接下来我们要执行 overnight 了，接下来还有什么工作是在 overnight 里面能一块干完的？",
+    "unique_referent_evidence": "持续的完整Forward跑通要求及免重复方案人工审阅授权；本轮对话已展示具体通用语言扩展与组合Shader验证范围。未Ready前只规划，不凭Envelope直接写核心代码。"
+  },
+  {
+    "id": "forward",
+    "target": "ShaderFormalize/hdrp-forward/fixed-lit-integration",
+    "goal": "在固定HDRP17.5 Forward配置上尝试真实数学转换，按实际拒绝点规划和补齐与普通片元实数模型相容的能力，并验证原版/已知等价改写；未能跨越的语义边界留下可复现输入、路径、实际状态及恢复条件，不把分析成功或小例子当完整Lit证明。",
+    "ceiling": "PLAN_AND_CODE",
+    "grant_source": "delegated_session",
+    "allowed_actions": ["read explicitly selected Unity input", "investigate", "plan", "independent P/Q", "derive exact grants", "code accepted pure shader semantics", "test", "local commit", "document blockers"],
+    "exclusions": ["push within this item", "merge", "archive", "Unity writes", "redistribute Unity source without checking its terms", "IEEE float encoding", "hidden program-validity assumptions", "new axioms", "unproved loop truncation", "compute synchronization or external writes"],
+    "dependencies": ["language"],
+    "stop_conditions": ["IsNaN或其它位技巧需要超出实数模型的语义决策", "需新增未经用户确定的输入语义假设", "关键oracle不可用", "独立审阅关键问题三轮未闭合"],
+    "authorization_message_exact": "OK，继续吧。反正我们是需要把它跑通的，把它跑通吧，补齐暂时还没有的能力。",
+    "unique_referent_evidence": "用户已选固定Forward作为实际目标，本轮明确将其作为overnight继续接入项；不承诺无法保证的完整Lit证明结果。"
+  },
+  {
+    "id": "portability",
+    "target": "ShaderFormalize/core/fresh-checkout",
+    "goal": "用干净目录验证从Git源码和固定本地依赖安装/运行核心的流程，修复实际发现的本机路径/缺失依赖问题，提供另一台Windows x64的启动及分支拉取说明；核心不发现或依赖Unity。",
+    "ceiling": "PLAN_AND_CODE",
+    "grant_source": "delegated_session",
+    "allowed_actions": ["investigate", "plan", "independent P/Q when applicable", "derive exact grants", "code portability fixes", "create disposable checkout", "download locked local tools", "test", "local commit", "documentation"],
+    "exclusions": ["push within this item", "merge", "archive", "global installations or configuration", "dependency upgrades", "delete user files", "implicit Unity discovery", "claim cross-platform support without testing"],
+    "dependencies": [],
+    "stop_conditions": ["异地系统改变且用户尚未确认新的平台范围", "锁定依赖无法取得且无法完成相同保证的验证", "需要机器全局安装或修改"],
+    "authorization_message_exact": "明天的话，我可能会在别的地方使用我们这里的仓库",
+    "unique_referent_evidence": "用户要求另一处拿到最新可用状态；目前产品平台是Windows x64，已异步询问异地平台，未答复前沿用当前平台。"
+  },
+  {
+    "id": "publish",
+    "target": "ShaderFormalize/current-branch/push-and-report",
+    "goal": "将通过验证/审阅的源码、锁和可恢复的当前状态提交并推送origin的codex/shader-equivalence-planning分支，核对远端提交，留下逐项结果、失败边界、复现和异地启动说明；不推送工具缓存、完整日志和Unity工程。",
+    "ceiling": "PLAN_AND_CODE",
+    "grant_source": "delegated_session",
+    "allowed_actions": ["plan", "derive exact grant", "review tracked diff", "local commit", "fetch/read remote refs", "git push current branch", "verify remote SHA", "final report"],
+    "exclusions": ["force push", "merge", "rewrite remote history", "archive", "publish tools or cache", "push secrets or unrelated user changes", "change remote URL"],
+    "dependencies": ["packing", "portability"],
+    "stop_conditions": ["远端分叉需要merge/rebase或覆盖他人提交", "凭证/网络失败", "存在未审阅的关键实现不能安全发布"],
+    "authorization_message_exact": "我希望你在完成了工作以后，要记得 git push 一下，能让我在别的地方拉到最新的提交，拿到最新的状态。",
+    "unique_referent_evidence": "本次用户明确授权push，覆盖此前尚未授权的推送动作；已核对origin为本仓库GitHub地址，当前工作分支与其同名跟踪分支。"
+  }
+]
