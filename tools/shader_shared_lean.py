@@ -212,10 +212,13 @@ class SharedEmitter(PackingEmitter):
 
 
 def generate_shared(original, optimized, spec):
-    if original["schema"] != 6 or optimized["schema"] != 6:
-        raise ModelError("Shared schema 6 cannot mix with legacy models", "INVALID_INPUT")
-    validate_shared(original)
-    validate_shared(optimized)
-    text = generate_control(original, optimized, spec, SharedEmitter, "import ShaderFormalize.Packing\n")
-    # Explicit E is necessary even when a uniform field ignores its position.
-    return text.replace("∀ x,", "∀ x : E,")
+    try:
+        if original["schema"] != 6 or optimized["schema"] != 6:
+            raise ModelError("Shared schema 6 cannot mix with legacy models", "INVALID_INPUT")
+        validate_shared(original)
+        validate_shared(optimized)
+        text = generate_control(original, optimized, spec, SharedEmitter, "import ShaderFormalize.Packing\n")
+        # Explicit E is necessary even when a uniform field ignores its position.
+        return text.replace("∀ x,", "∀ x : E,")
+    except (KeyError, TypeError, IndexError, AttributeError, ValueError, ZeroDivisionError, RecursionError) as error:
+        raise ModelError("Malformed shared expression: " + type(error).__name__, "INVALID_INPUT") from error
