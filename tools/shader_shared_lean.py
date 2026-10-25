@@ -45,6 +45,21 @@ class SharedFrameValidator:
             for value in expr["fields"].values():
                 self.check(value)
             return
+        width = expr["width"]
+        if not ((type(width) is int and 1 <= width <= 4) or width in ("bool", "uint")
+                or (kind == "void" and width == "void")):
+            raise ModelError("Invalid shared value type")
+        if "payload" in expr and type(expr["payload"]) is not bool:
+            raise ModelError("Invalid carrier marker")
+        if kind == "literal":
+            if (width != 1 or type(expr["numerator"]) is not int
+                    or type(expr["denominator"]) is not int or expr["denominator"] <= 0):
+                raise ModelError("Invalid shared rational literal")
+        if kind == "uint_literal":
+            if width != "uint" or type(expr["value"]) is not int or not 0 <= expr["value"] < 2**32:
+                raise ModelError("Invalid shared uint literal")
+        if kind == "boolean" and (width != "bool" or type(expr["value"]) is not bool):
+            raise ModelError("Invalid shared Boolean literal")
         expected = None
         if kind in ("local", "effect"):
             check_reference(expr["index"], self.available[kind])
@@ -81,6 +96,13 @@ class SharedFrameValidator:
         frame, model = self.frame, self.model
         bindings, effects, calls = self.bindings, self.effects, self.calls
         available = self.available
+        if self.ordinal < len(self.helpers):
+            if not isinstance(frame["parameters"], list) or len(frame["parameters"]) > 4096:
+                raise ModelError("Invalid shared parameter table")
+            for index, parameter in enumerate(frame["parameters"]):
+                if parameter["kind"] != "helper_parameter" or parameter["index"] != index:
+                    raise ModelError("Invalid shared parameter order")
+                self.check(parameter)
         if frame["interface"] != model["interface"]:
             raise ModelError("Shared frame interface mismatch")
         if not all(isinstance(table, list) for table in (bindings, effects, calls, frame["events"])):

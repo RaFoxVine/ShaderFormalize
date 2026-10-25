@@ -150,12 +150,14 @@ void Cut(float x){if(x>0.5)return;discard;}
             with self.subTest(context=context), self.assertRaises(ModelError):
                 self.text(bad)
         # Well-formed references do not make malformed literal data acceptable.
-        for numerator, denominator in ((None,1),(1,0)):
+        for numerator, denominator in ((None,1),(1,0),(True,1),(1,True)):
             bad = copy.deepcopy(model)
             bad["expression"] = {"kind":"splat", "width":4, "arguments":[
                 {"kind":"literal", "width":1, "numerator":numerator, "denominator":denominator}]}
             with self.subTest(literal=(numerator,denominator)), self.assertRaises(ModelError):
                 self.text(bad)
+            with self.subTest(finite_literal=(numerator,denominator)), self.assertRaises(ModelError):
+                evaluate_shared(bad, [[[1,2,3,4]]], 1, test_operations)
 
     def test_effectful_value_helpers_remain_outside_the_subset(self):
         for helper in ("float Cut(float x){clip(x);return x;}",
