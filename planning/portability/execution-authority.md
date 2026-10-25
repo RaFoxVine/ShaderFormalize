@@ -15,3 +15,14 @@
 - delegated_session: planning/overnight/current.md；shader-forward-2026-10-26；item portability；sealed envelope sha256 afcc1f80b2eb30be69411cd4633dc9d8ac79b0b918eaaf4302fc76ae66188206；plan revision2/P2 passed。
 - state_reason: 69d058a在真正空目录重建依赖后，两正式正例通过；129单元/缓存缺失控制/导入检查通过，独立Q第二轮Verified，当前指南和精简证据完成。
 - superseded_by: none
+
+## Grant windows-refresh-002@revision-1
+
+- status: active
+- source: delegated_session；同一sealed portability目标内的追加验证，不改产品代码/配置/版本。
+- target: 已在空目录真实下载/安装并Q2验证的artifacts/portability/Fresh Checkout，从69d058a安全更新到当前源码2fc87bb；依赖两锁须完全相同，复用该副本自己的已验证工具/缓存，不从主目录复制构建物。
+- actions: 先确认tracked状态为空；fetch本地Git源码并detach已知提交；核对锁/工具/九依赖/无alternates/无Unity及子进程环境隔离；检查shared材质、helper完整场与packed正例；保存独立结果/哈希/状态，不覆盖原69d fresh证据。
+- authorization: 用户要求另一处Windows x64取得最新可用仓库；已有免重复方案审阅及running session的PLAN_AND_CODE授权。既有Ready环境/隔离方案不变，本项仅测试源码后续提交，轻量自查即可，无新增实现。
+- exclusions: 重装/升级依赖、机器配置、删除、污染主proof工作区、push/merge/archive。
+- stop: 副本有tracked改动、两锁变化、工具/依赖核验失败、外部环境/Unity渗入、形式检查失败。
+- recorded_at: 2026-10-26；源码最终shared Q/41控制仍独立进行，不以追加复现替代。
