@@ -202,16 +202,19 @@
     },
     "language": {
       "commits": [],
-      "grant_reference": "",
-      "result": "PENDING",
-      "summary": ""
+      "grant_reference": "planning/shared-functions/execution-authority.md#function-entry-001@revision-1",
+      "result": "IN_PROGRESS",
+      "summary": "共享函数规划前发现分支helper返回字段被入口mask清0；独立P通过前置修复，已派生function-entry-001。",
+      "updated_at": "2026-10-26T02:20:06+08:00"
     },
     "packing": {
-      "commits": [],
+      "commits": [
+        "9df384c"
+      ],
       "grant_reference": "planning/hdrp-forward/packing-authority.md@packing-plan-revision-1",
-      "result": "IN_PROGRESS",
-      "summary": "真实整数打包正例PROVED、128项回归通过、独立Q代码审阅通过，默认32证明控制串行进行。",
-      "updated_at": "2026-10-26T01:45:26+08:00"
+      "result": "DONE",
+      "summary": "9df384c完成整数打包：128回归、32证明控制符合预期，12PROVED；独立P1/Q2通过，核心无Unity。",
+      "updated_at": "2026-10-26T02:11:33+08:00"
     },
     "portability": {
       "commits": [],
@@ -231,7 +234,7 @@
   "schema_version": 1,
   "session_id": "shader-forward-2026-10-26",
   "status": "running",
-  "updated_at": "2026-10-26T01:51:41+08:00"
+  "updated_at": "2026-10-26T02:20:06+08:00"
 }
 ```
 <!-- SMART_OVERNIGHT_STATE_END -->
