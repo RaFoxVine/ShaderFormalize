@@ -1,0 +1,23 @@
+# Windows x64异地复现（修订2）
+
+用户明天要在另一处使用仓库，已确认仍是Windows x64，并授权完成后push。本项在sealed overnight Session的portability条目内，经P通过后形成精确grant再执行；不另建TreeDive项目。核心保持DXC/Lean/mathlib本地锁定、Unity独立，用户VS Code/elan/全局PATH不修改。
+
+## 当前情况与职责
+
+现有tools/bootstrap.ps1从dependencies.lock.json固定地址下载校验Lean/DXC/leantar，在仓库内安装；seed_dependencies.py按committed lake-manifest浅拉Git依赖；FetchCache复用锁定mathlib缓存。主入口靠__file__定位根，不需用户编辑绝对路径。工具和缓存被Git忽略，异地git pull后必须运行bootstrap，不能把本机缓存可用误认为新机器能运行。
+
+本项拥有安装/启动的可复现性与说明；数学前端与证明保证不变。消费者是另一台Windows x64用户：从同名工作分支拉取源码，安装固定本地依赖，运行prepare/check。不替用户安装系统Git/Python/PowerShell，不升级锁，不依赖Unity工程。
+
+## Ready切片与oracle
+
+在本仓库ignored artifacts/portability/Fresh Checkout下建立本任务专属干净clone（路径含空格）。记录源commit、两份依赖锁哈希、git状态，以及bootstrap前.cache/.tools/proof/.lake均不存在；不复制本机工具、Git依赖或build缓存。使用现有bootstrap实际取得锁定归档/Git依赖/mathlib缓存，在该目录运行；保存下载和依赖校验日志。网络故障按真实失败诊断和有界重试，不将复制本机运行环境降格成同一fresh oracle。
+
+fresh验证只在子进程清除继承的LEAN_PATH/LEAN_SRC_PATH/LEAN_SYSROOT、LAKE/ELAN/MATHLIB/CURL/PYTHONPATH以及Git重定向环境；Git用户/系统配置指向该验证专属空文件，clone使用--no-local，避免外部模块、URL重写或对象库暗中提供依赖。记录系统Python/Git/PowerShell/curl的解析路径。普通bootstrap/CLI若会继承外部Lean模块路径，同属本项自包含修复范围：清除这三项LEAN变量，保留用户全局配置不变。隔离不是陌生代码沙箱，只用于验证本机缓存不会替fresh源码补齐依赖。
+
+先可用当前已提交baseline检查安装，整数打包提交后将专属clone更新到那个精确commit；只有两份依赖锁均未变，才保留已按锁重建的依赖。随后从新目录用显式命令检查默认lerp和packed正例；两例必须PROVED并通过原公理审计。完整128回归/32控制由主checkout独立运行一次，本项不机械重复全部证明。确认新结果的全部输入/语义模块/锁/生成目标哈希属于该checkout，未读取原工作区或外部Unity路径。核心测试不调用Unity，若PATH含Unity可在子进程剔除相应路径并记录，不能修改用户全局环境。
+
+独立P确认当前mathlib上游对并行HTTP404仅警告、curl流退出码未检查、解压跳过缺失缓存，因此本仓库FetchCache wrapper必须在getFiles后核对所请求缓存文件集合完整，缺失抛出可定位错误，使默认bootstrap退出非零且不打印ready。不修改vendor；用隔离目录中的受控缺失缓存验证此失败路径。默认bootstrap成功后再用独立Lean导入烟测确认所需模块可加载；明确-SkipMathlibCache只准备工具/源码，不宣称证明依赖完整。现有安装损坏仍安全拒绝，不承诺自动重装；指南说明先保留移出本仓库相应安装子目录再重建，不删除用户环境。
+
+产物是当前Windows启动指南（docs/windows-setup.md，README及agent-workflow指针）、精简机器证据及必要的移植修复。若真实fresh测试发现绝对路径或安装缺陷，在同一grant内修复对应bootstrap/seed/cache或核心定位代码，并做针对性回归；不事先增加无用途doctor工具、不复制另一套依赖管理。若修复会改变数学语义/状态契约/依赖版本/平台范围，停止该依赖闭包并另作规划。
+
+结束保留专属clone和完整日志于ignored artifacts，不递归删除既有目录，不提交缓存/二进制/完整Unity源码。独立Q检查实际命令、源commit、前置空环境、fresh结果与哈希及指南准确性；本地提交。push由overnight单独publish条目统一负责。本项无merge、force push、全局安装或正式归档。

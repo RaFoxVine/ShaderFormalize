@@ -215,9 +215,10 @@
     },
     "portability": {
       "commits": [],
-      "grant_reference": "",
-      "result": "PENDING",
-      "summary": ""
+      "grant_reference": "planning/portability/execution-authority.md#windows-fresh-001@revision-2",
+      "result": "IN_PROGRESS",
+      "summary": "用户确认Windows x64；独立P第二轮Ready，已派生修订2精确grant。",
+      "updated_at": "2026-10-26T01:51:41+08:00"
     },
     "publish": {
       "commits": [],
@@ -230,7 +231,7 @@
   "schema_version": 1,
   "session_id": "shader-forward-2026-10-26",
   "status": "running",
-  "updated_at": "2026-10-26T01:45:26+08:00"
+  "updated_at": "2026-10-26T01:51:41+08:00"
 }
 ```
 <!-- SMART_OVERNIGHT_STATE_END -->
