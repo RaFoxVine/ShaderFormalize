@@ -1,0 +1,302 @@
+{
+  "date": "2026-10-26",
+  "scope": "complete helper result fields with separate actual entry masks; not full general-language completion",
+  "baseline": "649a4ec",
+  "suite": {
+    "status": "PASSED",
+    "layer": "core",
+    "example": "all",
+    "regression_tests": 132,
+    "controls": [
+      {
+        "case": "wrong-expression",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "missing-range-premise",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "custom-axiom",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "sorry-proof",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "forged-target",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "positive",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "unlit-missing-domain",
+        "expected": "INVALID_INPUT",
+        "actual": "INVALID_INPUT"
+      },
+      {
+        "case": "unlit-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "unlit-positive",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "structured-missing-domain",
+        "expected": "INVALID_INPUT",
+        "actual": "INVALID_INPUT"
+      },
+      {
+        "case": "structured-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "structured-positive",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "textured-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "textured-wrong-uv",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "textured-wrong-derivative",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "textured-wrong-lod",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "textured-wrong-sampler",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "textured-positive",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "control-alias",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "control-else",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "control-return",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "control-domain-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "control-domain",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "control-mixed",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "control-helper-field",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "control-helper-domain-original",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "control-helper-domain-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "branched-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "branched-wrong-cutoff",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "branched-positive",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "packed-wrong-field",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "packed-domain-safe",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "packed-domain-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "packed-shift-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "packed-positive",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      }
+    ]
+  },
+  "suite_snapshot": "artifacts\\function-frame\\acceptance35\\result.json",
+  "suite_sha256": "4f6ee59834afcbc5b7f6d90924b4f49e2668d556a5cdc920326fce2e1d70418d",
+  "controls": {
+    "control-helper-field": {
+      "status": "PROVED",
+      "inputs": [
+        {
+          "role": "original",
+          "path": "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\examples\\control\\helper.original.hlsl",
+          "sha256": "e9a34a1b4395f2da151ffb591ecb888e6367df1d2e2e87ae4a4ff397c40cd0af",
+          "dxc_seconds": 0.094
+        },
+        {
+          "role": "optimized",
+          "path": "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\examples\\control\\helper.optimized.hlsl",
+          "sha256": "56b011960140319bbfb39fb2ca583a085b0d0b242d0798dbf1fad123ba0afdee",
+          "dxc_seconds": 0.047
+        }
+      ],
+      "constraints": {
+        "schema": 2,
+        "ranges": {},
+        "nonzero_vectors": []
+      },
+      "model_schema": 4,
+      "generated_sha256": "5a377c8fb14ca5b9310927752b1f684a92742ebf2c0b90d5684b9bee09c369e4",
+      "dxc_files": {
+        "dxcompiler.dll": "5888d3e590f5bfd8743484e7f31313996734adec5741506271a5c6368cbe8ba9",
+        "dxc.exe": "ce11bb02f6027055e0b9f8c062d13b14f373c876a16557a4fa744314117d31e7",
+        "dxil.dll": "0cf5fa4b90f74550166108b3870c883f4a85243976b246b1da3ea90ad5b92015"
+      },
+      "guarantee": "ideal real-number model of the accepted source subset; translator and DXC remain trusted",
+      "theorem": "ShaderFormalize.Verification.checked",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "agent_proof_sha256": "3aa66e9bad1e57e1542db673576c5b86d883ef6082fc1514a318a674e56ac73e",
+      "semantic_model_sha256": "5a3af29b09a4696a1632b0e30595d5465d9486cd71d604bdb1fbcea512133d4e",
+      "semantic_modules": {
+        "Model.lean": "5a3af29b09a4696a1632b0e30595d5465d9486cd71d604bdb1fbcea512133d4e",
+        "Fragment.lean": "c7a4195c9b5b84ce39a959e1fff8870ccb4a6f9e302bda8aa957302bf1ea069a",
+        "Control.lean": "1bdb1e21015cd10e05593ec42bf1c8c6d522ed9d9ffb2ac6f33f8bda4f90b44b"
+      },
+      "lake_manifest_sha256": "56e940f0e5f093d6124567592bb4b1d3f0c62d6408aea2678700ffffefa14e6e",
+      "lean_build_seconds": 40.031,
+      "lean_verify_seconds": 24.422,
+      "lean_version": "Lean (version 4.24.0, x86_64-w64-windows-gnu, commit 797c613eb9b6d4ec95db23e3e00af9ac6657f24b, Release)"
+    },
+    "control-helper-domain-original": {
+      "status": "PROVED",
+      "inputs": [
+        {
+          "role": "original",
+          "path": "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\examples\\control\\helper-domain.original.hlsl",
+          "sha256": "a8668b6d03cb13665ff9b797531e359afeabd4fb6d1a3dd04950bb1460518522",
+          "dxc_seconds": 0.047
+        },
+        {
+          "role": "optimized",
+          "path": "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\examples\\control\\helper-domain.optimized.hlsl",
+          "sha256": "7433433b197f9dc4d5f97d12c3f5c3b7021c7a73cc03581f6fd53e31281c174c",
+          "dxc_seconds": 0.047
+        }
+      ],
+      "constraints": {
+        "schema": 2,
+        "ranges": {
+          "a": {
+            "min": "0",
+            "max": "0"
+          }
+        },
+        "nonzero_vectors": []
+      },
+      "model_schema": 4,
+      "generated_sha256": "e0e7274f15272e7220c86cca369d0a0683d3f6db5487f59043d5f3ef2a1fb731",
+      "dxc_files": {
+        "dxcompiler.dll": "5888d3e590f5bfd8743484e7f31313996734adec5741506271a5c6368cbe8ba9",
+        "dxc.exe": "ce11bb02f6027055e0b9f8c062d13b14f373c876a16557a4fa744314117d31e7",
+        "dxil.dll": "0cf5fa4b90f74550166108b3870c883f4a85243976b246b1da3ea90ad5b92015"
+      },
+      "guarantee": "ideal real-number model of the accepted source subset; translator and DXC remain trusted",
+      "theorem": "ShaderFormalize.Verification.checked",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "agent_proof_sha256": "2671800a7cb082655a2e21c3cdce3c7f5f16ad5e41cb33c0e94356df874a224f",
+      "semantic_model_sha256": "5a3af29b09a4696a1632b0e30595d5465d9486cd71d604bdb1fbcea512133d4e",
+      "semantic_modules": {
+        "Model.lean": "5a3af29b09a4696a1632b0e30595d5465d9486cd71d604bdb1fbcea512133d4e",
+        "Fragment.lean": "c7a4195c9b5b84ce39a959e1fff8870ccb4a6f9e302bda8aa957302bf1ea069a",
+        "Control.lean": "1bdb1e21015cd10e05593ec42bf1c8c6d522ed9d9ffb2ac6f33f8bda4f90b44b"
+      },
+      "lake_manifest_sha256": "56e940f0e5f093d6124567592bb4b1d3f0c62d6408aea2678700ffffefa14e6e",
+      "lean_build_seconds": 39.188,
+      "lean_verify_seconds": 24.656,
+      "lean_version": "Lean (version 4.24.0, x86_64-w64-windows-gnu, commit 797c613eb9b6d4ec95db23e3e00af9ac6657f24b, Release)"
+    },
+    "control-helper-domain-wrong": {
+      "status": "UNPROVED",
+      "message": "Agent proof did not check against the generated Shader model; see lean-build.log"
+    }
+  },
+  "production_sha256": {
+    "tools/shader_control.py": "5471f2f5057c619fa176d452ccf2b10cc867e72dfe91e24a085a5057c685bd76",
+    "tools/test_control.py": "41779ca4dac665285d07262e06d358bbf78756c183d4c70db6baae7c49f0e579",
+    "tools/verify_demo.py": "d9db847aa5bf3ea2ccd4921e41b99963f08a60a5d2c6884b0ae982ba38565543",
+    "proof/ControlHelperDomainProof.lean": "2671800a7cb082655a2e21c3cdce3c7f5f16ad5e41cb33c0e94356df874a224f",
+    "proof/ControlHelperFieldProof.lean": "3aa66e9bad1e57e1542db673576c5b86d883ef6082fc1514a318a674e56ac73e"
+  }
+}

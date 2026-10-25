@@ -96,6 +96,38 @@ class ControlTests(unittest.TestCase):
         # The derivative must still see the first point, even though b is false there.
         self.assertEqual(result[1][1], 4)
 
+    def test_helpers_preserve_complete_return_field_under_caller_mask(self):
+        variants = [
+            ("float F(float x){return x;}", "", "F(a.y)"),
+            ("float G(float x){return x;}float F(float x){return G(x);}", "", "F(a.y)"),
+            ("float F(float x){if(x>3.0)return x;return x;}", "", "F(a.y)"),
+            ("struct S{float c;};S F(float x){S s;s.c=x;return s;}", "S s=F(a.y);", "s.c")]
+        inputs = [[[0,2,0,1],[1,4,0,1],[1,8,0,1]]]
+        for mode in ("ddx", "ddy"):
+            direct = self.compile(ENTRY + f"if(a.x>0.5)return float4({mode}(a.y),0,0,1);return a;" + "}")
+            expected = evaluate_control(direct, inputs, 3, test_operations)
+            self.assertEqual(expected[1][0], 7 if mode == "ddx" else -11)
+            for header, setup, value in variants:
+                with self.subTest(mode=mode, header=header):
+                    model = self.compile(header + ENTRY + f"if(a.x>0.5){{{setup}return float4({mode}({value}),0,0,1);}}return a;" + "}")
+                    self.assertEqual(evaluate_control(model, inputs, 3, test_operations), expected)
+
+    def test_helper_domains_use_actual_call_entry(self):
+        cases = [("float3 F(float3 v){return normalize(v);}", "float4(F(a.yzw),1)"),
+                 ("float F(float v){uint n=(uint)v;return (float)n;}", "float4(F(a.y-2.0),0,0,1)")]
+        for header, value in cases:
+            with self.subTest(header=header):
+                model = self.compile(header + ENTRY + f"if(a.x>0.5)return {value};return a;" + "}")
+                self.assertEqual(evaluate_model(model, [[0,0,0,0]]), [0,0,0,0])
+                with self.assertRaises(ValueError):
+                    evaluate_model(model, [[1,0,0,0]])
+
+    def test_void_helper_discard_only_affects_calling_positions(self):
+        header = "void Cut(float y){if(y>0.5)return;discard;}"
+        model = self.compile(header + ENTRY + "if(a.x>0.5){Cut(a.y);}return a;}")
+        inputs = [[[0,0,0,1],[1,0,0,1],[1,1,0,1]]]
+        self.assertEqual(evaluate_control(model, inputs, 3, test_operations), [inputs[0][0],None,inputs[0][2]])
+
     def test_scopes_and_shadowing_do_not_leak(self):
         body = "float4 c=a;if(a.x>0.5){float4 a=c*3;c=a;}else{float4 a=c*2;c=a;}return c;"
         self.assertEqual(self.values(body, [1,2,3,4]), [3,6,9,12])

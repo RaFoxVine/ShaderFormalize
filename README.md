@@ -111,6 +111,8 @@ shader_ast.py读取固定DXC树和精确数字；shader_types.py解释声明/记
 
 shader_control.py拥有条件执行帧、Shader存活状态、分支合并及函数返回；shader_control_values.py提供不可变条件值；shader_boolean.py共享并化简命题图；shader_control_lean.py发射schema4及定义域结论。Control.lean复用既有数学定义，无新公理。shader_control_eval.py为独立有限求值器。
 
+函数帧分别记录调用入口和函数内部路径：return按内部路径选择完整返回字段，执行guard再合并调用入口和Shader存活状态。这样分支中的恒等helper仍保留完整导数输入；未实际执行的helper运算不产生定义域要求，void helper的return不结束调用者，discard效果仍作用于整个Shader的对应位置。
+
 shader_packing.py复用控制流并拥有uint类型/AST规则和载体流检查，shader_packing_lean.py发射精确位操作及转换定义域；Packing.lean复用Lean内置BitVec，保留原有公理白名单。shader_packing_eval.py仅供有限回归，不参与形式证明。
 
 proof/ShaderFormalize/Model.lean和Fragment.lean定义数学语义。dependencies.lock.json固定官方工具与二进制SHA256；proof/lake-manifest.json固定mathlib/传递Git revision，无额外submodule；FetchCache复用锁定mathlib的缓存实现。进程局部配置不修改全局PATH/elan/Git/curl。

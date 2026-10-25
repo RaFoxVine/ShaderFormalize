@@ -10,6 +10,6 @@ fresh第一次Invoke-WebRequest下载225秒仍0字节；核对owned Python44944/
 
 再次更新到649a4ec（两锁一致）重跑安装，1387份缓存全部下载、解压，正式wrapper及独立模块导入通过，bootstrap报告ready。该次完整日志为artifacts/portability/fresh-bootstrap-fixed.log，初始真空和前两次尝试状态见fresh-bootstrap.json。下一步更新到包含CLI隔离/指南的准确commit，在同一已按锁重建的副本运行lerp/packed正式证明；不把原目录证明当作fresh证明。
 
-独立Q第一轮无关键代码缺陷，指出需要完成fresh两正例、准确列出leantar受检恢复目标和curl超时措辞。指南已列Lean/DXC目录和.cache/mathlib/leantar-0.1.15.exe单文件；注释改为连接与整体传输有界。最终Q和精简证据尚待真实结果。
+独立Q第一轮无关键代码缺陷，指出需要完成fresh两正例、准确列出leantar受检恢复目标和curl超时措辞。指南列Lean/DXC目录和.cache/mathlib/leantar-0.1.15.exe单文件；注释改为连接与整体传输有界。当时最终Q和精简证据尚待真实结果，随后按下段闭合。
 
 最终更新专属clone到69d058a84170fcd78e0c2ac617b31db9419a894a，核对两锁与初始真空安装一致，重新bootstrap成功；lerp和packed两正式目标均PROVED、公理原白名单、全部输入/生成模型/证明/语义模块hash匹配，Git状态前后为空，无Unity。独立Q第二轮重算两锁、受检二进制、九依赖revision、无alternates及实际两证明，Verified。精简证据windows-fresh-2026-10-26.json保存完整结果和失败边界。本项Completed；不将其当作后续frame变更的fresh验证。当前源改动checkpoint为a3fccd7与69d058a；最终push交overnight publish。

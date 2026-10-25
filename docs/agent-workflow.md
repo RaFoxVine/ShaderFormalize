@@ -27,6 +27,8 @@ python tools/shaderformalize.py prepare --original examples/branched/original.hl
 
 float按实数解释；输入范围是用户提供的前提。采样/导数是双方共享的完整函数操作。控制流模型的expected还要求两份程序已执行的normalize均有合法定义域：这些是需要证明的结论，不能把缺失条件偷偷添加为假设。生成目标可能比单独颜色等式更强，因为还包括裁剪结果和运算合法性。
 
+helper返回值按函数内部路径选择，保留调用范围外的完整字段值；实际执行条件另外控制域要求、采样/导数上下文和裁剪。`proof/ControlHelperFieldProof.lean`展示同一分支中ddx(Identity(x))与ddx(x)对任意共享Ops的证明，`ControlHelperDomainProof.lean`检查未调用helper的域不会被误加。
+
 包含整数打包时使用schema5：uint按32位精确整数解释；float→uint和移位也产生带执行条件的定义域结论。`asfloat(uint)`只生成位载体，`asuint`可取回它；载体不能参与数值计算，当前也不能跨helper参数/返回边界。完整支持范围、例子及限制见[整数打包](integer-packing.md)。
 
 ## 写证明并交给检查器

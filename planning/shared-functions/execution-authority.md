@@ -1,6 +1,6 @@
 # Grant function-entry-001
 
-- status: active
+- status: completed
 - source: delegated_session
 - node_frame: planning/shared-functions/plan.md修订1，完整字段与实际执行分离Ready切片，独立P第一轮通过。
 - target_slices: 修复ControlProgram的frame/guard/branch/return/invoke及必要测试/证明/文档，保留现有完整字段、实际执行域和失败保证。
@@ -13,5 +13,5 @@
 - stop_conditions: 需要放宽未知语义策略或改变定义域/上下文保证；无法执行关键oracle；独立Q三轮仍有关键问题。
 - acceptance_boundary: 独立Q及任意共享Ops的helper内联正例/实际域正负控制与完整回归；后续language切片仍继续，不以本项冒充全B目标。
 - delegated_session: planning/overnight/current.md；shader-forward-2026-10-26；item language；envelope sha256 afcc1f80b2eb30be69411cd4633dc9d8ac79b0b918eaaf4302fc76ae66188206；frame rev1/P1 passed。
-- state_reason: P用独立临时原型确认14组场景，保契约修复Ready，准备落地。
+- state_reason: P1 Ready、Q2 Verified；132回归/35控制通过，证据封存于planning/evidence/function-frame-2026-10-26.json。
 - superseded_by: none

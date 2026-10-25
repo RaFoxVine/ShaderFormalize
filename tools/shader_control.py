@@ -27,7 +27,8 @@ class ControlProgram(Program):
         self.invocations = 0
 
     def guard(self):
-        return logical("and", self.current_guard, self.alive)
+        entry = truth(True) if self.frame is None else self.frame["entry"]
+        return logical("and", entry, logical("and", self.current_guard, self.alive))
 
     def snapshot(self, value, name):
         result = super().snapshot(value, name)
@@ -120,7 +121,7 @@ class ControlProgram(Program):
             raise ModelError("Control-flow nesting exceeds 32 levels")
         condition_node, yes_node, no_node = control_branches(node, self)
         condition = self.snapshot(self.expression(condition_node, state.symbols), "if.condition")
-        entry = self.snapshot(self.guard(), "if.entry")
+        entry = self.snapshot(self.current_guard, "if.entry")
         yes_mask = self.snapshot(logical("and", entry, condition), "if.true")
         no_mask = self.snapshot(logical("and", entry, logical("not", condition)), "if.false")
         yes = Flow(clone_symbols(state.symbols), yes_mask)
@@ -166,7 +167,7 @@ class ControlProgram(Program):
                 value = None
                 if statement.children:
                     value = self.snapshot(initialized(self.expression(statement.children[0], state.symbols)), "return.value")
-                mask = self.snapshot(self.guard(), "return.mask")
+                mask = self.snapshot(self.current_guard, "return.mask")
                 self.frame["returns"].append((mask, value))
                 state.mask, state.stopped = truth(False), True
             elif statement.kind == "DiscardStmt":
@@ -183,20 +184,20 @@ class ControlProgram(Program):
         caller_guard, caller_frame = self.current_guard, self.frame
         entry = self.guard()
         symbols = dict(self.globals)
-        self.current_guard = entry
         for param, argument in zip(function["parameters"], arguments):
             if value_type(initialized(argument)) != param["type"]:
                 raise ModelError("Function argument type mismatch")
             if function is not self.main:
                 argument = self.snapshot(argument, function["name"] + "." + param["name"])
             symbols[param["id"]] = make_symbol(param["name"], param["type"], "ParmVar", function is not self.main, argument)
-        frame = {"returns": []}
+        frame = {"returns": [], "entry": entry}
         self.frame = frame
+        self.current_guard = truth(True)
         self.stack.append(function["id"])
         try:
-            flow = Flow(symbols, entry)
+            flow = Flow(symbols, truth(True))
             self.execute(function["body"], flow)
-            self.current_guard = entry
+            self.current_guard = truth(True)
             if function["type"] == "void":
                 return {"kind": "void", "width": "void"}
             result = zero_value(function["type"], self.types)

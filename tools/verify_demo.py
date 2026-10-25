@@ -81,12 +81,23 @@ def control_controls():
         if name == "domain":
             controls.append(check_case("control-domain-wrong", "UNPROVED", *arguments, "--optimized", material / "domain.wrong.hlsl"))
         controls.append(check_case("control-" + name, "PROVED", *arguments, "--optimized", material / (name + ".optimized.hlsl")))
-    material = ROOT / "examples/branched"
     controls.append(check_case("control-mixed", "PROVED",
         "--original", ROOT / "examples/control/mixed.original.hlsl",
         "--optimized", ROOT / "examples/control/mixed.optimized.hlsl",
         "--constraints", ROOT / "examples/control/zero-constraints.json",
         "--agent-proof", ROOT / "proof/ControlMixedProof.lean"))
+    controls.append(check_case("control-helper-field", "PROVED",
+        "--original", material / "helper.original.hlsl",
+        "--optimized", material / "helper.optimized.hlsl",
+        "--constraints", material / "constraints.json",
+        "--agent-proof", ROOT / "proof/ControlHelperFieldProof.lean"))
+    for role, expected in (("original", "PROVED"), ("wrong", "UNPROVED")):
+        controls.append(check_case("control-helper-domain-" + role, expected,
+            "--original", material / ("helper-domain." + role + ".hlsl"),
+            "--optimized", material / ("helper-domain.optimized.hlsl" if role == "original" else "helper-domain.wrong.hlsl"),
+            "--constraints", material / "zero-constraints.json",
+            "--agent-proof", ROOT / "proof/ControlHelperDomainProof.lean"))
+    material = ROOT / "examples/branched"
     arguments = ["--original", material / "original.hlsl", "--constraints", material / "constraints.json", "--agent-proof", ROOT / "proof/BranchedProof.lean"]
     for role in ("wrong", "wrong-cutoff"):
         controls.append(check_case("branched-" + role, "UNPROVED", *arguments, "--optimized", material / (role + ".hlsl")))

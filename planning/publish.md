@@ -1,8 +1,8 @@
 # 已验证工作发布
 
-## 检查点1：执行授权（Approved）
+## 检查点1：执行授权（Completed）
 
-- status: active
+- status: completed
 - source: delegated_session
 - node_frame: 本文件检查点1；仅发布当前已验证源码及对应状态元数据。
 - target_slices: 将40860f53dea0c9ec7a67f4d36fe1ceb0730e81d0及本发布授权/状态文档提交非强制推送至origin的codex/shader-equivalence-planning；不包含未提交frame修复。
@@ -15,7 +15,9 @@
 - stop_conditions: 远端非本HEAD祖先、认证/网络失败、待推送内容出现无关或未验证代码。
 - acceptance_boundary: GitHub工作分支SHA与实际推送HEAD一致；整个overnight最终发布仍待后续已验证工作及报告。
 - delegated_session: planning/overnight/current.md；shader-forward-2026-10-26；item publish；envelope sha256 afcc1f80b2eb30be69411cd4633dc9d8ac79b0b918eaaf4302fc76ae66188206。
-- state_reason: 实际远端为ea3bfda3f4e3b6428d35b588c9945aa3004e907b，本地40860f5，历史仅本轮已授权且完成核验的源实现、计划及证据；准备发布检查点。
+- state_reason: 非强制push成功，远端ls-remote与本地均为53f8e66572bcdb31d211624b013fa27b93e356c3，工作区未提交的frame修复未包含；后续最终发布另立精确检查点。
 - superseded_by: none
 
 推送前自查：分支codex/shader-equivalence-planning；origin为https://github.com/RaFoxVine/ShaderFormalize.git；packing源码9df384c（128/32/P1/Q2），环境源码69d058a（真空bootstrap及两PROVED/P2/Q2），后续至40860f5只含证据整理。工作区中的frame修复仍未提交，因此不会随push提交。
+
+实际命令：`git push origin HEAD:refs/heads/codex/shader-equivalence-planning`。推送输出ea3bfda..53f8e66，随后远端SHA独立读取匹配。首次可异地拉取检查点已交付；不将其记作整个overnight完成。
