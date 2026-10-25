@@ -4,7 +4,7 @@
   "baseline": "ea3bfda",
   "core_suite": {
     "command": "pwsh -NoProfile -File tools/run_demo.ps1",
-    "report": "artifacts/acceptance/result.json",
+    "report": "artifacts/packed/acceptance32/result.json",
     "report_sha256": "fc1062fec4938ddd050293d06fb573ee5bbb9b50c55cee38190eac82507fe177",
     "status": "PASSED",
     "regression_tests": 128,
@@ -175,7 +175,7 @@
   },
   "packing_controls": [
     {
-      "path": "artifacts/acceptance/packed-wrong-field/result.json",
+      "path": "artifacts/packed/acceptance32/packed-wrong-field/result.json",
       "sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
       "status": "UNPROVED",
       "model_schema": null,
@@ -185,10 +185,18 @@
       "axioms": null,
       "agent_proof_sha256": null,
       "semantic_modules": null,
-      "message": "Agent proof did not check against the generated Shader model; see lean-build.log"
+      "message": "Agent proof did not check against the generated Shader model; see lean-build.log",
+      "artifact_hashes": {
+        "GeneratedModel.lean": "8e79a8c4c5f6af8cf5a4a96bb7b41d3bb2e5f55f41cb32d46d7cd241e4fe1b43",
+        "lean-build.log": "d899fdf03ff2808568965f36f754d0ff5bd922bb8a8a17ec76abeda73a67473d",
+        "optimized.input.hlsl": "f1968e9f937cdca35b909d34131f9b47459a925b713718871ef3789be2f652a4",
+        "optimized.model.json": "f4af63212b53506674111634963ce85328535e46121777e46d8a0849831fea0e",
+        "original.input.hlsl": "1b00e5687dd2ed5aab76c00c213ce1216bb708fcc57a8724177672fa26201a8f",
+        "original.model.json": "d2c464828dae5c3ae55ef485ba93c65400cebafdec2d4bd8d4ee18df2e33ff9b"
+      }
     },
     {
-      "path": "artifacts/acceptance/packed-domain-safe/result.json",
+      "path": "artifacts/packed/acceptance32/packed-domain-safe/result.json",
       "sha256": "da4145483508a82135bafd2adf8d766030088d0de2bd98660708a2a9c386d405",
       "status": "PROVED",
       "model_schema": 5,
@@ -220,10 +228,19 @@
         "Control.lean": "1bdb1e21015cd10e05593ec42bf1c8c6d522ed9d9ffb2ac6f33f8bda4f90b44b",
         "Packing.lean": "b7a28c0eeb178976e7060e1053bd45926eccf6e395d6087b3851632ef841f350"
       },
-      "message": null
+      "message": null,
+      "artifact_hashes": {
+        "GeneratedModel.lean": "afec2287d4a2d9b9b8ee65c7bd0a88fe83637a7f6bded134d760434a33e11d09",
+        "lean-build.log": "276bb0eb5a7a947858149a30ff0dc52598c9dcc887524611d5d2dc2eeb8e05df",
+        "lean-verify.log": "64281b41cc00905b3a5127be7f245e74d88e554ed00dfc656a45327c3d4e80c6",
+        "optimized.input.hlsl": "c6addaf9459045810678e3fdfddd7f943509ba3ce45dee0c6704fafdaba9236d",
+        "optimized.model.json": "77357a08f23a3ca70dfe7e3d54e22bd990668d011fadacfda46149bcbf072746",
+        "original.input.hlsl": "c6addaf9459045810678e3fdfddd7f943509ba3ce45dee0c6704fafdaba9236d",
+        "original.model.json": "77357a08f23a3ca70dfe7e3d54e22bd990668d011fadacfda46149bcbf072746"
+      }
     },
     {
-      "path": "artifacts/acceptance/packed-domain-wrong/result.json",
+      "path": "artifacts/packed/acceptance32/packed-domain-wrong/result.json",
       "sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
       "status": "UNPROVED",
       "model_schema": null,
@@ -233,10 +250,18 @@
       "axioms": null,
       "agent_proof_sha256": null,
       "semantic_modules": null,
-      "message": "Agent proof did not check against the generated Shader model; see lean-build.log"
+      "message": "Agent proof did not check against the generated Shader model; see lean-build.log",
+      "artifact_hashes": {
+        "GeneratedModel.lean": "515462a987d36b215f90f7e87c57b472ca684372afa0fa9f5964689ece399f0c",
+        "lean-build.log": "c557f4c365ebb05cdffc22f2a708bbbedf87bf11f624e52b19c90409a7be5dd7",
+        "optimized.input.hlsl": "a4807b7ff568c376008220174a6cd2b67a2737168d7e583232fcfd56bc85757a",
+        "optimized.model.json": "e01bac848f800816a471c486bc758bc9b7d1db6f2d071f5c684b7d060dc7d0cb",
+        "original.input.hlsl": "a4807b7ff568c376008220174a6cd2b67a2737168d7e583232fcfd56bc85757a",
+        "original.model.json": "e01bac848f800816a471c486bc758bc9b7d1db6f2d071f5c684b7d060dc7d0cb"
+      }
     },
     {
-      "path": "artifacts/acceptance/packed-shift-wrong/result.json",
+      "path": "artifacts/packed/acceptance32/packed-shift-wrong/result.json",
       "sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
       "status": "UNPROVED",
       "model_schema": null,
@@ -246,10 +271,18 @@
       "axioms": null,
       "agent_proof_sha256": null,
       "semantic_modules": null,
-      "message": "Agent proof did not check against the generated Shader model; see lean-build.log"
+      "message": "Agent proof did not check against the generated Shader model; see lean-build.log",
+      "artifact_hashes": {
+        "GeneratedModel.lean": "a7b9d1ee7a8ed20c225e0f7bdc0cd0b72bda1d9247733c52665f7f15ff5a92da",
+        "lean-build.log": "fc4c3d03aa61c64a4c0f64534ec5f398bca9f6b33446bd7ad9c02d55cc59058d",
+        "optimized.input.hlsl": "1f76f4308bd10511c91e79e35a624de65fd48162353a3f109a8458a2ac629295",
+        "optimized.model.json": "4ba6e04ce33e0c013e07da5d6154f46878af7d99045bdf2cebf0d8c1001a13e3",
+        "original.input.hlsl": "1f76f4308bd10511c91e79e35a624de65fd48162353a3f109a8458a2ac629295",
+        "original.model.json": "4ba6e04ce33e0c013e07da5d6154f46878af7d99045bdf2cebf0d8c1001a13e3"
+      }
     },
     {
-      "path": "artifacts/acceptance/packed-positive/result.json",
+      "path": "artifacts/packed/acceptance32/packed-positive/result.json",
       "sha256": "0ad56e287a6607623168d9625f28b180de1420367ad504ff73150a5fffb0a223",
       "status": "PROVED",
       "model_schema": 5,
@@ -281,7 +314,16 @@
         "Control.lean": "1bdb1e21015cd10e05593ec42bf1c8c6d522ed9d9ffb2ac6f33f8bda4f90b44b",
         "Packing.lean": "b7a28c0eeb178976e7060e1053bd45926eccf6e395d6087b3851632ef841f350"
       },
-      "message": null
+      "message": null,
+      "artifact_hashes": {
+        "GeneratedModel.lean": "104acefe228169bf7e7d805e5c8b71552a79dd8d2a174fec66df1d1e913cbbf9",
+        "lean-build.log": "e5a4b52d42c7ebda5ee96809cf50495c42b021263a12714944cdf4521060d62f",
+        "lean-verify.log": "64281b41cc00905b3a5127be7f245e74d88e554ed00dfc656a45327c3d4e80c6",
+        "optimized.input.hlsl": "8a2ac1cf0e337028098eff95711769f686bfaace0a78b73ac61cffc1a629b321",
+        "optimized.model.json": "10212335fd1b949c175f92eb9f623f5fd6ef3cb2425a00094101bca5cb2c6408",
+        "original.input.hlsl": "1b00e5687dd2ed5aab76c00c213ce1216bb708fcc57a8724177672fa26201a8f",
+        "original.model.json": "d2c464828dae5c3ae55ef485ba93c65400cebafdec2d4bd8d4ee18df2e33ff9b"
+      }
     }
   ],
   "counterexample": {
