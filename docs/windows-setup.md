@@ -14,6 +14,9 @@ python tools/shaderformalize.py check --output artifacts/first-check
 
 # 验证整数打包示例及其负控制。
 pwsh -NoProfile -File tools/run_demo.ps1 -Example packed
+
+# 共享helper、默认参数/out/inout的正常材质及正式正负控制。
+pwsh -NoProfile -File tools/run_demo.ps1 -Example copyback
 ```
 
 已有仓库时，在上述工作分支运行`git pull --ff-only`，依赖锁或安装脚本有更新后再运行bootstrap。完整验收用不带Example参数的`tools/run_demo.ps1`。`prepare`只生成待证命题，只有`check`返回PROVED才是完整证明通过。

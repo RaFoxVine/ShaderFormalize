@@ -2,9 +2,11 @@
 
 将两份 HLSL 经 DXC 已定类型的语法树转成理想实数与整数位字段模型，提供 agent 编写、迭代并独立检查 Lean 等价证明的本地环境。核心依赖固定版本 DXC、Lean 和 mathlib，安装、转换、证明和默认验收均不依赖 Unity。它不是任意 Shader 的自动等价判定器。
 
-新增[整数打包示例](examples/packed/original.hlsl)：辅助函数量化颜色、struct保存两个uint字段、掩码/移位打包、float载体复制和拆包；[改写版](examples/packed/optimized.hlsl)直接使用量化结果。实数计算和位载体明确区分，完整范围及证明方式见[整数打包说明](docs/integer-packing.md)。官方HDRP/Lit Forward仍有共享函数、out/inout、矩阵/数组、资源和循环等缺口，尚未完成数学转换。
+显式`--frontend shared`已支持实际共享helper定义、默认参数、out/inout及正常struct写法。[光照材质原版](examples/copyback/original.hlsl)通过out结构体和inout颜色累积，与[手工等价改写版](examples/copyback/optimized.hlsl)的完整数学目标已获证明；用法和边界见[共享函数说明](docs/shared-functions.md)。默认auto保留此前证明。矩阵/数组、循环及官方HDRP/Lit Forward尚未完成，不将这些小示例当作完整Lit证明。
 
-2026-10-26默认核心验收通过：128项回归及32项证明正负控制全部符合预期，12项完整目标PROVED；新增整数打包和定义域正负例均经过真实DXC、Lean绑定与公理审计。[精简证据](planning/evidence/integer-packing-2026-10-26.json)。
+[整数打包示例](examples/packed/original.hlsl)包含颜色量化、uint掩码/移位、float载体复制和拆包；[改写版](examples/packed/optimized.hlsl)直接使用量化结果。实数计算和位载体明确区分，完整范围及证明方式见[整数打包说明](docs/integer-packing.md)。
+
+整数打包阶段的2026-10-26核心验收：128项回归及32项证明正负控制全部符合预期，12项完整目标PROVED；新增整数打包和定义域正负例均经过真实DXC、Lean绑定与公理审计。[阶段证据](planning/evidence/integer-packing-2026-10-26.json)。后续共享定义阶段146项单元/41项控制通过，[对应证据](planning/evidence/shared-functions-2026-10-26.json)。
 
 最新 [原版分支材质](examples/branched/original.hlsl) 使用结构体、bool helper、提前返回、纹理开关、三种着色模式、嵌套条件裁剪和 ddx/ddy；[等价改写版](examples/branched/optimized.hlsl) 调整条件组织、使用三元选择并展开颜色计算。两边直接接受正常源码，不要求先拍平。原有 lerp、Unlit、structured、textured 示例和证明保留。
 
@@ -33,6 +35,9 @@ pwsh -File tools/run_demo.ps1 -Example branched
 # 只检查整数打包及其定义域正负控制，不调用Unity。
 pwsh -File tools/run_demo.ps1 -Example packed
 
+# 共享函数、默认参数及out/inout光照材质和定义域对照。
+pwsh -File tools/run_demo.ps1 -Example copyback
+
 # 仅检查纹理材质数学等价。
 python tools/shaderformalize.py check --original examples/textured/original.hlsl --optimized examples/textured/optimized.hlsl --constraints examples/textured/constraints.json --agent-proof proof/TexturedProof.lean --output artifacts/textured/proof
 
@@ -55,6 +60,8 @@ Unity包装目前仅指定shader target，未固定HLSL2021语言模式。GPU证
 float解释为实数，向量为实数分量。普通数值程序保留schema2；旧纹理/简单裁剪用schema3；一般控制流用schema4。片元模型中varying为任意位置集合 E 上的完整函数，uniform为常量；输出为 E→Option Vec4，None表示丢弃，Some表示颜色。证明比较完整输出函数，包含裁剪结果；schema4目标另外要求所有实际执行的normalize有合法定义域。
 
 schema5在相同执行模型中加入精确uint32及静态标记的float位载体，并要求已执行的实数转uint和移位合法。载体只保存位，不具有实数值；asuint(普通实数)和对载体做数值计算会拒绝。uint局部/内部struct/按值helper可用，整数stage输入、cbuffer和载体跨helper接口尚未开放。float底层编码/舍入不在模型中。[详细契约](docs/integer-packing.md)。
+
+显式shared使用schema6，保留每个helper的实际计算定义与调用事件，输出同样包含完整颜色/丢弃字段及实际执行域。默认参数在声明作用域求值，out/inout用独立副本，在正常返回后写回；未定序的兄弟读写冲突和重叠输出拒绝。证明仍全称量化共享Ops，没有把helper结果作为未经证明的假设。
 
 纹理/导数由定理全称量化的共享 `Fragment.Ops E` 提供。这是双方使用的同一组任意操作参数，不是新增公理：
 
@@ -81,6 +88,8 @@ schema5在相同执行模型中加入精确uint32及静态标记的float位载�
 
 ## 支持的源码
 
+以下基础列表说明默认auto。显式shared另支持尾部默认参数、整变量/struct字段out/inout、数值函数调用纯void计算helper；尚不支持swizzle输出地址。其限制和示例以[共享函数说明](docs/shared-functions.md)为准。
+
 - 一个返回float4、SV_Target的像素main；numeric值参数或叶字段带semantic的嵌套结构体输入；可选一个register(b0) cbuffer，float/float2/float3/float4字段。
 - 具名嵌套结构体、字段读写、整记录按值复制/返回；默认按值非递归辅助函数及重载、读取uniform。入口参数/uniform不可写，helper参数可修改自己的副本。单字段读取只需该字段初始化；整记录复制/实参/返回须全部初始化。
 - 局部声明/初始化/嵌套块、完整变量或字段的=、+=、-=、*=；精确十进制、括号、加减乘、负号、向量构造、swizzle、标量广播、dot/normalize/lerp/saturate。
@@ -91,7 +100,7 @@ schema5在相同执行模型中加入精确uint32及静态标记的float位载�
 
 两份入口参数名/顺序/类型/完整名义布局/semantic、cbuffer字段布局及资源名/类型/顺序/槽位、输出semantic均须完全一致，错误直接拒绝，不靠反射猜配。内部结构体/函数名可不同。
 
-仍不支持bool stage输入/bool cbuffer、向量条件、循环、out/inout、原型/递归、结构体聚合初始化/方法、资源参数/别名、向量分量左值、矩阵/数组、原始除法、任意pow、其它纹理/Buffer/compute操作以及预处理。所有函数体检查具体语句/表达式/调用和初始化，不能把未知代码藏在未调用helper中。未知类型/节点/重载明确拒绝。[HLSL2021短路定义](https://github.com/microsoft/DirectXShaderCompiler/wiki/HLSL-2021)
+两种后端均不支持bool stage输入/bool cbuffer、向量条件、循环、原型/递归、结构体聚合初始化/方法、资源参数/别名、向量分量左值、矩阵/数组、原始除法、任意pow、其它纹理/Buffer/compute操作以及预处理。auto额外拒绝默认参数/out/inout。所有函数体检查具体语句/表达式/调用和初始化，不能把未知代码藏在未调用helper中。未知类型/节点/重载明确拒绝。[HLSL2021短路定义](https://github.com/microsoft/DirectXShaderCompiler/wiki/HLSL-2021)
 
 上限：64结构体/每结构64字段、16嵌套层、每记录4096叶、128函数、32调用层、4096次展开调用、64输入叶、4096绑定、128裁剪事件、每种资源16个；控制流另限32层分支/每帧128返回分支，布尔共享图限4096节点/256深度。SSA与裁剪事件交错记录，完整条件以共享布尔图发射，避免重复展开。采样/导数结果可直接取分量，如 _BaseMap.Sample(...).rgb。数字使用原始源码文字，实数接受精确十进制；uint另接受十六进制及u后缀，拒绝八进制和超32位常量。接受LF/CRLF，不接受预处理/拼行及其它物理换行字符（含注释）。
 

@@ -224,12 +224,13 @@
     "portability": {
       "commits": [
         "69d058a",
-        "2fc87bb"
+        "2fc87bb",
+        "64992ea"
       ],
-      "grant_reference": "planning/portability/execution-authority.md#windows-refresh-002@revision-1",
-      "result": "DONE",
-      "summary": "原69d真空安装已闭合；独立副本按原锁更新2fc87bb后shared材质/helper导数/packed三例PROVED，独立事实复核通过；不混称后续错误路径补丁为空目录重装。",
-      "updated_at": "2026-10-26T04:25:10+08:00"
+      "grant_reference": "planning/portability/execution-authority.md#windows-refresh-003@revision-1",
+      "result": "IN_PROGRESS",
+      "summary": "Windows x64 confirmed; running latest copyback source in existing independently installed checkout, same locks and isolated environment.",
+      "updated_at": "2026-10-26T05:21:17+08:00"
     },
     "publish": {
       "commits": [
@@ -246,7 +247,7 @@
   "schema_version": 1,
   "session_id": "shader-forward-2026-10-26",
   "status": "running",
-  "updated_at": "2026-10-26T04:26:14+08:00"
+  "updated_at": "2026-10-26T05:21:17+08:00"
 }
 ```
 <!-- SMART_OVERNIGHT_STATE_END -->
