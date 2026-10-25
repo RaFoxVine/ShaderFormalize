@@ -69,6 +69,11 @@ end ShaderFormalize.AgentProof
         controls.append(check_case("unlit-missing-domain", "INVALID_INPUT", *material_args, "--optimized", material / "optimized.hlsl", "--constraints", missing))
         controls.append(check_case("unlit-wrong", "UNPROVED", *material_args, "--optimized", material / "wrong.hlsl"))
         controls.append(check_case("unlit-positive", "PROVED", *material_args, "--optimized", material / "optimized.hlsl"))
+        structured = ROOT / "examples/structured"
+        structured_args = ["--original", structured / "original.hlsl", "--constraints", structured / "constraints.json", "--agent-proof", ROOT / "proof/StructuredProof.lean"]
+        controls.append(check_case("structured-missing-domain", "INVALID_INPUT", *structured_args, "--optimized", structured / "optimized.hlsl", "--constraints", missing))
+        controls.append(check_case("structured-wrong", "UNPROVED", *structured_args, "--optimized", structured / "wrong.hlsl"))
+        controls.append(check_case("structured-positive", "PROVED", *structured_args, "--optimized", structured / "optimized.hlsl"))
         write_json(output / "result.json", {"status": "PASSED", "regression_tests": result.testsRun, "controls": controls})
         return 0
     except (OSError, ValueError, RuntimeError, subprocess.TimeoutExpired) as error:

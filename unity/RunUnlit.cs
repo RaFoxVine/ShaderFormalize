@@ -1,8 +1,8 @@
 // Unity CLI eval_file evaluates this body in the existing Editor.
 var workspace = @"__WORKSPACE__";
 var output = @"__OUTPUT__";
-var folder = "Assets/ShaderFormalizeUnlit";
-var absolute = System.IO.Path.Combine(Application.dataPath, "ShaderFormalizeUnlit");
+var folder = "Assets/__ASSET_FOLDER__";
+var absolute = System.IO.Path.Combine(Application.dataPath, "__ASSET_FOLDER__");
 System.IO.Directory.CreateDirectory(absolute);
 System.IO.Directory.CreateDirectory(output);
 var roles = new[] { "original", "optimized", "wrong" };
@@ -52,10 +52,10 @@ void RenderCamera(Camera camera, RenderTexture destination)
 
 try
 {
-    var template = System.IO.File.ReadAllText(System.IO.Path.Combine(workspace, "unity/Unlit.shader.template"));
+    var template = System.IO.File.ReadAllText(System.IO.Path.Combine(workspace, "__SHADER_TEMPLATE__"));
     foreach (var role in roles)
     {
-        var bytes = System.IO.File.ReadAllBytes(System.IO.Path.Combine(workspace, "examples/unlit/"+role+".hlsl"));
+        var bytes = System.IO.File.ReadAllBytes(System.IO.Path.Combine(workspace, "examples/__EXAMPLE__/"+role+".hlsl"));
         using (var sha = System.Security.Cryptography.SHA256.Create())
             hashes[role] = BitConverter.ToString(sha.ComputeHash(bytes)).Replace("-", "").ToLowerInvariant();
         System.IO.File.WriteAllBytes(System.IO.Path.Combine(absolute, role+".hlsl"), bytes);
@@ -175,7 +175,15 @@ try
     exposure.mode.Override(UnityEngine.Rendering.HighDefinition.ExposureMode.Fixed); exposure.fixedExposure.Override(0);
     volume.sharedProfile=profile;
     EditorUtility.SetDirty(profile); EditorUtility.SetDirty(exposure); AssetDatabase.SaveAssets();
-    var scenePath=folder+"/UnlitComparison.unity";
+    var requestedScenePath=folder+"/__SCENE_NAME__.unity";
+    var scenePath=requestedScenePath;
+    // An Editor may already display the demo. Save validation separately instead of closing it.
+    if(UnityEngine.SceneManagement.SceneManager.GetSceneByPath(scenePath).isLoaded)
+    {
+        scenePath=folder+"/__SCENE_NAME__.Validation.unity";
+        if(UnityEngine.SceneManagement.SceneManager.GetSceneByPath(scenePath).isLoaded)
+            scenePath=AssetDatabase.GenerateUniqueAssetPath(scenePath);
+    }
     camera.enabled=true;
     if(!UnityEditor.SceneManagement.EditorSceneManager.SaveScene(scene,scenePath)) throw new Exception("Scene save failed");
     UnityEngine.SceneManagement.SceneManager.SetActiveScene(previousScene);
@@ -191,10 +199,25 @@ try
     }
     if(camera==null || first==null || second==null || first.sharedMaterial==null || second.sharedMaterial==null) throw new Exception("Reloaded scene lost references");
     camera.enabled=false;
+    // Ordinary loaded scenes share default culling bits, even when Camera.scene is assigned.
+    var sceneMask=UnityEditor.SceneManagement.EditorSceneManager.CalculateAvailableSceneCullingMask();
+    if(sceneMask==0) throw new Exception("No isolated scene culling mask available");
+    UnityEditor.SceneManagement.EditorSceneManager.SetSceneCullingMask(scene,sceneMask);
+    camera.overrideSceneCullingMask=sceneMask;
     sceneTarget=new RenderTexture(768,384,24,RenderTextureFormat.ARGBFloat,RenderTextureReadWrite.Linear);
     if(!sceneTarget.Create()) throw new Exception("Scene target creation failed");
     RenderCamera(camera,sceneTarget); RenderCamera(camera,sceneTarget);
     var scenePixels=ReadTarget(sceneTarget);
+    int isolationPixels=0;
+    first.forceRenderingOff=true; second.forceRenderingOff=true;
+    try
+    {
+        RenderCamera(camera,sceneTarget);
+        foreach(var pixel in ReadTarget(sceneTarget))
+            if(Math.Max(pixel.r,pixel.b)-pixel.g>.04f) isolationPixels++;
+        if(isolationPixels!=0) throw new Exception("Other scene geometry contaminated validation: "+isolationPixels);
+    }
+    finally {first.forceRenderingOff=false; second.forceRenderingOff=false;}
     int leftPixels=0,rightPixels=0; double minColor=100,maxColor=-100;
     for(int y=0;y<384;y++) for(int x=0;x<768;x++)
     {
@@ -229,8 +252,8 @@ try
     }
     finally { first.transform.position=originalPosition; first.sharedMaterial=originalMaterial; second.forceRenderingOff=false; }
     return new {status="PASSED", unity=Application.unityVersion, graphics=SystemInfo.graphicsDeviceType.ToString(), hashes,
-        numericCases,numericPixels,tolerance,maxError,wrongDifference,meshMaxError,leftPixels,rightPixels,scenePath,
-        sceneReloaded=true,sceneCamera="HDRP RenderPipeline.StandardRequest", preview="preview.png",
+        numericCases,numericPixels,tolerance,maxError,wrongDifference,meshMaxError,leftPixels,rightPixels,scenePath,requestedScenePath,
+        sceneReloaded=true,sceneCamera="HDRP RenderPipeline.StandardRequest",sceneIsolation=true,isolationPixels,preview="preview.png",
         guarantee="Finite GPU/CPU and saved-scene HDRP checks; Lean separately proves fragment real-number equivalence"};
 }
 finally

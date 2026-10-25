@@ -1,8 +1,8 @@
 # 本轮执行授权
 
-- status: active
+- status: completed
 - source: direct_user
-- recorded_at_local: 2026-10-25T17:10:00+08:00
+- recorded_at_local: 2026-10-25T17:07:33+08:00
 - node_frame: planning/structured-shader/plan.md，本次规划快照
 - target_slices: 本目录 tasks.md 全部 Approved 项
 - authorization_message_exact: “ok 那么，我们继续往下”
@@ -14,3 +14,4 @@
 - acceptance_boundary: 完整机器证据和独立 Q 后交付，用户 H-X 另行发生。
 - delegated_session: none
 - superseded_by: none
+- state_reason: 完整命令65项回归/12控制/三套Unity通过，独立Q第二轮通过，随本地实现提交结束本执行集；人工H-X另行进行。recorded_at已按首次授权快照提交31c43f0的实际时间校正。

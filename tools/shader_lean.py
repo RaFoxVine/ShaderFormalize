@@ -28,14 +28,18 @@ def bounds(value):
 def selector(text, interface):
     if not isinstance(text, str):
         raise ModelError("Nonzero vector selectors must be strings", "INVALID_INPUT")
-    match = re.fullmatch(r"([A-Za-z_][A-Za-z0-9_]*)(?:\.([xyzw]{1,4}|[rgba]{1,4}))?", text)
     inputs = {item["name"]: item for item in interface}
-    if match is None or match.group(1) not in inputs:
+    if text in inputs:
+        name, mask = text, None
+    else:
+        name, separator, mask = text.rpartition(".")
+        if not separator or re.fullmatch(r"[xyzw]{1,4}|[rgba]{1,4}", mask) is None:
+            raise ModelError("Unknown nonzero vector selector", "INVALID_INPUT")
+    if name not in inputs:
         raise ModelError("Unknown nonzero vector selector", "INVALID_INPUT")
-    item = inputs[match.group(1)]
+    item = inputs[name]
     result = {"kind": "parameter", "width": item["width"], "index": item["index"]}
-    if match.group(2):
-        mask = match.group(2)
+    if mask:
         alphabet = "xyzw" if mask[0] in "xyzw" else "rgba"
         indices = [alphabet.index(c) for c in mask]
         if item["width"] == 1 or any(i >= item["width"] for i in indices):
@@ -47,12 +51,21 @@ def selector(text, interface):
 
 
 def resolve_alias(expr, bindings):
-    if expr["kind"] == "local":
-        return resolve_alias(bindings[expr["index"]]["expression"], bindings)
-    if expr["kind"] == "swizzle":
-        base = resolve_alias(expr["arguments"][0], bindings)
-        if base["kind"] == "parameter":
-            return dict(expr, arguments=[base])
+    selection = None
+    visited = set()
+    while expr["kind"] in ("local", "swizzle"):
+        if expr["kind"] == "local":
+            index = expr["index"]
+            if index in visited:
+                raise ModelError("Cyclic local alias")
+            visited.add(index)
+            expr = bindings[index]["expression"]
+        else:
+            indices = expr["indices"]
+            selection = list(indices) if selection is None else [indices[i] for i in selection]
+            expr = expr["arguments"][0]
+    if selection is not None:
+        return {"kind": "swizzle", "width": len(selection), "indices": selection, "arguments": [expr]}
     return expr
 
 

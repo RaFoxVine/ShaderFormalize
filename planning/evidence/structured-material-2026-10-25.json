@@ -1,0 +1,226 @@
+{
+  "schema": 1,
+  "date": "2026-10-25",
+  "status": "PASSED",
+  "command": "pwsh -NoProfile -File tools/run_demo.ps1 -UnityProject '<local HDRP project>'",
+  "exit_code": 0,
+  "acceptance": {
+    "status": "PASSED",
+    "regression_tests": 65,
+    "controls": [
+      {
+        "case": "wrong-expression",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "missing-range-premise",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "custom-axiom",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "sorry-proof",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "forged-target",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "positive",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "unlit-missing-domain",
+        "expected": "INVALID_INPUT",
+        "actual": "INVALID_INPUT"
+      },
+      {
+        "case": "unlit-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "unlit-positive",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "structured-missing-domain",
+        "expected": "INVALID_INPUT",
+        "actual": "INVALID_INPUT"
+      },
+      {
+        "case": "structured-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "structured-positive",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      }
+    ]
+  },
+  "structured_formal": {
+    "status": "PROVED",
+    "inputs": [
+      {
+        "role": "original",
+        "path": "examples/structured/original.hlsl",
+        "sha256": "f0ebc32db9764288f372a6b31b6e47f0f7b84b6901620146fe7fdf616bb2f4aa",
+        "dxc_seconds": 0.047
+      },
+      {
+        "role": "optimized",
+        "path": "examples/structured/optimized.hlsl",
+        "sha256": "4e12a0b5ab833c0b4b7f97d7100d9d2b55de81eabdf0f9fb3007c941cb8e5059",
+        "dxc_seconds": 0.063
+      }
+    ],
+    "constraints": {
+      "schema": 2,
+      "ranges": {
+        "_BaseColor": {
+          "min": "0",
+          "max": "1"
+        },
+        "_LightColor": {
+          "min": "0",
+          "max": "1"
+        },
+        "_RimColor": {
+          "min": "0",
+          "max": "1"
+        },
+        "_Ambient": {
+          "min": "0",
+          "max": "1"
+        },
+        "_RimStrength": {
+          "min": "0",
+          "max": "4"
+        }
+      },
+      "nonzero_vectors": [
+        "input.geometry.normalWS",
+        "input.geometry.viewWS",
+        "_LightDirection.xyz"
+      ]
+    },
+    "generated_sha256": "3337fbdf763872249564fb972f56c9ebb1596c0f80f82e33fba0b68d3c0d2dd0",
+    "dxc_files": {
+      "dxcompiler.dll": "5888d3e590f5bfd8743484e7f31313996734adec5741506271a5c6368cbe8ba9",
+      "dxc.exe": "ce11bb02f6027055e0b9f8c062d13b14f373c876a16557a4fa744314117d31e7",
+      "dxil.dll": "0cf5fa4b90f74550166108b3870c883f4a85243976b246b1da3ea90ad5b92015"
+    },
+    "guarantee": "ideal real-number model of the accepted source subset; translator and DXC remain trusted",
+    "theorem": "ShaderFormalize.Verification.checked",
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "agent_proof_sha256": "bfb0e583b8b54223e5c56d67c1d9e081e1b0d49a196f5e61df62ad38133e1487",
+    "semantic_model_sha256": "5a3af29b09a4696a1632b0e30595d5465d9486cd71d604bdb1fbcea512133d4e",
+    "lake_manifest_sha256": "56e940f0e5f093d6124567592bb4b1d3f0c62d6408aea2678700ffffefa14e6e",
+    "lean_build_seconds": 38.5,
+    "lean_verify_seconds": 23.594,
+    "lean_version": "Lean (version 4.24.0, x86_64-w64-windows-gnu, commit 797c613eb9b6d4ec95db23e3e00af9ac6657f24b, Release)"
+  },
+  "structured_unity": {
+    "status": "PASSED",
+    "unity": "6000.5.9f1",
+    "graphics": "Direct3D12",
+    "hashes": {
+      "original": "f0ebc32db9764288f372a6b31b6e47f0f7b84b6901620146fe7fdf616bb2f4aa",
+      "optimized": "4e12a0b5ab833c0b4b7f97d7100d9d2b55de81eabdf0f9fb3007c941cb8e5059",
+      "wrong": "9459f0d74e0e421e574b87011e319099942488a09f2af5c717e67b2cc2a2b334"
+    },
+    "numericCases": 144,
+    "numericPixels": 2304,
+    "tolerance": 0.0001,
+    "maxError": 2.6244463757763015E-07,
+    "wrongDifference": 0.9415104389190674,
+    "meshMaxError": 0,
+    "leftPixels": 18232,
+    "rightPixels": 18232,
+    "scenePath": "Assets/ShaderFormalizeStructured/StructuredComparison.unity",
+    "requestedScenePath": "Assets/ShaderFormalizeStructured/StructuredComparison.unity",
+    "sceneReloaded": true,
+    "sceneCamera": "HDRP RenderPipeline.StandardRequest",
+    "sceneIsolation": true,
+    "isolationPixels": 0,
+    "preview": "preview.png",
+    "guarantee": "Finite GPU/CPU and saved-scene HDRP checks; Lean separately proves fragment real-number equivalence",
+    "shader_template_sha256": "c831670828ef4500a4079523292c69622c355faf7b2756c14d25001b3656dc82"
+  },
+  "prior_unity": {
+    "lerp": {
+      "status": "PASSED",
+      "cases": 10,
+      "maxError": 3.725290298461914E-08
+    },
+    "unlit": {
+      "status": "PASSED",
+      "cases": 144,
+      "maxError": 2.6244463757763015E-07,
+      "scenePath": "Assets/ShaderFormalizeUnlit/UnlitComparison.Validation.unity",
+      "requestedScenePath": "Assets/ShaderFormalizeUnlit/UnlitComparison.unity",
+      "sceneIsolation": true,
+      "isolationPixels": 0
+    }
+  },
+  "source_hashes": {
+    "tools/bootstrap.ps1": "21099d8511ffa5675b92a629b59224d88cc492605b9516dff612aaf28561591f",
+    "tools/run_demo.ps1": "9d86b2b66e33b81fb1b0677c2c354c51ff0e03ef9fc3162b75dc473b84152d10",
+    "tools/run_unity.py": "9a9c700e729144d6f6beb68bf6a65a7e3f1794da8ba5a4e1cf4d077bb8e30539",
+    "tools/seed_dependencies.py": "a09236eea153d5ab2a9c2c6efc10f3e4aa5bc5fb1009837d1262cd6bf93314a6",
+    "tools/shader_ast.py": "c79d01da2cd54c7b8238c322464c61b1496dc052a899df872252982cc46347b0",
+    "tools/shader_eval.py": "ae4b975165ba38ca9a081a085a2353fcd6251746d059d5963a2b5bd2206f8d72",
+    "tools/shader_frontend.py": "f3585dfec8423c55d98ecbb77e60f951a687938b9b73cbf00d240bb30323b6e4",
+    "tools/shader_lean.py": "6c83e83cd92464ecfcb71b58037dc96c01cb6d506a4323ea60912055b916bf73",
+    "tools/shader_model.py": "26ab13684bd54c4fcd59891721ccba20bef52da7d54c0d00180c41ca48b97ccc",
+    "tools/shader_types.py": "5ca484a2fbcdb793a375329632d955d712cce20c55354f47587deb6a5300b4d4",
+    "tools/shader_validation.py": "145b3826146207c8b40bd4461ae3e73b138f928a079de9c6c5245c0c28ba8dfa",
+    "tools/shaderformalize.py": "17160fc0c90a1c25c2b4b439c85ee9121cb403c60941721b6b1c2adfed139a94",
+    "tools/test_shaderformalize.py": "b58972d10e96f8e0666c66425adc1c266b07fda77c6141d297433b557ba0c4fb",
+    "tools/test_structured.py": "830a061187283454579cbd56612a5afd4a63dcadf9c064df3130eadd28357d74",
+    "tools/test_unlit.py": "99db3c8c1c0ed61fe361dc276807c014f9f4cd617f37dc52c5fe4033ce3f3468",
+    "tools/verify_demo.py": "13aa503fc07a762031aafbbd1922a90a18da96df12bce0d6276fad64b4c41116",
+    "unity/RunProbe.cs": "e184dadf576ec4ea94230ac97093228bbc96a01638f3095fe674ebbb414d1cce",
+    "unity/RunUnlit.cs": "eef4238b14435a54eed9829358563efca8605e1c83439e3b599bad32fd235a03",
+    "unity/Structured.shader.template": "c831670828ef4500a4079523292c69622c355faf7b2756c14d25001b3656dc82",
+    "unity/Unlit.shader.template": "0c2d990715d592a7917dad2a27b75579a3038451d2d78a34f6b7d967fdeea812",
+    "examples/structured/constraints.json": "b9756230658c7c876f93d09e41e23c53071aff1d22ffb36ac0bec606515b0124",
+    "examples/structured/optimized.hlsl": "4e12a0b5ab833c0b4b7f97d7100d9d2b55de81eabdf0f9fb3007c941cb8e5059",
+    "examples/structured/original.hlsl": "f0ebc32db9764288f372a6b31b6e47f0f7b84b6901620146fe7fdf616bb2f4aa",
+    "examples/structured/wrong.hlsl": "9459f0d74e0e421e574b87011e319099942488a09f2af5c717e67b2cc2a2b334",
+    "proof/StructuredProof.lean": "bfb0e583b8b54223e5c56d67c1d9e081e1b0d49a196f5e61df62ad38133e1487",
+    "proof/ShaderFormalize/Model.lean": "5a3af29b09a4696a1632b0e30595d5465d9486cd71d604bdb1fbcea512133d4e",
+    "proof/lake-manifest.json": "56e940f0e5f093d6124567592bb4b1d3f0c62d6408aea2678700ffffefa14e6e",
+    "dependencies.lock.json": "9acfaf31d323e18a29aed29553315da698c61b4d2037bd7bc4b6e18bba502370"
+  },
+  "layer_snapshot": {
+    "checked_at": "2026-10-25T17:47:43.2028808+08:00",
+    "formal_sources_unchanged": true,
+    "unity_runner_revised_before_unity_stage": true,
+    "changed_files": [
+      "unity/RunUnlit.cs"
+    ]
+  },
+  "preview_sha256": "75cc2268e1033bc5e77f0d8cbe94b9f08ea90c0dcceffebe2ca7c3c355fea107",
+  "boundary": "Fragment real-number equivalence. DXC/adapter/semantics trusted; GPU checks are finite samples; no full raster/HDRP proof.",
+  "review": {
+    "plan": "Independent P round 1 PASS",
+    "implementation": "Independent Q round 2 PASS; all reported findings closed"
+  }
+}

@@ -127,7 +127,9 @@ def prepare(args, output):
         models.append(model)
         inputs.append({"role": label, "path": str(path), "sha256": hashlib.sha256(source_bytes).hexdigest(), "dxc_seconds": duration})
         write_json(output / f"{label}.model.json", model)
-    if models[0]["interface"] != models[1]["interface"] or models[0]["buffer"] != models[1]["buffer"] or models[0]["output_semantic"] != models[1]["output_semantic"]:
+    if (models[0]["interface"] != models[1]["interface"] or models[0]["buffer"] != models[1]["buffer"]
+            or models[0]["output_semantic"] != models[1]["output_semantic"]
+            or models[0]["entry_layout"] != models[1]["entry_layout"]):
         raise ModelError("The two source interfaces differ", "INVALID_INPUT")
     constraints = read_json(args.constraints)
     spec = constraint_spec(constraints, models[0], models[1])
