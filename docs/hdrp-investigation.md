@@ -63,6 +63,12 @@ flowchart LR
 
 位重解释需要单独划清数学边界。[asuint](https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-asuint)和[asfloat](https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-asfloat)读取位模式，不能直接当作实数数值转换。CopySign的位操作位于ignoreNegZero=false分支，其实际FastSign调用默认传true，可在后续常量分析中排除该分支；材质hash与rendering layer的float位载体则有实际数据用途。IsNaN还出现在反射探针错误数据恢复路径。当前没有为这些代码偷加浮点模型或忽略其效果；未来需明确位载体/合法输入域方案。
 
+2026-10-26补充核查：通用uint打包与内部float载体已经接入，默认参数/out/inout共享函数也有正式材质证明；其当前契约见[整数打包](integer-packing.md)和[共享函数](shared-functions.md)。这仍没有解决普通实数的位编码。固定Forward中的一条可能路径为Frag→LightLoop→EvaluateBSDF_Env→EvaluateLight_EnvIntersection→IntersectSphereProxy→IsNaN；这是静态可能路径，未声称每次绘制执行。
+
+本机Forward.preprocessed.hlsl的IsNaN约298行检查asuint(float)的指数/尾数位；IntersectRaySphereSimple约6600行先算判别式再sqrt，IntersectSphereProxy约15326行将NaN投影距离恢复为-1，再保证不小于最小投影距离。例如半径1、起点(2,0,0)、方向(0,1,0)，该公式的b=0、c=3、判别式=-12，已在纯实数sqrt定义域外。这条恢复逻辑说明，不能为了转换而一律将IsNaN换成false，也不能默添判别式非负前提。[DXIL的Sqrt说明](https://github.com/Microsoft/DirectXShaderCompiler/blob/main/docs/DXIL.rst#sqrt)给出负数返回NaN的行为；本项目尚未决定扩展这种非实数值语义。
+
+独立手写最小复现保留于ignored artifacts/language-probes/real-nan-boundary.*：固定DXC解析成功，当前shared导入明确返回UNSUPPORTED，诊断为`asuint of an ordinary real requires unsupported float encoding`。它不是完整Forward的首个解析错误，也不是GPU验证；用途是单独暴露已约定实数模型的边界。恢复条件是证明该路径在明确配置/已提供输入域中不执行，或另行确定NaN/异常值恢复的数学契约；本轮不擅自引入IEEE模型、黑箱IsNaN或输入假设。
+
 ## 调查过程中的修正
 
 初版导出没有SHADER_TARGET，Common.hlsl中FastLog2受 `SHADER_TARGET>=45` 保护而未定义。Lit自身声明target4.5，补充SHADER_TARGET=45后预处理和完整typed AST均成功。错误日志留在早期artifacts中供追溯；当前工具包含该宏，不能继续把FastLog2当现有阻塞。
