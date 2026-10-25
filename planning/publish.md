@@ -22,9 +22,9 @@
 
 实际命令：`git push origin HEAD:refs/heads/codex/shader-equivalence-planning`。推送输出ea3bfda..53f8e66，随后远端SHA独立读取匹配。首次可异地拉取检查点已交付；不将其记作整个overnight完成。
 
-## 检查点2：完整字段与共享函数（Approved）
+## 检查点2：完整字段与共享函数（Completed）
 
-- status: active
+- status: completed
 - source: 同一sealed running overnight publish条目PLAN_AND_CODE，用户明确要求完成后push。
 - target: 发布b074163及其祖先（完整字段71f307f、共享定义2fc87bb/5961f8e/b074163、已审阅规划和独立复现授权），以及本次仅更新的完成状态/精简证据/发布元数据；不含下一片copyback产品代码。
 - readiness: function-entry已Q2/132+35闭合，shared-definition已P2/最终Q Verified及最终146单元/41控制通过；Windows空安装69d与独立副本更新2fc三正例事实核验完成。工作区只有这些完成元数据，无未审阅产品改动。
@@ -32,3 +32,4 @@
 - exclusions: force push、merge/rebase、改remote、推缓存/秘密/Unity/未验证产品、归档。
 - stop: 远端分叉、认证/网络失败或出现无关改动。
 - acceptance: 远端SHA与实际推送HEAD一致；language仍继续，最终报告/最终push未以本检查点冒充完成。
+- result: 非强制push成功，远端独立ls-remote和本地均为4cfa77a10d78465a1d69d23f739400d934842f57；后续copyback尚无产品改动，未混入此检查点。

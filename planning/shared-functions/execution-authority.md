@@ -30,3 +30,16 @@
 - acceptance_boundary: 计划的正式正负控制、旧全部控制、真实DXC规模对照及独立Q；不代表language总目标完成。
 - recorded_at_local: 2026-10-26
 - result: b074163（含2fc87bb/5961f8e）完成共享后端；独立P2 Ready、最终Q Verified；146最终单元与41控制全部符合预期，证据见../evidence/shared-functions-2026-10-26.json。后续copyback仍须另派生grant。
+
+## Grant copyback-001@revision-2
+
+- status: active
+- source: delegated_session；sealed running overnight language条目。
+- frame: copyback-plan.md修订2，独立P2 Ready；前置shared-definition已于4cfa77a以146单元/41控制/最终Q闭合并推送。
+- target: 显式shared下默认参数与out/inout复制进出、每个正常返回的完整输出、静态地址重叠/兄弟读写检查、if/三元/短路状态合并、普通/默认调用图的裁剪/terminal discard传播、纯void/out组合、outputs模型/发射/有限求值/引用检查、组合正反例/回归/当前说明/独立Q/本地提交。
+- authority: 用户“补齐暂时还没有的能力”及overnight委派、持续免反复完整人工方案审阅；session shader-forward-2026-10-26，sealed sha256 afcc1f80b2eb30be69411cd4633dc9d8ac79b0b918eaaf4302fc76ae66188206；item language。
+- allowed: 计划列出的核心/测试/证明/文档修改与本地提交；新语法仅shared，auto旧保证保留。
+- exclusions: aggregate/向量swizzle输出地址、循环、新入口/外部写入/并发、浮点编码/新公理/隐藏域前提、新依赖/Unity改动/push/merge/archive。
+- stop: 需要修改完整字段/实际执行/输入域保证、对有顺序依赖的表达式任意选次序、关键oracle不可用或Q三轮仍有关键问题。
+- acceptance: 真实DXC组合与范围/别名/未初始化负例；正常材质与导数完整场正例及错误数值/实际非法域负例；旧全部控制和新增控制的统一runner、独立Q、证据及本地提交。不以本片冒充全部language或Forward。
+- recorded_at: 2026-10-26；依赖已闭合，具体代码实施权在此派生，不凭前置grant。
