@@ -1,0 +1,458 @@
+{
+  "date": "2026-10-26",
+  "scope": "shared helper definitions and guarded calls; not completion of copyback/aggregates/loops or HDRP Forward",
+  "source_commits": [
+    "2fc87bba0dc69caf108de4a49c639b98b65d895a",
+    "5961f8e",
+    "b074163"
+  ],
+  "suite": {
+    "status": "PASSED",
+    "layer": "core",
+    "example": "all",
+    "regression_tests": 146,
+    "controls": [
+      {
+        "case": "wrong-expression",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "missing-range-premise",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "custom-axiom",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "sorry-proof",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "forged-target",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "positive",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "unlit-missing-domain",
+        "expected": "INVALID_INPUT",
+        "actual": "INVALID_INPUT"
+      },
+      {
+        "case": "unlit-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "unlit-positive",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "structured-missing-domain",
+        "expected": "INVALID_INPUT",
+        "actual": "INVALID_INPUT"
+      },
+      {
+        "case": "structured-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "structured-positive",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "textured-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "textured-wrong-uv",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "textured-wrong-derivative",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "textured-wrong-lod",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "textured-wrong-sampler",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "textured-positive",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "control-alias",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "control-else",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "control-return",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "control-domain-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "control-domain",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "control-mixed",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "control-helper-field",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "control-helper-domain-original",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "control-helper-domain-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "branched-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "branched-wrong-cutoff",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "branched-positive",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "packed-wrong-field",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "packed-domain-safe",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "packed-domain-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "packed-shift-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "packed-positive",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "shared-structured-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "shared-structured-positive",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "shared-helper-field",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "shared-helper-domain-original",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "shared-helper-domain-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "shared-helper-domain-ignored",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      }
+    ]
+  },
+  "frozen_suite": "artifacts/shared/acceptance41/result.json",
+  "suite_sha256": "6b19792ca0902455ca7d29c26fa65fc378a69a2f3fed9d8f9bebe4c4138d9508",
+  "scaling": {
+    "7": {
+      "helpers": 7,
+      "helper_call_events": 12,
+      "main_call_events": 1,
+      "json_bytes": 8989,
+      "lean_bytes": 12899
+    },
+    "13": {
+      "helpers": 13,
+      "helper_call_events": 24,
+      "main_call_events": 1,
+      "json_bytes": 15991,
+      "lean_bytes": 23865
+    },
+    "legacy13": {
+      "status": "UNSUPPORTED",
+      "message": "Recursive or excessive helper expansion"
+    },
+    "structured_target_unchanged": "10c3d5329f77695c6d2ba7a98beec46e66764dac28f0e7ce5b2d4a072150e75d"
+  },
+  "controls": {
+    "shared-structured-wrong": {
+      "status": "UNPROVED",
+      "message": "Agent proof did not check against the generated Shader model; see lean-build.log"
+    },
+    "shared-structured-positive": {
+      "status": "PROVED",
+      "inputs": [
+        {
+          "role": "original",
+          "path": "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\examples\\structured\\original.hlsl",
+          "sha256": "f0ebc32db9764288f372a6b31b6e47f0f7b84b6901620146fe7fdf616bb2f4aa",
+          "dxc_seconds": 0.063
+        },
+        {
+          "role": "optimized",
+          "path": "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\examples\\structured\\optimized.hlsl",
+          "sha256": "4e12a0b5ab833c0b4b7f97d7100d9d2b55de81eabdf0f9fb3007c941cb8e5059",
+          "dxc_seconds": 0.047
+        }
+      ],
+      "constraints": {
+        "schema": 2,
+        "ranges": {
+          "_BaseColor": {
+            "min": "0",
+            "max": "1"
+          },
+          "_LightColor": {
+            "min": "0",
+            "max": "1"
+          },
+          "_RimColor": {
+            "min": "0",
+            "max": "1"
+          },
+          "_Ambient": {
+            "min": "0",
+            "max": "1"
+          },
+          "_RimStrength": {
+            "min": "0",
+            "max": "4"
+          }
+        },
+        "nonzero_vectors": [
+          "input.geometry.normalWS",
+          "input.geometry.viewWS",
+          "_LightDirection.xyz"
+        ]
+      },
+      "model_schema": 6,
+      "generated_sha256": "10c3d5329f77695c6d2ba7a98beec46e66764dac28f0e7ce5b2d4a072150e75d",
+      "dxc_files": {
+        "dxcompiler.dll": "5888d3e590f5bfd8743484e7f31313996734adec5741506271a5c6368cbe8ba9",
+        "dxc.exe": "ce11bb02f6027055e0b9f8c062d13b14f373c876a16557a4fa744314117d31e7",
+        "dxil.dll": "0cf5fa4b90f74550166108b3870c883f4a85243976b246b1da3ea90ad5b92015"
+      },
+      "guarantee": "ideal real-number model with exact uint32 fields and guarded conversions; translator and DXC remain trusted",
+      "theorem": "ShaderFormalize.Verification.checked",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "agent_proof_sha256": "e471f68c746db7dea27f88be32cf028edf4cb6758081f5a4050afbb65e6054d7",
+      "semantic_model_sha256": "5a3af29b09a4696a1632b0e30595d5465d9486cd71d604bdb1fbcea512133d4e",
+      "semantic_modules": {
+        "Model.lean": "5a3af29b09a4696a1632b0e30595d5465d9486cd71d604bdb1fbcea512133d4e",
+        "Fragment.lean": "c7a4195c9b5b84ce39a959e1fff8870ccb4a6f9e302bda8aa957302bf1ea069a",
+        "Control.lean": "1bdb1e21015cd10e05593ec42bf1c8c6d522ed9d9ffb2ac6f33f8bda4f90b44b",
+        "Packing.lean": "b7a28c0eeb178976e7060e1053bd45926eccf6e395d6087b3851632ef841f350"
+      },
+      "lake_manifest_sha256": "56e940f0e5f093d6124567592bb4b1d3f0c62d6408aea2678700ffffefa14e6e",
+      "lean_build_seconds": 41.891,
+      "lean_verify_seconds": 25.562,
+      "lean_version": "Lean (version 4.24.0, x86_64-w64-windows-gnu, commit 797c613eb9b6d4ec95db23e3e00af9ac6657f24b, Release)"
+    },
+    "shared-helper-field": {
+      "status": "PROVED",
+      "inputs": [
+        {
+          "role": "original",
+          "path": "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\examples\\control\\helper.original.hlsl",
+          "sha256": "e9a34a1b4395f2da151ffb591ecb888e6367df1d2e2e87ae4a4ff397c40cd0af",
+          "dxc_seconds": 0.047
+        },
+        {
+          "role": "optimized",
+          "path": "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\examples\\control\\helper.optimized.hlsl",
+          "sha256": "56b011960140319bbfb39fb2ca583a085b0d0b242d0798dbf1fad123ba0afdee",
+          "dxc_seconds": 0.047
+        }
+      ],
+      "constraints": {
+        "schema": 2,
+        "ranges": {},
+        "nonzero_vectors": []
+      },
+      "model_schema": 6,
+      "generated_sha256": "10dc640c54184789a75ecefdefe8bb00305407597187589f67e84568d9964b4c",
+      "dxc_files": {
+        "dxcompiler.dll": "5888d3e590f5bfd8743484e7f31313996734adec5741506271a5c6368cbe8ba9",
+        "dxc.exe": "ce11bb02f6027055e0b9f8c062d13b14f373c876a16557a4fa744314117d31e7",
+        "dxil.dll": "0cf5fa4b90f74550166108b3870c883f4a85243976b246b1da3ea90ad5b92015"
+      },
+      "guarantee": "ideal real-number model with exact uint32 fields and guarded conversions; translator and DXC remain trusted",
+      "theorem": "ShaderFormalize.Verification.checked",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "agent_proof_sha256": "afa30ba78a9b14c61c96e637293ef59f1be2f1d25ed43771bd2775b63ed057df",
+      "semantic_model_sha256": "5a3af29b09a4696a1632b0e30595d5465d9486cd71d604bdb1fbcea512133d4e",
+      "semantic_modules": {
+        "Model.lean": "5a3af29b09a4696a1632b0e30595d5465d9486cd71d604bdb1fbcea512133d4e",
+        "Fragment.lean": "c7a4195c9b5b84ce39a959e1fff8870ccb4a6f9e302bda8aa957302bf1ea069a",
+        "Control.lean": "1bdb1e21015cd10e05593ec42bf1c8c6d522ed9d9ffb2ac6f33f8bda4f90b44b",
+        "Packing.lean": "b7a28c0eeb178976e7060e1053bd45926eccf6e395d6087b3851632ef841f350"
+      },
+      "lake_manifest_sha256": "56e940f0e5f093d6124567592bb4b1d3f0c62d6408aea2678700ffffefa14e6e",
+      "lean_build_seconds": 40.469,
+      "lean_verify_seconds": 24.406,
+      "lean_version": "Lean (version 4.24.0, x86_64-w64-windows-gnu, commit 797c613eb9b6d4ec95db23e3e00af9ac6657f24b, Release)"
+    },
+    "shared-helper-domain-original": {
+      "status": "PROVED",
+      "inputs": [
+        {
+          "role": "original",
+          "path": "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\examples\\control\\helper-domain.original.hlsl",
+          "sha256": "a8668b6d03cb13665ff9b797531e359afeabd4fb6d1a3dd04950bb1460518522",
+          "dxc_seconds": 0.047
+        },
+        {
+          "role": "optimized",
+          "path": "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\examples\\control\\helper-domain.optimized.hlsl",
+          "sha256": "7433433b197f9dc4d5f97d12c3f5c3b7021c7a73cc03581f6fd53e31281c174c",
+          "dxc_seconds": 0.047
+        }
+      ],
+      "constraints": {
+        "schema": 2,
+        "ranges": {
+          "a": {
+            "min": "0",
+            "max": "0"
+          }
+        },
+        "nonzero_vectors": []
+      },
+      "model_schema": 6,
+      "generated_sha256": "f260a58b5df7ee85c9efc6b5a41966584b7c28819c4ea450dbc3b575f60e3624",
+      "dxc_files": {
+        "dxcompiler.dll": "5888d3e590f5bfd8743484e7f31313996734adec5741506271a5c6368cbe8ba9",
+        "dxc.exe": "ce11bb02f6027055e0b9f8c062d13b14f373c876a16557a4fa744314117d31e7",
+        "dxil.dll": "0cf5fa4b90f74550166108b3870c883f4a85243976b246b1da3ea90ad5b92015"
+      },
+      "guarantee": "ideal real-number model with exact uint32 fields and guarded conversions; translator and DXC remain trusted",
+      "theorem": "ShaderFormalize.Verification.checked",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "agent_proof_sha256": "ea82bd01da782234ca0b405e5ae6a80e72d6d14bbd8b2646985df23c5023cf62",
+      "semantic_model_sha256": "5a3af29b09a4696a1632b0e30595d5465d9486cd71d604bdb1fbcea512133d4e",
+      "semantic_modules": {
+        "Model.lean": "5a3af29b09a4696a1632b0e30595d5465d9486cd71d604bdb1fbcea512133d4e",
+        "Fragment.lean": "c7a4195c9b5b84ce39a959e1fff8870ccb4a6f9e302bda8aa957302bf1ea069a",
+        "Control.lean": "1bdb1e21015cd10e05593ec42bf1c8c6d522ed9d9ffb2ac6f33f8bda4f90b44b",
+        "Packing.lean": "b7a28c0eeb178976e7060e1053bd45926eccf6e395d6087b3851632ef841f350"
+      },
+      "lake_manifest_sha256": "56e940f0e5f093d6124567592bb4b1d3f0c62d6408aea2678700ffffefa14e6e",
+      "lean_build_seconds": 43.812,
+      "lean_verify_seconds": 26.266,
+      "lean_version": "Lean (version 4.24.0, x86_64-w64-windows-gnu, commit 797c613eb9b6d4ec95db23e3e00af9ac6657f24b, Release)"
+    },
+    "shared-helper-domain-wrong": {
+      "status": "UNPROVED",
+      "message": "Agent proof did not check against the generated Shader model; see lean-build.log"
+    },
+    "shared-helper-domain-ignored": {
+      "status": "UNPROVED",
+      "message": "Agent proof did not check against the generated Shader model; see lean-build.log"
+    }
+  },
+  "source_sha256": {
+    "tools/shader_shared.py": "d8749ce553b66bf1fbf87ece37edbab2434257628c359634a723e42e0964b2dc",
+    "tools/shader_shared_lean.py": "29b051b0dd898776facbdddcb6168233ddde50a99b02731e47ccd6c6cda7f622",
+    "tools/shader_shared_eval.py": "c39bbde8c1fbdbef43aa7c06fa1921cfde0218a1baf8920748dd9f41616d8b16",
+    "tools/test_shared.py": "53b3db67ae8218565010bb4fd53d312ed5b291766cf8861004afd8ff09d2222b",
+    "tools/shader_control_lean.py": "825388026e4e4fec695874b8f9dee48fb27996270b7e57872f589aa2c24795fd",
+    "tools/shader_control_eval.py": "857d4d5ba94ae0e4f27002c2051cd8200a3ffe30486338b5b0d2ab52ef59589d",
+    "tools/shader_boolean.py": "11cb4ae5b82f6054cb0f2e5f2e65dddc49ac5267157c6a055552e22f2387ec18",
+    "tools/shader_frontend.py": "80af50d7beb6fb85f6598842732b2b9a212809680bcb2a2ac6b3b00a68148c97",
+    "tools/shader_lean.py": "f8631136614534ae2dec8a30531ad73dbfedc56310a9aa131e3b562612457977",
+    "tools/shader_eval.py": "732ea69526002654a39cec42714c582971d4de58912941d1eb89fae77cff6b72",
+    "tools/shaderformalize.py": "a4d98a641a8212faa762c78b32c35496692d7643287d9eb4a852bc102f6e8ec3",
+    "tools/verify_demo.py": "05740dc89a7f7e2aa58c692f46c67f9e22996a94c95133ef44fc751fd5f03516",
+    "proof/SharedStructuredProof.lean": "e471f68c746db7dea27f88be32cf028edf4cb6758081f5a4050afbb65e6054d7",
+    "proof/SharedHelperFieldProof.lean": "afa30ba78a9b14c61c96e637293ef59f1be2f1d25ed43771bd2775b63ed057df",
+    "proof/SharedHelperDomainProof.lean": "ea82bd01da782234ca0b405e5ae6a80e72d6d14bbd8b2646985df23c5023cf62"
+  },
+  "review": "P2 Ready; final independent Q Verified, covering b074163",
+  "final_state_unit": {
+    "tests": 146,
+    "status": "OK",
+    "command": "python -m unittest discover -s tools -p test_*.py",
+    "log": "artifacts/language-probes/final-state-unit146.log",
+    "sha256": "1ef8b0224de8de9181685004d94e7105fdb87a9fc9879e4782d1d2feed817140"
+  }
+}

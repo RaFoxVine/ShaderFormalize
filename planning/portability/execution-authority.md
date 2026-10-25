@@ -18,7 +18,7 @@
 
 ## Grant windows-refresh-002@revision-1
 
-- status: active
+- status: completed
 - source: delegated_session；同一sealed portability目标内的追加验证，不改产品代码/配置/版本。
 - target: 已在空目录真实下载/安装并Q2验证的artifacts/portability/Fresh Checkout，从69d058a安全更新到当前源码2fc87bb；依赖两锁须完全相同，复用该副本自己的已验证工具/缓存，不从主目录复制构建物。
 - actions: 先确认tracked状态为空；fetch本地Git源码并detach已知提交；核对锁/工具/九依赖/无alternates/无Unity及子进程环境隔离；检查shared材质、helper完整场与packed正例；保存独立结果/哈希/状态，不覆盖原69d fresh证据。
@@ -26,3 +26,4 @@
 - exclusions: 重装/升级依赖、机器配置、删除、污染主proof工作区、push/merge/archive。
 - stop: 副本有tracked改动、两锁变化、工具/依赖核验失败、外部环境/Unity渗入、形式检查失败。
 - recorded_at: 2026-10-26；源码最终shared Q/41控制仍独立进行，不以追加复现替代。
+- result: 副本2fc87bb三例PROVED、Git前后clean；独立事实复核通过。六工具文件/九依赖/两锁匹配，无alternates/Unity。见../evidence/windows-shared-2026-10-26.json；不覆盖5961f8e/b074163错误路径补丁，不称为第二次空目录安装。

@@ -13,3 +13,5 @@ fresh第一次Invoke-WebRequest下载225秒仍0字节；核对owned Python44944/
 独立Q第一轮无关键代码缺陷，指出需要完成fresh两正例、准确列出leantar受检恢复目标和curl超时措辞。指南列Lean/DXC目录和.cache/mathlib/leantar-0.1.15.exe单文件；注释改为连接与整体传输有界。当时最终Q和精简证据尚待真实结果，随后按下段闭合。
 
 最终更新专属clone到69d058a84170fcd78e0c2ac617b31db9419a894a，核对两锁与初始真空安装一致，重新bootstrap成功；lerp和packed两正式目标均PROVED、公理原白名单、全部输入/生成模型/证明/语义模块hash匹配，Git状态前后为空，无Unity。独立Q第二轮重算两锁、受检二进制、九依赖revision、无alternates及实际两证明，Verified。精简证据windows-fresh-2026-10-26.json保存完整结果和失败边界。本项Completed；不将其当作后续frame变更的fresh验证。当前源改动checkpoint为a3fccd7与69d058a；最终push交overnight publish。
+
+追加验证由05078de持久化windows-refresh-002授权：先确认副本clean，安全fetch/check out准确2fc87bba0dc69caf108de4a49c639b98b65d895a，两锁不变，核验六个工具文件和九个Git依赖，无alternates/Unity。复用该副本自己安装的工具/缓存，未复制主目录构建物。shared-structured、shared-helper、packed三个独立check均PROVED，所有目标/证明/数学模块hash及原公理审计吻合，前后Git状态为空。独立事实复核通过，证据windows-shared-2026-10-26.json。此为源码更新后的追加验证，不是第二次空目录重装；不覆盖5961f8e/b074163后续坏模型错误路径补丁。

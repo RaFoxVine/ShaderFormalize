@@ -202,12 +202,14 @@
     },
     "language": {
       "commits": [
-        "71f307f"
+        "71f307f",
+        "2fc87bb",
+        "b074163"
       ],
       "grant_reference": "planning/shared-functions/execution-authority.md#shared-definition-001@revision-2",
       "result": "IN_PROGRESS",
-      "summary": "71f307f完成完整返回字段修复，132回归/35控制及Q2通过；shared后端修订2 P2 Ready，派生精确grant继续。",
-      "updated_at": "2026-10-26T03:22:26+08:00"
+      "summary": "b074163共享定义已完成，P2/最终Q通过、146最终单元/41控制符合预期；copyback修订2独立P2 Ready，待精确授权继续，其余aggregate/loops保留。",
+      "updated_at": "2026-10-26T04:25:10+08:00"
     },
     "packing": {
       "commits": [
@@ -220,12 +222,13 @@
     },
     "portability": {
       "commits": [
-        "69d058a"
+        "69d058a",
+        "2fc87bb"
       ],
-      "grant_reference": "planning/portability/execution-authority.md#windows-fresh-001@revision-2",
+      "grant_reference": "planning/portability/execution-authority.md#windows-refresh-002@revision-1",
       "result": "DONE",
-      "summary": "69d058a真空副本bootstrap与lerp/packed正式证明通过，锁/工具/九依赖/1387缓存独立核验；P2/Q2通过，Windows指南和失败恢复齐备。",
-      "updated_at": "2026-10-26T02:41:09+08:00"
+      "summary": "原69d真空安装已闭合；独立副本按原锁更新2fc87bb后shared材质/helper导数/packed三例PROVED，独立事实复核通过；不混称后续错误路径补丁为空目录重装。",
+      "updated_at": "2026-10-26T04:25:10+08:00"
     },
     "publish": {
       "commits": [
@@ -241,7 +244,7 @@
   "schema_version": 1,
   "session_id": "shader-forward-2026-10-26",
   "status": "running",
-  "updated_at": "2026-10-26T03:22:26+08:00"
+  "updated_at": "2026-10-26T04:25:10+08:00"
 }
 ```
 <!-- SMART_OVERNIGHT_STATE_END -->

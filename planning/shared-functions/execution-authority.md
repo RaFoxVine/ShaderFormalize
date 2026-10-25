@@ -18,7 +18,7 @@
 
 ## Grant shared-definition-001@revision-2
 
-- status: active
+- status: completed
 - source: delegated_session
 - node_frame: shared-definitions-plan.md修订2，独立P2 Ready；前置function-entry-001已于71f307f以Q2/132回归/35控制闭合。
 - target_slices: 显式shared后端/schema6、共享typed helper定义/调用事件、全字段与实际域/裁剪组合、有限求值器/CLI/模型分派、组合正反例/扩张规模检查、现有全回归、独立Q、文档/证据/本地提交。
@@ -29,3 +29,4 @@
 - stop_conditions: 实际需要改变完整字段/实际执行域或共享Ops保证；关键oracle不可用且无等价；Q三轮仍有关键问题。
 - acceptance_boundary: 计划的正式正负控制、旧全部控制、真实DXC规模对照及独立Q；不代表language总目标完成。
 - recorded_at_local: 2026-10-26
+- result: b074163（含2fc87bb/5961f8e）完成共享后端；独立P2 Ready、最终Q Verified；146最终单元与41控制全部符合预期，证据见../evidence/shared-functions-2026-10-26.json。后续copyback仍须另派生grant。
