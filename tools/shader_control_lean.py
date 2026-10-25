@@ -14,6 +14,9 @@ def effects_mask(count):
 
 
 class ControlEmitter(FragmentEmitter):
+    def value_type(self, expr):
+        return lean_type(expr["width"])
+
     def __init__(self, model):
         super().__init__(model)
         self.boolean_dag = BooleanDAG(model)
@@ -105,7 +108,7 @@ class ControlEmitter(FragmentEmitter):
                 value = self.field(binding["expression"])
                 self.collect_domains(binding["expression"], binding.get("guard", effects_mask(self.available_effects)))
                 self.flush(lines)
-                lines.append(f"    let l{next_binding} : E → {lean_type(binding['width'])} := {value}")
+                lines.append(f"    let l{next_binding} : E → {self.value_type(binding['expression'])} := {value}")
                 next_binding += 1
             elif set(event) == {"effect"} and event["effect"] == self.available_effects:
                 index = self.available_effects
@@ -134,11 +137,11 @@ class ControlEmitter(FragmentEmitter):
             self.collect_domains(child, guard)
 
 
-def generate_control(original, optimized, spec):
+def generate_control(original, optimized, spec, emitter_type=ControlEmitter, extra_import=""):
     interface = original["interface"]
     parameters = " ".join(f"(p{x['index']} : " + ("E → " if x["storage"] == "parameter" else "") + lean_type(x["width"]) + ")" for x in interface)
     names = " ".join(f"p{x['index']}" for x in interface)
-    emitter = ControlEmitter(original)
+    emitter = emitter_type(original)
     premises = []
     for index, lo, hi in spec["ranges"]:
         item = interface[index]
@@ -155,7 +158,7 @@ def generate_control(original, optimized, spec):
     a, b = f"original ops {names}", f"optimized ops {names}"
     goal = f"({a}).2 ∧ ({b}).2 ∧ ({a}).1 = ({b}).1"
     implication = " →\n  ".join(premises + [goal])
-    return ("import ShaderFormalize.Control\n\nnoncomputable section\nnamespace ShaderFormalize.Generated\nopen ShaderFormalize ShaderFormalize.Model\n\n"
-            + ControlEmitter(original).definition("original", parameters) + "\n\n"
-            + ControlEmitter(optimized).definition("optimized", parameters)
+    return ("import ShaderFormalize.Control\n" + extra_import + "\nnoncomputable section\nnamespace ShaderFormalize.Generated\nopen ShaderFormalize ShaderFormalize.Model\n\n"
+            + emitter_type(original).definition("original", parameters) + "\n\n"
+            + emitter_type(optimized).definition("optimized", parameters)
             + f"\n\ndef expected : Prop := ∀ (E : Type) (ops : Fragment.Ops E) {parameters},\n  {implication}\n\nend ShaderFormalize.Generated\n")

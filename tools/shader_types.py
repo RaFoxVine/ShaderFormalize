@@ -35,6 +35,8 @@ def operation(kind, size, arguments):
 
 
 def numeric_type(size):
+    if size == "uint":
+        return "uint"
     return "float" if size == 1 else f"float{size}"
 
 
@@ -75,6 +77,12 @@ def replace_path(value, path, replacement):
 
 
 class TypeRegistry:
+    extra_leaves = ()
+
+    def is_value_type(self, kind):
+        return (isinstance(kind, int) or kind in self.records or kind in self.extra_leaves
+                or (self.allow_bool and kind == "bool"))
+
     def __init__(self, declarations, allow_bool=False):
         self.allow_bool = allow_bool
         self.records = {}
@@ -136,7 +144,7 @@ class TypeRegistry:
         return int(match.group(1) or 1)
 
     def check_shape(self, kind, ancestors):
-        if isinstance(kind, int) or kind == "bool":
+        if isinstance(kind, int) or kind == "bool" or kind in self.extra_leaves:
             return 0, 1
         if kind in self.shapes:
             return self.shapes[kind]
@@ -156,7 +164,7 @@ class TypeRegistry:
         return depth, leaves
 
     def empty(self, kind):
-        if isinstance(kind, int) or kind == "bool":
+        if isinstance(kind, int) or kind == "bool" or kind in self.extra_leaves:
             return None
         fields = {}
         for field in self.records[kind]["fields"]:
@@ -173,6 +181,8 @@ class TypeRegistry:
         raise ModelError("Struct field owner/type/identity mismatch")
 
     def layout(self, kind):
+        if kind in self.extra_leaves:
+            raise ModelError("Integer stage inputs are not supported yet")
         if kind == "bool":
             raise ModelError("Boolean stage inputs are unsupported; use numeric inputs and scalar conditions")
         if isinstance(kind, int):

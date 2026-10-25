@@ -1,6 +1,6 @@
 # 整数打包精确执行授权
 
-- status: active
+- status: completed
 - source: direct_user
 - node_frame: packing-plan.md修订1；独立P第一轮Ready，2026-10-26。
 - target_slices: packing-tasks.md中的整数打包链路；不包括Outlined完整Forward扩展。
@@ -13,5 +13,5 @@
 - stop_conditions: 改变数学保证、需要浮点编码、无法执行关键oracle、超出精确切片范围。
 - acceptance_boundary: 真实DXC→Lean正反例、完整核心回归与独立Q；完整Forward未完成必须明确说明，H-X/归档另行。
 - delegated_session: none
-- state_reason: 用户指定边界及执行豁免已明确，独立P通过，准备实施。
+- state_reason: 精确切片已实施，128回归/32正式控制通过，独立Q第二轮证据闭合，精简证据和命名提交完成；完整Forward不在本grant中。
 - superseded_by: none

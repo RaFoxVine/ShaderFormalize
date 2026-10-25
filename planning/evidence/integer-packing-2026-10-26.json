@@ -1,0 +1,322 @@
+{
+  "date": "2026-10-26",
+  "scope": "scalar uint32 packing foundation, not complete HDRP/Lit Forward",
+  "baseline": "ea3bfda",
+  "core_suite": {
+    "command": "pwsh -NoProfile -File tools/run_demo.ps1",
+    "report": "artifacts/acceptance/result.json",
+    "report_sha256": "fc1062fec4938ddd050293d06fb573ee5bbb9b50c55cee38190eac82507fe177",
+    "status": "PASSED",
+    "regression_tests": 128,
+    "controls": [
+      {
+        "case": "wrong-expression",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "missing-range-premise",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "custom-axiom",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "sorry-proof",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "forged-target",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "positive",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "unlit-missing-domain",
+        "expected": "INVALID_INPUT",
+        "actual": "INVALID_INPUT"
+      },
+      {
+        "case": "unlit-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "unlit-positive",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "structured-missing-domain",
+        "expected": "INVALID_INPUT",
+        "actual": "INVALID_INPUT"
+      },
+      {
+        "case": "structured-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "structured-positive",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "textured-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "textured-wrong-uv",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "textured-wrong-derivative",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "textured-wrong-lod",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "textured-wrong-sampler",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "textured-positive",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "control-alias",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "control-else",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "control-return",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "control-domain-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "control-domain",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "control-mixed",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "branched-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "branched-wrong-cutoff",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "branched-positive",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "packed-wrong-field",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "packed-domain-safe",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "packed-domain-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "packed-shift-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "packed-positive",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      }
+    ],
+    "log": "artifacts/packed/full-core.log",
+    "log_sha256": "fff404bd9f9d34e83ecaa7673fe7d29669ce84f0ae7c6f0e3da20b7eb9acfef4"
+  },
+  "packing_controls": [
+    {
+      "path": "artifacts/acceptance/packed-wrong-field/result.json",
+      "sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+      "status": "UNPROVED",
+      "model_schema": null,
+      "inputs": null,
+      "generated_sha256": null,
+      "theorem": null,
+      "axioms": null,
+      "agent_proof_sha256": null,
+      "semantic_modules": null,
+      "message": "Agent proof did not check against the generated Shader model; see lean-build.log"
+    },
+    {
+      "path": "artifacts/acceptance/packed-domain-safe/result.json",
+      "sha256": "da4145483508a82135bafd2adf8d766030088d0de2bd98660708a2a9c386d405",
+      "status": "PROVED",
+      "model_schema": 5,
+      "inputs": [
+        {
+          "role": "original",
+          "path": "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\examples\\packed\\domain-safe.hlsl",
+          "sha256": "c6addaf9459045810678e3fdfddd7f943509ba3ce45dee0c6704fafdaba9236d",
+          "dxc_seconds": 0.032
+        },
+        {
+          "role": "optimized",
+          "path": "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\examples\\packed\\domain-safe.hlsl",
+          "sha256": "c6addaf9459045810678e3fdfddd7f943509ba3ce45dee0c6704fafdaba9236d",
+          "dxc_seconds": 0.032
+        }
+      ],
+      "generated_sha256": "afec2287d4a2d9b9b8ee65c7bd0a88fe83637a7f6bded134d760434a33e11d09",
+      "theorem": "ShaderFormalize.Verification.checked",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "agent_proof_sha256": "47aa5763e5a11ae38d52033b981ffd0bb674ac0c95564e54d11f84f6d44aa8de",
+      "semantic_modules": {
+        "Model.lean": "5a3af29b09a4696a1632b0e30595d5465d9486cd71d604bdb1fbcea512133d4e",
+        "Fragment.lean": "c7a4195c9b5b84ce39a959e1fff8870ccb4a6f9e302bda8aa957302bf1ea069a",
+        "Control.lean": "1bdb1e21015cd10e05593ec42bf1c8c6d522ed9d9ffb2ac6f33f8bda4f90b44b",
+        "Packing.lean": "b7a28c0eeb178976e7060e1053bd45926eccf6e395d6087b3851632ef841f350"
+      },
+      "message": null
+    },
+    {
+      "path": "artifacts/acceptance/packed-domain-wrong/result.json",
+      "sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+      "status": "UNPROVED",
+      "model_schema": null,
+      "inputs": null,
+      "generated_sha256": null,
+      "theorem": null,
+      "axioms": null,
+      "agent_proof_sha256": null,
+      "semantic_modules": null,
+      "message": "Agent proof did not check against the generated Shader model; see lean-build.log"
+    },
+    {
+      "path": "artifacts/acceptance/packed-shift-wrong/result.json",
+      "sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+      "status": "UNPROVED",
+      "model_schema": null,
+      "inputs": null,
+      "generated_sha256": null,
+      "theorem": null,
+      "axioms": null,
+      "agent_proof_sha256": null,
+      "semantic_modules": null,
+      "message": "Agent proof did not check against the generated Shader model; see lean-build.log"
+    },
+    {
+      "path": "artifacts/acceptance/packed-positive/result.json",
+      "sha256": "0ad56e287a6607623168d9625f28b180de1420367ad504ff73150a5fffb0a223",
+      "status": "PROVED",
+      "model_schema": 5,
+      "inputs": [
+        {
+          "role": "original",
+          "path": "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\examples\\packed\\original.hlsl",
+          "sha256": "1b00e5687dd2ed5aab76c00c213ce1216bb708fcc57a8724177672fa26201a8f",
+          "dxc_seconds": 0.047
+        },
+        {
+          "role": "optimized",
+          "path": "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\examples\\packed\\optimized.hlsl",
+          "sha256": "8a2ac1cf0e337028098eff95711769f686bfaace0a78b73ac61cffc1a629b321",
+          "dxc_seconds": 0.032
+        }
+      ],
+      "generated_sha256": "104acefe228169bf7e7d805e5c8b71552a79dd8d2a174fec66df1d1e913cbbf9",
+      "theorem": "ShaderFormalize.Verification.checked",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "agent_proof_sha256": "23f6f7c83b3fb47984fbb8d59d72a30b568c0040f98defd092da34c1b84b3d6e",
+      "semantic_modules": {
+        "Model.lean": "5a3af29b09a4696a1632b0e30595d5465d9486cd71d604bdb1fbcea512133d4e",
+        "Fragment.lean": "c7a4195c9b5b84ce39a959e1fff8870ccb4a6f9e302bda8aa957302bf1ea069a",
+        "Control.lean": "1bdb1e21015cd10e05593ec42bf1c8c6d522ed9d9ffb2ac6f33f8bda4f90b44b",
+        "Packing.lean": "b7a28c0eeb178976e7060e1053bd45926eccf6e395d6087b3851632ef841f350"
+      },
+      "message": null
+    }
+  ],
+  "counterexample": {
+    "input_color": [
+      0,
+      1,
+      0.25,
+      1
+    ],
+    "original_output": [
+      0,
+      0.99609375,
+      0.25,
+      1
+    ],
+    "wrong_output": [
+      0.5,
+      0.49609375,
+      0.25,
+      1
+    ],
+    "oracle": "independent finite integer evaluation, not a GPU test"
+  },
+  "boundaries": [
+    "float interpreted as reals; uint exact BitVec32",
+    "no IEEE float encoding or arbitrary real asuint",
+    "scalar locals/struct fields/by-value uint helpers; no uint stage/cbuffer inputs",
+    "float carriers stay within one helper frame",
+    "casts require 0<=x<2^32 and shifts require count<32 as guarded conclusions",
+    "no dependency versions changed; no Unity calls/writes",
+    "DXC and translator remain trusted; no complete Lit translation or proof"
+  ],
+  "review": {
+    "P": "round1 Ready",
+    "Q": "round2 final evidence closure passed; packing slice Verified"
+  },
+  "portability_note": "A separately authorized portability slice clears inherited Lean search variables and tests this independently; it does not change IR or mathematical definitions. Fresh-checkout validation has separate evidence."
+}

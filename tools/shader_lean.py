@@ -107,7 +107,7 @@ def constraint_spec(data, original, optimized):
         spec = {"ranges": sorted(ranges), "nonzero": nonzero}
     covered = {expression_key(expr) for expr in spec["nonzero"]}
     for model in (original, optimized):
-        if original["schema"] == 4 or optimized["schema"] == 4:
+        if max(original["schema"], optimized["schema"]) >= 4:
             # New guarded models prove definedness as part of the conclusion.
             continue
         # Visit every executed binding, even if overwritten or unused in return.
@@ -220,6 +220,10 @@ def model_definition(name, model, parameters):
 def generate_lean(original, optimized, lower=None, upper=None, spec=None):
     if spec is None:
         spec = {"ranges": [(2, lower, upper)], "nonzero": []}
+    if original["schema"] == 5 or optimized["schema"] == 5:
+        from shader_packing_lean import PackingEmitter
+        from shader_control_lean import generate_control
+        return generate_control(original, optimized, spec, PackingEmitter, "import ShaderFormalize.Packing\n")
     if original["schema"] == 4 or optimized["schema"] == 4:
         from shader_control_lean import generate_control
         return generate_control(original, optimized, spec)

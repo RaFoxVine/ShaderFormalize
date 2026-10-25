@@ -23,6 +23,8 @@ def logical(kind, *arguments):
 
 
 def zero_value(kind, types):
+    if kind == "uint" and kind in types.extra_leaves:
+        return {"kind": "uint_literal", "width": "uint", "value": 0}
     if kind == "bool":
         return truth(False)
     if isinstance(kind, int):
@@ -40,9 +42,14 @@ def choose(condition, yes, no):
     if yes["kind"] == "record":
         fields = {name: choose(condition, yes["fields"][name], no["fields"][name]) for name in yes["fields"]}
         return dict(yes, fields=fields)
+    if yes.get("payload", False) != no.get("payload", False):
+        raise ModelError("Cannot select between numeric float and bit carrier")
     if yes == no:
         return yes
-    return operation("choose", value_type(yes), [condition, yes, no])
+    result = operation("choose", value_type(yes), [condition, yes, no])
+    if yes.get("payload"):
+        result["payload"] = True
+    return result
 
 
 def clone_symbols(symbols):

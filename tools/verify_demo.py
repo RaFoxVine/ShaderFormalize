@@ -94,14 +94,27 @@ def control_controls():
     return controls
 
 
+def packing_controls():
+    material = ROOT / "examples/packed"
+    arguments = ["--original", material / "original.hlsl", "--constraints", material / "constraints.json",
+                 "--agent-proof", ROOT / "proof/PackedProof.lean"]
+    controls = [check_case("packed-wrong-field", "UNPROVED", *arguments, "--optimized", material / "wrong.hlsl")]
+    domain_arguments = ["--constraints", material / "zero-constraints.json", "--agent-proof", ROOT / "proof/PackingDomainProof.lean"]
+    for filename, expected in (("domain-safe", "PROVED"), ("domain-wrong", "UNPROVED"), ("shift-wrong", "UNPROVED")):
+        source = material / (filename + ".hlsl")
+        controls.append(check_case("packed-" + filename, expected, *domain_arguments, "--original", source, "--optimized", source))
+    controls.append(check_case("packed-positive", "PROVED", *arguments, "--optimized", material / "optimized.hlsl"))
+    return controls
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--example", choices=("all", "lerp", "unlit", "structured", "textured", "branched"), default="all")
+    parser.add_argument("--example", choices=("all", "lerp", "unlit", "structured", "textured", "branched", "packed"), default="all")
     args = parser.parse_args()
     output = ROOT / "artifacts" / ("acceptance" if args.example == "all" else "acceptance-" + args.example)
     output.mkdir(parents=True, exist_ok=True)
     write_json(output / "result.json", {"status": "IN_PROGRESS", "layer": "core", "example": args.example})
-    patterns = {"lerp": "test_shaderformalize.py", "unlit": "test_unlit.py", "structured": "test_structured.py", "textured": "test_fragment.py", "branched": "test_control.py"}
+    patterns = {"lerp": "test_shaderformalize.py", "unlit": "test_unlit.py", "structured": "test_structured.py", "textured": "test_fragment.py", "branched": "test_control.py", "packed": "test_packing.py"}
     suite = unittest.defaultTestLoader.discover(str(ROOT / "tools"), pattern=patterns.get(args.example, "test_*.py"))
     result = unittest.TextTestRunner(verbosity=1).run(suite)
     if not result.wasSuccessful():
@@ -116,6 +129,8 @@ def main():
                 controls.extend(material_controls(example))
         if args.example in ("all", "branched"):
             controls.extend(control_controls())
+        if args.example in ("all", "packed"):
+            controls.extend(packing_controls())
         write_json(output / "result.json", {"status": "PASSED", "layer": "core", "example": args.example, "regression_tests": result.testsRun, "controls": controls})
         return 0
     except (OSError, ValueError, RuntimeError, subprocess.TimeoutExpired) as error:

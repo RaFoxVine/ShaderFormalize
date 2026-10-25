@@ -12,4 +12,4 @@ lean_exe fetchMathlibCache where
 
 @[default_target]
 lean_lib ShaderFormalize where
-  roots := #[`ShaderFormalize.Model, `ShaderFormalize.Fragment, `ShaderFormalize.Control, `GeneratedModel, `SubmittedProof]
+  roots := #[`ShaderFormalize.Model, `ShaderFormalize.Fragment, `ShaderFormalize.Control, `ShaderFormalize.Packing, `GeneratedModel, `SubmittedProof]

@@ -7,7 +7,7 @@ from shader_types import (TypeRegistry, component_mask, declaration_name, identi
                           operation, read_path, reference, replace_path, semantic, value_type)
 from shader_effects import DERIVATIVES, Resources, discard_condition
 
-INTRINSICS = {"lerp", "saturate", "dot", "normalize", "clip"} | DERIVATIVES
+INTRINSICS = {"lerp", "saturate", "dot", "normalize", "clip", "asuint", "asfloat"} | DERIVATIVES
 
 
 def swizzle_indices(mask, size):
@@ -58,8 +58,7 @@ def function_declaration(node, types):
                 raise ModelError("Only default by-value parameters; no out/inout/default arguments")
             parameters.append({"id": identifier(child), "name": declaration_name(child), "type": types.node_type(child),
                                "semantic": semantic(child.children[0]) if child.children else None})
-            if (not isinstance(parameters[-1]["type"], int) and parameters[-1]["type"] not in types.records
-                    and not (types.allow_bool and parameters[-1]["type"] == "bool")):
+            if not types.is_value_type(parameters[-1]["type"]):
                 raise ModelError("Helper/entry parameters must be numeric or plain records")
         elif child.kind == "CompoundStmt" and body is None:
             body = child
@@ -99,6 +98,11 @@ def callee_reference(node):
 
 class Program:
     control = False
+    packing = False
+    type_registry = TypeRegistry
+
+    def validate_extension(self, node):
+        return False
 
     def __init__(self, source, dump):
         validate_source(source)
@@ -119,7 +123,7 @@ class Program:
                 continue
             else:
                 raise ModelError(f"Unsupported top-level declaration: {node.kind}")
-        self.types = TypeRegistry(records, allow_bool=self.control)
+        self.types = self.type_registry(records, allow_bool=self.control)
         self.resources = Resources(resources, self.types)
         self.functions, self.main = {}, None
         for node in functions:
@@ -441,7 +445,11 @@ class Program:
 
 def import_shader(source, dump):
     from shader_control_values import uses_control
-    if uses_control(parse_tree(dump)):
+    from shader_packing import PackingProgram, uses_packing
+    root = parse_tree(dump)
+    if uses_packing(root):
+        return PackingProgram(source, dump).model()
+    if uses_control(root):
         from shader_control import ControlProgram
         return ControlProgram(source, dump).model()
     return Program(source, dump).model()

@@ -25,6 +25,8 @@ python tools/shaderformalize.py prepare --original examples/branched/original.hl
 
 float按实数解释；输入范围是用户提供的前提。采样/导数是双方共享的完整函数操作。控制流模型的expected还要求两份程序已执行的normalize均有合法定义域：这些是需要证明的结论，不能把缺失条件偷偷添加为假设。生成目标可能比单独颜色等式更强，因为还包括裁剪结果和运算合法性。
 
+包含整数打包时使用schema5：uint按32位精确整数解释；float→uint和移位也产生带执行条件的定义域结论。`asfloat(uint)`只生成位载体，`asuint`可取回它；载体不能参与数值计算，当前也不能跨helper参数/返回边界。完整支持范围、例子及限制见[整数打包](integer-packing.md)。
+
 ## 写证明并交给检查器
 
 手写Lean文件应导入GeneratedModel，并提供完整名字 `ShaderFormalize.AgentProof.equivalent`，类型为 `ShaderFormalize.Generated.expected`。现有proof/BranchedProof.lean和proof/ControlDomainProof.lean分别展示材质分支和有条件归一化的完整证明，可据实际目标采用不同策略。

@@ -45,7 +45,7 @@ class SourceImportTests(unittest.TestCase):
             self.compile_model(self.source.replace("lerp(a, b, saturate(t))", "a / t"))
 
     def test_octal_integers_not_read_as_decimal(self):
-        for number in ("010", "077", "00", "0x10", "10u"):
+        for number in ("010", "077", "00", "0x10"):
             with self.subTest(number=number), self.assertRaises(ModelError):
                 self.compile_model(self.source.replace("lerp(a, b, saturate(t))", "a * " + number))
 

@@ -24,7 +24,7 @@ def validate_declaration(node, program):
     if node.kind != "VarDecl" or len(node.children) > 1:
         raise ModelError("Unsupported local declaration")
     kind = program.types.node_type(node)
-    if not isinstance(kind, int) and kind not in program.types.records and not (program.control and kind == "bool"):
+    if not program.types.is_value_type(kind):
         raise ModelError("Local declarations must be numeric or plain records")
     declaration_name(node)
     flags = source_header(node.text).group("tail").rpartition("'")[2].strip()
@@ -39,6 +39,8 @@ def validate_declaration(node, program):
 
 def validate_expression(node, program, allow_void=False):
     kind = program.types.node_type(node)
+    if program.validate_extension(node):
+        return
     if program.control and validate_control_expression(node, kind, program):
         return
     if kind == "void" and not allow_void:

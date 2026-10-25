@@ -18,6 +18,8 @@ def control_field(expr, model, inputs, locals_, effects, count, operations, guar
         return effects[expr["index"]]
     if kind == "literal":
         return [evaluate(expr, [], []) for _ in range(count)]
+    if kind == "uint_literal":
+        return [[expr["value"]] for _ in range(count)]
     if kind == "boolean":
         return [[expr["value"]] for _ in range(count)]
     args = [control_field(child, model, inputs, locals_, effects, count, operations, guard) for child in expr["arguments"]]
@@ -33,6 +35,10 @@ def control_field(expr, model, inputs, locals_, effects, count, operations, guar
         values = [arg[point] for arg in args]
         if kind == "choose":
             result.append(values[1] if values[0][0] else values[2])
+        elif kind.startswith("uint_") or kind in ("real_to_uint", "carrier", "recover"):
+            from shader_packing_eval import packing_scalar
+            active = guard is None or guard[point]
+            result.append([packing_scalar(kind, [value[0] for value in values], active)])
         elif kind == "compare":
             result.append([compare(expr["operator"], values[0][0], values[1][0])])
         elif kind == "not":

@@ -1,6 +1,10 @@
 # ShaderFormalize
 
-将两份 HLSL 经 DXC 已定类型的语法树转成理想实数模型，提供 agent 编写、迭代并独立检查 Lean 等价证明的本地环境。核心依赖固定版本 DXC、Lean 和 mathlib，安装、转换、证明和默认验收均不依赖 Unity。它不是任意 Shader 的自动等价判定器。
+将两份 HLSL 经 DXC 已定类型的语法树转成理想实数与整数位字段模型，提供 agent 编写、迭代并独立检查 Lean 等价证明的本地环境。核心依赖固定版本 DXC、Lean 和 mathlib，安装、转换、证明和默认验收均不依赖 Unity。它不是任意 Shader 的自动等价判定器。
+
+新增[整数打包示例](examples/packed/original.hlsl)：辅助函数量化颜色、struct保存两个uint字段、掩码/移位打包、float载体复制和拆包；[改写版](examples/packed/optimized.hlsl)直接使用量化结果。实数计算和位载体明确区分，完整范围及证明方式见[整数打包说明](docs/integer-packing.md)。官方HDRP/Lit Forward仍有共享函数、out/inout、矩阵/数组、资源和循环等缺口，尚未完成数学转换。
+
+2026-10-26默认核心验收通过：128项回归及32项证明正负控制全部符合预期，12项完整目标PROVED；新增整数打包和定义域正负例均经过真实DXC、Lean绑定与公理审计。[精简证据](planning/evidence/integer-packing-2026-10-26.json)。
 
 最新 [原版分支材质](examples/branched/original.hlsl) 使用结构体、bool helper、提前返回、纹理开关、三种着色模式、嵌套条件裁剪和 ddx/ddy；[等价改写版](examples/branched/optimized.hlsl) 调整条件组织、使用三元选择并展开颜色计算。两边直接接受正常源码，不要求先拍平。原有 lerp、Unlit、structured、textured 示例和证明保留。
 
@@ -24,6 +28,9 @@ pwsh -File tools/run_demo.ps1
 # 开发迭代时只检查分支示例及控制流回归。
 pwsh -File tools/run_demo.ps1 -Example branched
 
+# 只检查整数打包及其定义域正负控制，不调用Unity。
+pwsh -File tools/run_demo.ps1 -Example packed
+
 # 仅检查纹理材质数学等价。
 python tools/shaderformalize.py check --original examples/textured/original.hlsl --optimized examples/textured/optimized.hlsl --constraints examples/textured/constraints.json --agent-proof proof/TexturedProof.lean --output artifacts/textured/proof
 
@@ -44,6 +51,8 @@ Unity包装目前仅指定shader target，未固定HLSL2021语言模式。GPU证
 ## 证明保证
 
 float解释为实数，向量为实数分量。普通数值程序保留schema2；旧纹理/简单裁剪用schema3；一般控制流用schema4。片元模型中varying为任意位置集合 E 上的完整函数，uniform为常量；输出为 E→Option Vec4，None表示丢弃，Some表示颜色。证明比较完整输出函数，包含裁剪结果；schema4目标另外要求所有实际执行的normalize有合法定义域。
+
+schema5在相同执行模型中加入精确uint32及静态标记的float位载体，并要求已执行的实数转uint和移位合法。载体只保存位，不具有实数值；asuint(普通实数)和对载体做数值计算会拒绝。uint局部/内部struct/按值helper可用，整数stage输入、cbuffer和载体跨helper接口尚未开放。float底层编码/舍入不在模型中。[详细契约](docs/integer-packing.md)。
 
 纹理/导数由定理全称量化的共享 `Fragment.Ops E` 提供。这是双方使用的同一组任意操作参数，不是新增公理：
 
@@ -82,7 +91,7 @@ float解释为实数，向量为实数分量。普通数值程序保留schema2�
 
 仍不支持bool stage输入/bool cbuffer、向量条件、循环、out/inout、原型/递归、结构体聚合初始化/方法、资源参数/别名、向量分量左值、矩阵/数组、原始除法、任意pow、其它纹理/Buffer/compute操作以及预处理。所有函数体检查具体语句/表达式/调用和初始化，不能把未知代码藏在未调用helper中。未知类型/节点/重载明确拒绝。[HLSL2021短路定义](https://github.com/microsoft/DirectXShaderCompiler/wiki/HLSL-2021)
 
-上限：64结构体/每结构64字段、16嵌套层、每记录4096叶、128函数、32调用层、4096次展开调用、64输入叶、4096绑定、128裁剪事件、每种资源16个；控制流另限32层分支/每帧128返回分支，布尔共享图限4096节点/256深度。SSA与裁剪事件交错记录，完整条件以共享布尔图发射，避免重复展开。采样/导数结果可直接取分量，如 _BaseMap.Sample(...).rgb。数字使用原始源码文字，拒绝八/十六进制/整数后缀；接受LF/CRLF，不接受预处理/拼行及其它物理换行字符（含注释）。
+上限：64结构体/每结构64字段、16嵌套层、每记录4096叶、128函数、32调用层、4096次展开调用、64输入叶、4096绑定、128裁剪事件、每种资源16个；控制流另限32层分支/每帧128返回分支，布尔共享图限4096节点/256深度。SSA与裁剪事件交错记录，完整条件以共享布尔图发射，避免重复展开。采样/导数结果可直接取分量，如 _BaseMap.Sample(...).rgb。数字使用原始源码文字，实数接受精确十进制；uint另接受十六进制及u后缀，拒绝八进制和超32位常量。接受LF/CRLF，不接受预处理/拼行及其它物理换行字符（含注释）。
 
 | 状态 | 含义 |
 |---|---|
@@ -99,6 +108,8 @@ float解释为实数，向量为实数分量。普通数值程序保留schema2�
 shader_ast.py读取固定DXC树和精确数字；shader_types.py解释声明/记录；shader_effects.py统一资源/方法/裁剪语法规则；shader_validation.py按位置静态检查全部函数；shader_frontend.py解释成SSA与效果事件；shader_lean.py检查域并生成旧数值模型，shader_fragment.py提升完整函数及效果；shaderformalize.py负责配对、快照、锁、目标绑定和审计。shader_eval.py与shader_fragment_eval.py只用于有限回归/具体反例，不生成形式证明。
 
 shader_control.py拥有条件执行帧、Shader存活状态、分支合并及函数返回；shader_control_values.py提供不可变条件值；shader_boolean.py共享并化简命题图；shader_control_lean.py发射schema4及定义域结论。Control.lean复用既有数学定义，无新公理。shader_control_eval.py为独立有限求值器。
+
+shader_packing.py复用控制流并拥有uint类型/AST规则和载体流检查，shader_packing_lean.py发射精确位操作及转换定义域；Packing.lean复用Lean内置BitVec，保留原有公理白名单。shader_packing_eval.py仅供有限回归，不参与形式证明。
 
 proof/ShaderFormalize/Model.lean和Fragment.lean定义数学语义。dependencies.lock.json固定官方工具与二进制SHA256；proof/lake-manifest.json固定mathlib/传递Git revision，无额外submodule；FetchCache复用锁定mathlib的缓存实现。进程局部配置不修改全局PATH/elan/Git/curl。
 

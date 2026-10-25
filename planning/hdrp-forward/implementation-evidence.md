@@ -17,3 +17,13 @@
 独立Q第三轮通过：实际CLI确认损坏签名ERROR/退出1，相关三项回归独立通过，5产物/4工具/91基线哈希一致，重新计算全部分析字段与报告一致，116项fresh Python回归及27项历史Lean未重跑边界已核对。精简证据planning/evidence/hdrp-forward-analysis-2026-10-26.json保存这些产物/当前工具/基线哈希与实际路径。
 
 本项以 `feat: analyze HDRP Forward entry dependencies` 本地命名提交，无push/正式归档。临时探针、完整AST/图/日志留ignored artifacts，不提交Unity源或缓存，不修改外部工程。分析结果不参与prepare/check，完整Forward→Lean与等价证明仍未完成，后续数学扩展维持Outlined。
+
+# 整数打包后续实施（2026-10-26，已完成）
+
+用户确认语音中的词为“浮点数”和“延迟渲染”，不排除signed整数；本项只实现uint首片，保留其余缺口。精确计划/授权/状态为packing-plan.md、packing-authority.md、packing-tasks.md；授权提交ea3bfda早于产品代码。独立P第一轮通过；指出实际cast/shift应立即快照guard，已落实。
+
+真实examples/packed两份源码经固定DXC转换，artifacts/packed/proof/result.json已PROVED；完整目标同时证明两侧执行域和输出相等，公理仍为propext、Classical.choice、Quot.sound，4份语义模块和手写证明哈希留存。新增12项有限回归通过；统一128项Python回归通过。去掉旧测试中“10u应拒绝”的过时预期，另加精确数值转换回归。schema2/3/4保留。
+
+独立Q第一轮代码审阅通过，无待修代码问题。Q额外运行真实DXC检查uint隐式bool、无u移位、helper内部载体往返、float NoOp载体、覆盖回数值、巨大shift未选分支；重算输入、GeneratedModel、证明和4模块哈希一致。完整核心命令`pwsh -NoProfile -File tools/run_demo.ps1`随后PASSED：128回归及32控制（12 PROVED/18 UNPROVED/2 INVALID_INPUT），日志artifacts/packed/full-core.log，摘要artifacts/acceptance/result.json。独立Q第二轮重算新5控制全部留存目标、检查真实定义域失败目标及两正例绑定/哈希/公理，最终通过。本项Completed，精简证据integer-packing-2026-10-26.json；未将其当作完整Lit验证。
+
+开发中修复了uint函数构造的单元素InitListExpr、纯常量shift域的E类型标注及Lean证明中的过度dsimp问题。位字段定理改用现有已缓存FinCases和BitVec逐位外延，无新增依赖、无ofReduceBool。移位在域外采用有界总化，避免巨大Nat移位造成资源消耗，定义域仍严格要求count<32。独立命名空间DomainSafe.lean在ignored artifacts中已编译通过，只作提前反馈，未写共享proof生成模块，正式状态仍以统一CLI控制为准。

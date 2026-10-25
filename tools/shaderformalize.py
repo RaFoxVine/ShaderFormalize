@@ -142,7 +142,9 @@ def prepare(args, output):
         "model_schema": max(model["schema"] for model in models),
         "generated_sha256": sha256(PROOF / "GeneratedModel.lean"),
         "dxc_files": read_json(ROOT / "dependencies.lock.json")["dxc"]["binaries"],
-        "guarantee": "ideal real-number model of the accepted source subset; translator and DXC remain trusted",
+        "guarantee": ("ideal real-number model with exact uint32 fields and guarded conversions; translator and DXC remain trusted"
+                      if max(model["schema"] for model in models) == 5 else
+                      "ideal real-number model of the accepted source subset; translator and DXC remain trusted"),
     }
 
 
@@ -203,7 +205,8 @@ end ShaderFormalize.Verification
         "agent_proof_sha256": hashlib.sha256(proof_bytes).hexdigest(),
         "semantic_model_sha256": sha256(PROOF / "ShaderFormalize" / "Model.lean"),
         "semantic_modules": {name: sha256(PROOF / "ShaderFormalize" / name) for name in
-                             (["Model.lean", "Fragment.lean", "Control.lean"] if summary["model_schema"] == 4 else
+                             (["Model.lean", "Fragment.lean", "Control.lean", "Packing.lean"] if summary["model_schema"] == 5 else
+                              ["Model.lean", "Fragment.lean", "Control.lean"] if summary["model_schema"] == 4 else
                               ["Model.lean", "Fragment.lean"] if summary["model_schema"] == 3 else ["Model.lean"])},
         "lake_manifest_sha256": sha256(PROOF / "lake-manifest.json"),
         "lean_build_seconds": build_seconds, "lean_verify_seconds": verify_seconds,

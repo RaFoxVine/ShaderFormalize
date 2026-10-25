@@ -40,7 +40,7 @@ def evaluate(expr, inputs, locals_):
 
 
 def evaluate_model(model, inputs):
-    if model["schema"] == 4:
+    if model["schema"] in (4, 5):
         from shader_control_eval import evaluate_control, no_operations
         lifted = [[value] if item["storage"] == "parameter" else value for item, value in zip(model["interface"], inputs)]
         return evaluate_control(model, lifted, 1, no_operations)[0]
