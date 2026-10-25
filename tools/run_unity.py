@@ -12,7 +12,7 @@ from shaderformalize import ROOT, read_json, sha256, write_json, write_text
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--project", required=True, type=Path)
-    parser.add_argument("--example", choices=("lerp", "unlit", "structured", "textured"), default="lerp")
+    parser.add_argument("--example", choices=("lerp", "unlit", "structured", "textured", "branched"), default="lerp")
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
     default_output = ROOT / "artifacts/unity" if args.example == "lerp" else ROOT / "artifacts" / args.example / "unity"
@@ -25,14 +25,17 @@ def main():
         if cli is None:
             raise RuntimeError("Unity CLI is not on PATH; an existing connected Editor is required")
         source = "unity/RunProbe.cs" if args.example == "lerp" else "unity/RunUnlit.cs"
-        if args.example == "textured":
+        if args.example in ("textured", "branched"):
             source = "unity/RunTextured.cs"
         script = (ROOT / source).read_text(encoding="utf-8")
         script = script.replace("__WORKSPACE__", str(ROOT).replace('"', '""'))
         script = script.replace("__OUTPUT__", str(output).replace('"', '""'))
         template = None
-        if args.example == "textured":
-            template = "unity/Textured.shader.template"
+        if args.example in ("textured", "branched"):
+            title = "Textured" if args.example == "textured" else "Branched"
+            template = "unity/" + title + ".shader.template"
+            script = script.replace("__ASSET_FOLDER__", "ShaderFormalize" + title).replace("__SCENE_NAME__", title + "Comparison")
+            script = script.replace("__SHADER_TEMPLATE__", template).replace("__EXAMPLE__", args.example)
         if args.example in ("unlit", "structured"):
             if args.example == "unlit":
                 asset_folder, scene_name, template = "ShaderFormalizeUnlit", "UnlitComparison", "unity/Unlit.shader.template"
@@ -63,6 +66,8 @@ def main():
         roles = ["original", "optimized", "wrong"]
         if args.example == "textured":
             roles.extend(["wrong-uv", "wrong-derivative", "wrong-lod", "wrong-sampler"])
+        elif args.example == "branched":
+            roles.append("wrong-cutoff")
         for role in roles:
             if summary["hashes"][role] != sha256(ROOT / "examples" / args.example / (role + ".hlsl")):
                 raise RuntimeError("GPU/source hash mismatch")

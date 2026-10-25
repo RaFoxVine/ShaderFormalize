@@ -75,7 +75,8 @@ def replace_path(value, path, replacement):
 
 
 class TypeRegistry:
-    def __init__(self, declarations):
+    def __init__(self, declarations, allow_bool=False):
+        self.allow_bool = allow_bool
         self.records = {}
         for node in declarations:
             match = re.fullmatch(r"(?:referenced )?struct ([A-Za-z_][A-Za-z0-9_]*) definition", source_header(node.text).group("tail").strip())
@@ -97,7 +98,7 @@ class TypeRegistry:
                 if child.kind != "FieldDecl" or len(child.children) > 1:
                     raise ModelError("Struct methods, initializers and unknown members are unsupported")
                 field_name = declaration_name(child)
-                if self.node_type(child) in ("void", "bool", "Texture2D", "SamplerState"):
+                if self.node_type(child) in ("void", "Texture2D", "SamplerState") or (self.node_type(child) == "bool" and not allow_bool):
                     raise ModelError("Struct fields must be numeric or plain records")
                 if any(field["name"] == field_name for field in record["fields"]):
                     raise ModelError("Repeated struct field")
@@ -123,6 +124,8 @@ class TypeRegistry:
         return width(node)
 
     def named_type(self, name):
+        if name == "bool" and self.allow_bool:
+            return "bool"
         if name == "void":
             return "void"
         if name in self.records:
@@ -133,7 +136,7 @@ class TypeRegistry:
         return int(match.group(1) or 1)
 
     def check_shape(self, kind, ancestors):
-        if isinstance(kind, int):
+        if isinstance(kind, int) or kind == "bool":
             return 0, 1
         if kind in self.shapes:
             return self.shapes[kind]
@@ -153,7 +156,7 @@ class TypeRegistry:
         return depth, leaves
 
     def empty(self, kind):
-        if isinstance(kind, int):
+        if isinstance(kind, int) or kind == "bool":
             return None
         fields = {}
         for field in self.records[kind]["fields"]:
@@ -170,6 +173,8 @@ class TypeRegistry:
         raise ModelError("Struct field owner/type/identity mismatch")
 
     def layout(self, kind):
+        if kind == "bool":
+            raise ModelError("Boolean stage inputs are unsupported; use numeric inputs and scalar conditions")
         if isinstance(kind, int):
             return {"type": numeric_type(kind)}
         fields = []

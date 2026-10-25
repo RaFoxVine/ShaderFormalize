@@ -107,6 +107,9 @@ def constraint_spec(data, original, optimized):
         spec = {"ranges": sorted(ranges), "nonzero": nonzero}
     covered = {expression_key(expr) for expr in spec["nonzero"]}
     for model in (original, optimized):
+        if original["schema"] == 4 or optimized["schema"] == 4:
+            # New guarded models prove definedness as part of the conclusion.
+            continue
         # Visit every executed binding, even if overwritten or unused in return.
         values = [binding["expression"] for binding in model["bindings"]] + [model["expression"]] + model.get("effects", [])
         for value in values:
@@ -197,6 +200,8 @@ def lean_element(expr, index):
 
 
 def lean_type(size):
+    if size == "bool":
+        return "Prop"
     if size == 1:
         return "ℝ"
     if size == 4:
@@ -215,6 +220,9 @@ def model_definition(name, model, parameters):
 def generate_lean(original, optimized, lower=None, upper=None, spec=None):
     if spec is None:
         spec = {"ranges": [(2, lower, upper)], "nonzero": []}
+    if original["schema"] == 4 or optimized["schema"] == 4:
+        from shader_control_lean import generate_control
+        return generate_control(original, optimized, spec)
     if original["schema"] == 3 or optimized["schema"] == 3:
         from shader_fragment import generate_fragment
         return generate_fragment(original, optimized, spec)

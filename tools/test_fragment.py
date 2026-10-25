@@ -113,9 +113,6 @@ class FragmentTests(unittest.TestCase):
             "Texture2D<float> tex:register(t0); SamplerState samp:register(s0);" + ENTRY + "return tex.Sample(samp,uv);}",
             "Texture2D tex; SamplerState samp;" + ENTRY + "return tex.Sample(samp,uv);}",
             ENTRY + "if(uv.x<0.5) discard; else discard; return float4(1,0,0,1);}",
-            ENTRY + "if(uv.x<0.5) {float x=1; discard;} return float4(1,0,0,1);}",
-            ENTRY + "if(uv.x) discard; return float4(1,0,0,1);}",
-            ENTRY + "bool x=uv.x<0.5; if(x) discard; return float4(1,0,0,1);}",
             "void Cut(){discard;} float F(){Cut();return 1;} " + ENTRY + "return float4(F(),0,0,1);}",
             "float F(){clip(1.0);return 1;} " + ENTRY + "return float4(F(),0,0,1);}",
         ]
@@ -124,7 +121,7 @@ class FragmentTests(unittest.TestCase):
                 self.compile(source)
 
     def test_uncalled_helpers_statically_checked(self):
-        for helper in ("void Bad(float x){if(x<1) {x=2;discard;}}", "float Bad(float x){clip(x);return x;}"):
+        for helper in ("void Bad(float x){while(x<1) {x=2;discard;}}", "float Bad(float x){clip(x);return x;}"):
             with self.assertRaises(ModelError):
                 self.compile(helper + ENTRY + "return float4(1,0,0,1);}")
 

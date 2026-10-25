@@ -1,6 +1,6 @@
 # 执行授权
 
-- status: active
+- status: completed
 - source: direct_user
 - recorded_at_local: 2026-10-25T22:12:28+08:00
 - node_frame: plan.md修订1及P补充，sha256 18f25c1c9a7ce6165274bffc82d3862ac4820c5abd06d58de9a943e6a16b216c
@@ -12,4 +12,4 @@
 - stop_conditions: 产品/Unity边界、数学对象或关键oracle需改变；需要未授权依赖/外部写入；不能把待证明定义域追加成隐含前提。
 - acceptance_boundary: 机器证据和独立Q交付；人工H-X另行发生。
 - delegated_session: none
-- state_reason: 独立P通过，根agent唯一写入，四项Approved后进入实施。
+- state_reason: 独立P第一轮与独立Q第三轮通过；四项机器验收完成，本地提交交付，无push。人工H-X及正式归档待用户后续处理。

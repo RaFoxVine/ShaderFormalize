@@ -1,11 +1,12 @@
 // Exact source bytes are shared by the Lean import and this Unity material.
 var workspace = @"__WORKSPACE__";
 var output = @"__OUTPUT__";
-var folder = "Assets/ShaderFormalizeTextured";
-var absolute = System.IO.Path.Combine(Application.dataPath,"ShaderFormalizeTextured");
+bool branched = "__EXAMPLE__" == "branched";
+var folder = "Assets/__ASSET_FOLDER__";
+var absolute = System.IO.Path.Combine(Application.dataPath,"__ASSET_FOLDER__");
 System.IO.Directory.CreateDirectory(absolute);
 System.IO.Directory.CreateDirectory(output);
-var roles = new[] {"original","optimized","wrong","wrong-uv","wrong-derivative","wrong-lod","wrong-sampler"};
+var roles = branched ? new[] {"original","optimized","wrong","wrong-cutoff"} : new[] {"original","optimized","wrong","wrong-uv","wrong-derivative","wrong-lod","wrong-sampler"};
 var hashes = new Dictionary<string,string>();
 var materials = new List<Material>();
 var previousTarget = RenderTexture.active;
@@ -65,10 +66,10 @@ void DrawNumeric(Material material,int pass,RenderTexture target)
 }
 try
 {
-    var template=System.IO.File.ReadAllText(System.IO.Path.Combine(workspace,"unity/Textured.shader.template"));
+    var template=System.IO.File.ReadAllText(System.IO.Path.Combine(workspace,"__SHADER_TEMPLATE__"));
     foreach(var role in roles)
     {
-        var bytes=System.IO.File.ReadAllBytes(System.IO.Path.Combine(workspace,"examples/textured/"+role+".hlsl"));
+        var bytes=System.IO.File.ReadAllBytes(System.IO.Path.Combine(workspace,"examples/__EXAMPLE__/"+role+".hlsl"));
         using(var sha=System.Security.Cryptography.SHA256.Create()) hashes[role]=BitConverter.ToString(sha.ComputeHash(bytes)).Replace("-","").ToLowerInvariant();
         System.IO.File.WriteAllBytes(System.IO.Path.Combine(absolute,role+".hlsl"),bytes);
         System.IO.File.WriteAllText(System.IO.Path.Combine(absolute,role+".shader"),template.Replace("__ROLE__",role));
@@ -97,7 +98,7 @@ try
     var transform=new Vector4(1,2,.03125f,.015625f);
     foreach(var material in materials)
     {
-        material.SetTexture("_BaseMap",textureAsset);material.SetVector("_Tint",tint);material.SetVector("_UVTransform",transform);material.SetFloat("_DetailStrength",.35f);
+        material.SetTexture("_BaseMap",textureAsset);material.SetVector("_Tint",tint);material.SetVector("_UVTransform",transform);if(!branched)material.SetFloat("_DetailStrength",.35f);
     }
     const int width=64,height=32;
     const double tolerance=.0001;
@@ -125,12 +126,13 @@ try
     foreach(var role in roles.Skip(2)){negativeColorDifference[role]=0;negativeMaskDifference[role]=0;}
     int numericCases=0,numericPixels=0,keptPixels=0,discardedPixels=0,boundaryKeptPixels=0;
     string worstCase="";
-    foreach(float cutoff in new[]{0f,.5f,.75f,1f})foreach(float bottom in new[]{0f,.25f})foreach(int mip in new[]{0,1,2})
+    foreach(float cutoff in new[]{0f,.5f,.75f,1f})foreach(float bottom in new[]{0f,.25f})foreach(int mip in (branched?new[]{0}:new[]{0,1,2}))
+    foreach(float useTexture in (branched?new[]{0f,.5f,1f}:new[]{1f}))foreach(float mode in (branched?new[]{0f,.5f,1f,1.5f,2f}:new[]{0f}))
     {
         var values=new Color[roles.Length][];
         for(int role=0;role<roles.Length;role++)
         {
-            var material=materials[role];material.SetFloat("_Cutoff",cutoff);material.SetFloat("_Bottom",bottom);material.SetFloat("_Mip",mip);
+            var material=materials[role];material.SetFloat("_Cutoff",cutoff);material.SetFloat("_Bottom",bottom);if(!branched)material.SetFloat("_Mip",mip);else{material.SetFloat("_UseTexture",useTexture);material.SetFloat("_Mode",mode);}
             int pass=material.FindPass("NumericProbe");if(pass<0)throw new Exception("Missing numeric pass");
             DrawNumeric(material,pass,numeric);values[role]=ReadTarget(numeric);
         }
@@ -138,10 +140,20 @@ try
         {
             double u=coordinates[p].r*transform.x+transform.z,v=coordinates[p].g*transform.y+transform.w;
             var sample=SamplePoint(u,v,0);var detail=SamplePoint(u,v,mip);
-            bool keep=sample.a>=cutoff && coordinates[p].g>=bottom;
+            bool keep=(!branched || useTexture>.5f ? sample.a>=cutoff : true) && coordinates[p].g>=bottom;
             var expected=new double[4];
-            for(int c=0;c<3;c++)expected[c]=(sample[c]*tint[c]+(detail[c]+sample[c])*.35f)*(.5+footprint);
-            expected[3]=sample.a*tint.w;
+            if(branched)
+            {
+                var baseValue=useTexture>.5f?sample:(Color)tint;
+                for(int c=0;c<3;c++)
+                    expected[c]=mode<.5f ? baseValue[c]*tint[c]*(.5+footprint) : mode<1.5f ? (baseValue[c]+tint[c])*(.25+footprint) : (baseValue[c]+tint[c])*.5*(1+footprint);
+                expected[3]=useTexture>.5f && mode<1.5f ? baseValue.a : tint.w;
+            }
+            else
+            {
+                for(int c=0;c<3;c++)expected[c]=(sample[c]*tint[c]+(detail[c]+sample[c])*.35f)*(.5+footprint);
+                expected[3]=sample.a*tint.w;
+            }
             for(int role=0;role<2;role++)
             {
                 bool actualKeep=values[role][p].a>=0;
@@ -171,7 +183,7 @@ try
     // Persist real material assets, then save/reload a scene that references them.
     for(int role=0;role<2;role++)
     {
-        materials[role].SetFloat("_Cutoff",.5f);materials[role].SetFloat("_Bottom",.15f);materials[role].SetFloat("_Mip",1);
+        materials[role].SetFloat("_Cutoff",.5f);materials[role].SetFloat("_Bottom",.15f);if(!branched)materials[role].SetFloat("_Mip",1);else{materials[role].SetFloat("_UseTexture",1);materials[role].SetFloat("_Mode",0);}
         var path=folder+"/"+roles[role]+".mat";
         var asset=AssetDatabase.LoadAssetAtPath<Material>(path);
         if(asset==null) { asset=new Material(materials[role]); AssetDatabase.CreateAsset(asset,path); }
@@ -219,12 +231,12 @@ try
     exposure.mode.Override(UnityEngine.Rendering.HighDefinition.ExposureMode.Fixed); exposure.fixedExposure.Override(0);
     volume.sharedProfile=profile;
     EditorUtility.SetDirty(profile); EditorUtility.SetDirty(exposure); AssetDatabase.SaveAssets();
-    var requestedScenePath=folder+"/TexturedComparison.unity";
+    var requestedScenePath=folder+"/__SCENE_NAME__.unity";
     var scenePath=requestedScenePath;
     // An Editor may already display the demo. Save validation separately instead of closing it.
     if(UnityEngine.SceneManagement.SceneManager.GetSceneByPath(scenePath).isLoaded)
     {
-        scenePath=folder+"/TexturedComparison.Validation.unity";
+        scenePath=folder+"/__SCENE_NAME__.Validation.unity";
         if(UnityEngine.SceneManagement.SceneManager.GetSceneByPath(scenePath).isLoaded)
             scenePath=AssetDatabase.GenerateUniqueAssetPath(scenePath);
     }

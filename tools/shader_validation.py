@@ -1,7 +1,7 @@
 """Check every function's supported syntax without evaluating uncalled code."""
 import re
 
-from shader_ast import ModelError, literal, quoted, source_header
+from shader_ast import AstNode, ModelError, literal, quoted, source_header
 from shader_types import component_mask, declaration_name
 from shader_effects import discard_condition
 
@@ -24,7 +24,7 @@ def validate_declaration(node, program):
     if node.kind != "VarDecl" or len(node.children) > 1:
         raise ModelError("Unsupported local declaration")
     kind = program.types.node_type(node)
-    if not isinstance(kind, int) and kind not in program.types.records:
+    if not isinstance(kind, int) and kind not in program.types.records and not (program.control and kind == "bool"):
         raise ModelError("Local declarations must be numeric or plain records")
     declaration_name(node)
     flags = source_header(node.text).group("tail").rpartition("'")[2].strip()
@@ -39,6 +39,8 @@ def validate_declaration(node, program):
 
 def validate_expression(node, program, allow_void=False):
     kind = program.types.node_type(node)
+    if program.control and validate_control_expression(node, kind, program):
+        return
     if kind == "void" and not allow_void:
         raise ModelError("Void calls are only supported as statements")
     if node.kind == "CXXMemberCallExpr":
@@ -115,7 +117,15 @@ def validate_block(body, result_type, program, effects_allowed=False):
     for statement in body.children:
         if returned:
             raise ModelError("Statements after return are outside the straight-line subset")
-        if statement.kind == "CompoundStmt":
+        if statement.kind == "IfStmt" and program.control:
+            condition, yes, no = control_branches(statement, program)
+            validate_expression(condition, program)
+            yes_return = validate_block(statement_block(yes), result_type, program, effects_allowed)
+            no_return = no.kind != "Null" and validate_block(statement_block(no), result_type, program, effects_allowed)
+            returned = yes_return and no_return
+        elif statement.kind == "DiscardStmt" and program.control and effects_allowed and not statement.children:
+            returned = True
+        elif statement.kind == "CompoundStmt":
             returned = validate_block(statement, result_type, program, effects_allowed)
         elif statement.kind == "DeclStmt" and statement.children:
             for child in statement.children:
@@ -153,6 +163,58 @@ def validate_block(body, result_type, program, effects_allowed=False):
         else:
             raise ModelError(f"Unsupported statement: {statement.kind}")
     return returned
+
+
+def statement_block(node):
+    return node if node.kind == "CompoundStmt" else AstNode("CompoundStmt", "", node.line, node.column, [node])
+
+
+def control_branches(node, program):
+    if len(node.children) != 4 or node.children[0].kind != "Null":
+        raise ModelError("Unsupported if initializer/attributes")
+    _, condition, yes, no = node.children
+    if program.types.node_type(condition) != "bool":
+        raise ModelError("If conditions must resolve to scalar bool")
+    return condition, yes, no
+
+
+def validate_control_expression(node, kind, program):
+    if node.kind == "CXXBoolLiteralExpr" and kind == "bool" and not node.children and node.text.endswith((" true", " false")):
+        return True
+    if node.kind == "ConditionalOperator" and len(node.children) == 3:
+        condition, yes, no = node.children
+        if program.types.node_type(condition) != "bool" or kind in ("void", "Texture2D", "SamplerState"):
+            raise ModelError("Only scalar bool conditional selection is supported")
+        for child in node.children:
+            validate_expression(child, program)
+        if program.types.node_type(yes) != kind or program.types.node_type(no) != kind:
+            raise ModelError("Conditional arm type mismatch")
+        return True
+    if node.kind == "BinaryOperator" and len(node.children) == 2 and kind == "bool":
+        operator = quoted(node.text)[-1]
+        kinds = [program.types.node_type(child) for child in node.children]
+        valid = (operator in ("&&", "||") and kinds == ["bool", "bool"])
+        valid = valid or (operator in ("<", "<=", ">", ">=", "==", "!=") and kinds == [1, 1])
+        valid = valid or (operator in ("==", "!=") and kinds == ["bool", "bool"])
+        if not valid:
+            raise ModelError("Unsupported scalar Boolean operator/types")
+        for child in node.children:
+            validate_expression(child, program)
+        return True
+    if node.kind == "UnaryOperator" and kind == "bool" and len(node.children) == 1 and quoted(node.text)[-1] == "!":
+        validate_expression(node.children[0], program)
+        if program.types.node_type(node.children[0]) != "bool":
+            raise ModelError("Boolean negation requires scalar bool")
+        return True
+    if node.kind == "ImplicitCastExpr" and len(node.children) == 1:
+        child = node.children[0]
+        if node.text.endswith("<FloatingToBoolean>") and kind == "bool" and program.types.node_type(child) == 1:
+            validate_expression(child, program)
+            return True
+        if node.text.endswith("<IntegralToFloating>") and kind == 1 and quoted(child.text)[:1] in (["bool"], ["const bool"]):
+            validate_expression(child, program)
+            return True
+    return False
 
 
 def visit_calls(key, graph, active, completed):

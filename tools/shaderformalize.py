@@ -203,7 +203,8 @@ end ShaderFormalize.Verification
         "agent_proof_sha256": hashlib.sha256(proof_bytes).hexdigest(),
         "semantic_model_sha256": sha256(PROOF / "ShaderFormalize" / "Model.lean"),
         "semantic_modules": {name: sha256(PROOF / "ShaderFormalize" / name) for name in
-                             (["Model.lean", "Fragment.lean"] if summary["model_schema"] == 3 else ["Model.lean"])},
+                             (["Model.lean", "Fragment.lean", "Control.lean"] if summary["model_schema"] == 4 else
+                              ["Model.lean", "Fragment.lean"] if summary["model_schema"] == 3 else ["Model.lean"])},
         "lake_manifest_sha256": sha256(PROOF / "lake-manifest.json"),
         "lean_build_seconds": build_seconds, "lean_verify_seconds": verify_seconds,
         "lean_version": version.stdout.strip(),

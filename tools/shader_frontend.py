@@ -58,7 +58,8 @@ def function_declaration(node, types):
                 raise ModelError("Only default by-value parameters; no out/inout/default arguments")
             parameters.append({"id": identifier(child), "name": declaration_name(child), "type": types.node_type(child),
                                "semantic": semantic(child.children[0]) if child.children else None})
-            if not isinstance(parameters[-1]["type"], int) and parameters[-1]["type"] not in types.records:
+            if (not isinstance(parameters[-1]["type"], int) and parameters[-1]["type"] not in types.records
+                    and not (types.allow_bool and parameters[-1]["type"] == "bool")):
                 raise ModelError("Helper/entry parameters must be numeric or plain records")
         elif child.kind == "CompoundStmt" and body is None:
             body = child
@@ -97,6 +98,8 @@ def callee_reference(node):
 
 
 class Program:
+    control = False
+
     def __init__(self, source, dump):
         validate_source(source)
         self.source = source
@@ -116,7 +119,7 @@ class Program:
                 continue
             else:
                 raise ModelError(f"Unsupported top-level declaration: {node.kind}")
-        self.types = TypeRegistry(records)
+        self.types = TypeRegistry(records, allow_bool=self.control)
         self.resources = Resources(resources, self.types)
         self.functions, self.main = {}, None
         for node in functions:
@@ -136,6 +139,7 @@ class Program:
                 raise ModelError("Every function requires a terminal return")
         validate_call_graph(self)
         self.bindings, self.stack = [], []
+        self.invocations = 0
         self.effects, self.events = [], []
         self.fragment = bool(resources)
         self.globals = {}
@@ -302,8 +306,7 @@ class Program:
         return operation(name, size, arguments)
 
     def invoke(self, function, arguments):
-        if function["id"] in self.stack or len(self.stack) >= 32:
-            raise ModelError("Recursive or excessively deep helper calls")
+        self.check_invocation(function)
         if len(arguments) != len(function["parameters"]):
             raise ModelError("Function argument count mismatch")
         symbols = dict(self.globals)
@@ -326,6 +329,35 @@ class Program:
             return result if function is self.main else self.snapshot(result, function["name"] + ".return")
         finally:
             self.stack.pop()
+
+    def check_invocation(self, function):
+        self.invocations += 1
+        if self.invocations > 4096 or function["id"] in self.stack or len(self.stack) >= 32:
+            raise ModelError("Recursive or excessive helper expansion")
+
+    def validate_helper_initialization(self):
+        # Run the same symbolic value rules for uncalled definitions as well.
+        # Constant placeholders are initialized typed values; no arithmetic is
+        # evaluated here. Discard temporary bindings/effects/domain expressions.
+        from shader_control_values import zero_value
+        names = ("bindings", "events", "effects", "stack", "fragment", "invocations")
+        if self.control:
+            names += ("current_guard", "alive", "frame", "branches")
+        saved = {name: getattr(self, name) for name in names}
+        try:
+            for function in self.functions.values():
+                if function is self.main:
+                    continue
+                self.bindings, self.events, self.effects, self.stack = [], [], [], []
+                self.invocations = 0
+                if self.control:
+                    from shader_control_values import truth
+                    self.current_guard, self.alive, self.frame, self.branches = truth(True), truth(True), None, 0
+                arguments = [zero_value(param["type"], self.types) for param in function["parameters"]]
+                self.invoke(function, arguments)
+        finally:
+            for name, value in saved.items():
+                setattr(self, name, value)
 
     def block(self, body, symbols):
         did_return = False
@@ -398,6 +430,7 @@ class Program:
             self.globals[identifier(field)] = make_symbol(name, size, "Var", False, reference("parameter", size, index))
         if not 1 <= len(interface) <= 64 or len({item["name"] for item in interface}) != len(interface):
             raise ModelError("Invalid/ambiguous input declarations")
+        self.validate_helper_initialization()
         result = self.invoke(self.main, arguments)
         model = {"schema": 3 if self.fragment else 2, "interface": interface, "entry_layout": entry_layout, "buffer": self.buffer,
                  "output_semantic": self.main["output"], "bindings": self.bindings, "expression": result}
@@ -407,4 +440,8 @@ class Program:
 
 
 def import_shader(source, dump):
+    from shader_control_values import uses_control
+    if uses_control(parse_tree(dump)):
+        from shader_control import ControlProgram
+        return ControlProgram(source, dump).model()
     return Program(source, dump).model()

@@ -1,4 +1,5 @@
 """Check the positive demo and deliberately broken proof/input controls."""
+import argparse
 import json
 from pathlib import Path
 import subprocess
@@ -23,66 +24,102 @@ def check_case(name, expected, *extra):
     return {"case": name, "expected": expected, "actual": summary["status"]}
 
 
-def main():
-    output = ROOT / "artifacts/acceptance"
-    output.mkdir(parents=True, exist_ok=True)
-    write_json(output / "result.json", {"status": "IN_PROGRESS"})
-    suite = unittest.defaultTestLoader.discover(str(ROOT / "tools"), pattern="test_*.py")
-    result = unittest.TextTestRunner(verbosity=1).run(suite)
-    if not result.wasSuccessful():
-        write_json(output / "result.json", {"status": "FAILED", "message": "Importer/infrastructure regression failed"})
-        return 1
+def lerp_controls(output):
     controls = []
-    try:
-        controls.append(check_case("wrong-expression", "UNPROVED", "--optimized", ROOT / "examples/lerp/wrong.hlsl"))
-        wide = output / "wide.json"
-        write_json(wide, {"schema": 1, "ranges": {"t": {"min": "-1", "max": "2"}}})
-        controls.append(check_case("missing-range-premise", "UNPROVED", "--constraints", wide))
-        fake = output / "Fake.lean"
-        write_text(fake, '''import GeneratedModel
+    controls.append(check_case("wrong-expression", "UNPROVED", "--optimized", ROOT / "examples/lerp/wrong.hlsl"))
+    wide = output / "wide.json"
+    write_json(wide, {"schema": 1, "ranges": {"t": {"min": "-1", "max": "2"}}})
+    controls.append(check_case("missing-range-premise", "UNPROVED", "--constraints", wide))
+    fake = output / "Fake.lean"
+    write_text(fake, '''import GeneratedModel
 namespace ShaderFormalize.AgentProof
 axiom lie : ShaderFormalize.Generated.expected
 theorem equivalent : ShaderFormalize.Generated.expected := lie
 end ShaderFormalize.AgentProof
 ''')
-        controls.append(check_case("custom-axiom", "UNPROVED", "--agent-proof", fake))
-        write_text(fake, '''import GeneratedModel
+    controls.append(check_case("custom-axiom", "UNPROVED", "--agent-proof", fake))
+    write_text(fake, '''import GeneratedModel
 namespace ShaderFormalize.AgentProof
 theorem equivalent : ShaderFormalize.Generated.expected := by sorry
 end ShaderFormalize.AgentProof
 ''')
-        controls.append(check_case("sorry-proof", "UNPROVED", "--agent-proof", fake))
-        write_text(fake, '''namespace ShaderFormalize.Generated
+    controls.append(check_case("sorry-proof", "UNPROVED", "--agent-proof", fake))
+    write_text(fake, '''namespace ShaderFormalize.Generated
 def expected : Prop := True
 end ShaderFormalize.Generated
 namespace ShaderFormalize.AgentProof
 theorem equivalent : ShaderFormalize.Generated.expected := True.intro
 end ShaderFormalize.AgentProof
 ''')
-        controls.append(check_case("forged-target", "UNPROVED", "--agent-proof", fake))
-        # Leave the working generated model/proof in the successful, canonical state.
-        controls.append(check_case("positive", "PROVED"))
-        material = ROOT / "examples/unlit"
-        material_args = ["--original", material / "original.hlsl", "--constraints", material / "constraints.json", "--agent-proof", ROOT / "proof/UnlitProof.lean"]
-        missing = output / "missing-direction-domain.json"
+    controls.append(check_case("forged-target", "UNPROVED", "--agent-proof", fake))
+    # Leave the working generated model/proof in the successful, canonical state.
+    controls.append(check_case("positive", "PROVED"))
+    return controls
+
+
+def material_controls(example):
+    material = ROOT / "examples" / example
+    proof = {"unlit": "UnlitProof", "structured": "StructuredProof", "textured": "TexturedProof"}[example]
+    arguments = ["--original", material / "original.hlsl", "--constraints", material / "constraints.json", "--agent-proof", ROOT / "proof" / (proof + ".lean")]
+    controls = []
+    if example in ("unlit", "structured"):
+        missing = ROOT / "artifacts/acceptance/missing-direction-domain.json"
         write_json(missing, {"schema": 2, "ranges": {}, "nonzero_vectors": []})
-        controls.append(check_case("unlit-missing-domain", "INVALID_INPUT", *material_args, "--optimized", material / "optimized.hlsl", "--constraints", missing))
-        controls.append(check_case("unlit-wrong", "UNPROVED", *material_args, "--optimized", material / "wrong.hlsl"))
-        controls.append(check_case("unlit-positive", "PROVED", *material_args, "--optimized", material / "optimized.hlsl"))
-        structured = ROOT / "examples/structured"
-        structured_args = ["--original", structured / "original.hlsl", "--constraints", structured / "constraints.json", "--agent-proof", ROOT / "proof/StructuredProof.lean"]
-        controls.append(check_case("structured-missing-domain", "INVALID_INPUT", *structured_args, "--optimized", structured / "optimized.hlsl", "--constraints", missing))
-        controls.append(check_case("structured-wrong", "UNPROVED", *structured_args, "--optimized", structured / "wrong.hlsl"))
-        controls.append(check_case("structured-positive", "PROVED", *structured_args, "--optimized", structured / "optimized.hlsl"))
-        textured = ROOT / "examples/textured"
-        textured_args = ["--original", textured / "original.hlsl", "--constraints", textured / "constraints.json", "--agent-proof", ROOT / "proof/TexturedProof.lean"]
-        for role in ("wrong", "wrong-uv", "wrong-derivative", "wrong-lod", "wrong-sampler"):
-            controls.append(check_case("textured-" + role, "UNPROVED", *textured_args, "--optimized", textured / (role + ".hlsl")))
-        controls.append(check_case("textured-positive", "PROVED", *textured_args, "--optimized", textured / "optimized.hlsl"))
-        write_json(output / "result.json", {"status": "PASSED", "regression_tests": result.testsRun, "controls": controls})
+        controls.append(check_case(example + "-missing-domain", "INVALID_INPUT", *arguments, "--optimized", material / "optimized.hlsl", "--constraints", missing))
+    roles = ["wrong", "wrong-uv", "wrong-derivative", "wrong-lod", "wrong-sampler"] if example == "textured" else ["wrong"]
+    for role in roles:
+        controls.append(check_case(example + "-" + role, "UNPROVED", *arguments, "--optimized", material / (role + ".hlsl")))
+    controls.append(check_case(example + "-positive", "PROVED", *arguments, "--optimized", material / "optimized.hlsl"))
+    return controls
+
+
+def control_controls():
+    material = ROOT / "examples/control"
+    controls = []
+    for name, proof in (("alias", "ControlAliasProof"), ("else", "ControlElseProof"), ("return", "ControlReturnProof"), ("domain", "ControlDomainProof")):
+        arguments = ["--original", material / (name + ".original.hlsl"), "--constraints", material / "constraints.json", "--agent-proof", ROOT / "proof" / (proof + ".lean")]
+        if name == "domain":
+            controls.append(check_case("control-domain-wrong", "UNPROVED", *arguments, "--optimized", material / "domain.wrong.hlsl"))
+        controls.append(check_case("control-" + name, "PROVED", *arguments, "--optimized", material / (name + ".optimized.hlsl")))
+    material = ROOT / "examples/branched"
+    controls.append(check_case("control-mixed", "PROVED",
+        "--original", ROOT / "examples/control/mixed.original.hlsl",
+        "--optimized", ROOT / "examples/control/mixed.optimized.hlsl",
+        "--constraints", ROOT / "examples/control/zero-constraints.json",
+        "--agent-proof", ROOT / "proof/ControlMixedProof.lean"))
+    arguments = ["--original", material / "original.hlsl", "--constraints", material / "constraints.json", "--agent-proof", ROOT / "proof/BranchedProof.lean"]
+    for role in ("wrong", "wrong-cutoff"):
+        controls.append(check_case("branched-" + role, "UNPROVED", *arguments, "--optimized", material / (role + ".hlsl")))
+    controls.append(check_case("branched-positive", "PROVED", *arguments, "--optimized", material / "optimized.hlsl"))
+    return controls
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--example", choices=("all", "lerp", "unlit", "structured", "textured", "branched"), default="all")
+    args = parser.parse_args()
+    output = ROOT / "artifacts" / ("acceptance" if args.example == "all" else "acceptance-" + args.example)
+    output.mkdir(parents=True, exist_ok=True)
+    write_json(output / "result.json", {"status": "IN_PROGRESS", "layer": "core", "example": args.example})
+    patterns = {"lerp": "test_shaderformalize.py", "unlit": "test_unlit.py", "structured": "test_structured.py", "textured": "test_fragment.py", "branched": "test_control.py"}
+    suite = unittest.defaultTestLoader.discover(str(ROOT / "tools"), pattern=patterns.get(args.example, "test_*.py"))
+    result = unittest.TextTestRunner(verbosity=1).run(suite)
+    if not result.wasSuccessful():
+        write_json(output / "result.json", {"status": "FAILED", "layer": "core", "message": "Importer/infrastructure regression failed"})
+        return 1
+    controls = []
+    try:
+        if args.example in ("all", "lerp"):
+            controls.extend(lerp_controls(output))
+        for example in ("unlit", "structured", "textured"):
+            if args.example in ("all", example):
+                controls.extend(material_controls(example))
+        if args.example in ("all", "branched"):
+            controls.extend(control_controls())
+        write_json(output / "result.json", {"status": "PASSED", "layer": "core", "example": args.example, "regression_tests": result.testsRun, "controls": controls})
         return 0
     except (OSError, ValueError, RuntimeError, subprocess.TimeoutExpired) as error:
-        write_json(output / "result.json", {"status": "FAILED", "controls": controls, "message": str(error)})
+        write_json(output / "result.json", {"status": "FAILED", "layer": "core", "controls": controls, "message": str(error)})
         print(str(error), file=sys.stderr)
         return 1
 

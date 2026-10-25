@@ -76,8 +76,9 @@ class MaterialTests(unittest.TestCase):
 
     def test_branch_not_dropped(self):
         source = self.source.replace("color +=", "if (_Ambient > 0) color +=")
-        with self.assertRaises(ModelError):
-            self.compile(source)
+        inputs = [[0,0,-2], [1,0,0], [.8,.4,.2,.7], [1,1,1,1], [.2,.8,1,1], [0,0,-4,0], [0], [2]]
+        self.assertEqual(evaluate_model(self.compile(source), inputs), [.8,.4,.2,.7])
+        self.assertNotEqual(evaluate_model(self.original, inputs), [.8,.4,.2,.7])
 
     def test_uniform_write_rejected_by_dxc(self):
         with self.assertRaises(subprocess.CalledProcessError):

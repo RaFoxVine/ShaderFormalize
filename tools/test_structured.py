@@ -135,11 +135,11 @@ float4 main(P input):SV_Target {return float4(normalize(input.xyz),1);}'''
             self.assertNotEqual(result.returncode, 0)
             self.assertEqual(json.loads((output / "result.json").read_text())["status"], "INVALID_INPUT")
 
-    def test_unsupported_helper_body_not_silently_dropped(self):
+    def test_conditional_helper_body_is_not_dropped(self):
         source = '''float4 Choose(float4 a){if(a.x>0) return a; return -a;}
 float4 main(float4 a:COLOR0):SV_Target {return Choose(a);}'''
-        with self.assertRaises(ModelError):
-            self.compile(source)
+        self.assertEqual(self.values(source), [1, 2, 3, 4])
+        self.assertEqual(self.values(source, [[-1, 2, 3, 4]]), [1, -2, -3, -4])
 
     def test_recursive_call_is_rejected(self):
         source = '''float4 Again(float4 a){return Again(a);}
@@ -164,7 +164,7 @@ float4 main(P input):SV_Target {input.color+=1; return input.color;}'''
             self.compile(source)
 
     def test_unused_helper_with_unknown_statement_rejected(self):
-        source = '''float4 Unused(float4 x){if(x.x>0) return x; return -x;}
+        source = '''float4 Unused(float4 x){while(x.x>0) x-=1; return x;}
 float4 main(float4 a:COLOR0):SV_Target {return a;}'''
         with self.assertRaises(ModelError):
             self.compile(source)
