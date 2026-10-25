@@ -201,11 +201,13 @@
       "summary": ""
     },
     "language": {
-      "commits": [],
-      "grant_reference": "planning/shared-functions/execution-authority.md#function-entry-001@revision-1",
+      "commits": [
+        "71f307f"
+      ],
+      "grant_reference": "planning/shared-functions/execution-authority.md#shared-definition-001@revision-2",
       "result": "IN_PROGRESS",
-      "summary": "共享函数规划前发现分支helper返回字段被入口mask清0；独立P通过前置修复，已派生function-entry-001。",
-      "updated_at": "2026-10-26T02:20:06+08:00"
+      "summary": "71f307f完成完整返回字段修复，132回归/35控制及Q2通过；shared后端修订2 P2 Ready，派生精确grant继续。",
+      "updated_at": "2026-10-26T03:22:26+08:00"
     },
     "packing": {
       "commits": [
@@ -239,7 +241,7 @@
   "schema_version": 1,
   "session_id": "shader-forward-2026-10-26",
   "status": "running",
-  "updated_at": "2026-10-26T02:54:38+08:00"
+  "updated_at": "2026-10-26T03:22:26+08:00"
 }
 ```
 <!-- SMART_OVERNIGHT_STATE_END -->
