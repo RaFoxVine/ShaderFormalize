@@ -40,6 +40,14 @@ def evaluate(expr, inputs, locals_):
 
 
 def evaluate_model(model, inputs):
+    if model["schema"] not in (2, 3, 4, 5, 6):
+        from shader_ast import ModelError
+        raise ModelError("Unknown model schema", "INVALID_INPUT")
+    if model["schema"] == 6:
+        from shader_shared_eval import evaluate_shared
+        from shader_control_eval import no_operations
+        lifted = [[value] if item["storage"] == "parameter" else value for item, value in zip(model["interface"], inputs)]
+        return evaluate_shared(model, lifted, 1, no_operations)[0]
     if model["schema"] in (4, 5):
         from shader_control_eval import evaluate_control, no_operations
         lifted = [[value] if item["storage"] == "parameter" else value for item, value in zip(model["interface"], inputs)]

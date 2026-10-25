@@ -122,3 +122,5 @@ proof/ShaderFormalize/Model.lean和Fragment.lean定义数学语义。dependencie
 ## 可选官方 HDRP/Lit 调查
 
 `python tools/inventory_hdrp.py --project '外部Unity工程绝对路径'` 仅供开发调查。当前固定HDRP17.5.0的Lit Forward宏配置，镜像并记录146份相关源码，固定配置的预处理和完整DXC typed AST解析均成功。独立的 `tools/analyze_shader.py --ast ... --entry Frag --output ...` 已能输出调用上界、默认实参/全局初始化和能力缺口；ANALYZED只表示结构分析成功。数学转换器仍拒绝该输入，尚无Lit等价证明，也不把Unity包写入核心依赖。[具体缺口与复现](docs/hdrp-investigation.md)。
+
+共享调用后端：见[共享函数说明](docs/shared-functions.md)，使用`--frontend shared`保留实际helper定义并生成schema6；默认后端兼容现有证明。

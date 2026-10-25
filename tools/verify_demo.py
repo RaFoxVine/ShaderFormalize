@@ -118,6 +118,26 @@ def packing_controls():
     return controls
 
 
+def shared_controls():
+    material = ROOT / "examples/structured"
+    arguments = ["--frontend", "shared", "--original", material / "original.hlsl",
+                 "--constraints", material / "constraints.json",
+                 "--agent-proof", ROOT / "proof/SharedStructuredProof.lean"]
+    controls = [check_case("shared-structured-wrong", "UNPROVED", *arguments, "--optimized", material / "wrong.hlsl")]
+    controls.append(check_case("shared-structured-positive", "PROVED", *arguments, "--optimized", material / "optimized.hlsl"))
+    material = ROOT / "examples/control"
+    controls.append(check_case("shared-helper-field", "PROVED", "--frontend", "shared",
+        "--original", material / "helper.original.hlsl", "--optimized", material / "helper.optimized.hlsl",
+        "--constraints", material / "constraints.json", "--agent-proof", ROOT / "proof/SharedHelperFieldProof.lean"))
+    for role, expected in (("original", "PROVED"), ("wrong", "UNPROVED"), ("ignored", "UNPROVED")):
+        source = (ROOT / "examples/shared/ignored-domain.hlsl") if role == "ignored" else material / ("helper-domain." + role + ".hlsl")
+        optimized = material / "helper-domain.optimized.hlsl" if role == "original" else source
+        controls.append(check_case("shared-helper-domain-" + role, expected, "--frontend", "shared",
+            "--original", source, "--optimized", optimized,
+            "--constraints", material / "zero-constraints.json", "--agent-proof", ROOT / "proof/SharedHelperDomainProof.lean"))
+    return controls
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--example", choices=("all", "lerp", "unlit", "structured", "textured", "branched", "packed"), default="all")
@@ -142,6 +162,8 @@ def main():
             controls.extend(control_controls())
         if args.example in ("all", "packed"):
             controls.extend(packing_controls())
+        if args.example == "all":
+            controls.extend(shared_controls())
         write_json(output / "result.json", {"status": "PASSED", "layer": "core", "example": args.example, "regression_tests": result.testsRun, "controls": controls})
         return 0
     except (OSError, ValueError, RuntimeError, subprocess.TimeoutExpired) as error:

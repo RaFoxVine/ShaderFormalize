@@ -20,7 +20,7 @@ class BooleanDAG:
                 binding = model["bindings"][index]
                 if binding["width"] == "bool":
                     self.locals[index] = self.convert(binding["expression"])
-            else:
+            elif "effect" in event:
                 index = event["effect"]
                 self.effects[index] = self.effect(model["effects"][index])
 
@@ -99,6 +99,8 @@ class BooleanDAG:
 
     def convert(self, expr):
         kind = expr["kind"]
+        if kind in ("helper_entry", "helper_parameter", "call_result", "call_alive"):
+            return self.atom(expr)
         if kind == "boolean":
             return int(expr["value"])
         if kind == "local":

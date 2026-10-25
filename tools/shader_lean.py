@@ -218,8 +218,13 @@ def model_definition(name, model, parameters):
 
 
 def generate_lean(original, optimized, lower=None, upper=None, spec=None):
+    if any(model["schema"] not in (2, 3, 4, 5, 6) for model in (original, optimized)):
+        raise ModelError("Unknown model schema", "INVALID_INPUT")
     if spec is None:
         spec = {"ranges": [(2, lower, upper)], "nonzero": []}
+    if original["schema"] == 6 or optimized["schema"] == 6:
+        from shader_shared_lean import generate_shared
+        return generate_shared(original, optimized, spec)
     if original["schema"] == 5 or optimized["schema"] == 5:
         from shader_packing_lean import PackingEmitter
         from shader_control_lean import generate_control

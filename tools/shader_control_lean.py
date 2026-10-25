@@ -98,7 +98,7 @@ class ControlEmitter(FragmentEmitter):
 
     def definition(self, name, parameters):
         self.domains = []
-        lines = [f"def {name} {{E : Type}} (ops : Fragment.Ops E) {parameters} : (E → Option Vec4) × Prop := by", "  classical", "  exact"]
+        lines = [f"def {name} {{E : Type}} (ops : Fragment.Ops E) {parameters} : {self.result_type()} := by", "  classical", "  exact"]
         bindings, effects = self.model["bindings"], self.model.get("effects", [])
         events = self.model.get("events", [{"binding": i} for i in range(len(bindings))])
         next_binding = 0
@@ -117,17 +117,26 @@ class ControlEmitter(FragmentEmitter):
                 self.flush(lines)
                 lines.append(f"    let c{index} : E → Prop := {predicate}")
                 self.available_effects += 1
-            else:
+            elif not self.extra_event(event, lines):
                 raise ModelError("Invalid control event ordering")
         if next_binding != len(bindings) or self.available_effects != len(effects):
             raise ModelError("Incomplete control events")
+        self.finish_definition(lines)
+        return "\n".join(lines)
+
+    def result_type(self):
+        return "(E → Option Vec4) × Prop"
+
+    def extra_event(self, event, lines):
+        return False
+
+    def finish_definition(self, lines):
         self.collect_domains(self.model["expression"], effects_mask(self.available_effects))
-        alive = self.field(self.model.get("alive", effects_mask(len(effects))))
+        alive = self.field(self.model.get("alive", effects_mask(self.available_effects)))
         color = self.field(self.model["expression"])
         defined = " ∧ ".join(self.domains + ["True"])
         self.flush(lines)
         lines.append(f"    (Control.finish {alive} {color}, {defined})")
-        return "\n".join(lines)
 
     def collect_domains(self, expr, guard):
         if expr["kind"] == "normalize":

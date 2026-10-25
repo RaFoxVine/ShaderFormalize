@@ -434,6 +434,7 @@ class Program:
             self.globals[identifier(field)] = make_symbol(name, size, "Var", False, reference("parameter", size, index))
         if not 1 <= len(interface) <= 64 or len({item["name"] for item in interface}) != len(interface):
             raise ModelError("Invalid/ambiguous input declarations")
+        self.interface = interface
         self.validate_helper_initialization()
         result = self.invoke(self.main, arguments)
         model = {"schema": 3 if self.fragment else 2, "interface": interface, "entry_layout": entry_layout, "buffer": self.buffer,
@@ -443,7 +444,12 @@ class Program:
         return model
 
 
-def import_shader(source, dump):
+def import_shader(source, dump, frontend="auto"):
+    if frontend == "shared":
+        from shader_shared import SharedProgram
+        return SharedProgram(source, dump).model()
+    if frontend != "auto":
+        raise ModelError("Unknown frontend", "INVALID_INPUT")
     from shader_control_values import uses_control
     from shader_packing import PackingProgram, uses_packing
     root = parse_tree(dump)

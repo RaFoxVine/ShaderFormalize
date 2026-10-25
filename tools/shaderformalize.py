@@ -125,7 +125,7 @@ def prepare(args, output):
         )
         if result.returncode:
             raise ModelError(f"DXC rejected {label}; see its log", "INVALID_INPUT")
-        model = import_shader(source, result.stdout)
+        model = import_shader(source, result.stdout, getattr(args, "frontend", "auto"))
         models.append(model)
         inputs.append({"role": label, "path": str(path), "sha256": hashlib.sha256(source_bytes).hexdigest(), "dxc_seconds": duration})
         write_json(output / f"{label}.model.json", model)
@@ -145,7 +145,7 @@ def prepare(args, output):
         "generated_sha256": sha256(PROOF / "GeneratedModel.lean"),
         "dxc_files": read_json(ROOT / "dependencies.lock.json")["dxc"]["binaries"],
         "guarantee": ("ideal real-number model with exact uint32 fields and guarded conversions; translator and DXC remain trusted"
-                      if max(model["schema"] for model in models) == 5 else
+                      if max(model["schema"] for model in models) in (5, 6) else
                       "ideal real-number model of the accepted source subset; translator and DXC remain trusted"),
     }
 
@@ -207,7 +207,7 @@ end ShaderFormalize.Verification
         "agent_proof_sha256": hashlib.sha256(proof_bytes).hexdigest(),
         "semantic_model_sha256": sha256(PROOF / "ShaderFormalize" / "Model.lean"),
         "semantic_modules": {name: sha256(PROOF / "ShaderFormalize" / name) for name in
-                             (["Model.lean", "Fragment.lean", "Control.lean", "Packing.lean"] if summary["model_schema"] == 5 else
+                             (["Model.lean", "Fragment.lean", "Control.lean", "Packing.lean"] if summary["model_schema"] in (5, 6) else
                               ["Model.lean", "Fragment.lean", "Control.lean"] if summary["model_schema"] == 4 else
                               ["Model.lean", "Fragment.lean"] if summary["model_schema"] == 3 else ["Model.lean"])},
         "lake_manifest_sha256": sha256(PROOF / "lake-manifest.json"),
@@ -220,6 +220,7 @@ end ShaderFormalize.Verification
 def parse_arguments():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("command", choices=("prepare", "check"))
+    parser.add_argument("--frontend", choices=("auto", "shared"), default="auto")
     parser.add_argument("--original", default=ROOT / "examples/lerp/original.hlsl", type=Path)
     parser.add_argument("--optimized", default=ROOT / "examples/lerp/optimized.hlsl", type=Path)
     parser.add_argument("--constraints", default=ROOT / "examples/lerp/constraints.json", type=Path)

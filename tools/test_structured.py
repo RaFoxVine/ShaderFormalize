@@ -19,13 +19,13 @@ class StructuredTests(unittest.TestCase):
         cls.constraints = json.loads((ROOT / "examples/structured/constraints.json").read_text())
 
     @classmethod
-    def compile(cls, source):
+    def compile(cls, source, frontend="auto"):
         with tempfile.TemporaryDirectory(dir=ROOT / "artifacts") as directory:
             path = Path(directory) / "input.hlsl"
             path.write_bytes(source.encode("utf-8"))
             result = subprocess.run([str(cls.dxc), "-T", "ps_6_0", "-E", "main", "-HV", "2021", "-ast-dump", str(path)],
                                     capture_output=True, text=True, encoding="utf-8", check=True)
-        return import_shader(source, result.stdout)
+        return import_shader(source, result.stdout, frontend)
 
     def values(self, source, inputs=None):
         return evaluate_model(self.compile(source), inputs or [[1, 2, 3, 4]])

@@ -9,6 +9,8 @@ def compare(operator, lhs, rhs):
 
 def control_field(expr, model, inputs, locals_, effects, count, operations, guard=None):
     kind = expr["kind"]
+    if kind in ("helper_entry", "helper_parameter", "call_result", "call_alive"):
+        return model["_shared_runtime"].field(expr)
     if kind == "parameter":
         value = inputs[expr["index"]]
         return [list(value) for _ in range(count)] if model["interface"][expr["index"]]["storage"] == "uniform" else value
@@ -56,7 +58,7 @@ def control_field(expr, model, inputs, locals_, effects, count, operations, guar
     return result
 
 
-def evaluate_control(model, inputs, count, operations):
+def control_events(model, inputs, count, operations):
     locals_, effects = [], []
     for event in model["events"]:
         if "binding" in event:
@@ -64,6 +66,8 @@ def evaluate_control(model, inputs, count, operations):
             mask = binding.get("guard")
             active = [True]*count if mask is None else [value[0] for value in control_field(mask, model, inputs, locals_, effects, count, operations)]
             locals_.append(control_field(binding["expression"], model, inputs, locals_, effects, count, operations, active))
+        elif "call" in event:
+            model["_shared_runtime"].call(event["call"], locals_, effects)
         else:
             predicate = model["effects"][event["effect"]]
             args = [control_field(child, model, inputs, locals_, effects, count, operations) for child in predicate["arguments"]]
@@ -78,6 +82,11 @@ def evaluate_control(model, inputs, count, operations):
                     keep = not compare(predicate["operator"], args[0][point][0], args[1][point][0])
                 values.append([not active[point] or keep])
             effects.append(values)
+    return locals_, effects
+
+
+def evaluate_control(model, inputs, count, operations):
+    locals_, effects = control_events(model, inputs, count, operations)
     colors = control_field(model["expression"], model, inputs, locals_, effects, count, operations)
     alive = control_field(model["alive"], model, inputs, locals_, effects, count, operations)
     return [colors[point] if alive[point][0] else None for point in range(count)]
