@@ -128,6 +128,9 @@ def main():
             probe = subprocess.run([str(validate_dxc()), "-T", "ps_6_0", "-E", "Frag", "-HV", "2021", "-ast-dump", str(preprocessed)],
                                    capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=120)
             write_text(output / "typed-ast.log", probe.stdout + "\n" + probe.stderr)
+            ast_bytes = (output / "typed-ast.log").read_bytes()
+            report["ast_sha256"] = hashlib.sha256(ast_bytes).hexdigest()
+            report["ast_bytes"] = len(ast_bytes)
             report["ast_probe_status"] = "PARSED" if probe.returncode == 0 else "BLOCKED"
             report["ast_diagnostic_tail"] = probe.stderr[-4000:]
         write_json(output / "result.json", report)

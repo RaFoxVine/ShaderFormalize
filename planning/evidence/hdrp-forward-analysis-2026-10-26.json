@@ -1,0 +1,1944 @@
+{
+  "schema": 1,
+  "status": "ANALYSIS_DELIVERED",
+  "baseline_commit": "c1de3d7",
+  "authorization_commit": "822f929",
+  "forward_lean_generated": false,
+  "forward_equivalence_proved": false,
+  "guarantee": "Syntactic may-call upper bound including global initialization and used default arguments; not a source importer or equivalence result",
+  "precision": "No constant propagation, branch feasibility, execution counts, or resource dataflow analysis; globals include conservative initialization roots",
+  "configuration": {
+    "package": {
+      "name": "com.unity.render-pipelines.high-definition",
+      "version": "17.5.0",
+      "cache_directory": "com.unity.render-pipelines.high-definition@6461a40020a9"
+    },
+    "defines": {
+      "SHADER_API_D3D11": "1",
+      "SHADER_STAGE_FRAGMENT": "1",
+      "UNITY_COMPILER_DXC": "1",
+      "SHADER_TARGET": "45",
+      "_ALPHATEST_ON": "1",
+      "_DISABLE_DECALS": "1",
+      "DECALS_OFF": "1",
+      "USE_FPTL_LIGHTLIST": "1",
+      "SCREEN_SPACE_SHADOWS_OFF": "1",
+      "PUNCTUAL_SHADOW_LOW": "1",
+      "DIRECTIONAL_SHADOW_LOW": "1",
+      "AREA_SHADOW_MEDIUM": "1"
+    },
+    "source_sha256": "155cabd2448c5f2f2aafe6f8acdf50eb52fa6dce2a1c73a50d1e45fd542db296"
+  },
+  "provenance": {
+    "verified": true,
+    "scope": "AST and preprocessed artifacts match supplied inventory; external source files were not reopened",
+    "inventory_sha256": "8c30c3c4c07de20a324092be943267e2c18366b2cd63a267359c51b942902880",
+    "package": {
+      "name": "com.unity.render-pipelines.high-definition",
+      "version": "17.5.0",
+      "cache_directory": "com.unity.render-pipelines.high-definition@6461a40020a9"
+    },
+    "defines": {
+      "SHADER_API_D3D11": "1",
+      "SHADER_STAGE_FRAGMENT": "1",
+      "UNITY_COMPILER_DXC": "1",
+      "SHADER_TARGET": "45",
+      "_ALPHATEST_ON": "1",
+      "_DISABLE_DECALS": "1",
+      "DECALS_OFF": "1",
+      "USE_FPTL_LIGHTLIST": "1",
+      "SCREEN_SPACE_SHADOWS_OFF": "1",
+      "PUNCTUAL_SHADOW_LOW": "1",
+      "DIRECTIONAL_SHADOW_LOW": "1",
+      "AREA_SHADOW_MEDIUM": "1"
+    },
+    "preprocessed_sha256": "528ee3fade7d9a45d5fe39f7cdf09ad7ed861c9bf11e57d00984fe2ec29417fd"
+  },
+  "summary": {
+    "status": "ANALYZED",
+    "ast_nodes": 91259,
+    "definition_count": 1388,
+    "reachable_definitions": 284,
+    "node_counts_by_origin": {
+      "body": {
+        "CompoundStmt": 452,
+        "NullStmt": 24,
+        "DeclStmt": 705,
+        "VarDecl": 724,
+        "CallExpr": 904,
+        "ImplicitCastExpr": 5935,
+        "DeclRefExpr": 5266,
+        "BinaryOperator": 1715,
+        "IntegerLiteral": 565,
+        "CXXFunctionalCastExpr": 146,
+        "InitListExpr": 153,
+        "HLSLVectorElementExpr": 667,
+        "MemberExpr": 892,
+        "FloatingLiteral": 530,
+        "ParenExpr": 399,
+        "CompoundAssignOperator": 125,
+        "ReturnStmt": 230,
+        "ConditionalOperator": 59,
+        "CStyleCastExpr": 28,
+        "CXXOperatorCallExpr": 98,
+        "IfStmt": 141,
+        "Null": 264,
+        "CXXDefaultArgExpr": 13,
+        "UnaryOperator": 89,
+        "ArraySubscriptExpr": 91,
+        "CXXBoolLiteralExpr": 13,
+        "WhileStmt": 3,
+        "BreakStmt": 11,
+        "CXXMemberCallExpr": 36,
+        "ForStmt": 7,
+        "ExtMatrixElementExpr": 16,
+        "SwitchStmt": 2,
+        "CaseStmt": 5,
+        "DefaultStmt": 1,
+        "AttributedStmt": 5,
+        "HLSLLoopAttr": 3,
+        "HLSLBranchAttr": 2
+      },
+      "default": {
+        "ImplicitCastExpr": 7,
+        "FloatingLiteral": 2,
+        "CXXBoolLiteralExpr": 3,
+        "IntegerLiteral": 6
+      },
+      "global_initializer": {
+        "InitListExpr": 722,
+        "ImplicitCastExpr": 1673,
+        "IntegerLiteral": 1081,
+        "CallExpr": 1,
+        "DeclRefExpr": 3,
+        "HLSLVectorElementExpr": 1,
+        "CXXFunctionalCastExpr": 670,
+        "FloatingLiteral": 1638,
+        "UnaryOperator": 132,
+        "BinaryOperator": 1032,
+        "ParenExpr": 617
+      }
+    },
+    "operators": {
+      ">": 42,
+      "/": 109,
+      "=": 483,
+      "*=": 66,
+      "-": 376,
+      "|": 565,
+      "<<": 460,
+      "*": 505,
+      "+": 216,
+      "!=": 29,
+      "&": 27,
+      ">=": 27,
+      "&&": 30,
+      "!": 6,
+      "<": 27,
+      "==": 38,
+      "++": 10,
+      "+=": 47,
+      "|=": 5,
+      "<=": 7,
+      "-=": 4,
+      "||": 3,
+      ">>": 6,
+      "/=": 3,
+      "^": 1,
+      "~": 1
+    },
+    "issues": []
+  },
+  "counts": {
+    "calls": 1039,
+    "external_calls": 108,
+    "default_arguments": 13,
+    "global_initializers": 51,
+    "referenced_globals": 140
+  },
+  "default_arguments": [
+    {
+      "call_line": 76056,
+      "default_arg_line": 76069,
+      "callee_id": "0x1cf43041b38",
+      "parameter": 4,
+      "initializer_line": 25396
+    },
+    {
+      "call_line": 76436,
+      "default_arg_line": 76446,
+      "callee_id": "0x1cf4313f5d0",
+      "parameter": 3,
+      "initializer_line": 39288
+    },
+    {
+      "call_line": 65925,
+      "default_arg_line": 65935,
+      "callee_id": "0x1cf42b8db80",
+      "parameter": 1,
+      "initializer_line": 3918
+    },
+    {
+      "call_line": 83598,
+      "default_arg_line": 83614,
+      "callee_id": "0x1cf433e86a0",
+      "parameter": 6,
+      "initializer_line": 80286
+    },
+    {
+      "call_line": 83677,
+      "default_arg_line": 83695,
+      "callee_id": "0x1cf43301430",
+      "parameter": 6,
+      "initializer_line": 67194
+    },
+    {
+      "call_line": 89873,
+      "default_arg_line": 89878,
+      "callee_id": "0x1cf42f11258",
+      "parameter": 1,
+      "initializer_line": 11335
+    },
+    {
+      "call_line": 39176,
+      "default_arg_line": 39181,
+      "callee_id": "0x1cf42b8db80",
+      "parameter": 1,
+      "initializer_line": 3918
+    },
+    {
+      "call_line": 67364,
+      "default_arg_line": 67372,
+      "callee_id": "0x1cf432ff298",
+      "parameter": 2,
+      "initializer_line": 67071
+    },
+    {
+      "call_line": 79306,
+      "default_arg_line": 79315,
+      "callee_id": "0x1cf433d1ac0",
+      "parameter": 3,
+      "initializer_line": 78907
+    },
+    {
+      "call_line": 78956,
+      "default_arg_line": 78969,
+      "callee_id": "0x1cf432f8b70",
+      "parameter": 2,
+      "initializer_line": 66677
+    },
+    {
+      "call_line": 65970,
+      "default_arg_line": 65980,
+      "callee_id": "0x1cf42b8db80",
+      "parameter": 1,
+      "initializer_line": 3918
+    },
+    {
+      "call_line": 78322,
+      "default_arg_line": 78330,
+      "callee_id": "0x1cf432ef9b0",
+      "parameter": 2,
+      "initializer_line": 66612
+    },
+    {
+      "call_line": 64718,
+      "default_arg_line": 64732,
+      "callee_id": "0x1cf432c4400",
+      "parameter": 6,
+      "initializer_line": 64609
+    }
+  ],
+  "global_initializer_names": [
+    "k_identity3x3",
+    "k_identity4x4",
+    "unity_RendererUserValue",
+    "tetraBasisNormal",
+    "tetraBasisArray",
+    "sRGB_2_AP0",
+    "sRGB_2_AP1",
+    "AP0_2_sRGB",
+    "AP1_2_sRGB",
+    "AP0_2_AP1_MAT",
+    "AP1_2_AP0_MAT",
+    "AP1_2_XYZ_MAT",
+    "XYZ_2_AP1_MAT",
+    "XYZ_2_REC709_MAT",
+    "XYZ_2_REC2020_MAT",
+    "XYZ_2_DCIP3_MAT",
+    "XYZ_2_P3D65_MAT",
+    "AP1_RGB2Y",
+    "RRT_SAT_MAT",
+    "ODT_SAT_MAT",
+    "D60_2_D65_CAT",
+    "M",
+    "RRT_GLOW_GAIN",
+    "RRT_GLOW_MID",
+    "RRT_RED_SCALE",
+    "RRT_RED_PIVOT",
+    "RRT_RED_HUE",
+    "RRT_RED_WIDTH",
+    "RRT_SAT_FACTOR",
+    "DIM_SURROUND_GAMMA",
+    "CINEMA_WHITE",
+    "CINEMA_BLACK",
+    "ODT_SAT_FACTOR",
+    "LogC",
+    "kRGBMRange",
+    "kDebugColorGradient",
+    "kFontData",
+    "kSHBasisCoef",
+    "kClampedCosineCoefs",
+    "k_FibonacciSeq",
+    "k_Fibonacci2dSeq21",
+    "k_Fibonacci2dSeq34",
+    "k_Fibonacci2dSeq55",
+    "k_Fibonacci2dSeq89",
+    "k_Hammersley2dSeq16",
+    "k_Hammersley2dSeq32",
+    "k_Hammersley2dSeq64",
+    "k_Hammersley2dSeq256",
+    "CUBEMAP_FACE_BASIS_MAPPING",
+    "fibonacciSpiralDirection",
+    "kFeatureVariantFlags"
+  ],
+  "resources": [
+    {
+      "name": "s_linear_clamp_sampler",
+      "signature": "SamplerState",
+      "dump_line": 9321
+    },
+    {
+      "name": "s_trilinear_clamp_sampler",
+      "signature": "SamplerState",
+      "dump_line": 9323
+    },
+    {
+      "name": "s_linear_clamp_compare_sampler",
+      "signature": "SamplerComparisonState",
+      "dump_line": 9325
+    },
+    {
+      "name": "unity_ProbeVolumeSH",
+      "signature": "Texture3D",
+      "dump_line": 9345
+    },
+    {
+      "name": "samplerunity_ProbeVolumeSH",
+      "signature": "SamplerState",
+      "dump_line": 9346
+    },
+    {
+      "name": "_ExposureTexture",
+      "signature": "Texture2D",
+      "dump_line": 9347
+    },
+    {
+      "name": "_PrevExposureTexture",
+      "signature": "Texture2D",
+      "dump_line": 9348
+    },
+    {
+      "name": "_DirectionalLightDatas",
+      "signature": "StructuredBuffer<DirectionalLightData>",
+      "dump_line": 10847
+    },
+    {
+      "name": "_LightDatas",
+      "signature": "StructuredBuffer<LightData>",
+      "dump_line": 10849
+    },
+    {
+      "name": "g_vLightListTile",
+      "signature": "StructuredBuffer<uint>",
+      "dump_line": 10843
+    },
+    {
+      "name": "_EnvLightDatas",
+      "signature": "StructuredBuffer<EnvLightData>",
+      "dump_line": 10851
+    },
+    {
+      "name": "_CookieAtlas",
+      "signature": "Texture2D",
+      "dump_line": 10857
+    },
+    {
+      "name": "_ReflectionAtlas",
+      "signature": "Texture2DArray",
+      "dump_line": 10858
+    },
+    {
+      "name": "_ContactShadowTexture",
+      "signature": "Texture2DArray<uint>",
+      "dump_line": 10859
+    },
+    {
+      "name": "_IndirectDiffuseTexture",
+      "signature": "Texture2DArray",
+      "dump_line": 10861
+    },
+    {
+      "name": "_VolumetricCloudsShadowsTexture",
+      "signature": "Texture2D",
+      "dump_line": 10862
+    },
+    {
+      "name": "_SkyTexture",
+      "signature": "TextureCubeArray",
+      "dump_line": 10863
+    },
+    {
+      "name": "_AmbientOcclusionTexture",
+      "signature": "Texture2DArray",
+      "dump_line": 10866
+    },
+    {
+      "name": "_SsrLightingTexture",
+      "signature": "Texture2DArray",
+      "dump_line": 10868
+    },
+    {
+      "name": "_BaseColorMap",
+      "signature": "Texture2D",
+      "dump_line": 14962
+    },
+    {
+      "name": "sampler_BaseColorMap",
+      "signature": "SamplerState",
+      "dump_line": 14963
+    },
+    {
+      "name": "_ShadowmapAtlas",
+      "signature": "Texture2D",
+      "dump_line": 65881
+    },
+    {
+      "name": "_CachedShadowmapAtlas",
+      "signature": "Texture2D",
+      "dump_line": 65882
+    },
+    {
+      "name": "_ShadowmapCascadeAtlas",
+      "signature": "Texture2D",
+      "dump_line": 65883
+    },
+    {
+      "name": "_ShadowmapAreaAtlas",
+      "signature": "Texture2D",
+      "dump_line": 65884
+    },
+    {
+      "name": "_CachedAreaLightShadowmapAtlas",
+      "signature": "Texture2D",
+      "dump_line": 65885
+    },
+    {
+      "name": "_HDShadowDatas",
+      "signature": "StructuredBuffer<HDShadowData>",
+      "dump_line": 65886
+    },
+    {
+      "name": "_HDDirectionalShadowData",
+      "signature": "StructuredBuffer<HDDirectionalShadowData>",
+      "dump_line": 65888
+    },
+    {
+      "name": "_LtcData",
+      "signature": "Texture2DArray",
+      "dump_line": 71147
+    },
+    {
+      "name": "_PreIntegratedFGD_GGXDisneyDiffuse",
+      "signature": "Texture2D",
+      "dump_line": 71426
+    }
+  ],
+  "selected_function_paths": [
+    {
+      "name": "Frag",
+      "signature": "void (PackedVaryingsToPS, float4 &__restrict)",
+      "dump_line": 91075,
+      "path": [
+        "Frag"
+      ]
+    },
+    {
+      "name": "GetSurfaceAndBuiltinData",
+      "signature": "void (FragInputs, float3, __restrict PositionInputs, __restrict SurfaceData, __restrict BuiltinData)",
+      "dump_line": 90621,
+      "path": [
+        "Frag",
+        "GetSurfaceAndBuiltinData"
+      ]
+    },
+    {
+      "name": "GetPreLightData",
+      "signature": "PreLightData (float3, PositionInputs, __restrict BSDFData)",
+      "dump_line": 75910,
+      "path": [
+        "Frag",
+        "GetPreLightData"
+      ]
+    },
+    {
+      "name": "LightLoop",
+      "signature": "void (float3, PositionInputs, PreLightData, BSDFData, BuiltinData, uint, __restrict LightLoopOutput)",
+      "dump_line": 84094,
+      "path": [
+        "Frag",
+        "LightLoop"
+      ]
+    },
+    {
+      "name": "GetSurfaceData",
+      "signature": "float (FragInputs, LayerTexCoord, __restrict SurfaceData, float3 &__restrict, float3 &__restrict)",
+      "dump_line": 89596,
+      "path": [
+        "Frag",
+        "GetSurfaceAndBuiltinData",
+        "GetSurfaceData"
+      ]
+    },
+    {
+      "name": "FindDiffusionProfileIndex",
+      "signature": "uint (uint)",
+      "dump_line": 70941,
+      "path": [
+        "Frag",
+        "ConvertSurfaceDataToBSDFData",
+        "FindDiffusionProfileIndex"
+      ]
+    },
+    {
+      "name": "FetchIndex",
+      "signature": "uint (uint, uint)",
+      "dump_line": 67584,
+      "path": [
+        "Frag",
+        "LightLoop",
+        "FetchIndex"
+      ]
+    },
+    {
+      "name": "FetchLight",
+      "signature": "LightData (uint)",
+      "dump_line": 67676,
+      "path": [
+        "Frag",
+        "LightLoop",
+        "FetchLight"
+      ]
+    },
+    {
+      "name": "FastSign",
+      "signature": "float (float, bool)",
+      "dump_line": 3915,
+      "path": [
+        "Frag",
+        "LightLoop",
+        "GetDirectionalShadowAttenuation",
+        "FastSign"
+      ]
+    },
+    {
+      "name": "CopySign",
+      "signature": "float (float, float, bool)",
+      "dump_line": 3855,
+      "path": [
+        "Frag",
+        "LightLoop",
+        "GetDirectionalShadowAttenuation",
+        "FastSign",
+        "CopySign"
+      ]
+    },
+    {
+      "name": "IntersectSphereProxy",
+      "signature": "float (EnvLightData, float3, float3)",
+      "dump_line": 72264,
+      "path": [
+        "Frag",
+        "LightLoop",
+        "EvaluateBSDF_Env",
+        "EvaluateLight_EnvIntersection",
+        "IntersectSphereProxy"
+      ]
+    },
+    {
+      "name": "IsNaN",
+      "signature": "bool (float)",
+      "dump_line": 2374,
+      "path": [
+        "Frag",
+        "LightLoop",
+        "EvaluateBSDF_Env",
+        "EvaluateLight_EnvIntersection",
+        "IntersectSphereProxy",
+        "IsNaN"
+      ]
+    },
+    {
+      "name": "GetMeshRenderingLayerMask",
+      "signature": "uint ()",
+      "dump_line": 14215,
+      "path": [
+        "Frag",
+        "GetSurfaceAndBuiltinData",
+        "GetBuiltinData",
+        "GetBuiltinData",
+        "GetBuiltinData",
+        "InitBuiltinData",
+        "GetMeshRenderingLayerMask"
+      ]
+    }
+  ],
+  "feature_examples": {
+    "CStyleCastExpr": [
+      {
+        "dump_line": 14919,
+        "owner": "0x1cf42f54750",
+        "path": [
+          "Frag",
+          "AdjustFragInputsToOffScreenRendering"
+        ],
+        "header": " <col:55, col:114> 'uint2':'vector<unsigned int, 2>' <NoOp>"
+      },
+      {
+        "dump_line": 14943,
+        "owner": "0x1cf42f54750",
+        "path": [
+          "Frag",
+          "AdjustFragInputsToOffScreenRendering"
+        ],
+        "header": " <col:55, col:114> 'uint2':'vector<unsigned int, 2>' <NoOp>"
+      },
+      {
+        "dump_line": 90672,
+        "owner": "0x1cf43488138",
+        "path": [
+          "Frag",
+          "GetSurfaceAndBuiltinData"
+        ],
+        "header": " <col:21, col:36> 'LayerTexCoord' <NoOp>"
+      },
+      {
+        "dump_line": 73573,
+        "owner": "0x1cf433847c8",
+        "path": [
+          "Frag",
+          "ConvertSurfaceDataToBSDFData"
+        ],
+        "header": " <col:16, col:26> 'BSDFData' <NoOp>"
+      },
+      {
+        "dump_line": 75920,
+        "owner": "0x1cf433a4380",
+        "path": [
+          "Frag",
+          "GetPreLightData"
+        ],
+        "header": " <col:20, col:34> 'PreLightData' <NoOp>"
+      },
+      {
+        "dump_line": 84106,
+        "owner": "0x1cf43426da0",
+        "path": [
+          "Frag",
+          "LightLoop"
+        ],
+        "header": " <col:23, col:40> 'LightLoopOutput' <NoOp>"
+      },
+      {
+        "dump_line": 84268,
+        "owner": "0x1cf43426da0",
+        "path": [
+          "Frag",
+          "LightLoop"
+        ],
+        "header": " <col:25, col:44> 'AggregateLighting' <NoOp>"
+      },
+      {
+        "dump_line": 84488,
+        "owner": "0x1cf43426da0",
+        "path": [
+          "Frag",
+          "LightLoop"
+        ],
+        "header": " <col:31, col:44> 'BuiltinData' <NoOp>"
+      }
+    ],
+    "CXXDefaultArgExpr": [
+      {
+        "dump_line": 76069,
+        "owner": "0x1cf433a4380",
+        "path": [
+          "Frag",
+          "GetPreLightData"
+        ],
+        "header": " <<invalid sloc>> 'float'"
+      },
+      {
+        "dump_line": 76446,
+        "owner": "0x1cf433a4380",
+        "path": [
+          "Frag",
+          "GetPreLightData"
+        ],
+        "header": " <<invalid sloc>> 'bool'"
+      },
+      {
+        "dump_line": 65935,
+        "owner": "0x1cf432e37d0",
+        "path": [
+          "Frag",
+          "LightLoop",
+          "GetDirectionalShadowAttenuation"
+        ],
+        "header": " <<invalid sloc>> 'bool'"
+      },
+      {
+        "dump_line": 83614,
+        "owner": "0x1cf4341b828",
+        "path": [
+          "Frag",
+          "LightLoop",
+          "EvaluateBSDF_Env"
+        ],
+        "header": " <<invalid sloc>> 'int'"
+      },
+      {
+        "dump_line": 83695,
+        "owner": "0x1cf4341b828",
+        "path": [
+          "Frag",
+          "LightLoop",
+          "EvaluateBSDF_Env"
+        ],
+        "header": " <<invalid sloc>> 'int'"
+      },
+      {
+        "dump_line": 89878,
+        "owner": "0x1cf4347b420",
+        "path": [
+          "Frag",
+          "GetSurfaceAndBuiltinData",
+          "GetLayerTexCoord",
+          "GetLayerTexCoord"
+        ],
+        "header": " <<invalid sloc>> 'bool'"
+      },
+      {
+        "dump_line": 39181,
+        "owner": "0x1cf4313d758",
+        "path": [
+          "Frag",
+          "GetPreLightData",
+          "GetOrthoBasisViewNormal",
+          "GetLocalFrame"
+        ],
+        "header": " <<invalid sloc>> 'bool'"
+      },
+      {
+        "dump_line": 67372,
+        "owner": "0x1cf43301430",
+        "path": [
+          "Frag",
+          "LightLoop",
+          "EvaluateBSDF_Env",
+          "SampleEnv"
+        ],
+        "header": " <<invalid sloc>> 'float'"
+      }
+    ],
+    "ArraySubscriptExpr": [
+      {
+        "dump_line": 76401,
+        "owner": "0x1cf433a4380",
+        "path": [
+          "Frag",
+          "GetPreLightData"
+        ],
+        "header": " <col:9, col:44> 'float3x3':'matrix<float, 3, 3>' lvalue"
+      },
+      {
+        "dump_line": 76418,
+        "owner": "0x1cf433a4380",
+        "path": [
+          "Frag",
+          "GetPreLightData"
+        ],
+        "header": " <col:5, col:40> 'float3x3':'matrix<float, 3, 3>' lvalue"
+      },
+      {
+        "dump_line": 70982,
+        "owner": "0x1cf43359040",
+        "path": [
+          "Frag",
+          "ConvertSurfaceDataToBSDFData",
+          "FindDiffusionProfileIndex"
+        ],
+        "header": " <col:13, col:41> 'const uint4':'const vector<unsigned int, 4>' lvalue"
+      },
+      {
+        "dump_line": 70654,
+        "owner": "0x1cf43354b00",
+        "path": [
+          "Frag",
+          "ConvertSurfaceDataToBSDFData",
+          "FillMaterialSSS"
+        ],
+        "header": " <col:25, col:76> 'const float4':'const vector<float, 4>' lvalue"
+      },
+      {
+        "dump_line": 70835,
+        "owner": "0x1cf433575f0",
+        "path": [
+          "Frag",
+          "ConvertSurfaceDataToBSDFData",
+          "FillMaterialTransmission"
+        ],
+        "header": " <col:20, col:86> 'const float4':'const vector<float, 4>' lvalue"
+      },
+      {
+        "dump_line": 70851,
+        "owner": "0x1cf433575f0",
+        "path": [
+          "Frag",
+          "ConvertSurfaceDataToBSDFData",
+          "FillMaterialTransmission"
+        ],
+        "header": " <col:25, col:76> 'const float4':'const vector<float, 4>' lvalue"
+      },
+      {
+        "dump_line": 70907,
+        "owner": "0x1cf433575f0",
+        "path": [
+          "Frag",
+          "ConvertSurfaceDataToBSDFData",
+          "FillMaterialTransmission"
+        ],
+        "header": " <col:57, col:109> 'const float4':'const vector<float, 4>' lvalue"
+      },
+      {
+        "dump_line": 70914,
+        "owner": "0x1cf433575f0",
+        "path": [
+          "Frag",
+          "ConvertSurfaceDataToBSDFData",
+          "FillMaterialTransmission"
+        ],
+        "header": " <col:57, col:108> 'const float4':'const vector<float, 4>' lvalue"
+      }
+    ],
+    "WhileStmt": [
+      {
+        "dump_line": 84306,
+        "owner": "0x1cf43426da0",
+        "path": [
+          "Frag",
+          "LightLoop"
+        ],
+        "header": " <line:285:9, line:311:9>"
+      },
+      {
+        "dump_line": 84581,
+        "owner": "0x1cf43426da0",
+        "path": [
+          "Frag",
+          "LightLoop"
+        ],
+        "header": " <line:569:13, line:617:13>"
+      },
+      {
+        "dump_line": 84983,
+        "owner": "0x1cf43426da0",
+        "path": [
+          "Frag",
+          "LightLoop"
+        ],
+        "header": " <line:695:9, line:721:9>"
+      }
+    ],
+    "ForStmt": [
+      {
+        "dump_line": 84883,
+        "owner": "0x1cf43426da0",
+        "path": [
+          "Frag",
+          "LightLoop"
+        ],
+        "header": " <line:647:9, line:654:9>"
+      },
+      {
+        "dump_line": 70963,
+        "owner": "0x1cf43359040",
+        "path": [
+          "Frag",
+          "ConvertSurfaceDataToBSDFData",
+          "FindDiffusionProfileIndex"
+        ],
+        "header": " <line:266:5, line:273:5>"
+      },
+      {
+        "dump_line": 25641,
+        "owner": "0x1cf43041b38",
+        "path": [
+          "Frag",
+          "GetPreLightData",
+          "EvalIridescence"
+        ],
+        "header": " <line:553:9, line:559:9>"
+      },
+      {
+        "dump_line": 64876,
+        "owner": "0x1cf42d00600",
+        "path": [
+          "Frag",
+          "LightLoop",
+          "GetDirectionalShadowAttenuation",
+          "EvalShadow_CascadedDepth_Dither",
+          "EvalShadow_CascadedDepth_Dither_SplitIndex",
+          "EvalShadow_GetSplitIndex"
+        ],
+        "header": " <line:231:5, line:244:5>"
+      },
+      {
+        "dump_line": 58045,
+        "owner": "0x1cf432649b0",
+        "path": [
+          "Frag",
+          "LightLoop",
+          "GetDirectionalShadowAttenuation",
+          "EvalShadow_CascadedDepth_Dither",
+          "EvalShadow_CascadedDepth_Dither_SplitIndex",
+          "SampleShadow_PCF_Tent_5x5"
+        ],
+        "header": " <line:70:5, line:76:5>"
+      },
+      {
+        "dump_line": 58225,
+        "owner": "0x1cf432649b0",
+        "path": [
+          "Frag",
+          "LightLoop",
+          "GetDirectionalShadowAttenuation",
+          "EvalShadow_CascadedDepth_Dither",
+          "EvalShadow_CascadedDepth_Dither_SplitIndex",
+          "SampleShadow_PCF_Tent_5x5"
+        ],
+        "header": " <line:79:5, line:85:5>"
+      },
+      {
+        "dump_line": 57948,
+        "owner": "0x1cf43262f20",
+        "path": [
+          "Frag",
+          "LightLoop",
+          "EvaluateBSDF_Punctual",
+          "ShadeSurface_Punctual",
+          "EvaluateShadow_Punctual",
+          "GetPunctualShadowAttenuation",
+          "EvalShadow_PunctualDepth",
+          "SampleShadow_PCF_Tent_3x3"
+        ],
+        "header": " <line:42:5, line:45:5>"
+      }
+    ],
+    "ExtMatrixElementExpr": [
+      {
+        "dump_line": 71402,
+        "owner": "0x1cf43362100",
+        "path": [
+          "Frag",
+          "GetPreLightData",
+          "SampleLtcMatrix"
+        ],
+        "header": " <col:14, col:19> 'float' lvalue vectorcomponent _m22"
+      },
+      {
+        "dump_line": 71407,
+        "owner": "0x1cf43362100",
+        "path": [
+          "Frag",
+          "GetPreLightData",
+          "SampleLtcMatrix"
+        ],
+        "header": " <col:14, col:19> 'vector<float, 4>':'vector<float, 4>' lvalue vectorcomponent _m00_m02_m11_m20"
+      },
+      {
+        "dump_line": 71339,
+        "owner": "0x1cf4335f7e0",
+        "path": [
+          "Frag",
+          "GetPreLightData",
+          "ModifyDisneyLTCTransformForDiffusePower"
+        ],
+        "header": " <col:5, col:25> 'float' lvalue vectorcomponent _m00"
+      },
+      {
+        "dump_line": 71347,
+        "owner": "0x1cf4335f7e0",
+        "path": [
+          "Frag",
+          "GetPreLightData",
+          "ModifyDisneyLTCTransformForDiffusePower"
+        ],
+        "header": " <col:5, col:25> 'float' lvalue vectorcomponent _m02"
+      },
+      {
+        "dump_line": 71355,
+        "owner": "0x1cf4335f7e0",
+        "path": [
+          "Frag",
+          "GetPreLightData",
+          "ModifyDisneyLTCTransformForDiffusePower"
+        ],
+        "header": " <col:5, col:25> 'float' lvalue vectorcomponent _m11"
+      },
+      {
+        "dump_line": 71363,
+        "owner": "0x1cf4335f7e0",
+        "path": [
+          "Frag",
+          "GetPreLightData",
+          "ModifyDisneyLTCTransformForDiffusePower"
+        ],
+        "header": " <col:5, col:25> 'float' lvalue vectorcomponent _m20"
+      },
+      {
+        "dump_line": 14287,
+        "owner": "0x1cf42f47690",
+        "path": [
+          "Frag",
+          "GetWorldSpaceNormalizeViewDir",
+          "GetWorldSpaceViewDir",
+          "GetCurrentViewPosition"
+        ],
+        "header": " <col:12, col:27> 'const vector<float, 3>':'const vector<float, 3>' lvalue vectorcomponent _14_24_34"
+      },
+      {
+        "dump_line": 9699,
+        "owner": "0x1cf42e34468",
+        "path": [
+          "Frag",
+          "GetWorldSpaceNormalizeViewDir",
+          "GetWorldSpaceViewDir",
+          "IsPerspectiveProjection",
+          "OptimizeProjectionMatrix"
+        ],
+        "header": " <col:5, col:7> 'vector<float, 2>':'vector<float, 2>' lvalue vectorcomponent _21_41"
+      }
+    ],
+    "SwitchStmt": [
+      {
+        "dump_line": 70492,
+        "owner": "0x1cf43351958",
+        "path": [
+          "Frag",
+          "LightLoop",
+          "ModifyBakedDiffuseLighting",
+          "GetModifiedDiffuseColorForSSS",
+          "ApplySubsurfaceScatteringTexturingMode"
+        ],
+        "header": " <line:54:5, line:59:5>"
+      },
+      {
+        "dump_line": 55298,
+        "owner": "0x1cf4323f710",
+        "path": [
+          "Frag",
+          "LightLoop",
+          "EvaluateBSDF_Area",
+          "EvaluateLTC_Area",
+          "PolygonIrradiance",
+          "PolygonFormFactor"
+        ],
+        "header": " <line:139:5, line:152:5>"
+      }
+    ]
+  },
+  "external_calls": [
+    {
+      "raw_id": "0x1cf42b41be0",
+      "canonical_id": "0x1cf42b41be0",
+      "name": "asuint",
+      "kind": "Function",
+      "signature": "unsigned int (float)"
+    },
+    {
+      "raw_id": "0x1cf42f37068",
+      "canonical_id": "0x1cf42f37068",
+      "name": "round",
+      "kind": "Function",
+      "signature": "vector<float, 2> (vector<float, 2>)"
+    },
+    {
+      "raw_id": "0x1cf42b8e730",
+      "canonical_id": "0x1cf42b8e730",
+      "name": "normalize",
+      "kind": "Function",
+      "signature": "vector<float, 3> (vector<float, 3>)"
+    },
+    {
+      "raw_id": "0x1cf42baa368",
+      "canonical_id": "0x1cf42baa368",
+      "name": "lerp",
+      "kind": "Function",
+      "signature": "float (float, float, float)"
+    },
+    {
+      "raw_id": "0x1cf42da0828",
+      "canonical_id": "0x1cf42da0828",
+      "name": "operator[]",
+      "kind": "CXXMethod",
+      "signature": "vector<float, 3> &(unsigned int)"
+    },
+    {
+      "raw_id": "0x1cf42f12218",
+      "canonical_id": "0x1cf42f12218",
+      "name": "cross",
+      "kind": "Function",
+      "signature": "vector<float, 3> (vector<float, 3>, vector<float, 3>)"
+    },
+    {
+      "raw_id": "0x1cf42b8e2e8",
+      "canonical_id": "0x1cf42b8e2e8",
+      "name": "dot",
+      "kind": "Function",
+      "signature": "float (vector<float, 3>, vector<float, 3>)"
+    },
+    {
+      "raw_id": "0x1cf42b4ba98",
+      "canonical_id": "0x1cf42b4ba98",
+      "name": "sqrt",
+      "kind": "Function",
+      "signature": "float (float)"
+    },
+    {
+      "raw_id": "0x1cf42b98610",
+      "canonical_id": "0x1cf42b98610",
+      "name": "lerp",
+      "kind": "Function",
+      "signature": "vector<float, 3> (vector<float, 3>, vector<float, 3>, vector<float, 3>)"
+    },
+    {
+      "raw_id": "0x1cf4312e610",
+      "canonical_id": "0x1cf4312e610",
+      "name": "reflect",
+      "kind": "Function",
+      "signature": "vector<float, 3> (vector<float, 3>, vector<float, 3>)"
+    },
+    {
+      "raw_id": "0x1cf42b90ad0",
+      "canonical_id": "0x1cf42b90ad0",
+      "name": "saturate",
+      "kind": "Function",
+      "signature": "float (float)"
+    },
+    {
+      "raw_id": "0x1cf43427dc8",
+      "canonical_id": "0x1cf43427dc8",
+      "name": "operator[]",
+      "kind": "CXXMethod",
+      "signature": "const DirectionalLightData &(unsigned int) const"
+    },
+    {
+      "raw_id": "0x1cf4342c6f8",
+      "canonical_id": "0x1cf4342c6f8",
+      "name": "Load",
+      "kind": "CXXMethod",
+      "signature": "<bound member function type>"
+    },
+    {
+      "raw_id": "0x1cf42e53648",
+      "canonical_id": "0x1cf42e53648",
+      "name": "Load",
+      "kind": "CXXMethod",
+      "signature": "<bound member function type>"
+    },
+    {
+      "raw_id": "0x1cf42c9dbb0",
+      "canonical_id": "0x1cf42c9dbb0",
+      "name": "SampleBias",
+      "kind": "CXXMethod",
+      "signature": "<bound member function type>"
+    },
+    {
+      "raw_id": "0x1cf43357e40",
+      "canonical_id": "0x1cf43357e40",
+      "name": "asuint",
+      "kind": "Function",
+      "signature": "unsigned int (unsigned int)"
+    },
+    {
+      "raw_id": "0x1cf42b23e20",
+      "canonical_id": "0x1cf42b23e20",
+      "name": "max",
+      "kind": "Function",
+      "signature": "float (float, float)"
+    },
+    {
+      "raw_id": "0x1cf42f62c98",
+      "canonical_id": "0x1cf42f62c98",
+      "name": "clamp",
+      "kind": "Function",
+      "signature": "vector<float, 3> (vector<float, 3>, vector<float, 3>, vector<float, 3>)"
+    },
+    {
+      "raw_id": "0x1cf42fe1030",
+      "canonical_id": "0x1cf42fe1030",
+      "name": "sqrt",
+      "kind": "Function",
+      "signature": "vector<float, 3> (vector<float, 3>)"
+    },
+    {
+      "raw_id": "0x1cf42b25f30",
+      "canonical_id": "0x1cf42b25f30",
+      "name": "max",
+      "kind": "Function",
+      "signature": "vector<float, 3> (vector<float, 3>, vector<float, 3>)"
+    },
+    {
+      "raw_id": "0x1cf42b918b8",
+      "canonical_id": "0x1cf42b918b8",
+      "name": "saturate",
+      "kind": "Function",
+      "signature": "vector<float, 3> (vector<float, 3>)"
+    },
+    {
+      "raw_id": "0x1cf42c98450",
+      "canonical_id": "0x1cf42c98450",
+      "name": "SampleLevel",
+      "kind": "CXXMethod",
+      "signature": "<bound member function type>"
+    },
+    {
+      "raw_id": "0x1cf42f4ae70",
+      "canonical_id": "0x1cf42f4ae70",
+      "name": "length",
+      "kind": "Function",
+      "signature": "float (vector<float, 3>)"
+    },
+    {
+      "raw_id": "0x1cf42b41358",
+      "canonical_id": "0x1cf42b41358",
+      "name": "abs",
+      "kind": "Function",
+      "signature": "float (float)"
+    },
+    {
+      "raw_id": "0x1cf42e2f400",
+      "canonical_id": "0x1cf42e2f400",
+      "name": "SampleLevel",
+      "kind": "CXXMethod",
+      "signature": "<bound member function type>"
+    },
+    {
+      "raw_id": "0x1cf432e2f28",
+      "canonical_id": "0x1cf432e2f28",
+      "name": "operator[]",
+      "kind": "CXXMethod",
+      "signature": "const HDDirectionalShadowData &(unsigned int) const"
+    },
+    {
+      "raw_id": "0x1cf4330caf0",
+      "canonical_id": "0x1cf4330caf0",
+      "name": "Load",
+      "kind": "CXXMethod",
+      "signature": "<bound member function type>"
+    },
+    {
+      "raw_id": "0x1cf4330d260",
+      "canonical_id": "0x1cf4330d260",
+      "name": "Load",
+      "kind": "CXXMethod",
+      "signature": "<bound member function type>"
+    },
+    {
+      "raw_id": "0x1cf4330d9d0",
+      "canonical_id": "0x1cf4330d9d0",
+      "name": "Load",
+      "kind": "CXXMethod",
+      "signature": "<bound member function type>"
+    },
+    {
+      "raw_id": "0x1cf4330e140",
+      "canonical_id": "0x1cf4330e140",
+      "name": "Load",
+      "kind": "CXXMethod",
+      "signature": "<bound member function type>"
+    },
+    {
+      "raw_id": "0x1cf4330eb28",
+      "canonical_id": "0x1cf4330eb28",
+      "name": "dot",
+      "kind": "Function",
+      "signature": "float (vector<float, 4>, vector<float, 4>)"
+    },
+    {
+      "raw_id": "0x1cf4330f560",
+      "canonical_id": "0x1cf4330f560",
+      "name": "Load",
+      "kind": "CXXMethod",
+      "signature": "<bound member function type>"
+    },
+    {
+      "raw_id": "0x1cf42e31a20",
+      "canonical_id": "0x1cf42e31a20",
+      "name": "operator[]",
+      "kind": "CXXMethod",
+      "signature": "const unsigned int &(unsigned int) const"
+    },
+    {
+      "raw_id": "0x1cf433084f8",
+      "canonical_id": "0x1cf433084f8",
+      "name": "operator[]",
+      "kind": "CXXMethod",
+      "signature": "const LightData &(unsigned int) const"
+    },
+    {
+      "raw_id": "0x1cf43418f98",
+      "canonical_id": "0x1cf43418f98",
+      "name": "Load",
+      "kind": "CXXMethod",
+      "signature": "<bound member function type>"
+    },
+    {
+      "raw_id": "0x1cf42b97780",
+      "canonical_id": "0x1cf42b97780",
+      "name": "rcp",
+      "kind": "Function",
+      "signature": "float (float)"
+    },
+    {
+      "raw_id": "0x1cf433092c8",
+      "canonical_id": "0x1cf433092c8",
+      "name": "operator[]",
+      "kind": "CXXMethod",
+      "signature": "const EnvLightData &(unsigned int) const"
+    },
+    {
+      "raw_id": "0x1cf4300ded0",
+      "canonical_id": "0x1cf4300ded0",
+      "name": "smoothstep",
+      "kind": "Function",
+      "signature": "float (float, float, float)"
+    },
+    {
+      "raw_id": "0x1cf42f187d8",
+      "canonical_id": "0x1cf42f187d8",
+      "name": "mul",
+      "kind": "Function",
+      "signature": "vector<float, 3> (matrix<float, 3, 3>, vector<float, 3>)"
+    },
+    {
+      "raw_id": "0x1cf43192d30",
+      "canonical_id": "0x1cf43192d30",
+      "name": "transpose",
+      "kind": "Function",
+      "signature": "matrix<float, 3, 3> (matrix<float, 3, 3>)"
+    },
+    {
+      "raw_id": "0x1cf43416588",
+      "canonical_id": "0x1cf43416588",
+      "name": "lerp",
+      "kind": "Function",
+      "signature": "vector<float, 4> (vector<float, 4>, vector<float, 4>, vector<float, 4>)"
+    },
+    {
+      "raw_id": "0x1cf42a0d768",
+      "canonical_id": "0x1cf42a0d768",
+      "name": "operator[]",
+      "kind": "CXXMethod",
+      "signature": "float &(unsigned int)"
+    },
+    {
+      "raw_id": "0x1cf42b9c6d8",
+      "canonical_id": "0x1cf42b9c6d8",
+      "name": "operator[]",
+      "kind": "CXXMethod",
+      "signature": "vector<float, 4> &(unsigned int)"
+    },
+    {
+      "raw_id": "0x1cf4346f9b8",
+      "canonical_id": "0x1cf4346f9b8",
+      "name": "ddx_fine",
+      "kind": "Function",
+      "signature": "vector<float, 3> (vector<float, 3>)"
+    },
+    {
+      "raw_id": "0x1cf4346fd80",
+      "canonical_id": "0x1cf4346fd80",
+      "name": "ddy_fine",
+      "kind": "Function",
+      "signature": "vector<float, 3> (vector<float, 3>)"
+    },
+    {
+      "raw_id": "0x1cf42b4e328",
+      "canonical_id": "0x1cf42b4e328",
+      "name": "firstbithigh",
+      "kind": "Function",
+      "signature": "unsigned int (unsigned int)"
+    },
+    {
+      "raw_id": "0x1cf4334c748",
+      "canonical_id": "0x1cf4334c748",
+      "name": "exp2",
+      "kind": "Function",
+      "signature": "vector<float, 3> (vector<float, 3>)"
+    },
+    {
+      "raw_id": "0x1cf43040228",
+      "canonical_id": "0x1cf43040228",
+      "name": "cos",
+      "kind": "Function",
+      "signature": "vector<float, 3> (vector<float, 3>)"
+    },
+    {
+      "raw_id": "0x1cf43040648",
+      "canonical_id": "0x1cf43040648",
+      "name": "exp",
+      "kind": "Function",
+      "signature": "vector<float, 3> (vector<float, 3>)"
+    },
+    {
+      "raw_id": "0x1cf42f332e0",
+      "canonical_id": "0x1cf42f332e0",
+      "name": "sqrt",
+      "kind": "Function",
+      "signature": "literal float (literal float)"
+    },
+    {
+      "raw_id": "0x1cf42d971d8",
+      "canonical_id": "0x1cf42d971d8",
+      "name": "cos",
+      "kind": "Function",
+      "signature": "float (float)"
+    },
+    {
+      "raw_id": "0x1cf430078e8",
+      "canonical_id": "0x1cf430078e8",
+      "name": "exp",
+      "kind": "Function",
+      "signature": "float (float)"
+    },
+    {
+      "raw_id": "0x1cf42b95828",
+      "canonical_id": "0x1cf42b95828",
+      "name": "rcp",
+      "kind": "Function",
+      "signature": "vector<float, 2> (vector<float, 2>)"
+    },
+    {
+      "raw_id": "0x1cf42f10af8",
+      "canonical_id": "0x1cf42f10af8",
+      "name": "mul",
+      "kind": "Function",
+      "signature": "vector<float, 3> (vector<float, 3>, matrix<float, 3, 3>)"
+    },
+    {
+      "raw_id": "0x1cf43301968",
+      "canonical_id": "0x1cf43301968",
+      "name": "abs",
+      "kind": "Function",
+      "signature": "int (int)"
+    },
+    {
+      "raw_id": "0x1cf430ccd60",
+      "canonical_id": "0x1cf430ccd60",
+      "name": "all",
+      "kind": "Function",
+      "signature": "bool (vector<bool, 3>)"
+    },
+    {
+      "raw_id": "0x1cf42b55510",
+      "canonical_id": "0x1cf42b55510",
+      "name": "abs",
+      "kind": "Function",
+      "signature": "vector<float, 3> (vector<float, 3>)"
+    },
+    {
+      "raw_id": "0x1cf4323ee48",
+      "canonical_id": "0x1cf4323ee48",
+      "name": "operator[]",
+      "kind": "CXXMethod",
+      "signature": "vector<float, 3> &(unsigned int)"
+    },
+    {
+      "raw_id": "0x1cf42b17738",
+      "canonical_id": "0x1cf42b17738",
+      "name": "min",
+      "kind": "Function",
+      "signature": "float (float, float)"
+    },
+    {
+      "raw_id": "0x1cf43438cd8",
+      "canonical_id": "0x1cf43438cd8",
+      "name": "ddx_fine",
+      "kind": "Function",
+      "signature": "vector<float, 2> (vector<float, 2>)"
+    },
+    {
+      "raw_id": "0x1cf43439048",
+      "canonical_id": "0x1cf43439048",
+      "name": "ddy_fine",
+      "kind": "Function",
+      "signature": "vector<float, 2> (vector<float, 2>)"
+    },
+    {
+      "raw_id": "0x1cf42b04548",
+      "canonical_id": "0x1cf42b04548",
+      "name": "dot",
+      "kind": "Function",
+      "signature": "float (vector<float, 2>, vector<float, 2>)"
+    },
+    {
+      "raw_id": "0x1cf42b8d6d8",
+      "canonical_id": "0x1cf42b8d6d8",
+      "name": "asfloat",
+      "kind": "Function",
+      "signature": "float (unsigned int)"
+    },
+    {
+      "raw_id": "0x1cf42d032c8",
+      "canonical_id": "0x1cf42d032c8",
+      "name": "operator[]",
+      "kind": "CXXMethod",
+      "signature": "const HDShadowData &(unsigned int) const"
+    },
+    {
+      "raw_id": "0x1cf42b1ebb0",
+      "canonical_id": "0x1cf42b1ebb0",
+      "name": "min",
+      "kind": "Function",
+      "signature": "int (int, int)"
+    },
+    {
+      "raw_id": "0x1cf42ff1b80",
+      "canonical_id": "0x1cf42ff1b80",
+      "name": "step",
+      "kind": "Function",
+      "signature": "float (float, float)"
+    },
+    {
+      "raw_id": "0x1cf42dc2158",
+      "canonical_id": "0x1cf42dc2158",
+      "name": "rsqrt",
+      "kind": "Function",
+      "signature": "float (float)"
+    },
+    {
+      "raw_id": "0x1cf430c4eb8",
+      "canonical_id": "0x1cf430c4eb8",
+      "name": "clamp",
+      "kind": "Function",
+      "signature": "float (float, float, float)"
+    },
+    {
+      "raw_id": "0x1cf42d9b098",
+      "canonical_id": "0x1cf42d9b098",
+      "name": "mul",
+      "kind": "Function",
+      "signature": "vector<float, 4> (matrix<float, 4, 4>, vector<float, 4>)"
+    },
+    {
+      "raw_id": "0x1cf42b51368",
+      "canonical_id": "0x1cf42b51368",
+      "name": "pow",
+      "kind": "Function",
+      "signature": "float (float, float)"
+    },
+    {
+      "raw_id": "0x1cf430a9630",
+      "canonical_id": "0x1cf430a9630",
+      "name": "ceil",
+      "kind": "Function",
+      "signature": "float (float)"
+    },
+    {
+      "raw_id": "0x1cf432ef2c8",
+      "canonical_id": "0x1cf432ef2c8",
+      "name": "clamp",
+      "kind": "Function",
+      "signature": "vector<float, 2> (vector<float, 2>, vector<float, 2>, vector<float, 2>)"
+    },
+    {
+      "raw_id": "0x1cf42b51a90",
+      "canonical_id": "0x1cf42b51a90",
+      "name": "abs",
+      "kind": "Function",
+      "signature": "vector<float, 2> (vector<float, 2>)"
+    },
+    {
+      "raw_id": "0x1cf42b911c0",
+      "canonical_id": "0x1cf42b911c0",
+      "name": "saturate",
+      "kind": "Function",
+      "signature": "vector<float, 2> (vector<float, 2>)"
+    },
+    {
+      "raw_id": "0x1cf43300950",
+      "canonical_id": "0x1cf43300950",
+      "name": "lerp",
+      "kind": "Function",
+      "signature": "vector<float, 2> (vector<float, 2>, vector<float, 2>, vector<float, 2>)"
+    },
+    {
+      "raw_id": "0x1cf42b18b68",
+      "canonical_id": "0x1cf42b18b68",
+      "name": "min",
+      "kind": "Function",
+      "signature": "vector<float, 3> (vector<float, 3>, vector<float, 3>)"
+    },
+    {
+      "raw_id": "0x1cf42f4a480",
+      "canonical_id": "0x1cf42f4a480",
+      "name": "SampleLevel",
+      "kind": "CXXMethod",
+      "signature": "<bound member function type>"
+    },
+    {
+      "raw_id": "0x1cf430a9a20",
+      "canonical_id": "0x1cf430a9a20",
+      "name": "all",
+      "kind": "Function",
+      "signature": "bool (vector<bool, 2>)"
+    },
+    {
+      "raw_id": "0x1cf42f3b960",
+      "canonical_id": "0x1cf42f3b960",
+      "name": "round",
+      "kind": "Function",
+      "signature": "float (float)"
+    },
+    {
+      "raw_id": "0x1cf42bafdd0",
+      "canonical_id": "0x1cf42bafdd0",
+      "name": "log2",
+      "kind": "Function",
+      "signature": "float (float)"
+    },
+    {
+      "raw_id": "0x1cf42a2ded0",
+      "canonical_id": "0x1cf42a2ded0",
+      "name": "operator[]",
+      "kind": "CXXMethod",
+      "signature": "float &(unsigned int)"
+    },
+    {
+      "raw_id": "0x1cf431fb588",
+      "canonical_id": "0x1cf431fb588",
+      "name": "acos",
+      "kind": "Function",
+      "signature": "float (float)"
+    },
+    {
+      "raw_id": "0x1cf433ec158",
+      "canonical_id": "0x1cf433ec158",
+      "name": "Load",
+      "kind": "CXXMethod",
+      "signature": "<bound member function type>"
+    },
+    {
+      "raw_id": "0x1cf42d9da78",
+      "canonical_id": "0x1cf42d9da78",
+      "name": "exp2",
+      "kind": "Function",
+      "signature": "float (float)"
+    },
+    {
+      "raw_id": "0x1cf42ebfda8",
+      "canonical_id": "0x1cf42ebfda8",
+      "name": "mul",
+      "kind": "Function",
+      "signature": "vector<float, 4> (matrix<float, 4, 4>, vector<float, 4>)"
+    },
+    {
+      "raw_id": "0x1cf42b04900",
+      "canonical_id": "0x1cf42b04900",
+      "name": "frac",
+      "kind": "Function",
+      "signature": "float (float)"
+    },
+    {
+      "raw_id": "0x1cf432640c8",
+      "canonical_id": "0x1cf432640c8",
+      "name": "SampleCmpLevelZero",
+      "kind": "CXXMethod",
+      "signature": "<bound member function type>"
+    },
+    {
+      "raw_id": "0x1cf433b08e8",
+      "canonical_id": "0x1cf433b08e8",
+      "name": "cos",
+      "kind": "Function",
+      "signature": "literal float (literal float)"
+    },
+    {
+      "raw_id": "0x1cf430b9580",
+      "canonical_id": "0x1cf430b9580",
+      "name": "rcp",
+      "kind": "Function",
+      "signature": "vector<float, 3> (vector<float, 3>)"
+    },
+    {
+      "raw_id": "0x1cf42e658b0",
+      "canonical_id": "0x1cf42e658b0",
+      "name": "frac",
+      "kind": "Function",
+      "signature": "vector<float, 2> (vector<float, 2>)"
+    },
+    {
+      "raw_id": "0x1cf42e61ea8",
+      "canonical_id": "0x1cf42e61ea8",
+      "name": "floor",
+      "kind": "Function",
+      "signature": "vector<float, 2> (vector<float, 2>)"
+    },
+    {
+      "raw_id": "0x1cf432e0620",
+      "canonical_id": "0x1cf432e0620",
+      "name": "mul",
+      "kind": "Function",
+      "signature": "vector<float, 4> (vector<float, 4>, matrix<float, 4, 4>)"
+    },
+    {
+      "raw_id": "0x1cf431d43b8",
+      "canonical_id": "0x1cf431d43b8",
+      "name": "distance",
+      "kind": "Function",
+      "signature": "float (vector<float, 3>, vector<float, 3>)"
+    },
+    {
+      "raw_id": "0x1cf42afb1d0",
+      "canonical_id": "0x1cf42afb1d0",
+      "name": "rcp",
+      "kind": "Function",
+      "signature": "literal float (literal float)"
+    },
+    {
+      "raw_id": "0x1cf430b82c0",
+      "canonical_id": "0x1cf430b82c0",
+      "name": "sign",
+      "kind": "Function",
+      "signature": "int (float)"
+    },
+    {
+      "raw_id": "0x1cf4329f868",
+      "canonical_id": "0x1cf4329f868",
+      "name": "any",
+      "kind": "Function",
+      "signature": "bool (vector<bool, 2>)"
+    },
+    {
+      "raw_id": "0x1cf42e50ad8",
+      "canonical_id": "0x1cf42e50ad8",
+      "name": "mul",
+      "kind": "Function",
+      "signature": "matrix<float, 4, 4> (matrix<float, 4, 4>, matrix<float, 4, 4>)"
+    },
+    {
+      "raw_id": "0x1cf432b98c8",
+      "canonical_id": "0x1cf432b98c8",
+      "name": "operator[]",
+      "kind": "CXXMethod",
+      "signature": "vector<float, 4> &(unsigned int)"
+    },
+    {
+      "raw_id": "0x1cf432bbdb8",
+      "canonical_id": "0x1cf432bbdb8",
+      "name": "mul",
+      "kind": "Function",
+      "signature": "vector<float, 3> (matrix<float, 3, 4>, vector<float, 4>)"
+    },
+    {
+      "raw_id": "0x1cf432bdf68",
+      "canonical_id": "0x1cf432bdf68",
+      "name": "mul",
+      "kind": "Function",
+      "signature": "vector<float, 4> (matrix<float, 4, 4>, vector<float, 4>)"
+    },
+    {
+      "raw_id": "0x1cf43108428",
+      "canonical_id": "0x1cf43108428",
+      "name": "mul",
+      "kind": "Function",
+      "signature": "vector<float, 4> (matrix<float, 4, 4>, vector<float, 4>)"
+    },
+    {
+      "raw_id": "0x1cf42c98df8",
+      "canonical_id": "0x1cf42c98df8",
+      "name": "SampleLevel",
+      "kind": "CXXMethod",
+      "signature": "<bound member function type>"
+    },
+    {
+      "raw_id": "0x1cf430e1608",
+      "canonical_id": "0x1cf430e1608",
+      "name": "dot",
+      "kind": "Function",
+      "signature": "float (vector<float, 4>, vector<float, 4>)"
+    },
+    {
+      "raw_id": "0x1cf430e1ba8",
+      "canonical_id": "0x1cf430e1ba8",
+      "name": "dot",
+      "kind": "Function",
+      "signature": "float (vector<float, 4>, vector<float, 4>)"
+    },
+    {
+      "raw_id": "0x1cf430e2148",
+      "canonical_id": "0x1cf430e2148",
+      "name": "dot",
+      "kind": "Function",
+      "signature": "float (vector<float, 4>, vector<float, 4>)"
+    },
+    {
+      "raw_id": "0x1cf430e3b58",
+      "canonical_id": "0x1cf430e3b58",
+      "name": "dot",
+      "kind": "Function",
+      "signature": "float (vector<float, 4>, vector<float, 4>)"
+    },
+    {
+      "raw_id": "0x1cf430e4108",
+      "canonical_id": "0x1cf430e4108",
+      "name": "dot",
+      "kind": "Function",
+      "signature": "float (vector<float, 4>, vector<float, 4>)"
+    },
+    {
+      "raw_id": "0x1cf430e46c8",
+      "canonical_id": "0x1cf430e46c8",
+      "name": "dot",
+      "kind": "Function",
+      "signature": "float (vector<float, 4>, vector<float, 4>)"
+    }
+  ],
+  "artifact_hashes": {
+    "artifacts/forward-analysis/final/result.json": "66c630c71a1945d8d6e4edf9eb1175c0d9bb5d345ec19a7654bc16511fc73b9e",
+    "artifacts/forward-analysis/input/result.json": "8c30c3c4c07de20a324092be943267e2c18366b2cd63a267359c51b942902880",
+    "artifacts/forward-analysis/input/typed-ast.log": "7079808264638ac43a46127c2305dc3efa4ead58e27c7d1975e9b2946df2fe09",
+    "artifacts/forward-analysis/input/Forward.preprocessed.hlsl": "528ee3fade7d9a45d5fe39f7cdf09ad7ed861c9bf11e57d00984fe2ec29417fd",
+    "artifacts/forward-analysis/all-python-tests.log": "95fd5198384d1f858d40ba3368a30e85791e487344e065e202778252ad92a7b1"
+  },
+  "current_source_hashes": {
+    "tools/dxc_ast_index.py": "a65f87aabfc62bfd1e8dd2989a6d32254c64127cd23b5ed4b8a8682a9766fda0",
+    "tools/analyze_shader.py": "59d4d00785b30f77a193672ae507ec233b6fb74bccd253d655f8c684c7f8c993",
+    "tools/test_ast_index.py": "755c0f431141e8fedde6ab27e11672cd3ab88552660a4a708bff7ee0c59b2839",
+    "tools/inventory_hdrp.py": "c58139c192cecf71b4ec2ebeb560a0cd74c4b64c4dfff0c9cea7d873180f60de"
+  },
+  "verification": {
+    "fresh_python_tests": 116,
+    "fresh_analysis_tests": 14,
+    "fixed_forward_cli_exit": 0,
+    "historical_lean_controls": 27,
+    "historical_lean_proved_targets": 10,
+    "lean_rerun_this_slice": false,
+    "reason": "Mathematical frontend, proofs and locks are unchanged; all 91 applicable baseline hashes match. Only optional inventory metadata differs."
+  },
+  "unchanged_baseline_hashes": {
+    "dependencies.lock.json": "9acfaf31d323e18a29aed29553315da698c61b4d2037bd7bc4b6e18bba502370",
+    "examples/branched/constraints.json": "6f461ff015eaeb28c2778f54254aa2bffb0aad45d9a616a44f4e0489c218d344",
+    "examples/branched/optimized.hlsl": "2ef632b0dbb3efe54759add41af43573efa05203ad549ae86822c62008823745",
+    "examples/branched/original.hlsl": "fe301a7c8da43ddfeaccdf79148f641ebecbe4321dae2f7e1e4e0d73d4c702eb",
+    "examples/branched/wrong-cutoff.hlsl": "bcc44ca8d166c414a8609d59bb0c5837afef60009355ee213ada1a6e191ae4cf",
+    "examples/branched/wrong.hlsl": "b9e3492aba63106cf742a2ad52d46822e86abb572f12edbc67f64c629d2b7524",
+    "examples/control/alias.optimized.hlsl": "590a526fffe9ce6d5a341bd43599f523618ae895bfaa56784624c02d1ba83d63",
+    "examples/control/alias.original.hlsl": "df3e7a86c006ae0d7df299bc54b8edd41b01c125b2ac89bc72c5bcd2b2fc1316",
+    "examples/control/constraints.json": "2675c65bf84863fde631fae532fefe4ae3a5779fb5dbc059b00a9655abd901e8",
+    "examples/control/domain.optimized.hlsl": "8a8a66fbfe89597ec9db33942ae2e3ec8a12147a06d44a625e6c905fb297962e",
+    "examples/control/domain.original.hlsl": "0b0230c025156e3ebfe8867888bab1779db74780a80188c265656f0b7e1f9674",
+    "examples/control/domain.wrong.hlsl": "ede36543577e677bc667aca5a30757d02f7a2a13fae48a9eb899211e2abc4cb3",
+    "examples/control/else.optimized.hlsl": "f201c2f26347c015508cf64aacd6186bc950400e34fd9ac728135b36138d913e",
+    "examples/control/else.original.hlsl": "603c5e2092b7e816e5adc79050d9ba4da5126453a65460a6ad605da6cc4f95ef",
+    "examples/control/mixed.optimized.hlsl": "097765884ff4bf4d6b2e6aa87de453e49aaa3d274e879a2146689cdefb3cdec7",
+    "examples/control/mixed.original.hlsl": "2c98cdddbc1808be32cf2b012260d74f90e44fdf293bd532d870a024fcd0de41",
+    "examples/control/return.optimized.hlsl": "8cd2e7a140c3031048ab56fbd582e6afc6d14b5e83d7eb3ddc947d88f49f754f",
+    "examples/control/return.original.hlsl": "a40299c520ad42b442a483e4427ea57bf79832c4a17fdd1fd9375f50e6d3a85e",
+    "examples/control/zero-constraints.json": "a054f52471303cefd29afce9b3d6e6db954e28ab25d5999d75769cc8031a386f",
+    "examples/lerp/constraints.json": "96c72809a039c8045b5189d54f3e863fef1aed8e35941206e6332ab6765f2313",
+    "examples/lerp/optimized.hlsl": "3abedf745c6b0038e3790986d5a808625f20bd3aa9493f45046b5264e46b8bbb",
+    "examples/lerp/original.hlsl": "66444f4a51a8163dbc3d6e892ca4f9ce8c91549fa77e5c5a6234fea519fa9384",
+    "examples/lerp/wrong.hlsl": "646c2c1a31c30c975f2a46a9a7b5bd601c5a91557f7ff8372abb401e762f5c87",
+    "examples/structured/constraints.json": "b9756230658c7c876f93d09e41e23c53071aff1d22ffb36ac0bec606515b0124",
+    "examples/structured/optimized.hlsl": "4e12a0b5ab833c0b4b7f97d7100d9d2b55de81eabdf0f9fb3007c941cb8e5059",
+    "examples/structured/original.hlsl": "f0ebc32db9764288f372a6b31b6e47f0f7b84b6901620146fe7fdf616bb2f4aa",
+    "examples/structured/wrong.hlsl": "9459f0d74e0e421e574b87011e319099942488a09f2af5c717e67b2cc2a2b334",
+    "examples/textured/constraints.json": "2b86f4e11cc0dabb76784d2cc25411437d01199aacd96f16aa8595ec0b9c5314",
+    "examples/textured/optimized.hlsl": "dc068a46b7d8d138d1f1c0c73536d0d676fab9d2d61da27f9835c7a69bdbd70d",
+    "examples/textured/original.hlsl": "a9d9d36bdaf6151ed9e8b3c57dadf9ffd887b297e332874dc61d26abc2cb5c01",
+    "examples/textured/wrong-derivative.hlsl": "f297b9a024154995ce8ec2f6ffeedc54449a0e5a07bdb7af51f1bb6e4ed14f2d",
+    "examples/textured/wrong-lod.hlsl": "c0c0f707b0092a93f2a670a3a8d40b0ee12d2e2b41e4ea28f713564b94415136",
+    "examples/textured/wrong-sampler.hlsl": "0e58f959698ba4f768d5c11f0a2d939a581d5ccc72d28c9f05d3fb71cbeb114f",
+    "examples/textured/wrong-uv.hlsl": "6fe2ba4c98b1a0f44e7bcd35d93382429830c3983bc094332517305e12ab6036",
+    "examples/textured/wrong.hlsl": "f6cbeb2c7221eb536db1d9c7bb597b780038cf70b1de8c51dfdeac689ddc8527",
+    "examples/unlit/constraints.json": "91e660cff44bcbfe74dd6082c7439680dda6cf78f755bd610f678181ba9af664",
+    "examples/unlit/optimized.hlsl": "862d940125df9b38a80fddf502377a912b4ad1fa1e25388d464e35ca42c596a4",
+    "examples/unlit/original.hlsl": "1bd9a452d7bc0a0ccabf71fd1c02542a2c194ab87b3d6894566634313fe0200f",
+    "examples/unlit/wrong.hlsl": "2c031f08313515cdae7890e03512f7ced4c9770c3ce9850babcc6653cc5ca780",
+    "proof/AgentProof.lean": "af907b2a6a3baab2f8b13985de886070ceaa5aa2db1308617facc594542466a8",
+    "proof/BranchedProof.lean": "4a62da4962ea3fefb0e1a10b72388242f199cdf6055d1b90502d3ff946e16425",
+    "proof/ControlAliasProof.lean": "3b1706be9993b6b14ec8346a5968165ba8f2a764ada052d1f657717df1983fbd",
+    "proof/ControlDomainProof.lean": "4f9041dada0d32307b583f757b83022a428ce8119b907b466c1475903d9d5ed3",
+    "proof/ControlElseProof.lean": "edfb8f2037bdf5a81ff54af10fbbc9d35ba58aa6ebea3073b63b7904160d3ab9",
+    "proof/ControlMixedProof.lean": "25634870716a58cdbbe992db04771bdb3c541ac664ed6926fa499e352a919f02",
+    "proof/ControlReturnProof.lean": "596ed71d47792f98ffd1f2a49bf8ef809db9541ba894f8c4e0b08247e974834a",
+    "proof/lake-manifest.json": "56e940f0e5f093d6124567592bb4b1d3f0c62d6408aea2678700ffffefa14e6e",
+    "proof/lakefile.lean": "ef294419026b5c7edbdfdd04a348a2469863e4f674199e04622715d3f73ed356",
+    "proof/lean-toolchain": "42779d67b81608af8a12aa4328d2ab47ca201925b3b2bd68369587b5340bb434",
+    "proof/ShaderFormalize/Control.lean": "1bdb1e21015cd10e05593ec42bf1c8c6d522ed9d9ffb2ac6f33f8bda4f90b44b",
+    "proof/ShaderFormalize/FetchCache.lean": "20d769e9f63ca41fd0e24820afcf8f0917799a00a3846c261b00a0e7e4cab7e6",
+    "proof/ShaderFormalize/Fragment.lean": "c7a4195c9b5b84ce39a959e1fff8870ccb4a6f9e302bda8aa957302bf1ea069a",
+    "proof/ShaderFormalize/Model.lean": "5a3af29b09a4696a1632b0e30595d5465d9486cd71d604bdb1fbcea512133d4e",
+    "proof/StructuredProof.lean": "bfb0e583b8b54223e5c56d67c1d9e081e1b0d49a196f5e61df62ad38133e1487",
+    "proof/TexturedProof.lean": "9bc224cce89c955f816e709e026a759e765abf83e3a70e8f14a823032a29556b",
+    "proof/UnlitProof.lean": "bfb0e583b8b54223e5c56d67c1d9e081e1b0d49a196f5e61df62ad38133e1487",
+    "tools/bootstrap.ps1": "21099d8511ffa5675b92a629b59224d88cc492605b9516dff612aaf28561591f",
+    "tools/run_demo.ps1": "f54e829ee60b88de567c8d716049d3d030c9d3338a14243b8599070edc0e2d3d",
+    "tools/run_unity.py": "6bbb21288c03ea240c221927ce6883ac3f873dd64cb8e164f278cdb13f574985",
+    "tools/run_unity_suite.ps1": "8a1e6c3df88690b1c1cf78826aac0bfab807005c736454b0e0d38e52b7fda723",
+    "tools/seed_dependencies.py": "a09236eea153d5ab2a9c2c6efc10f3e4aa5bc5fb1009837d1262cd6bf93314a6",
+    "tools/shader_ast.py": "c9b4d2b0d9f56112aae520015b1ff52efc74a71e6057e63fbb6689b94a1fdef5",
+    "tools/shader_boolean.py": "33a16893bc552a3f3c21341de0aef539dbbb5c9f02d05909cc5a2c73fa956f71",
+    "tools/shader_control.py": "0e5cacad03baae1dcb2b10faabd7e710539032b707397a7f6c88173136959a64",
+    "tools/shader_control_eval.py": "3373e3a417f20d6bf7d15842afd1b0f5a696f2f60e098c23a3b60d730f3ddcf6",
+    "tools/shader_control_lean.py": "933ecacd1007fc6d23b55600ed3c348a68b0188e24e09fad20ecf4a5292e28ab",
+    "tools/shader_control_values.py": "ab8c195d3ac240774228686861b2f69790c0db16aae2b53700c8f968c22f7a4e",
+    "tools/shader_effects.py": "2c9eb1c0681285a8ec8001d52e65879974b7ddf094bcf34e6db222f1ce0bbe2f",
+    "tools/shader_eval.py": "41aca72695d36997bae2b0fbb4a2278b4aa77e974391b66b76e864d93f96c26a",
+    "tools/shader_fragment.py": "6681b776e256e60559003e8ef3099c2f95fc7f5345722a2ba2871d66f0cb6b07",
+    "tools/shader_fragment_eval.py": "260c92a88e03382aeb199ae613f1b2f6974c8d5cf9440e82406e8eb949c7aab8",
+    "tools/shader_frontend.py": "338bf892219fcd2cb1292aed2bb06fd2e78674578a12e4aff66019d14479c0a1",
+    "tools/shader_lean.py": "b2e4b7c6128dde4f13bb4128551be7db9faaa7a3c0796b64e73724fab32b230c",
+    "tools/shader_model.py": "26ab13684bd54c4fcd59891721ccba20bef52da7d54c0d00180c41ca48b97ccc",
+    "tools/shader_types.py": "82f16958077076a3ede63d36475c993d965e25d9cbe074af1da0086d2fa76f82",
+    "tools/shader_validation.py": "f8fd9a3c9812f9f14d3dbd7d38500edf66c9e6b4f9d30bef668fb6473909c7d3",
+    "tools/shaderformalize.py": "e84062550eb7201e03a5f478c2b449c88eff5681ea61514b704c8df1679111e5",
+    "tools/test_boolean.py": "09836732038797be7c862a37c3b08951a88571644ae8b09a234439b13c08bc6d",
+    "tools/test_control.py": "e16b8c73a098eb6779de8dd0c02d5a7a5c36ce985aa42b967a49a7986d1eaf97",
+    "tools/test_fragment.py": "4dd059d9ecfdbdc2e49e1d139fb09a585ea45ce94266c6bf6df5024e061715d8",
+    "tools/test_shaderformalize.py": "b58972d10e96f8e0666c66425adc1c266b07fda77c6141d297433b557ba0c4fb",
+    "tools/test_structured.py": "83450813b40a3483195b86ec73df86b5af2b4b4f66daa9a337508fd2de02daa4",
+    "tools/test_unlit.py": "a7daeef26df2b5d9222a6facf85bf7a7148d27275ab120fcb40d81e179773761",
+    "tools/verify_demo.py": "2435ca38f08309542815b3ffd143ff79e17a267a6b8432d638a9240d822656da",
+    "unity/Branched.shader.template": "60fb13559197178ee3c26d35b2618753c28990e561048a6861e1af451a9f8805",
+    "unity/RunProbe.cs": "e184dadf576ec4ea94230ac97093228bbc96a01638f3095fe674ebbb414d1cce",
+    "unity/RunTextured.cs": "a991b9041eee2333a382aa43592794fc794603995d37b105e978e28105e1f224",
+    "unity/RunUnlit.cs": "eef4238b14435a54eed9829358563efca8605e1c83439e3b599bad32fd235a03",
+    "unity/Structured.shader.template": "c831670828ef4500a4079523292c69622c355faf7b2756c14d25001b3656dc82",
+    "unity/Textured.shader.template": "69f0a6dcb7ae59c7280a1962093d9e9778554e106b685f10748dd5e3515f162f",
+    "unity/Unlit.shader.template": "0c2d990715d592a7917dad2a27b75579a3038451d2d78a34f6b7d967fdeea812"
+  },
+  "allowed_inventory_change": {
+    "before": "31fda0639625a8693a9aeed58999fb934fec1ca109dd72d51c9d7f925e799cd0",
+    "after": "c58139c192cecf71b4ec2ebeb560a0cd74c4b64c4dfff0c9cea7d873180f60de"
+  },
+  "review": {
+    "P_round": 2,
+    "P": "PASSED",
+    "Q": "PASSED",
+    "Q_round": 3
+  }
+}
