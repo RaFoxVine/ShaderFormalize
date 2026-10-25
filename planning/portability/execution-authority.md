@@ -30,7 +30,7 @@
 
 ## Grant windows-refresh-003@revision-1
 
-- status: active
+- status: completed
 - source: 同一sealed running overnight portability目标内的追加源码验证，既有Ready隔离协议不变，无产品/配置/依赖变更。
 - target: 已有独立Fresh Checkout由2fc87bb更新到64992ea；只fetch Git源码，复用副本自身固定工具/缓存。不得复制主目录工具或proof产物。
 - actions: 状态干净后detach确切64992ea，逐项核对两锁/六工具/九依赖/无alternates/无Unity/子环境隔离；分别运行copyback材质、copyback完整场导数、packed三个正式正例；另存fresh-copyback-verification及对应日志，不覆盖之前两次记录；事实复核、精简证据和本地提交。
@@ -39,3 +39,4 @@
 - stop: 副本有tracked变更、锁/工具/依赖不匹配、环境污染或形式正例失败。
 - acceptance: 三例实际PROVED、哈希和审计核验、Git前后clean；独立事实复核，不替代主目录165/47及copyback Q。
 - recorded_at: 2026-10-26；代码64992ea已提交，主目录最终全套仍在运行。
+- result: 64992ea三正例实际PROVED，前后Git clean；独立事实核验通过，同锁/六工具/九依赖/无alternates/隔离/无Unity及输入/目标/证明/数学模块/公理均吻合。见../evidence/windows-copyback-2026-10-26.json；不称为第二次真空安装。

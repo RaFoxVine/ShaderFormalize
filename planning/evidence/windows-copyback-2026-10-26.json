@@ -1,0 +1,227 @@
+{
+  "date": "2026-10-26",
+  "scope": "Latest source refresh of independently downloaded Windows x64 checkout; not a second blank installation",
+  "review": "independent factual review passed",
+  "original_blank_evidence": "windows-fresh-2026-10-26.json",
+  "previous_shared_evidence": "windows-shared-2026-10-26.json",
+  "report": {
+    "status": "PASSED",
+    "commit": "64992ea52d9995628f94a36a2c3c2e4fed929441",
+    "bootstrap_origin_commit": "69d058a84170fcd78e0c2ac617b31db9419a894a",
+    "initial_blank_bootstrap_evidence": "fresh-bootstrap.json",
+    "lock_hashes": {
+      "dependencies.lock.json": "eb2502ea5dc10629119cd08ac87b242a3c3a072c0446e53dd7bf641fb0f5d587",
+      "proof/lake-manifest.json": "30e84037d4c7684408b7b63dad0e195c6da9d247389a5be7ff02e7526c35e495"
+    },
+    "binaries": {
+      "lean.exe": "20bc808248e38cf072f84f4eb389f8f98e5925d703bcbfa400d9dd44f310c4db",
+      "lake.exe": "82375bd6d578a680032606c38a313899a99d47ea5fd33fdc9872e1b2e0d9f7b1",
+      "dxcompiler.dll": "5888d3e590f5bfd8743484e7f31313996734adec5741506271a5c6368cbe8ba9",
+      "dxc.exe": "ce11bb02f6027055e0b9f8c062d13b14f373c876a16557a4fa744314117d31e7",
+      "dxil.dll": "0cf5fa4b90f74550166108b3870c883f4a85243976b246b1da3ea90ad5b92015",
+      "leantar.exe": "a623f68963b36b1c33ebe1c4fa0f73f4103f3282b940320a9c1d1b543744c3d2"
+    },
+    "packages": {
+      "plausible": "dfd06ebfe8d0e8fa7faba9cb5e5a2e74e7bd2805",
+      "LeanSearchClient": "99657ad92e23804e279f77ea6dbdeebaa1317b98",
+      "importGraph": "d768126816be17600904726ca7976b185786e6b9",
+      "proofwidgets": "556caed0eadb7901e068131d1be208dd907d07a2",
+      "aesop": "725ac8cd67acd70a7beaf47c3725e23484c1ef50",
+      "Qq": "dea6a3361fa36d5a13f87333dc506ada582e025c",
+      "batteries": "8da40b72fece29b7d3fe3d768bac4c8910ce9bee",
+      "Cli": "91c18fa62838ad0ab7384c03c9684d99d306e1da",
+      "mathlib": "f897ebcf72cd16f89ab4577d0c826cd14afaafc7"
+    },
+    "unity_discoverable": null,
+    "git_status_before": "",
+    "checks": [
+      {
+        "case": "copyback-structured",
+        "exit_code": 0,
+        "seconds": 209.922,
+        "result": {
+          "status": "PROVED",
+          "inputs": [
+            {
+              "role": "original",
+              "path": "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\artifacts\\portability\\Fresh Checkout\\examples\\copyback\\original.hlsl",
+              "sha256": "ccb7f9633f5bc535d23b479d302a91d84d1ac18970ce9aa6dc9a436b7a1e2ccb",
+              "dxc_seconds": 0.266
+            },
+            {
+              "role": "optimized",
+              "path": "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\artifacts\\portability\\Fresh Checkout\\examples\\copyback\\optimized.hlsl",
+              "sha256": "4e12a0b5ab833c0b4b7f97d7100d9d2b55de81eabdf0f9fb3007c941cb8e5059",
+              "dxc_seconds": 0.062
+            }
+          ],
+          "constraints": {
+            "schema": 2,
+            "ranges": {
+              "_BaseColor": {
+                "min": "0",
+                "max": "1"
+              },
+              "_LightColor": {
+                "min": "0",
+                "max": "1"
+              },
+              "_RimColor": {
+                "min": "0",
+                "max": "1"
+              },
+              "_Ambient": {
+                "min": "0",
+                "max": "1"
+              },
+              "_RimStrength": {
+                "min": "0",
+                "max": "4"
+              }
+            },
+            "nonzero_vectors": [
+              "input.geometry.normalWS",
+              "input.geometry.viewWS",
+              "_LightDirection.xyz"
+            ]
+          },
+          "model_schema": 6,
+          "generated_sha256": "909947eda2af4c6a9d626f8be9ba5097098087179ccf1f8e9d060ee4d08b7472",
+          "dxc_files": {
+            "dxcompiler.dll": "5888d3e590f5bfd8743484e7f31313996734adec5741506271a5c6368cbe8ba9",
+            "dxc.exe": "ce11bb02f6027055e0b9f8c062d13b14f373c876a16557a4fa744314117d31e7",
+            "dxil.dll": "0cf5fa4b90f74550166108b3870c883f4a85243976b246b1da3ea90ad5b92015"
+          },
+          "guarantee": "ideal real-number model with exact uint32 fields and guarded conversions; translator and DXC remain trusted",
+          "theorem": "ShaderFormalize.Verification.checked",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ],
+          "agent_proof_sha256": "528f7bca75d0e308b531bb57f443568e177cc580fa2ac6c9b029aed93dc71c8c",
+          "semantic_model_sha256": "5a3af29b09a4696a1632b0e30595d5465d9486cd71d604bdb1fbcea512133d4e",
+          "semantic_modules": {
+            "Model.lean": "5a3af29b09a4696a1632b0e30595d5465d9486cd71d604bdb1fbcea512133d4e",
+            "Fragment.lean": "c7a4195c9b5b84ce39a959e1fff8870ccb4a6f9e302bda8aa957302bf1ea069a",
+            "Control.lean": "1bdb1e21015cd10e05593ec42bf1c8c6d522ed9d9ffb2ac6f33f8bda4f90b44b",
+            "Packing.lean": "b7a28c0eeb178976e7060e1053bd45926eccf6e395d6087b3851632ef841f350"
+          },
+          "lake_manifest_sha256": "30e84037d4c7684408b7b63dad0e195c6da9d247389a5be7ff02e7526c35e495",
+          "lean_build_seconds": 174.797,
+          "lean_verify_seconds": 31.891,
+          "lean_version": "Lean (version 4.24.0, x86_64-w64-windows-gnu, commit 797c613eb9b6d4ec95db23e3e00af9ac6657f24b, Release)"
+        }
+      },
+      {
+        "case": "copyback-field",
+        "exit_code": 0,
+        "seconds": 75.031,
+        "result": {
+          "status": "PROVED",
+          "inputs": [
+            {
+              "role": "original",
+              "path": "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\artifacts\\portability\\Fresh Checkout\\examples\\copyback\\field.original.hlsl",
+              "sha256": "9b51de5ef3b87c6078c300fb3b41cfbe13736818e78f8e635e01635f0b1d99a7",
+              "dxc_seconds": 0.11
+            },
+            {
+              "role": "optimized",
+              "path": "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\artifacts\\portability\\Fresh Checkout\\examples\\copyback\\field.optimized.hlsl",
+              "sha256": "936c865288ea798029df2a53ffb021b4bc183d8ee75e0efd2e8c7e4c1cec898d",
+              "dxc_seconds": 0.047
+            }
+          ],
+          "constraints": {
+            "schema": 2,
+            "ranges": {},
+            "nonzero_vectors": []
+          },
+          "model_schema": 6,
+          "generated_sha256": "704fda325c99f43637bb475e6d199ca7d24eec608a3fc63df67c2988750f7cdd",
+          "dxc_files": {
+            "dxcompiler.dll": "5888d3e590f5bfd8743484e7f31313996734adec5741506271a5c6368cbe8ba9",
+            "dxc.exe": "ce11bb02f6027055e0b9f8c062d13b14f373c876a16557a4fa744314117d31e7",
+            "dxil.dll": "0cf5fa4b90f74550166108b3870c883f4a85243976b246b1da3ea90ad5b92015"
+          },
+          "guarantee": "ideal real-number model with exact uint32 fields and guarded conversions; translator and DXC remain trusted",
+          "theorem": "ShaderFormalize.Verification.checked",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ],
+          "agent_proof_sha256": "6d9e5bbfd159a147bf9444992942cc6edc15ba63199f068bedd827a7fb1caa6c",
+          "semantic_model_sha256": "5a3af29b09a4696a1632b0e30595d5465d9486cd71d604bdb1fbcea512133d4e",
+          "semantic_modules": {
+            "Model.lean": "5a3af29b09a4696a1632b0e30595d5465d9486cd71d604bdb1fbcea512133d4e",
+            "Fragment.lean": "c7a4195c9b5b84ce39a959e1fff8870ccb4a6f9e302bda8aa957302bf1ea069a",
+            "Control.lean": "1bdb1e21015cd10e05593ec42bf1c8c6d522ed9d9ffb2ac6f33f8bda4f90b44b",
+            "Packing.lean": "b7a28c0eeb178976e7060e1053bd45926eccf6e395d6087b3851632ef841f350"
+          },
+          "lake_manifest_sha256": "30e84037d4c7684408b7b63dad0e195c6da9d247389a5be7ff02e7526c35e495",
+          "lean_build_seconds": 47.313,
+          "lean_verify_seconds": 26.687,
+          "lean_version": "Lean (version 4.24.0, x86_64-w64-windows-gnu, commit 797c613eb9b6d4ec95db23e3e00af9ac6657f24b, Release)"
+        }
+      },
+      {
+        "case": "copyback-packed",
+        "exit_code": 0,
+        "seconds": 74.328,
+        "result": {
+          "status": "PROVED",
+          "inputs": [
+            {
+              "role": "original",
+              "path": "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\artifacts\\portability\\Fresh Checkout\\examples\\packed\\original.hlsl",
+              "sha256": "1b00e5687dd2ed5aab76c00c213ce1216bb708fcc57a8724177672fa26201a8f",
+              "dxc_seconds": 0.031
+            },
+            {
+              "role": "optimized",
+              "path": "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\artifacts\\portability\\Fresh Checkout\\examples\\packed\\optimized.hlsl",
+              "sha256": "8a2ac1cf0e337028098eff95711769f686bfaace0a78b73ac61cffc1a629b321",
+              "dxc_seconds": 0.032
+            }
+          ],
+          "constraints": {
+            "schema": 2,
+            "ranges": {},
+            "nonzero_vectors": []
+          },
+          "model_schema": 5,
+          "generated_sha256": "104acefe228169bf7e7d805e5c8b71552a79dd8d2a174fec66df1d1e913cbbf9",
+          "dxc_files": {
+            "dxcompiler.dll": "5888d3e590f5bfd8743484e7f31313996734adec5741506271a5c6368cbe8ba9",
+            "dxc.exe": "ce11bb02f6027055e0b9f8c062d13b14f373c876a16557a4fa744314117d31e7",
+            "dxil.dll": "0cf5fa4b90f74550166108b3870c883f4a85243976b246b1da3ea90ad5b92015"
+          },
+          "guarantee": "ideal real-number model with exact uint32 fields and guarded conversions; translator and DXC remain trusted",
+          "theorem": "ShaderFormalize.Verification.checked",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ],
+          "agent_proof_sha256": "23f6f7c83b3fb47984fbb8d59d72a30b568c0040f98defd092da34c1b84b3d6e",
+          "semantic_model_sha256": "5a3af29b09a4696a1632b0e30595d5465d9486cd71d604bdb1fbcea512133d4e",
+          "semantic_modules": {
+            "Model.lean": "5a3af29b09a4696a1632b0e30595d5465d9486cd71d604bdb1fbcea512133d4e",
+            "Fragment.lean": "c7a4195c9b5b84ce39a959e1fff8870ccb4a6f9e302bda8aa957302bf1ea069a",
+            "Control.lean": "1bdb1e21015cd10e05593ec42bf1c8c6d522ed9d9ffb2ac6f33f8bda4f90b44b",
+            "Packing.lean": "b7a28c0eeb178976e7060e1053bd45926eccf6e395d6087b3851632ef841f350"
+          },
+          "lake_manifest_sha256": "30e84037d4c7684408b7b63dad0e195c6da9d247389a5be7ff02e7526c35e495",
+          "lean_build_seconds": 47.015,
+          "lean_verify_seconds": 26.766,
+          "lean_version": "Lean (version 4.24.0, x86_64-w64-windows-gnu, commit 797c613eb9b6d4ec95db23e3e00af9ac6657f24b, Release)"
+        }
+      }
+    ],
+    "git_status_after": ""
+  },
+  "raw_report_sha256": "f9e1ec55528ac61a63d6219314d0f31eeb31005d1db2ac0408f4fc939cdc7e8c",
+  "script_sha256": "b790ecf760c7a1626028a396164fcf1f45f21972f0225a7797e2032d7b184172"
+}
