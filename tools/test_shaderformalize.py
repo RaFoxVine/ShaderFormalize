@@ -40,9 +40,10 @@ class SourceImportTests(unittest.TestCase):
         model, _ = self.compile_model(self.source.replace("lerp(a, b, saturate(t))", "-a * 2"))
         self.assertEqual(model["expression"]["kind"], "multiply")
 
-    def test_unsupported_division(self):
-        with self.assertRaises(ModelError):
-            self.compile_model(self.source.replace("lerp(a, b, saturate(t))", "a / t"))
+    def test_division_uses_guarded_definedness(self):
+        model, _ = self.compile_model(self.source.replace("lerp(a, b, saturate(t))", "a / t"))
+        self.assertEqual(model["schema"], 4)
+        self.assertTrue(any(binding["expression"]["kind"] == "divide" for binding in model["bindings"]))
 
     def test_octal_integers_not_read_as_decimal(self):
         for number in ("010", "077", "00", "0x10"):
@@ -154,7 +155,7 @@ class SourceImportTests(unittest.TestCase):
         with tempfile.TemporaryDirectory(dir=ROOT / "artifacts") as directory:
             output = Path(directory)
             bad = output / "bad.hlsl"
-            bad.write_text(self.source.replace("lerp(a, b, saturate(t))", "a / t"), encoding="utf-8")
+            bad.write_text(self.source.replace("lerp(a, b, saturate(t))", "a % t"), encoding="utf-8")
             (output / "result.json").write_text('{"status":"PROVED"}', encoding="utf-8")
             result = subprocess.run(["python", str(ROOT / "tools/shaderformalize.py"), "prepare", "--optimized", str(bad), "--output", str(output)], capture_output=True)
             self.assertNotEqual(result.returncode, 0)

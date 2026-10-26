@@ -146,7 +146,7 @@ class TypeRegistry:
             return "void"
         if name in self.records:
             return name
-        match = re.fullmatch(r"float([234])?", name)
+        match = re.fullmatch(r"float([1234])?", name)
         if match is None:
             raise ModelError(f"Unsupported function result: {name}")
         return int(match.group(1) or 1)

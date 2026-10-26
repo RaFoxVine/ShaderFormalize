@@ -74,7 +74,7 @@ def validate_expression(node, program, allow_void=False):
             return
         if cast == "FloatingCast" and kind == 1 and quoted(child.text)[:1] == ["literal float"]:
             return
-        if cast == "HLSLVectorSplat" and child_type == 1 and isinstance(kind, int) and kind > 1:
+        if cast == "HLSLVectorSplat" and child_type == 1 and isinstance(kind, int):
             return
         raise ModelError("Unsupported implicit conversion in helper body")
     if node.kind in ("ParenExpr", "CXXFunctionalCastExpr") and len(node.children) == 1:
@@ -109,7 +109,8 @@ def validate_expression(node, program, allow_void=False):
         validate_expression(node.children[0], program)
         if program.types.node_type(node.children[0]) == kind and isinstance(kind, int):
             return
-    if node.kind == "BinaryOperator" and len(node.children) == 2 and quoted(node.text)[-1] in ("+", "-", "*"):
+    operators = ("+", "-", "*", "/") if program.control else ("+", "-", "*")
+    if node.kind == "BinaryOperator" and len(node.children) == 2 and quoted(node.text)[-1] in operators:
         for child in node.children:
             validate_expression(child, program)
         if isinstance(kind, int) and all(program.types.node_type(child) == kind for child in node.children):

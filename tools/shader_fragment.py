@@ -3,6 +3,7 @@ from fractions import Fraction
 
 from shader_ast import ModelError
 from shader_lean import fin_index, lean_number, lean_type, vector_literal
+from shader_math import MATH_OPERATIONS, lean_scalar_math
 
 
 class FragmentEmitter:
@@ -68,9 +69,18 @@ class FragmentEmitter:
             return f"(normalize ({self.field(arguments[0])} {position}) {fin_index(index)})"
         if kind == "dot":
             return f"(dot ({self.field(arguments[0])} {position}) ({self.field(arguments[1])} {position}))"
+        if kind in ("length", "distance"):
+            components = self.components(arguments[0], position)
+            if kind == "distance":
+                other = self.components(arguments[1], position)
+                components = [f"({a} - {b})" for a, b in zip(components, other)]
+            squared = " + ".join(f"({value} * {value})" for value in components)
+            return f"(Real.sqrt ({squared}))"
         if kind == "splat":
             return self.element(arguments[0], None, position)
         args = [self.element(child, index if child["width"] > 1 else None, position) for child in arguments]
+        if kind in MATH_OPERATIONS:
+            return lean_scalar_math(kind, args)
         if kind == "negate":
             return f"(-{args[0]})"
         if kind in ("add", "subtract", "multiply"):

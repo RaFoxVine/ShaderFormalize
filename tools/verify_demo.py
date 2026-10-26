@@ -9,13 +9,15 @@ import unittest
 from shaderformalize import ROOT, write_json, write_text
 
 
-def check_case(name, expected, *extra):
+def check_case(name, expected, *extra, driver="shaderformalize"):
     output = ROOT / "artifacts/acceptance" / name
-    result = subprocess.run([sys.executable, str(ROOT / "tools/shaderformalize.py"), "check", "--output", str(output), *map(str, extra)],
+    result = subprocess.run([sys.executable, str(ROOT / "tools" / (driver + ".py")), "check", "--output", str(output), *map(str, extra)],
                             capture_output=True, text=True, encoding="utf-8", timeout=900)
     summary = json.loads((output / "result.json").read_text(encoding="utf-8"))
     if summary["status"] != expected or (result.returncode == 0) != (expected == "PROVED"):
         raise RuntimeError(f"{name}: expected {expected}, got {summary}")
+    if driver == "computeformalize" and expected == "UNPROVED" and "lean-SubmittedProof.log" not in summary.get("message", ""):
+        raise RuntimeError(f"{name}: did not reach the intended Compute proof failure: {summary}")
     if name in ("custom-axiom", "sorry-proof") and not summary.get("message", "").startswith("Proof depends on unapproved axioms:"):
         raise RuntimeError(f"{name}: did not reach the intended axiom audit: {summary}")
     if name == "forged-target" and summary.get("message") != "The independent target-binding module failed":
@@ -191,14 +193,47 @@ def complete_controls():
     return controls
 
 
+def basic_math_controls():
+    material = ROOT / "examples/basic-math"
+    constraints = ["--constraints", material / "constraints.json"]
+    controls = []
+    for role, expected in (("optimized", "PROVED"), ("wrong", "UNPROVED")):
+        controls.append(check_case("basic-math-" + role, expected, "--frontend", "shared",
+            "--original", material / "original.hlsl", "--optimized", material / (role + ".hlsl"),
+            "--agent-proof", ROOT / "proof/BasicMathProof.lean", *constraints))
+    for role, expected in (("original", "PROVED"), ("wrong", "UNPROVED")):
+        controls.append(check_case("basic-math-domain-" + role, expected, "--frontend", "shared",
+            "--original", material / ("domain." + role + ".hlsl"),
+            "--optimized", material / "domain.optimized.hlsl",
+            "--agent-proof", ROOT / "proof/BasicMathDomainProof.lean", *constraints))
+    controls.append(check_case("basic-math-auto", "PROVED",
+        "--original", material / "auto.original.hlsl", "--optimized", material / "auto.optimized.hlsl",
+        "--agent-proof", ROOT / "proof/BasicMathAutoProof.lean", *constraints))
+    controls.append(check_case("basic-math-unused-clamp-domain", "UNPROVED",
+        "--original", material / "auto.wrong-domain.hlsl", "--optimized", material / "auto.optimized.hlsl",
+        "--agent-proof", ROOT / "proof/BasicMathAutoProof.lean", *constraints))
+    return controls
+
+
+def compute_controls():
+    manifest = json.loads((ROOT / "examples/compute/controls.json").read_text(encoding="utf-8"))
+    controls = []
+    for case in manifest["cases"]:
+        controls.append(check_case("compute-" + case["name"], case["expected"],
+            "--original", ROOT / case["original"], "--optimized", ROOT / case["optimized"],
+            "--constraints", ROOT / case["constraints"], "--agent-proof", ROOT / case["proof"],
+            driver="computeformalize"))
+    return controls
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--example", choices=("all", "lerp", "unlit", "structured", "textured", "branched", "packed", "copyback", "aggregate", "complete"), default="all")
+    parser.add_argument("--example", choices=("all", "lerp", "unlit", "structured", "textured", "branched", "packed", "copyback", "aggregate", "complete", "basic-math", "compute"), default="all")
     args = parser.parse_args()
     output = ROOT / "artifacts" / ("acceptance" if args.example == "all" else "acceptance-" + args.example)
     output.mkdir(parents=True, exist_ok=True)
     write_json(output / "result.json", {"status": "IN_PROGRESS", "layer": "core", "example": args.example})
-    patterns = {"lerp": "test_shaderformalize.py", "unlit": "test_unlit.py", "structured": "test_structured.py", "textured": "test_fragment.py", "branched": "test_control.py", "packed": "test_packing.py", "copyback": "test_copyback.py", "aggregate": "test_aggregate.py", "complete": "test_loops.py"}
+    patterns = {"lerp": "test_shaderformalize.py", "unlit": "test_unlit.py", "structured": "test_structured.py", "textured": "test_fragment.py", "branched": "test_control.py", "packed": "test_packing.py", "copyback": "test_copyback.py", "aggregate": "test_aggregate.py", "complete": "test_loops.py", "basic-math": "test_basic_math.py", "compute": "test_compute.py"}
     suite = unittest.defaultTestLoader.discover(str(ROOT / "tools"), pattern=patterns.get(args.example, "test_*.py"))
     result = unittest.TextTestRunner(verbosity=1).run(suite)
     if not result.wasSuccessful():
@@ -206,6 +241,10 @@ def main():
         return 1
     controls = []
     try:
+        if args.example in ("all", "basic-math"):
+            controls.extend(basic_math_controls())
+        if args.example in ("all", "compute"):
+            controls.extend(compute_controls())
         if args.example in ("all", "complete"):
             controls.extend(complete_controls())
         if args.example in ("all", "lerp"):

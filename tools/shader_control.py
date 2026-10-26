@@ -5,6 +5,7 @@ from shader_types import initialized, operation, value_type
 from shader_effects import DERIVATIVES
 from shader_validation import control_branches, statement_block
 from shader_control_values import choose, clone_symbols, logical, truth, zero_value
+from shader_math import has_math_domain
 
 
 class Flow:
@@ -76,7 +77,7 @@ class ControlProgram(Program):
             value = dict(operation("derivative", size, arguments), mode=name, context_mask=self.guard())
             return self.snapshot(value, name)
         value = operation(name, size, arguments)
-        return self.snapshot(value, name) if name == "normalize" else value
+        return self.snapshot(value, name) if name == "normalize" or has_math_domain(name) else value
 
     def expression(self, node, symbols):
         kind = self.types.node_type(node)

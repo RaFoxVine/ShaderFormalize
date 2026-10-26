@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "dispatch_groups": 2,
+  "count_range": [0, 16],
+  "bindings": {
+    "SourceA": {"identity": 0, "capacity": 16},
+    "SourceB": {"identity": 1, "capacity": 16},
+    "Sum": {"identity": 0, "capacity": 16},
+    "Difference": {"identity": 3, "capacity": 16}
+  }
+}

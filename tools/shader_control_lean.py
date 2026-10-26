@@ -4,6 +4,7 @@ from shader_fragment import FragmentEmitter
 from shader_lean import lean_number, lean_type
 from shader_control_values import logical, truth
 from shader_boolean import BooleanDAG
+from shader_math import has_math_domain, lean_domain_condition
 
 
 def effects_mask(count):
@@ -139,6 +140,13 @@ class ControlEmitter(FragmentEmitter):
         lines.append(f"    (Control.finish {alive} {color}, {defined})")
 
     def collect_domains(self, expr, guard):
+        if has_math_domain(expr["kind"]):
+            conditions = []
+            for index in range(expr["width"]):
+                arguments = [self.element(child, None if child["width"] == 1 else index, "x") for child in expr["arguments"]]
+                conditions.append(lean_domain_condition(expr["kind"], arguments))
+            condition = " ∧ ".join(f"({value})" for value in conditions)
+            self.domains.append(f"(∀ x : E, ({self.field(guard)} x) → {condition})")
         if expr["kind"] == "normalize":
             argument = self.field(expr["arguments"][0])
             self.domains.append(f"(∀ x, ({self.field(guard)} x) → (0 : ℝ) < dot ({argument} x) ({argument} x))")

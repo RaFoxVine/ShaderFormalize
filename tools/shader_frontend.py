@@ -6,8 +6,9 @@ from shader_ast import ModelError, literal, parse_tree, quoted, source_header, v
 from shader_types import (TypeRegistry, component_mask, declaration_name, identifier, initialized, numeric_type,
                           operation, read_path, reference, replace_path, semantic, value_type)
 from shader_effects import DERIVATIVES, Resources, discard_condition
+from shader_math import MATH_INTRINSICS, valid_math_shape
 
-INTRINSICS = {"lerp", "saturate", "dot", "normalize", "clip", "asuint", "asfloat"} | DERIVATIVES
+INTRINSICS = {"lerp", "saturate", "dot", "normalize", "clip", "asuint", "asfloat"} | DERIVATIVES | MATH_INTRINSICS
 
 
 def swizzle_indices(mask, size):
@@ -244,8 +245,8 @@ class Program:
             child = self.expression(child_node, symbols)
             if cast == "LValueToRValue" and value_type(child) == kind:
                 return child
-            if cast == "HLSLVectorSplat" and value_type(child) == 1 and isinstance(kind, int) and kind > 1:
-                return operation("splat", kind, [child])
+            if cast == "HLSLVectorSplat" and value_type(child) == 1 and isinstance(kind, int):
+                return child if kind == 1 else operation("splat", kind, [child])
             raise ModelError(f"Unsupported conversion: {cast}")
         if node.kind in ("ParenExpr", "CXXFunctionalCastExpr") and len(node.children) == 1:
             if node.kind == "CXXFunctionalCastExpr" and (not isinstance(kind, int) or not node.text.endswith("<NoOp>")):
@@ -278,14 +279,17 @@ class Program:
                 raise ModelError("Unary type mismatch")
             return operation("negate", kind, [child])
         if node.kind == "BinaryOperator" and len(node.children) == 2:
-            names = {"+": "add", "-": "subtract", "*": "multiply"}
+            names = {"+": "add", "-": "subtract", "*": "multiply", "/": "divide"}
             operator = quoted(node.text)[-1]
             if operator not in names:
                 raise ModelError(f"Unsupported operator in expression: {operator}")
+            if operator == "/" and not self.control:
+                raise ModelError("Real division requires the guarded frontend")
             arguments = [self.expression(child, symbols) for child in node.children]
             if any(value_type(arg) != kind for arg in arguments):
                 raise ModelError("Binary operand type mismatch")
-            return operation(names[operator], kind, arguments)
+            value = operation(names[operator], kind, arguments)
+            return self.snapshot(value, "divide") if operator == "/" else value
         raise ModelError(f"Unsupported AST node: {node.kind}")
 
     def checked_call(self, node):
@@ -300,7 +304,9 @@ class Program:
                 raise ModelError("Function call argument/result type mismatch")
             return function, name, size
         valid = False
-        if name in ("lerp", "saturate"):
+        if name in MATH_INTRINSICS:
+            valid = self.control and valid_math_shape(name, size, widths)
+        elif name in ("lerp", "saturate"):
             valid = widths == [size] * (3 if name == "lerp" else 1)
         elif name == "normalize":
             valid = isinstance(size, int) and size > 1 and widths == [size]
@@ -314,8 +320,9 @@ class Program:
             raise ModelError("Only defined helpers and whitelisted compiler intrinsics are supported")
         expected = ("void" if size == "void" else numeric_type(size)) + "(" + ",".join(numeric_type(w) for w in widths) + ")"
         signature = signature.replace(" ", "")
-        for n in (2, 3, 4):
+        for n in (1, 2, 3, 4):
             signature = signature.replace(f"vector<float,{n}>", f"float{n}")
+        signature = re.sub(r"\bfloat1\b", "float", signature)
         if signature != expected:
             raise ModelError("Unsupported intrinsic overload")
         return None, name, size
@@ -483,10 +490,11 @@ def import_shader(source, dump, frontend="auto"):
         raise ModelError("Unknown frontend", "INVALID_INPUT")
     from shader_control_values import uses_control
     from shader_packing import PackingProgram, uses_packing
+    from shader_math import uses_basic_math
     root = parse_tree(dump)
     if uses_packing(root):
         return PackingProgram(source, dump).model()
-    if uses_control(root):
+    if uses_control(root) or uses_basic_math(root):
         from shader_control import ControlProgram
         return ControlProgram(source, dump).model()
     return Program(source, dump).model()

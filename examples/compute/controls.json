@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "cases": [
+    {"name": "postprocess", "original": "examples/compute/original.hlsl", "optimized": "examples/compute/optimized.hlsl", "constraints": "examples/compute/constraints.json", "proof": "proof/ComputePostProof.lean", "expected": "PROVED"},
+    {"name": "same-thread-alias", "original": "examples/compute/alias-original.hlsl", "optimized": "examples/compute/alias-optimized.hlsl", "constraints": "examples/compute/alias-constraints.json", "proof": "proof/ComputeAliasProof.lean", "expected": "PROVED"},
+    {"name": "wrong-output", "original": "examples/compute/original.hlsl", "optimized": "examples/compute/wrong-output.hlsl", "constraints": "examples/compute/constraints.json", "proof": "proof/ComputePostProof.lean", "expected": "UNPROVED"},
+    {"name": "out-of-bounds", "original": "examples/compute/original.hlsl", "optimized": "examples/compute/out-of-bounds.hlsl", "constraints": "examples/compute/constraints.json", "proof": "proof/ComputePostProof.lean", "expected": "UNPROVED"},
+    {"name": "write-write-conflict", "original": "examples/compute/original.hlsl", "optimized": "examples/compute/write-write-conflict.hlsl", "constraints": "examples/compute/constraints.json", "proof": "proof/ComputePostProof.lean", "expected": "UNPROVED"},
+    {"name": "alias-write-read-conflict", "original": "examples/compute/original.hlsl", "optimized": "examples/compute/alias-write-read-conflict.hlsl", "constraints": "examples/compute/alias-constraints.json", "proof": "proof/ComputePostProof.lean", "expected": "UNPROVED"}
+  ]
+}

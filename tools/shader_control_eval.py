@@ -1,6 +1,7 @@
 """Finite guarded-field interpreter, independent of Lean proof construction."""
 import math
 from shader_eval import evaluate
+from shader_math import MATH_OPERATIONS, evaluate_math
 
 
 def compare(operator, lhs, rhs):
@@ -57,6 +58,8 @@ def control_field(expr, model, inputs, locals_, effects, count, operations, guar
             if length == 0 and (guard is None or guard[point]):
                 raise ValueError("Executed normalize(0) has no specified HLSL result")
             result.append([value/length for value in values[0]] if length else [0]*len(values[0]))
+        elif kind in MATH_OPERATIONS:
+            result.append(evaluate_math(kind, values, guard is None or guard[point]))
         else:
             rewritten = dict(expr, arguments=[{"kind": "parameter", "index": i, "width": child["width"]} for i, child in enumerate(expr["arguments"])])
             result.append(evaluate(rewritten, values, []))

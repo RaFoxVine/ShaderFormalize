@@ -135,7 +135,7 @@ class ControlTests(unittest.TestCase):
             self.compile(ENTRY + "if(a.x>0.5){float x=1;}return float4(x,0,0,1);}")
 
     def test_unsupported_body_still_checked_when_uncalled(self):
-        for helper in ("void F(){while(true){return;}}", "float4 F(float4 x){if(x.x>0)return x/2;return x;}",
+        for helper in ("void F(){while(true){return;}}", "float4 F(float4 x){if(x.x>0)return x%2;return x;}",
                        "float F(){float x;return x;}"):
             for body in ("return a;}", "bool b=true;return a;}"):
                 with self.assertRaises(ModelError):

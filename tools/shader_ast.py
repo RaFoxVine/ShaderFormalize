@@ -40,7 +40,7 @@ def width(node):
     value_type = types[0].removeprefix("const ")
     if value_type == "float" or (value_type == "literal float" and node.kind in ("FloatingLiteral", "ParenExpr", "BinaryOperator", "UnaryOperator")):
         return 1
-    vector = re.fullmatch(r"float([234])|vector<float, ([234])>", value_type)
+    vector = re.fullmatch(r"float([1234])|vector<float, ([1234])>", value_type)
     if vector is not None:
         return int(vector.group(1) or vector.group(2))
     raise ModelError(f"Unsupported type: {types[0]}")

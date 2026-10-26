@@ -2,7 +2,9 @@
 
 将两份 HLSL 经 DXC 已定类型的语法树转成理想实数与整数位字段模型，提供 agent 编写、迭代并独立检查 Lean 等价证明的本地环境。核心依赖固定版本 DXC、Lean 和 mathlib，安装、转换、证明和默认验收均不依赖 Unity。它不是任意 Shader 的自动等价判定器。
 
-下一阶段的[语言覆盖、浮点与 Compute 调查提案](planning/coverage-expansion/plan.md)及[官方覆盖目录初版](planning/coverage-expansion/coverage.csv)已整理；其中 IEEE 和 Compute 为候选扩展，尚未实现。
+语言覆盖以[官方目录](planning/coverage-expansion/coverage.csv)逐项推进。[基础数学运算](docs/basic-math.md)已接入现有实数模型，包括 min/max/abs/clamp、除法、sqrt/rcp/rsqrt、length/distance，按实际执行条件证明受限域。[并行扩展范围](planning/coverage-expansion/parallel-plan.md)另包含独立浮点库接入及 Compute/同步工作；各方向当前进度见[任务状态](planning/coverage-expansion/tasks.md)。
+
+[实验性 Compute 入口](docs/compute.md)已支持一维 StructuredBuffer 两输入两输出、物理资源别名与同线程有序读写；完整 Lean 目标同时检查访问范围、跨线程冲突和最终内存相等。使用 `python tools/computeformalize.py check`，或 `pwsh -File tools/run_demo.ps1 -Example compute`。这条路径仍使用理想实数，尚未接入纹理格式、共享内存或原子操作。
 
 显式`--frontend shared`已支持实际共享helper定义、默认参数、out/inout及正常struct写法。[光照材质原版](examples/copyback/original.hlsl)通过out结构体和inout颜色累积，与[手工等价改写版](examples/copyback/optimized.hlsl)的完整数学目标已获证明；用法和边界见[共享函数说明](docs/shared-functions.md)。矩阵/数组及元素写回已接入，[新材质与具体契约](docs/aggregate-values.md)。[固定次数uint循环与组合材质](docs/static-loops.md)进一步组合采样、裁剪和导数；默认auto保留此前证明，完整HDRP/Lit Forward尚未完成。
 
@@ -52,6 +54,9 @@ pwsh -File tools/run_demo.ps1 -Example aggregate
 # 两次光照循环、矩阵/数组、采样、裁剪、导数的组合与域对照。
 pwsh -File tools/run_demo.ps1 -Example complete
 
+# 常见数学运算、守卫定义域和错误改写的正式对照。
+pwsh -File tools/run_demo.ps1 -Example basic-math
+
 # 仅检查纹理材质数学等价。
 python tools/shaderformalize.py check --original examples/textured/original.hlsl --optimized examples/textured/optimized.hlsl --constraints examples/textured/constraints.json --agent-proof proof/TexturedProof.lean --output artifacts/textured/proof
 
@@ -71,7 +76,7 @@ Unity包装目前仅指定shader target，未固定HLSL2021语言模式。GPU证
 
 ## 证明保证
 
-float解释为实数，向量为实数分量。普通数值程序保留schema2；旧纹理/简单裁剪用schema3；一般控制流用schema4。片元模型中varying为任意位置集合 E 上的完整函数，uniform为常量；输出为 E→Option Vec4，None表示丢弃，Some表示颜色。证明比较完整输出函数，包含裁剪结果；schema4目标另外要求所有实际执行的normalize有合法定义域。
+float解释为实数，向量为实数分量。普通数值程序保留schema2；旧纹理/简单裁剪用schema3；一般控制流及新增基础数学运算用schema4。片元模型中varying为任意位置集合 E 上的完整函数，uniform为常量；输出为 E→Option Vec4，None表示丢弃，Some表示颜色。证明比较完整输出函数，包含裁剪结果；schema4目标另外要求实际执行的normalize、除法、sqrt/rcp/rsqrt/clamp等满足各自实数模型受限域。
 
 schema5在相同执行模型中加入精确uint32及静态标记的float位载体，并要求已执行的实数转uint和移位合法。载体只保存位，不具有实数值；asuint(普通实数)和对载体做数值计算会拒绝。uint局部/内部struct/按值helper可用，整数stage输入、cbuffer和载体跨helper接口尚未开放。float底层编码/舍入不在模型中。[详细契约](docs/integer-packing.md)。
 
@@ -106,7 +111,7 @@ schema5在相同执行模型中加入精确uint32及静态标记的float位载�
 
 - 一个返回float4、SV_Target的像素main；numeric值参数或叶字段带semantic的嵌套结构体输入；可选一个register(b0) cbuffer，float/float2/float3/float4字段。
 - 具名嵌套结构体、字段读写、整记录按值复制/返回；默认按值非递归辅助函数及重载、读取uniform。入口参数/uniform不可写，helper参数可修改自己的副本。单字段读取只需该字段初始化；整记录复制/实参/返回须全部初始化。
-- 局部声明/初始化/嵌套块、完整变量或字段的=、+=、-=、*=；精确十进制、括号、加减乘、负号、向量构造、swizzle、标量广播、dot/normalize/lerp/saturate。
+- 局部声明/初始化/嵌套块、完整变量或字段的=、+=、-=、*=；精确十进制、括号、加减乘除、负号、向量构造、swizzle、标量广播、dot/normalize/lerp/saturate；基础数学另支持float1..4的min/max/abs/clamp、sqrt/rcp/rsqrt、length/distance，具体形状和实际执行域见[说明](docs/basic-math.md)。
 - 标量bool局部、内部结构体字段及helper参数/返回；比较、!、&&、||、bool相等；一般if/else、嵌套分支、数值/记录/布尔赋值合并、标量条件?:、main与helper提前return。固定 `-HV 2021`，标量&&/||/?:短路；未进入的normalize不要求合法，已执行的必须证明合法。函数return仅结束当前调用，discard结束对应位置的整个Shader。普通别名/算术保留完整输入函数，guard外不会一律清零。
 - 全局Texture2D<float4>（含默认Texture2D）和SamplerState，显式register(tN)/register(sN)，无重复槽位/别名。Sample(sampler,float2)、SampleLevel(sampler,float2,float)、SampleGrad(sampler,float2,float2,float2)。不接受offset/status/clamp等附加重载。
 - ddx/ddy及各自fine/coarse的float1..4；clip(float1..4)、discard、if(两个float标量的< <= > >= == !=比较) discard，可有只含discard的花括号，无else。
@@ -114,7 +119,7 @@ schema5在相同执行模型中加入精确uint32及静态标记的float位载�
 
 两份入口参数名/顺序/类型/完整名义布局/semantic、cbuffer字段布局及资源名/类型/顺序/槽位、输出semantic均须完全一致，错误直接拒绝，不靠反射猜配。内部结构体/函数名可不同。
 
-两种后端均不支持bool stage输入/bool cbuffer、向量条件、循环、原型/递归、任意struct花括号初始化/方法、资源参数/别名、原始除法、任意pow、其它纹理/Buffer/compute操作以及预处理。auto额外拒绝默认参数/out/inout、向量分量左值和矩阵/数组；shared支持受控零转换。所有函数体检查具体语句/表达式/调用和初始化，不能把未知代码藏在未调用helper中。未知类型/节点/重载明确拒绝。[HLSL2021短路定义](https://github.com/microsoft/DirectXShaderCompiler/wiki/HLSL-2021)
+auto/shared像素入口仍不支持bool stage输入/bool cbuffer、向量条件、一般动态循环、原型/递归、任意struct花括号初始化/方法、资源参数/别名、任意pow、其它纹理/Buffer操作以及预处理；shared另支持[固定次数uint for](docs/static-loops.md)。auto额外拒绝默认参数/out/inout、向量分量左值和矩阵/数组；shared支持受控零转换。新增基础数学不包含整数/矩阵重载或`/=`。所有函数体检查具体语句/表达式/调用和初始化，不能把未知代码藏在未调用helper中。未知类型/节点/重载明确拒绝。[HLSL2021短路定义](https://github.com/microsoft/DirectXShaderCompiler/wiki/HLSL-2021)
 
 上限：64结构体/每结构64字段、16嵌套层、每记录4096叶、128函数、32调用层、4096次展开调用、64输入叶、4096绑定、128裁剪事件、每种资源16个；控制流另限32层分支/每帧128返回分支，布尔共享图限4096节点/256深度。SSA与裁剪事件交错记录，完整条件以共享布尔图发射，避免重复展开。采样/导数结果可直接取分量，如 _BaseMap.Sample(...).rgb。数字使用原始源码文字，实数接受精确十进制；uint另接受十六进制及u后缀，拒绝八进制和超32位常量。接受LF/CRLF，不接受预处理/拼行及其它物理换行字符（含注释）。
 

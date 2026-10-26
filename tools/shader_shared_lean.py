@@ -10,6 +10,7 @@ from shader_shared import result_leaves
 from shader_lean import fin_index
 from shader_control_lean import generate_control
 from shader_packing import has_payload
+from shader_math import MATH_OPERATIONS, valid_math_shape
 
 
 def validate_shared(model):
@@ -48,6 +49,8 @@ class SharedFrameValidator:
         if predicate and expr["width"] != "bool":
             raise ModelError("Shared predicate must have Boolean type")
         kind = expr["kind"]
+        if kind in MATH_OPERATIONS and not valid_math_shape(kind, expr["width"], [arg["width"] for arg in expr.get("arguments", [])]):
+            raise ModelError("Invalid shared math operation shape")
         if kind == "partial_vector":
             raise ModelError("Internal partial initialization escaped into a shared model")
         if kind == "record":

@@ -1,5 +1,6 @@
 """Finite numeric oracle for regression tests; never used as a formal proof."""
 import math
+from shader_math import MATH_OPERATIONS, evaluate_math
 
 
 def evaluate(expr, inputs, locals_):
@@ -11,6 +12,8 @@ def evaluate(expr, inputs, locals_):
     if kind == "literal":
         return [expr["numerator"] / expr["denominator"]]
     args = [evaluate(child, inputs, locals_) for child in expr["arguments"]]
+    if kind in MATH_OPERATIONS:
+        return evaluate_math(kind, args)
     if kind == "construct":
         return [value for arg in args for value in arg]
     if kind == "swizzle":

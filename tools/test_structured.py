@@ -170,7 +170,7 @@ float4 main(float4 a:COLOR0):SV_Target {return a;}'''
             self.compile(source)
 
     def test_unused_helper_with_unsupported_operator_rejected(self):
-        source = '''float4 Unused(float4 x){return x/2;}
+        source = '''float4 Unused(float4 x){return x%2;}
 float4 main(float4 a:COLOR0):SV_Target {return a;}'''
         with self.assertRaises(ModelError):
             self.compile(source)
