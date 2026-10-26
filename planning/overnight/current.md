@@ -197,8 +197,9 @@
     "forward": {
       "commits": [],
       "grant_reference": "",
-      "result": "PENDING",
-      "summary": ""
+      "result": "BLOCKED_AT_DECISION",
+      "summary": "Fixed HDRP Forward remains unconverted. Read-only evidence and minimal DXC-success/shared-UNSUPPORTED reproduction isolate ordinary-real asuint/IsNaN recovery after negative sphere discriminant. real-boundary.md records exact path, snapshot, failures and recovery choices; no IEEE model, hidden domain, opaque NaN or full-Lit proof claim. Language work continues independently.",
+      "updated_at": "2026-10-26T12:26:18+08:00"
     },
     "language": {
       "commits": [
@@ -254,7 +255,7 @@
   "schema_version": 1,
   "session_id": "shader-forward-2026-10-26",
   "status": "running",
-  "updated_at": "2026-10-26T12:24:56+08:00"
+  "updated_at": "2026-10-26T12:26:18+08:00"
 }
 ```
 <!-- SMART_OVERNIGHT_STATE_END -->
