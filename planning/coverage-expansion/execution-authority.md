@@ -17,7 +17,7 @@
 
 ## Grant ieee-001@revision-1
 
-- status: active；source: delegated_session；item: ieee。
+- status: completed；source: delegated_session；item: ieee。
 - target: parallel-plan的prototypes/ieee固定FloatLib/Lean4.35独立工程、bootstrap/run及代表检查与现成定理使用。
 - current_target: C:/Users/xc/.codex/worktrees/ieee-prototype/ShaderFormalize；独占该checkout的.tools/.cache/原型，不升级主4.24。
 - authorization_message_exact: “他们声明他们能做，那么我们可以当他们能做，进行简单检验以后觉得没问题我们就可以拉过来”。
@@ -25,6 +25,7 @@
 - exclusions: 全局安装/设置、核心锁升级/默认PROVED含义变化、把完整上游审计作为前置、merge/archive。
 - oracle: 实际构建、运算/特殊值/位解释/重结合代表检查、库定理实际实例化；不要求本轮独立重证外部库。
 - stop: 空间不足且需删除用户数据；需要改核心默认配置；Q第三轮关键问题未闭合。
+- result: 8372a6e，固定依赖2396项构建、19运行检查及两定理通过；主目录迁移后热跑成功，独立Q2 Verified；见../evidence/ieee-integration-2026-10-27.json。HLSL IEEE导入仍未实现。
 
 ## Grant compute-001@revision-1
 
@@ -39,7 +40,7 @@
 
 ## Grant synchronization-001@revision-1
 
-- status: active；source: delegated_session；item: synchronization。
+- status: completed；source: delegated_session；item: synchronization。
 - target: parallel-plan的本地VerCors2.4接入、带权限并行正例与具体失败负例，尝试GPU/barrier入口。
 - current_target: D:/2FileBuildWorkPlace/Formalize/ShaderFormalize；根agent唯一writer；prototypes/synchronization及独立ignored工具/输出。
 - authorization_message_exact: “不要为了后期的严格而在早期给自己增加奇怪的工作量，我认为我们还是先以大框架为主”。
@@ -47,6 +48,7 @@
 - exclusions: 全局安装/设置、把外部PASS当Lean/HLSL自动导入证明、完整验证器审计前置、merge/archive。
 - oracle: 外部工具真实运行并区分通过与权限/断言失败；未运行的GPU入口如实注明。
 - stop: 需要全局安装；Q第三轮关键问题未闭合。
+- result: c401924，实际4控制PASSED、独立Q1 Verified；见../evidence/vercors-integration-2026-10-27.json。无HLSL同步自动导入或Lean桥接声明。
 
 ## 发布与结束
 

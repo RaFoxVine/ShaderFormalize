@@ -78,11 +78,12 @@
     "prototypes/synchronization/bootstrap.ps1": "2d6aa6082aad74df6131b3686369a3a0d6f8bedd9bac9c6b64e8c984358e5f94",
     "prototypes/synchronization/dependencies.lock.json": "e451fce3bb2c22e660f2dd1962bf52fc0607e7213f78c6c6c6443ec892012268",
     "prototypes/synchronization/ParallelAdd.pvl": "3e21fb5a8c4511c436c27127505ad761edf04370df219ad6ca404b8cd028729b",
-    "prototypes/synchronization/README.md": "68df0ae4e3aa6ea87e7f2a0115cb90bb3cd35df809411beacf506eda8ae24eca",
+    "prototypes/synchronization/README.md": "3d133e26a2dbfb36473bb682ec79e630e715c9066c1ab24aec0611e6ebd44d46",
     "prototypes/synchronization/run.py": "0b7a324259652479dfe15578a633f0da5d64eb0896289365fe6c5d2d50e197e7",
     "prototypes/synchronization/SharedExchange.pvl": "44f97bdaecbfcf3ad7e5a70c7aaaec140aa5b33f347d066d90b6f31cda3dbe9b",
     "tools/download_release.py": "4d12da52a50fd07d638dfb5cc411f4f2a01391d76c839ba06186d9d8866d2c31"
   },
   "evidence_directory": "artifacts/synchronization",
-  "post_run_change": "Launcher lookup simplified to its verified fixed release path; independent Q checked equivalence without rerunning cases."
+  "post_run_change": "Launcher lookup simplified to its verified fixed release path; independent Q checked equivalence without rerunning cases.",
+  "implementation_commit": "c401924"
 }
