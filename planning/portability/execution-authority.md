@@ -56,7 +56,7 @@
 
 ## Grant windows-refresh-005@revision-1
 
-- status: active
+- status: completed
 - source: running sealed overnight portability条目；用户要求另一台Windows x64拉取最新可用源码，持续免重复方案人工审阅。同锁追加验证协议沿用已P/Q及事实核验通过的004，仅改变源码和两个覆盖正例，无产品/配置/依赖变更。
 - target: 独立Fresh Checkout从9bec4aa更新至d34856609b7a897c093314bc497606d9f6a369d1；使用副本原安装的固定工具/缓存，不复制主目录依赖或构建物。
 - actions: clean后fetch确切提交并detach，核对两锁/六工具/九依赖/无alternates/无Unity及子环境隔离；实际检查complete组合材质和loop-domain-zero两个正例，另存fresh-loop-verification.json与日志，独立事实复核、精简证据和本地提交。
@@ -64,3 +64,5 @@
 - stop: tracked状态dirty、锁/工具/依赖/隔离不匹配，或形式正例失败。
 - acceptance: 两个实际PROVED、输入/目标/证明/模块/锁/公理核验和前后clean；只称同锁源码追加复现，不替代主213/57或loop最终Q，不是第二次空目录安装。
 - recorded_at: 2026-10-26；d348566已有213单元和四新正式控制符合预期、Q1源码审读，主完整57及最终Q另行继续。脚本artifacts/portability/fresh_loop_verify.py沿既有协议生成，尚未执行。
+
+- result: d348566两个正例实际PROVED，Git前后clean；独立事实核验通过，依赖/隔离/无junction/输入/目标/proof/模块/锁/公理吻合。见../evidence/windows-loops-2026-10-26.json。同锁源码追加，不替代主213/57或loop最终Q。

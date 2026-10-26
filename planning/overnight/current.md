@@ -234,9 +234,9 @@
         "d348566"
       ],
       "grant_reference": "planning/portability/execution-authority.md#windows-refresh-005@revision-1",
-      "result": "IN_PROGRESS",
-      "summary": "Authorized same-lock source refresh to d348566 for complete material and zero-loop domain positives; original independent tools/caches retained, no main outputs copied.",
-      "updated_at": "2026-10-26T12:24:56+08:00"
+      "result": "DONE",
+      "summary": "Independent Windows checkout d348566 complete material and zero-loop domain both PROVED; factual review passed, source/targets/proofs/locks/tools/packages/isolation/axioms checked. Same-lock source refresh, original blank install evidence retained.",
+      "updated_at": "2026-10-26T12:32:03+08:00"
     },
     "publish": {
       "commits": [
@@ -255,7 +255,7 @@
   "schema_version": 1,
   "session_id": "shader-forward-2026-10-26",
   "status": "running",
-  "updated_at": "2026-10-26T12:26:18+08:00"
+  "updated_at": "2026-10-26T12:32:03+08:00"
 }
 ```
 <!-- SMART_OVERNIGHT_STATE_END -->

@@ -9,4 +9,6 @@
 
 - windows-refresh-004结果：9bec4aa材质、完整场导数、合法下标三例PROVED，独立事实复核通过；见planning/evidence/windows-aggregate-2026-10-26.json。同锁源码更新，非第二次空目录安装，主完整gate另行完成。
 
-- 固定循环最新源码复现（windows-refresh-005）：Implementing；目标d348566，complete组合材质与零次循环定义域两个正例，沿用同一独立同锁协议；主213/57与loop最终Q另行执行。
+- 固定循环最新源码复现（windows-refresh-005）：Completed；目标d348566，complete组合材质与零次循环定义域两个正例，沿用同一独立同锁协议；主213/57与loop最终Q另行执行。
+
+- windows-refresh-005结果：d348566的complete材质及零次循环两个完整目标PROVED，独立事实核验通过；精简证据windows-loops-2026-10-26.json。仍为同一独立安装副本的源码更新，非再次空目录安装。
