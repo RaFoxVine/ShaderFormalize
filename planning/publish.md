@@ -61,7 +61,7 @@
 
 ## checkpoint-5：固定次数循环、组合材质及overnight最终状态
 
-- status: approved
+- status: completed
 - source: sealed running overnight publish委派，用户明确要求完成后push；免重复人工方案审阅持续有效。
 - target: 当前分支全部已验证提交，包括d348566循环产品、213/57/Q2最终证据、独立Windows两正例、当前说明与Forward实数边界和最终session报告/状态。无未审产品、缓存或Unity工程混入。
 - readiness: 213单元/57控制PASSED，27 PROVED/28 UNPROVED/2 INVALID_INPUT；独立Q2最终Verified及Windows事实核验通过，主产品自d348566未变。
@@ -69,3 +69,5 @@
 - exclusions: force push、merge/rebase、改remote、推送工具缓存/秘密/Unity或未验证产品、archive。
 - stop: 远端分叉、认证/网络失败或无关变更。
 - acceptance: 所有已验证源码/锁/证明/证据/最终状态都在远端同名分支；报告完整Forward仍被明确语义选择阻断，不冒充已证明。
+
+- result: 非强制push成功，远端SHA独立核对为7f5f971c40b8a7a6b70c11c7ea9c8364ddebc79d，包含完整验证源码/锁/proof/证据/报告；本完成状态随后提交并再次推送同名分支。最终状态提交的实际SHA以Git HEAD及本次对话核验为准。

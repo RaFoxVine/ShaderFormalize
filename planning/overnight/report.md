@@ -12,7 +12,7 @@
 | 普通语言与组合材质 | 完成，源d348566，213/57及独立审阅通过 |
 | 固定HDRP/Lit Forward | Blocked at decision，完整源码尚未转换/证明 |
 | Windows x64复现 | 完成：原空目录真实安装固定依赖，后续独立副本更新到d348566，两新正例PROVED并经事实核验 |
-| Git发布 | 待最终推送并核对远端SHA |
+| Git发布 | 完成：非强制推送，远端核对7f5f971；完成状态继续随同一分支提交 |
 
 完整Lit的阻断不是精度问题：反射探针球形求交会对负判别式求平方根，再用IsNaN恢复无交点结果；纯实数模型无法直接表示这段行为。不能把IsNaN改成false或悄悄增加判别式非负假设。可复现的小例、实际静态路径和恢复条件在planning/hdrp-forward/real-boundary.md。下一轮须确定是否先选择并证明不执行这条路径的固定配置，或明确异常恢复的数学契约；其余入口、资源、动态循环等缺口仍须随后处理。
 
@@ -21,3 +21,5 @@
 另一台Windows x64按docs/windows-setup.md拉取codex/shader-equivalence-planning并执行本地bootstrap；快速检查新示例可用`pwsh -File tools/run_demo.ps1 -Example complete`，完整回归用默认run_demo。工具和依赖位于仓库本地的.tools/.cache/proof/.lake；缓存、完整日志、开发副本和Unity工程不进入Git，保留本地失败证据供恢复，不需要为发布删除它们。独立副本是同一台机器上隔离安装依赖的验证，没有声称已经在另一台物理电脑实测。
 
 没有进行merge、rebase、force push、正式归档或机器全局配置变更。当前普通语言工作已闭合；完整Forward的下一步需上述语义选择。
+
+实际发布分支为codex/shader-equivalence-planning；包含所有验证成果的提交7f5f971c40b8a7a6b70c11c7ea9c8364ddebc79d已push并经ls-remote核对。最后的session状态记录也提交到同一分支，实际最新SHA以Git HEAD和本次对话最终核验为准。
