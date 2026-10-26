@@ -1,0 +1,54 @@
+[
+  {
+    "id": "math",
+    "target": "ShaderFormalize/coverage-expansion/basic-math",
+    "goal": "按parallel-plan修订1完成10项float标量/向量基础数学运算的实际执行域、完整材质正负证明、兼容检查及主目录集成。",
+    "ceiling": "PLAN_AND_CODE",
+    "grant_source": "delegated_session",
+    "allowed_actions": ["plan", "independent P/Q", "code in isolated worktree", "test", "root integration", "documentation", "local commit"],
+    "exclusions": ["new default numeric semantics", "global environment changes", "Unity writes", "merge", "archive", "unproved assumptions"],
+    "dependencies": [],
+    "stop_conditions": ["must change existing real or execution-domain guarantees", "third-round critical review issue remains"],
+    "authorization_message_exact": "接下来我们可以开多个subagent进行同时推进。我认为你提出的上面四个推进方向都是有很多可以并行的内容的。",
+    "unique_referent_evidence": "承接刚展示的四个方向及用户早先先跑通、免反复完整方案审阅的指示；具体首批范围已由parallel-plan固定并交叉P。"
+  },
+  {
+    "id": "ieee",
+    "target": "ShaderFormalize/coverage-expansion/ieee-prototype",
+    "goal": "固定FloatLib独立工程和本地工具链，实际运行代表运算、特殊值、位解释与舍入反例，并使用现成运算规格定理。",
+    "ceiling": "PLAN_AND_CODE",
+    "grant_source": "delegated_session",
+    "allowed_actions": ["plan", "independent P/Q", "download local pinned dependencies", "code in isolated worktree", "build", "run representative checks", "root integration", "documentation", "local commit"],
+    "exclusions": ["upgrade current core toolchain", "change core PROVED meaning", "global installs", "full upstream audit as prerequisite", "merge", "archive"],
+    "dependencies": [],
+    "stop_conditions": ["insufficient space without deleting user data", "requires changing current default numeric profile", "third-round critical review issue remains"],
+    "authorization_message_exact": "他们声明他们能做，那么我们可以当他们能做，进行简单检验以后觉得没问题我们就可以拉过来",
+    "unique_referent_evidence": "用户明确降低外部依赖接入前置，批准四方向并行；该项只做本地独立浮点接入原型，不改核心默认语义。"
+  },
+  {
+    "id": "compute",
+    "target": "ShaderFormalize/coverage-expansion/compute-load-store",
+    "goal": "真实DXC Compute AST到Lean的1D StructuredBuffer两输入两输出，完整内存和安全目标、正负控制与独立实验命令。",
+    "ceiling": "PLAN_AND_CODE",
+    "grant_source": "delegated_session",
+    "allowed_actions": ["plan", "independent P/Q", "code in isolated worktree", "test", "root integration", "documentation", "local commit"],
+    "exclusions": ["silently sequentialize conflicting threads", "change default ps path", "new global tools", "claim arbitrary compute or synchronization", "merge", "archive"],
+    "dependencies": [],
+    "stop_conditions": ["requires weakening bounds/alias/conflict/output target", "third-round critical review issue remains"],
+    "authorization_message_exact": "我认为你提出的上面四个推进方向都是有很多可以并行的内容的。",
+    "unique_referent_evidence": "承接用户明确Compute多资源/内存目标；parallel-plan固定当前独立写、线程内有序overlay与完整安全/状态目标，交叉P闭合。"
+  },
+  {
+    "id": "synchronization",
+    "target": "ShaderFormalize/coverage-expansion/vercors-integration",
+    "goal": "本地固定VerCors2.4，实际运行带权限并行正例与失效负例，尝试上游GPU/barrier入口并如实记录层次。",
+    "ceiling": "PLAN_AND_CODE",
+    "grant_source": "delegated_session",
+    "allowed_actions": ["plan", "independent P/Q", "download pinned local release", "write prototype runner and examples", "run external verifier", "documentation", "local commit"],
+    "exclusions": ["global installs or settings", "claim external PASS is Lean proof", "claim HLSL barrier importer exists", "full verifier audit as prerequisite", "merge", "archive"],
+    "dependencies": [],
+    "stop_conditions": ["requires a machine-wide installation", "third-round critical review issue remains"],
+    "authorization_message_exact": "不要为了后期的严格而在早期给自己增加奇怪的工作量，我认为我们还是先以大框架为主",
+    "unique_referent_evidence": "四方向并行中的共享内存/同步起步采用成熟外部工具实际接入，交叉P确认代表例验收足够。"
+  }
+]
