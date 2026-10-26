@@ -1,0 +1,150 @@
+[
+  {
+    "id": "math_extensions",
+    "target": "ShaderFormalize/overnight-expansion-2026-10-27/math_extensions",
+    "goal": "实现七项基础数学float1..4重载/实际域，完整3正3负、旧目标兼容及主目录整合。",
+    "ceiling": "PLAN_AND_CODE",
+    "grant_source": "delegated_session",
+    "authorization_message_exact": "按上述四项继续 Overnight",
+    "unique_referent_evidence": "用户阅读本会话四项具体Overnight范围后，对唯一授权问题明确选择继续；完整前文和持续push指示在request.txt。",
+    "dependencies": [],
+    "allowed_actions": [
+      "plan",
+      "independent P/Q",
+      "code in isolated checkout",
+      "copy pinned local tools/cache",
+      "run actual checks",
+      "root integration",
+      "documentation",
+      "local commit",
+      "non-force push verified results"
+    ],
+    "exclusions": [
+      "global environment changes",
+      "Unity writes",
+      "core default numeric guarantee change",
+      "new unapproved axioms or hidden premises",
+      "full upstream audit as prerequisite",
+      "force push",
+      "merge",
+      "formal Node archive",
+      "archive shared-junction worktrees"
+    ],
+    "stop_conditions": [
+      "requires changing approved observable guarantee or source subset ceiling",
+      "critical issue remains after third formal review round",
+      "disk shortage requiring user-data deletion or machine-wide install"
+    ]
+  },
+  {
+    "id": "ieee_hlsl",
+    "target": "ShaderFormalize/overnight-expansion-2026-10-27/ieee_hlsl",
+    "goal": "独立FloatLib binary32 HLSL prepare/check和存储位等价，普通struct/helper/vector及特殊值，root共同绑定/审计提取，不改核心默认4.24。",
+    "ceiling": "PLAN_AND_CODE",
+    "grant_source": "delegated_session",
+    "authorization_message_exact": "按上述四项继续 Overnight",
+    "unique_referent_evidence": "用户阅读本会话四项具体Overnight范围后，对唯一授权问题明确选择继续；完整前文和持续push指示在request.txt。",
+    "dependencies": [],
+    "allowed_actions": [
+      "plan",
+      "independent P/Q",
+      "code in isolated checkout",
+      "copy pinned local tools/cache",
+      "run actual checks",
+      "root integration",
+      "documentation",
+      "local commit",
+      "non-force push verified results"
+    ],
+    "exclusions": [
+      "global environment changes",
+      "Unity writes",
+      "core default numeric guarantee change",
+      "new unapproved axioms or hidden premises",
+      "full upstream audit as prerequisite",
+      "force push",
+      "merge",
+      "formal Node archive",
+      "archive shared-junction worktrees"
+    ],
+    "stop_conditions": [
+      "requires changing approved observable guarantee or source subset ceiling",
+      "critical issue remains after third formal review round",
+      "disk shortage requiring user-data deletion or machine-wide install"
+    ]
+  },
+  {
+    "id": "compute_texture",
+    "target": "ShaderFormalize/overnight-expansion-2026-10-27/compute_texture",
+    "goal": "真实二维Texture后处理HLSL typedAST到Lean，typed uniforms/纯helper/受控数学/精确整数坐标，完整访问、数学域、冲突及最终内存目标，保留旧六例。",
+    "ceiling": "PLAN_AND_CODE",
+    "grant_source": "delegated_session",
+    "authorization_message_exact": "按上述四项继续 Overnight",
+    "unique_referent_evidence": "用户阅读本会话四项具体Overnight范围后，对唯一授权问题明确选择继续；完整前文和持续push指示在request.txt。",
+    "dependencies": [],
+    "allowed_actions": [
+      "plan",
+      "independent P/Q",
+      "code in isolated checkout",
+      "copy pinned local tools/cache",
+      "run actual checks",
+      "root integration",
+      "documentation",
+      "local commit",
+      "non-force push verified results"
+    ],
+    "exclusions": [
+      "global environment changes",
+      "Unity writes",
+      "core default numeric guarantee change",
+      "new unapproved axioms or hidden premises",
+      "full upstream audit as prerequisite",
+      "force push",
+      "merge",
+      "formal Node archive",
+      "archive shared-junction worktrees"
+    ],
+    "stop_conditions": [
+      "requires changing approved observable guarantee or source subset ceiling",
+      "critical issue remains after third formal review round",
+      "disk shortage requiring user-data deletion or machine-wide install"
+    ]
+  },
+  {
+    "id": "synchronization_hlsl",
+    "target": "ShaderFormalize/overnight-expansion-2026-10-27/synchronization_hlsl",
+    "goal": "固定单group两线程共享数组HLSL经DXC到VerCors PVL，正确/删barrier/冲突三控制，独立访问安全结果，不冒充Lean或数值等价。",
+    "ceiling": "PLAN_AND_CODE",
+    "grant_source": "delegated_session",
+    "authorization_message_exact": "按上述四项继续 Overnight",
+    "unique_referent_evidence": "用户阅读本会话四项具体Overnight范围后，对唯一授权问题明确选择继续；完整前文和持续push指示在request.txt。",
+    "dependencies": [],
+    "allowed_actions": [
+      "plan",
+      "independent P/Q",
+      "code in isolated checkout",
+      "copy pinned local tools/cache",
+      "run actual checks",
+      "root integration",
+      "documentation",
+      "local commit",
+      "non-force push verified results"
+    ],
+    "exclusions": [
+      "global environment changes",
+      "Unity writes",
+      "core default numeric guarantee change",
+      "new unapproved axioms or hidden premises",
+      "full upstream audit as prerequisite",
+      "force push",
+      "merge",
+      "formal Node archive",
+      "archive shared-junction worktrees"
+    ],
+    "stop_conditions": [
+      "requires changing approved observable guarantee or source subset ceiling",
+      "critical issue remains after third formal review round",
+      "disk shortage requiring user-data deletion or machine-wide install"
+    ]
+  }
+]

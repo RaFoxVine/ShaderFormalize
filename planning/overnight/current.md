@@ -1,189 +1,191 @@
-# Smart Overnight Session — shader-expansion-parallel-2026-10-26
+# Smart Overnight Session — shader-overnight-expansion-2026-10-27
 
 <!-- SMART_OVERNIGHT_STATE_BEGIN -->
 ```json
 {
-  "created_at": "2026-10-26T23:47:14+08:00",
-  "final_results": {
-    "compute": "DONE",
-    "ieee": "DONE",
-    "math": "DONE",
-    "synchronization": "DONE"
-  },
-  "finished_at": "2026-10-27T02:06:46+08:00",
-  "grant_sha256": "6632ef1efc2581bfda4ef504b0335f90c939295bad955da7cd2db7c4dfe6c884",
+  "created_at": "2026-10-27T02:08:07+08:00",
+  "grant_sha256": "f9c6c784ff69204d1db1c88bcf86d61fc853b8863bf5167613a3a9d25398c9fe",
   "items": [
     {
       "allowed_actions": [
         "plan",
         "independent P/Q",
-        "code in isolated worktree",
-        "test",
+        "code in isolated checkout",
+        "copy pinned local tools/cache",
+        "run actual checks",
         "root integration",
         "documentation",
-        "local commit"
+        "local commit",
+        "non-force push verified results"
       ],
-      "authorization_message_exact": "接下来我们可以开多个subagent进行同时推进。我认为你提出的上面四个推进方向都是有很多可以并行的内容的。",
+      "authorization_message_exact": "按上述四项继续 Overnight",
       "ceiling": "PLAN_AND_CODE",
       "dependencies": [],
       "exclusions": [
-        "new default numeric semantics",
         "global environment changes",
         "Unity writes",
-        "merge",
-        "archive",
-        "unproved assumptions"
-      ],
-      "goal": "按parallel-plan修订1完成10项float标量/向量基础数学运算的实际执行域、完整材质正负证明、兼容检查及主目录集成。",
-      "grant_source": "delegated_session",
-      "id": "math",
-      "stop_conditions": [
-        "must change existing real or execution-domain guarantees",
-        "third-round critical review issue remains"
-      ],
-      "target": "ShaderFormalize/coverage-expansion/basic-math",
-      "unique_referent_evidence": "承接刚展示的四个方向及用户早先先跑通、免反复完整方案审阅的指示；具体首批范围已由parallel-plan固定并交叉P。"
-    },
-    {
-      "allowed_actions": [
-        "plan",
-        "independent P/Q",
-        "download local pinned dependencies",
-        "code in isolated worktree",
-        "build",
-        "run representative checks",
-        "root integration",
-        "documentation",
-        "local commit"
-      ],
-      "authorization_message_exact": "他们声明他们能做，那么我们可以当他们能做，进行简单检验以后觉得没问题我们就可以拉过来",
-      "ceiling": "PLAN_AND_CODE",
-      "dependencies": [],
-      "exclusions": [
-        "upgrade current core toolchain",
-        "change core PROVED meaning",
-        "global installs",
+        "core default numeric guarantee change",
+        "new unapproved axioms or hidden premises",
         "full upstream audit as prerequisite",
+        "force push",
         "merge",
-        "archive"
+        "formal Node archive",
+        "archive shared-junction worktrees"
       ],
-      "goal": "固定FloatLib独立工程和本地工具链，实际运行代表运算、特殊值、位解释与舍入反例，并使用现成运算规格定理。",
+      "goal": "实现七项基础数学float1..4重载/实际域，完整3正3负、旧目标兼容及主目录整合。",
       "grant_source": "delegated_session",
-      "id": "ieee",
+      "id": "math_extensions",
       "stop_conditions": [
-        "insufficient space without deleting user data",
-        "requires changing current default numeric profile",
-        "third-round critical review issue remains"
+        "requires changing approved observable guarantee or source subset ceiling",
+        "critical issue remains after third formal review round",
+        "disk shortage requiring user-data deletion or machine-wide install"
       ],
-      "target": "ShaderFormalize/coverage-expansion/ieee-prototype",
-      "unique_referent_evidence": "用户明确降低外部依赖接入前置，批准四方向并行；该项只做本地独立浮点接入原型，不改核心默认语义。"
+      "target": "ShaderFormalize/overnight-expansion-2026-10-27/math_extensions",
+      "unique_referent_evidence": "用户阅读本会话四项具体Overnight范围后，对唯一授权问题明确选择继续；完整前文和持续push指示在request.txt。"
     },
     {
       "allowed_actions": [
         "plan",
         "independent P/Q",
-        "code in isolated worktree",
-        "test",
+        "code in isolated checkout",
+        "copy pinned local tools/cache",
+        "run actual checks",
         "root integration",
         "documentation",
-        "local commit"
+        "local commit",
+        "non-force push verified results"
       ],
-      "authorization_message_exact": "我认为你提出的上面四个推进方向都是有很多可以并行的内容的。",
+      "authorization_message_exact": "按上述四项继续 Overnight",
       "ceiling": "PLAN_AND_CODE",
       "dependencies": [],
       "exclusions": [
-        "silently sequentialize conflicting threads",
-        "change default ps path",
-        "new global tools",
-        "claim arbitrary compute or synchronization",
+        "global environment changes",
+        "Unity writes",
+        "core default numeric guarantee change",
+        "new unapproved axioms or hidden premises",
+        "full upstream audit as prerequisite",
+        "force push",
         "merge",
-        "archive"
+        "formal Node archive",
+        "archive shared-junction worktrees"
       ],
-      "goal": "真实DXC Compute AST到Lean的1D StructuredBuffer两输入两输出，完整内存和安全目标、正负控制与独立实验命令。",
+      "goal": "独立FloatLib binary32 HLSL prepare/check和存储位等价，普通struct/helper/vector及特殊值，root共同绑定/审计提取，不改核心默认4.24。",
       "grant_source": "delegated_session",
-      "id": "compute",
+      "id": "ieee_hlsl",
       "stop_conditions": [
-        "requires weakening bounds/alias/conflict/output target",
-        "third-round critical review issue remains"
+        "requires changing approved observable guarantee or source subset ceiling",
+        "critical issue remains after third formal review round",
+        "disk shortage requiring user-data deletion or machine-wide install"
       ],
-      "target": "ShaderFormalize/coverage-expansion/compute-load-store",
-      "unique_referent_evidence": "承接用户明确Compute多资源/内存目标；parallel-plan固定当前独立写、线程内有序overlay与完整安全/状态目标，交叉P闭合。"
+      "target": "ShaderFormalize/overnight-expansion-2026-10-27/ieee_hlsl",
+      "unique_referent_evidence": "用户阅读本会话四项具体Overnight范围后，对唯一授权问题明确选择继续；完整前文和持续push指示在request.txt。"
     },
     {
       "allowed_actions": [
         "plan",
         "independent P/Q",
-        "download pinned local release",
-        "write prototype runner and examples",
-        "run external verifier",
+        "code in isolated checkout",
+        "copy pinned local tools/cache",
+        "run actual checks",
+        "root integration",
         "documentation",
-        "local commit"
+        "local commit",
+        "non-force push verified results"
       ],
-      "authorization_message_exact": "不要为了后期的严格而在早期给自己增加奇怪的工作量，我认为我们还是先以大框架为主",
+      "authorization_message_exact": "按上述四项继续 Overnight",
       "ceiling": "PLAN_AND_CODE",
       "dependencies": [],
       "exclusions": [
-        "global installs or settings",
-        "claim external PASS is Lean proof",
-        "claim HLSL barrier importer exists",
-        "full verifier audit as prerequisite",
+        "global environment changes",
+        "Unity writes",
+        "core default numeric guarantee change",
+        "new unapproved axioms or hidden premises",
+        "full upstream audit as prerequisite",
+        "force push",
         "merge",
-        "archive"
+        "formal Node archive",
+        "archive shared-junction worktrees"
       ],
-      "goal": "本地固定VerCors2.4，实际运行带权限并行正例与失效负例，尝试上游GPU/barrier入口并如实记录层次。",
+      "goal": "真实二维Texture后处理HLSL typedAST到Lean，typed uniforms/纯helper/受控数学/精确整数坐标，完整访问、数学域、冲突及最终内存目标，保留旧六例。",
       "grant_source": "delegated_session",
-      "id": "synchronization",
+      "id": "compute_texture",
       "stop_conditions": [
-        "requires a machine-wide installation",
-        "third-round critical review issue remains"
+        "requires changing approved observable guarantee or source subset ceiling",
+        "critical issue remains after third formal review round",
+        "disk shortage requiring user-data deletion or machine-wide install"
       ],
-      "target": "ShaderFormalize/coverage-expansion/vercors-integration",
-      "unique_referent_evidence": "四方向并行中的共享内存/同步起步采用成熟外部工具实际接入，交叉P确认代表例验收足够。"
+      "target": "ShaderFormalize/overnight-expansion-2026-10-27/compute_texture",
+      "unique_referent_evidence": "用户阅读本会话四项具体Overnight范围后，对唯一授权问题明确选择继续；完整前文和持续push指示在request.txt。"
+    },
+    {
+      "allowed_actions": [
+        "plan",
+        "independent P/Q",
+        "code in isolated checkout",
+        "copy pinned local tools/cache",
+        "run actual checks",
+        "root integration",
+        "documentation",
+        "local commit",
+        "non-force push verified results"
+      ],
+      "authorization_message_exact": "按上述四项继续 Overnight",
+      "ceiling": "PLAN_AND_CODE",
+      "dependencies": [],
+      "exclusions": [
+        "global environment changes",
+        "Unity writes",
+        "core default numeric guarantee change",
+        "new unapproved axioms or hidden premises",
+        "full upstream audit as prerequisite",
+        "force push",
+        "merge",
+        "formal Node archive",
+        "archive shared-junction worktrees"
+      ],
+      "goal": "固定单group两线程共享数组HLSL经DXC到VerCors PVL，正确/删barrier/冲突三控制，独立访问安全结果，不冒充Lean或数值等价。",
+      "grant_source": "delegated_session",
+      "id": "synchronization_hlsl",
+      "stop_conditions": [
+        "requires changing approved observable guarantee or source subset ceiling",
+        "critical issue remains after third formal review round",
+        "disk shortage requiring user-data deletion or machine-wide install"
+      ],
+      "target": "ShaderFormalize/overnight-expansion-2026-10-27/synchronization_hlsl",
+      "unique_referent_evidence": "用户阅读本会话四项具体Overnight范围后，对唯一授权问题明确选择继续；完整前文和持续push指示在request.txt。"
     }
   ],
   "progress": {
-    "compute": {
-      "commits": [
-        "563955a"
-      ],
-      "grant_reference": "planning/coverage-expansion/execution-authority.md#compute-001@revision-1",
-      "result": "DONE",
-      "summary": "Compute2P4U和独立Q2通过，旧回归恢复续跑完成，总计242单元/69控制符合预期；保持完整内存、访问和跨线程安全目标。",
-      "updated_at": "2026-10-27T02:05:44+08:00"
+    "compute_texture": {
+      "commits": [],
+      "grant_reference": "",
+      "result": "PENDING",
+      "summary": ""
     },
-    "ieee": {
-      "commits": [
-        "8372a6e"
-      ],
-      "grant_reference": "planning/coverage-expansion/execution-authority.md#ieee-001@revision-1",
-      "result": "DONE",
-      "summary": "独立FloatLib2396项构建、19检查及两定理通过；迁移D主目录热跑成功，独立Q2 Verified；保持核心4.24/实数语义，HLSL IEEE导入仍待后续。",
-      "updated_at": "2026-10-27T01:28:31+08:00"
+    "ieee_hlsl": {
+      "commits": [],
+      "grant_reference": "",
+      "result": "PENDING",
+      "summary": ""
     },
-    "math": {
-      "commits": [
-        "563955a"
-      ],
-      "grant_reference": "planning/coverage-expansion/execution-authority.md#math-001@revision-1",
-      "result": "DONE",
-      "summary": "最终242单元/69正式控制全符合预期；新数学3P3U，独立Q通过。39项中断前结果有效、30项实际续跑，精简证据已生成。",
-      "updated_at": "2026-10-27T02:05:44+08:00"
+    "math_extensions": {
+      "commits": [],
+      "grant_reference": "",
+      "result": "PENDING",
+      "summary": ""
     },
-    "synchronization": {
-      "commits": [
-        "c401924"
-      ],
-      "grant_reference": "planning/coverage-expansion/execution-authority.md#synchronization-001@revision-1",
-      "result": "DONE",
-      "summary": "VerCors2.4固定release实际4控制PASSED（2正2权限拒绝），独立Q1 Verified；代码c401924。仅PVL外部验证，不冒充Lean/HLSL同步导入。",
-      "updated_at": "2026-10-27T00:26:05+08:00"
+    "synchronization_hlsl": {
+      "commits": [],
+      "grant_reference": "",
+      "result": "PENDING",
+      "summary": ""
     }
   },
-  "request_text": "外部工具尤其是论文，我认为他们的置信度不低，所以他们声明他们能做，那么我们可以当他们能做，进行简单检验以后觉得没问题我们就可以拉过来（不要为了后期的严格而在早期给自己增加奇怪的工作量，我认为我们还是先以大框架为主，只要置信度覆盖一般情况，就先往后过）。\n接下来我们可以开多个subagent进行同时推进。我认为你提出的上面四个推进方向都是有很多可以并行的内容的。",
+  "request_text": "用户请求：接下来我要离开了，可以先梳理一下当前的状态，然后规划Overnight内容。看看今晚我们可以继续做哪些事情\n\n已展示的四项范围：\n1. 补齐HDRP/Forward实际使用的floor/ceil/frac/step/smoothstep/cross/reflect，现有实数路径、正常材质和错误改写验收。\n2. 新增真正接受两份HLSL的独立FloatLib证明入口，覆盖普通struct/purehelper/vector/四则/sqrt/位解释，FP32逐操作舍入、保留NaN/±0/次正规数、存储位相等，默认实数路径不变，首批只做不需输入范围的改写。\n3. 二维Texture Compute两输入两输出，guard/uniform/purehelper/Exposure+Bloom/ToneMap，完整最终资源、访问界限和跨线程冲突目标。\n4. 固定单线程组/共享数组/一个无条件barrier的真实HLSL到VerCors安全检查，删barrier负例，明确外部安全报告。\n\n共同安排：三个subagent并行前三项，root同步/整合/验收，先完成当前69控制，再推进本批；每项实际验证后提交推送，依赖留仓库、不改默认实数路径。不做完整HDRP、一般动态循环、atomic/Wave。具体方案/代码审阅由agent推进，不再等逐项人类确认。\n\n用户对唯一待确认范围的原文回复：按上述四项继续 Overnight\n\ngit push持续授权原文：我希望你在完成了工作以后，要记得 git push 一下，能让我在别的地方拉到最新的提交，拿到最新的状态。",
   "schema_version": 1,
-  "session_id": "shader-expansion-parallel-2026-10-26",
-  "status": "finished",
-  "updated_at": "2026-10-27T02:06:47+08:00"
+  "session_id": "shader-overnight-expansion-2026-10-27",
+  "status": "running",
+  "updated_at": "2026-10-27T02:08:07+08:00"
 }
 ```
 <!-- SMART_OVERNIGHT_STATE_END -->
@@ -195,20 +197,5 @@ Record task-specific planning and evidence in the owning Node artifacts. Keep on
 ## Final Result Report
 
 <!-- SMART_OVERNIGHT_REPORT_BEGIN -->
-# 四方向并行扩展结果
-
-本批四项已完成，源码已发布至origin/codex/shader-equivalence-planning。
-
-- 数学：min/max/abs/clamp、源码除法、sqrt/rcp/rsqrt/length/distance接入现有实数路径，实际执行域进入完整待证目标。
-- Compute：独立一维StructuredBuffer两输入两输出入口，保留物理alias、同线程有序读写、完整最终内存和跨线程WW/WR安全目标。
-- 浮点：固定FloatLib、独立本地Lean4.35；2396构建任务、19运行检查、两条上游定理通过，主目录迁移后热跑及独立Q2通过。尚非HLSL IEEE导入。
-- 同步：固定VerCors2.4，本地PVL并行/barrier四控制实际符合预期，独立Q通过；尚非HLSL同步导入或Lean桥接。
-
-核心最终242单元、69正式控制均符合预期：32 PROVED、35 UNPROVED、2 INVALID_INPUT。初次运行在39控制后因DXC缺失中断；官方ZIP和二进制哈希恢复、Lean smoke通过后，实际续跑30控制。日志/原失败摘要及中断上下文全部保留，最终独立证据审阅Verified，没有将失败记录改写成一次无中断通过。
-
-实现提交563955a、浮点提交8372a6e、同步提交c401924。精简证据在planning/evidence/parallel-expansion-2026-10-27.json、ieee-integration-2026-10-27.json、vercors-integration-2026-10-27.json；核心4.24、默认实数语义及Unity独立性保持。
-
-临时worktree清理遇到共享链接风险：自动审批拒绝手动移除链接，内置归档后DXC缺失的具体删除原因未完全确定。工具已恢复验证，两个临时目录保留，必要IEEE环境已位于主目录。
-
-用户已批准下一轮Overnight：七项数学、HLSL IEEE入口、二维纹理Compute及HLSL同步安全。下一批具体Frame在planning/overnight-expansion-2026-10-27/，需要新Session及各项精确Grant，不复用本批已完成授权。未执行merge、正式H-X或Node归档。
+Not finished.
 <!-- SMART_OVERNIGHT_REPORT_END -->
