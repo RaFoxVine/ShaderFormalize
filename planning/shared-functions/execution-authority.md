@@ -47,7 +47,7 @@
 
 ## Grant aggregate-001@revision-1
 
-- status: active
+- status: completed
 - source: running sealed overnight language条目PLAN_AND_CODE内派生；用户持续免重复人工方案审阅，2026-10-26重置额度后明确“接下来继续工作”。
 - frame: aggregate-plan.md修订1，独立P1 Ready；前置copyback已由64992ea、165单元/47控制/Q2及独立Windows追加验证闭合。
 - target: shared/schema6的float矩阵与固定数组、统一typed元素地址、静态/动态读写和copy-out、逐叶初始化、矩阵运算/mul/transpose/零转换、复合float uniform布局与范围组、bounded_index域结论及发射/有限/模型消费者、真实组合正负例、全部回归、独立Q、当前文档和本地提交。
@@ -58,10 +58,13 @@
 - acceptance: 计划至少六正式控制（正常材质/错误系数/完整场导数/合法与实际越界/非实际越界），全部旧47控制和真实DXC回归、旧生成文字不变、独立Q/目标绑定及公理审计/文档/证据。不以本片代表循环或完整Forward完成。
 - recorded_at: 2026-10-26；代码权限须随Approved状态先提交，再写产品代码。
 
+
+- result: 9bec4aa完整190单元/53控制PASSED，25 PROVED/26 UNPROVED/2 INVALID_INPUT；独立Q2最终Verified，全部产物冻结acceptance53；精简证据../evidence/aggregate-2026-10-26.json。同锁独立Windows三正例及事实核验通过。
+
 ## Grant loop-001@revision-2
 
 - status: active
-- phase: isolated implementation; main integration condition remains unsatisfied.
+- phase: main integration authorized; aggregate dependency condition satisfied and persisted before main product writes.
 - source: sealed running overnight language条目PLAN_AND_CODE内派生；持续免重复人工方案审阅及用户“接下来继续工作”。
 - frame: loop-plan.md修订2，独立P2 Ready；数学语义与P1相同，静态uint for精确次数、不截断，最终四控制及全旧回归/Q不变。
 - baseline: 9bec4aa有25新单元/六正式控制/Q2源码审读，完整190单元通过，主53控制进行中、完整Q尚待。不得称aggregate已Completed。
@@ -72,3 +75,5 @@
 - stop: 基线语义变化、主完整gate/Q未通过时停止整合；实数/完整字段/实际域/终止或源支持合同漂移、关键oracle不可用或第三轮关键问题未闭合时停止受影响工作并重新规划。
 - session: shader-forward-2026-10-26；planning/overnight/current.md；language；sealed sha256 afcc1f80b2eb30be69411cd4633dc9d8ac79b0b918eaaf4302fc76ae66188206。
 - recorded_at: 2026-10-26；P2 Ready后派生，随隔离Approved状态先提交，clone和代码随后。
+
+- integration_condition_satisfied: 2026-10-26；aggregate190/53及Q2最终通过，主tools/proof/examples/依赖锁相对9bec4aa无差异，基线职责和接口无漂移。副本5025b6a的确切22文件patch已git apply --check通过，SHA256 4633cc4e75e5f3904c72f9104b15db8aac2d813ca4184f33a70c8df384cf1f0b。允许按原P2合同将patch应用至主目录并实际运行四新控制/完整57控制及全部回归、Q2、当前说明/本地提交；不merge/rebase，不覆盖已有HDRP调查文档修正。

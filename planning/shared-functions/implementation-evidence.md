@@ -49,3 +49,9 @@ Q1的坏模型结构异常和predicate类型缺口已修复并回归；literal�
 当前23项新回归通过（副本artifacts/loop-unit23.log）：静态0/1/多次、uint边界/wrap/非法shift、嵌套/空体预算、局部scope、部分初始化、out/default、分支状态、clip实际域/完整场导数、计数器/动态界限/控制拒绝、metadata目标绑定与坏metadata双消费者检查、正常helper return和未调用循环，以及完整材质手算/错误系数反例。独立Q1源码审读未发现确定语义阻断；不等于形式验收或最终Verified。
 
 组合草稿examples/complete含纹理、clip、normalize、平方边缘光、UV矩阵、光源数组、out数组、默认系数、struct及两次真实ddx/累积循环；手工展开版在三位置有限oracle得到相同结果，错误第二次系数有数值差异。正式证明草稿和四控制接入仍须主整合后实际检查。早期新metadata测试误将spec当第三位置参数，已改显式spec=，22及随后23项均通过；有限示例首轮把uniform误作位置场输入，修正测试输入形状后通过，没有改产品接口。
+
+## 矩阵/数组最终闭合与循环整合条件
+
+默认完整runner实际PASSED：190单元/53控制，25 PROVED、26 UNPROVED、2 INVALID_INPUT，session48755退出0。完整53目录与摘要冻结artifacts/aggregate/acceptance53；精简证据aggregate-2026-10-26.json。独立Q2源码与六控制先前审读后，追加完整gate事实闭合最终Verified。独立安装副本9bec4aa的三正例及事实审阅也通过。
+
+隔离循环已23单元/Q1，另从旧47控制及aggregate六控制的25正例保存AST重导入，模型与生成Lean逐字相同，日志副本artifacts/loop-old-targets.json；没有执行Lean。主代码/证明/例子/锁相对9bec4aa无差异，确切22文件patch预检查通过。整合条件已在authority/tasks持久化，代码须在本授权提交后才应用。完整57控制将先跑四新控制，再回放全部53旧控制；不重复运行未发生变化的前置190/53作为aggregate闭合条件。

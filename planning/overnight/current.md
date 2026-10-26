@@ -211,8 +211,8 @@
       ],
       "grant_reference": "planning/shared-functions/execution-authority.md#loop-001@revision-2",
       "result": "IN_PROGRESS",
-      "summary": "Aggregate main 190 units passed; 53 formal controls running. Isolated static loops have 23 DXC/finite/in-memory-generation tests passing and Q1 code review without blockers. Combined material and four formal proof drafts await main integration condition; no Lean or shared proof writes in development clone.",
-      "updated_at": "2026-10-26T11:52:40+08:00"
+      "summary": "Aggregate 9bec4aa closed: 190 units/53 controls passed, 25 PROVED, final Q2 Verified and independent Windows 3 positives. Static-loop main integration condition satisfied and persisted; 23 isolated tests/Q1 and 25 old byte-identical targets passed. Four new and full 57 controls remain.",
+      "updated_at": "2026-10-26T12:13:39+08:00"
     },
     "packing": {
       "commits": [
@@ -241,17 +241,17 @@
         "4cfa77a",
         "8923b25"
       ],
-      "grant_reference": "planning/publish.md#checkpoint-3",
+      "grant_reference": "planning/publish.md#checkpoint-4",
       "result": "IN_PROGRESS",
-      "summary": "Verified copyback checkpoint pushed non-force; ls-remote matched 8923b25. Later aggregate code remains uncommitted and was not published; further verified milestones and final report remain.",
-      "updated_at": "2026-10-26T10:52:05+08:00"
+      "summary": "Verified aggregate checkpoint ready for non-force publication; no loop product code in main yet.",
+      "updated_at": "2026-10-26T12:13:39+08:00"
     }
   },
   "request_text": "2026-10-26 用户请求：\n接下来我们要执行 overnight 了，接下来还有什么工作是在 overnight 里面能一块干完的？\n还有一件事情，就是接下来明天的话，我可能会在别的地方使用我们这里的仓库，所以说我希望你在完成了工作以后，要记得 git push 一下，能让我在别的地方拉到最新的提交，拿到最新的状态。\n\n此前持续有效的执行授权：\n“完整的方案需要给我审阅吗？其实我认为也不需要，先把东西跑通再说，因为我对于这些东西，我也不清楚，我做这个审阅可能没有意义。”\n“OK，继续吧。反正我们是需要把它跑通的，把它跑通吧，补齐暂时还没有的能力。”\n用户确认“不考虑浮点数底层实现”和“延迟渲染”，支持常见整数打包和float位载体。\n\n本次在对话中明确的执行范围：收尾整数打包；补共享函数/out/inout/默认参数、矩阵/数组及可证明终止的普通循环，组合成正常写法Shader验证；继续固定HDRP/Lit Forward实际转换，保留浮点编码等真实语义阻断；准备异地运行的干净目录验证和启动说明，完成后推送现有工作分支并留下报告。沿用免反复人工方案审阅，独立P/Q仍执行。异地环境暂按已有Windows x64支持，已询问用户，未获回复前不扩展到其它系统。",
   "schema_version": 1,
   "session_id": "shader-forward-2026-10-26",
   "status": "running",
-  "updated_at": "2026-10-26T11:52:40+08:00"
+  "updated_at": "2026-10-26T12:13:39+08:00"
 }
 ```
 <!-- SMART_OVERNIGHT_STATE_END -->

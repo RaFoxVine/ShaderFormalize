@@ -8,6 +8,8 @@
 
 整数打包阶段的2026-10-26核心验收：128项回归及32项证明正负控制全部符合预期，12项完整目标PROVED；新增整数打包和定义域正负例均经过真实DXC、Lean绑定与公理审计。[阶段证据](planning/evidence/integer-packing-2026-10-26.json)。后续共享定义阶段146项单元/41项控制通过，[对应证据](planning/evidence/shared-functions-2026-10-26.json)。
 
+矩阵/数组阶段完整验收：190项单元、53项正式控制全部符合预期（25 PROVED），独立Q2和同锁Windows三正例复现通过。[验收证据](planning/evidence/aggregate-2026-10-26.json)，[异地复现证据](planning/evidence/windows-aggregate-2026-10-26.json)。
+
 最新默认参数/out/inout阶段：165项单元、47项正式正负控制全部符合预期（21 PROVED）；独立审阅和同锁Windows副本三例复现通过。[验收证据](planning/evidence/copyback-2026-10-26.json)，[独立副本证据](planning/evidence/windows-copyback-2026-10-26.json)。
 
 最新 [原版分支材质](examples/branched/original.hlsl) 使用结构体、bool helper、提前返回、纹理开关、三种着色模式、嵌套条件裁剪和 ddx/ddy；[等价改写版](examples/branched/optimized.hlsl) 调整条件组织、使用三元选择并展开颜色计算。两边直接接受正常源码，不要求先拍平。原有 lerp、Unlit、structured、textured 示例和证明保留。
