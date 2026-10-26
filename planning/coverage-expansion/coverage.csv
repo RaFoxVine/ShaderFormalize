@@ -1,0 +1,204 @@
+family,feature,official_source,current_real_mode,current_ieee_mode,current_compute_mode,proposed_batch,evidence,limitations
+intrinsic,AllMemoryBarrier,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/allmemorybarrier,not_supported,not_implemented,not_implemented,compute-synchronization-later,,
+intrinsic,AllMemoryBarrierWithGroupSync,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/allmemorybarrierwithgroupsync,not_supported,not_implemented,not_implemented,compute-synchronization-later,,
+intrinsic,CheckAccessFullyMapped,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/checkaccessfullymapped,not_supported,not_implemented,not_implemented,resource-next,,
+intrinsic,D3DCOLORtoUBYTE4,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-d3dcolortoubyte4,not_supported,not_implemented,not_implemented,integer-formats-next,,
+intrinsic,DeviceMemoryBarrier,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/devicememorybarrier,not_supported,not_implemented,not_implemented,compute-synchronization-later,,
+intrinsic,DeviceMemoryBarrierWithGroupSync,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/devicememorybarrierwithgroupsync,not_supported,not_implemented,not_implemented,compute-synchronization-later,,
+intrinsic,EvaluateAttributeAtSample,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/evaluateattributeatsample,not_supported,not_implemented,not_implemented,stage-next,,
+intrinsic,EvaluateAttributeCentroid,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/evaluateattributecentroid,not_supported,not_implemented,not_implemented,math-later,,
+intrinsic,EvaluateAttributeSnapped,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/evaluateattributesnapped,not_supported,not_implemented,not_implemented,stage-next,,
+intrinsic,GetRenderTargetSampleCount,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-getrendertargetsamplecount,not_supported,not_implemented,not_implemented,resource-next,,
+intrinsic,GetRenderTargetSamplePosition,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-getrendertargetsampleposition,not_supported,not_implemented,not_implemented,resource-next,,
+intrinsic,GroupMemoryBarrier,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/groupmemorybarrier,not_supported,not_implemented,not_implemented,compute-synchronization-later,,
+intrinsic,GroupMemoryBarrierWithGroupSync,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/groupmemorybarrierwithgroupsync,not_supported,not_implemented,not_implemented,compute-synchronization-later,,
+intrinsic,InterlockedAdd,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/interlockedadd,not_supported,not_implemented,not_implemented,compute-synchronization-later,,
+intrinsic,InterlockedAnd,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/interlockedand,not_supported,not_implemented,not_implemented,compute-synchronization-later,,
+intrinsic,InterlockedCompareExchange,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/interlockedcompareexchange,not_supported,not_implemented,not_implemented,compute-synchronization-later,,
+intrinsic,InterlockedCompareStore,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/interlockedcomparestore,not_supported,not_implemented,not_implemented,compute-synchronization-later,,
+intrinsic,InterlockedExchange,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/interlockedexchange,not_supported,not_implemented,not_implemented,compute-synchronization-later,,
+intrinsic,InterlockedMax,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/interlockedmax,not_supported,not_implemented,not_implemented,compute-synchronization-later,,
+intrinsic,InterlockedMin,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/interlockedmin,not_supported,not_implemented,not_implemented,compute-synchronization-later,,
+intrinsic,InterlockedOr,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/interlockedor,not_supported,not_implemented,not_implemented,compute-synchronization-later,,
+intrinsic,InterlockedXor,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/interlockedxor,not_supported,not_implemented,not_implemented,compute-synchronization-later,,
+intrinsic,Process2DQuadTessFactorsAvg,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/process2dquadtessfactorsavg,not_supported,not_implemented,not_implemented,math-later,,
+intrinsic,Process2DQuadTessFactorsMax,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/process2dquadtessfactorsmax,not_supported,not_implemented,not_implemented,math-later,,
+intrinsic,Process2DQuadTessFactorsMin,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/process2dquadtessfactorsmin,not_supported,not_implemented,not_implemented,math-later,,
+intrinsic,ProcessIsolineTessFactors,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/processisolinetessfactors,not_supported,not_implemented,not_implemented,math-later,,
+intrinsic,ProcessQuadTessFactorsAvg,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/processquadtessfactorsavg,not_supported,not_implemented,not_implemented,math-later,,
+intrinsic,ProcessQuadTessFactorsMax,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/processquadtessfactorsmax,not_supported,not_implemented,not_implemented,math-later,,
+intrinsic,ProcessQuadTessFactorsMin,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/processquadtessfactorsmin,not_supported,not_implemented,not_implemented,math-later,,
+intrinsic,ProcessTriTessFactorsAvg,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/processtritessfactorsavg,not_supported,not_implemented,not_implemented,math-later,,
+intrinsic,ProcessTriTessFactorsMax,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/processtritessfactorsmax,not_supported,not_implemented,not_implemented,math-later,,
+intrinsic,ProcessTriTessFactorsMin,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/processtritessfactorsmin,not_supported,not_implemented,not_implemented,math-later,,
+intrinsic,abort,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/abort,not_supported,not_implemented,not_implemented,diagnostics-later,,
+intrinsic,abs,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-abs,not_supported,not_implemented,not_implemented,basic-math-first,,
+intrinsic,acos,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-acos,not_supported,not_implemented,not_implemented,math-later,,
+intrinsic,all,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-all,not_supported,not_implemented,not_implemented,math-later,,
+intrinsic,any,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-any,not_supported,not_implemented,not_implemented,math-later,,
+intrinsic,asdouble,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/asdouble,not_supported,not_implemented,not_implemented,integer-formats-next,,
+intrinsic,asfloat,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-asfloat,partial_verified,not_implemented,not_implemented,integer-formats-next,planning/evidence/static-loops-2026-10-26.json,Internal uint32 bit carrier only; not a numerical IEEE float
+intrinsic,asin,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-asin,not_supported,not_implemented,not_implemented,math-later,,
+intrinsic,asint,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-asint,not_supported,not_implemented,not_implemented,integer-formats-next,,
+intrinsic,asuint(double-to-two-uint),https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/asuint,not_supported,not_implemented,not_implemented,integer-formats-next,,
+intrinsic,asuint,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-asuint,partial_verified,not_implemented,not_implemented,integer-formats-next,planning/evidence/static-loops-2026-10-26.json,uint identity or recovery from internal carrier; ordinary real encoding unsupported
+intrinsic,atan,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-atan,not_supported,not_implemented,not_implemented,math-later,,
+intrinsic,atan2,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-atan2,not_supported,not_implemented,not_implemented,math-later,,
+intrinsic,ceil,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-ceil,not_supported,not_implemented,not_implemented,math-next,,
+intrinsic,clamp,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-clamp,not_supported,not_implemented,not_implemented,basic-math-first,,
+intrinsic,clip,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-clip,partial_verified,not_implemented,not_implemented,math-later,planning/evidence/static-loops-2026-10-26.json,Current float/vector subset only; not all official overloads
+intrinsic,cos,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-cos,not_supported,not_implemented,not_implemented,math-later,,
+intrinsic,cosh,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-cosh,not_supported,not_implemented,not_implemented,math-later,,
+intrinsic,countbits,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/countbits,not_supported,not_implemented,not_implemented,integer-formats-next,,
+intrinsic,cross,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-cross,not_supported,not_implemented,not_implemented,math-next,,
+intrinsic,ddx,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-ddx,partial_verified,not_implemented,not_implemented,math-later,planning/evidence/static-loops-2026-10-26.json,Current float/vector subset only; not all official overloads
+intrinsic,ddx_coarse,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/ddx-coarse,partial_verified,not_implemented,not_implemented,math-later,planning/evidence/static-loops-2026-10-26.json,Current float/vector subset only; not all official overloads
+intrinsic,ddx_fine,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/ddx-fine,partial_verified,not_implemented,not_implemented,math-later,planning/evidence/static-loops-2026-10-26.json,Current float/vector subset only; not all official overloads
+intrinsic,ddy,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-ddy,partial_verified,not_implemented,not_implemented,math-later,planning/evidence/static-loops-2026-10-26.json,Current float/vector subset only; not all official overloads
+intrinsic,ddy_coarse,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/ddy-coarse,partial_verified,not_implemented,not_implemented,math-later,planning/evidence/static-loops-2026-10-26.json,Current float/vector subset only; not all official overloads
+intrinsic,ddy_fine,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/ddy-fine,partial_verified,not_implemented,not_implemented,math-later,planning/evidence/static-loops-2026-10-26.json,Current float/vector subset only; not all official overloads
+intrinsic,degrees,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-degrees,not_supported,not_implemented,not_implemented,math-later,,
+intrinsic,determinant,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-determinant,not_supported,not_implemented,not_implemented,math-later,,
+intrinsic,distance,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-distance,not_supported,not_implemented,not_implemented,basic-math-first,,
+intrinsic,dot,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-dot,partial_verified,not_implemented,not_implemented,math-later,planning/evidence/static-loops-2026-10-26.json,Current float/vector subset only; not all official overloads
+intrinsic,dst,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dst,not_supported,not_implemented,not_implemented,math-later,,
+intrinsic,errorf,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/errorf,not_supported,not_implemented,not_implemented,diagnostics-later,,
+intrinsic,exp,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-exp,not_supported,not_implemented,not_implemented,math-later,,
+intrinsic,exp2,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-exp2,not_supported,not_implemented,not_implemented,math-later,,
+intrinsic,f16tof32,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/f16tof32,not_supported,not_implemented,not_implemented,integer-formats-next,,
+intrinsic,f32tof16,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/f32tof16,not_supported,not_implemented,not_implemented,integer-formats-next,,
+intrinsic,faceforward,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-faceforward,not_supported,not_implemented,not_implemented,math-later,,
+intrinsic,firstbithigh,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/firstbithigh,not_supported,not_implemented,not_implemented,integer-formats-next,,
+intrinsic,firstbitlow,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/firstbitlow,not_supported,not_implemented,not_implemented,integer-formats-next,,
+intrinsic,floor,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-floor,not_supported,not_implemented,not_implemented,math-next,,
+intrinsic,fma,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-fma,not_supported,not_implemented,not_implemented,math-next,,
+intrinsic,fmod,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-fmod,not_supported,not_implemented,not_implemented,math-next,,
+intrinsic,frac,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-frac,not_supported,not_implemented,not_implemented,math-next,,
+intrinsic,frexp,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-frexp,not_supported,not_implemented,not_implemented,math-later,,
+intrinsic,fwidth,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-fwidth,not_supported,not_implemented,not_implemented,math-later,,
+intrinsic,isfinite,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-isfinite,not_supported,not_implemented,not_implemented,math-next,,
+intrinsic,isinf,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-isinf,not_supported,not_implemented,not_implemented,math-next,,
+intrinsic,isnan,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-isnan,not_supported,not_implemented,not_implemented,math-next,,
+intrinsic,ldexp,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-ldexp,not_supported,not_implemented,not_implemented,math-later,,
+intrinsic,length,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-length,not_supported,not_implemented,not_implemented,basic-math-first,,
+intrinsic,lerp,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-lerp,partial_verified,not_implemented,not_implemented,math-later,planning/evidence/static-loops-2026-10-26.json,Current float/vector subset only; not all official overloads
+intrinsic,lit,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-lit,not_supported,not_implemented,not_implemented,math-later,,
+intrinsic,log,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-log,not_supported,not_implemented,not_implemented,math-later,,
+intrinsic,log10,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-log10,not_supported,not_implemented,not_implemented,math-later,,
+intrinsic,log2,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-log2,not_supported,not_implemented,not_implemented,math-later,,
+intrinsic,mad,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/mad,not_supported,not_implemented,not_implemented,math-next,,
+intrinsic,max,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-max,not_supported,not_implemented,not_implemented,basic-math-first,planning/coverage-expansion/investigation.json#probes,
+intrinsic,min,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-min,not_supported,not_implemented,not_implemented,basic-math-first,planning/coverage-expansion/investigation.json#probes,
+intrinsic,modf,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-modf,not_supported,not_implemented,not_implemented,math-later,,
+intrinsic,msad4,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-msad4,not_supported,not_implemented,not_implemented,math-later,,
+intrinsic,mul,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-mul,partial_verified,not_implemented,not_implemented,math-later,planning/evidence/static-loops-2026-10-26.json,Shared frontend float vector/matrix shape-compatible subset; not all official overloads
+intrinsic,noise,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-noise,not_supported,not_implemented,not_implemented,math-later,,
+intrinsic,normalize,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-normalize,partial_verified,not_implemented,not_implemented,math-later,planning/evidence/static-loops-2026-10-26.json,Current float/vector subset only; not all official overloads
+intrinsic,pow,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-pow,not_supported,not_implemented,not_implemented,math-later,,
+intrinsic,printf,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/printf,not_supported,not_implemented,not_implemented,diagnostics-later,,
+intrinsic,radians,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-radians,not_supported,not_implemented,not_implemented,math-later,,
+intrinsic,rcp,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/rcp,not_supported,not_implemented,not_implemented,basic-math-first,,
+intrinsic,reflect,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-reflect,not_supported,not_implemented,not_implemented,math-next,,
+intrinsic,refract,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-refract,not_supported,not_implemented,not_implemented,math-next,,
+intrinsic,reversebits,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/reversebits,not_supported,not_implemented,not_implemented,integer-formats-next,,
+intrinsic,round,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-round,not_supported,not_implemented,not_implemented,math-next,,
+intrinsic,rsqrt,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-rsqrt,not_supported,not_implemented,not_implemented,basic-math-first,,
+intrinsic,saturate,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-saturate,partial_verified,not_implemented,not_implemented,math-later,planning/evidence/static-loops-2026-10-26.json,Current float/vector subset only; not all official overloads
+intrinsic,sign,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-sign,not_supported,not_implemented,not_implemented,math-next,,
+intrinsic,sin,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-sin,not_supported,not_implemented,not_implemented,math-later,,
+intrinsic,sincos,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-sincos,not_supported,not_implemented,not_implemented,math-later,,
+intrinsic,sinh,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-sinh,not_supported,not_implemented,not_implemented,math-later,,
+intrinsic,smoothstep,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-smoothstep,not_supported,not_implemented,not_implemented,math-next,,
+intrinsic,sqrt,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-sqrt,not_supported,not_implemented,not_implemented,basic-math-first,planning/coverage-expansion/investigation.json#probes,
+intrinsic,step,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-step,not_supported,not_implemented,not_implemented,math-next,,
+intrinsic,tan,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-tan,not_supported,not_implemented,not_implemented,math-later,,
+intrinsic,tanh,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-tanh,not_supported,not_implemented,not_implemented,math-later,,
+intrinsic,tex1Dbias,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-tex1dbias,not_supported,not_implemented,not_implemented,legacy-texture-later,,
+intrinsic,tex1Dgrad,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-tex1dgrad,not_supported,not_implemented,not_implemented,legacy-texture-later,,
+intrinsic,tex1Dlod,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-tex1dlod,not_supported,not_implemented,not_implemented,legacy-texture-later,,
+intrinsic,tex1Dproj,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-tex1dproj,not_supported,not_implemented,not_implemented,legacy-texture-later,,
+intrinsic,tex2Dbias,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-tex2dbias,not_supported,not_implemented,not_implemented,legacy-texture-later,,
+intrinsic,tex2Dgrad,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-tex2dgrad,not_supported,not_implemented,not_implemented,legacy-texture-later,,
+intrinsic,tex2Dlod,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-tex2dlod,not_supported,not_implemented,not_implemented,legacy-texture-later,,
+intrinsic,tex2Dproj,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-tex2dproj,not_supported,not_implemented,not_implemented,legacy-texture-later,,
+intrinsic,tex3Dbias,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-tex3dbias,not_supported,not_implemented,not_implemented,legacy-texture-later,,
+intrinsic,tex3Dgrad,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-tex3dgrad,not_supported,not_implemented,not_implemented,legacy-texture-later,,
+intrinsic,tex3Dlod,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-tex3dlod,not_supported,not_implemented,not_implemented,legacy-texture-later,,
+intrinsic,tex3Dproj,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-tex3dproj,not_supported,not_implemented,not_implemented,legacy-texture-later,,
+intrinsic,texCUBEbias,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-texcubebias,not_supported,not_implemented,not_implemented,legacy-texture-later,,
+intrinsic,texCUBEgrad,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-texcubegrad,not_supported,not_implemented,not_implemented,legacy-texture-later,,
+intrinsic,texCUBElod,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-texcubelod,not_supported,not_implemented,not_implemented,legacy-texture-later,,
+intrinsic,texCUBEproj,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-texcubeproj,not_supported,not_implemented,not_implemented,legacy-texture-later,,
+intrinsic,transpose,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-transpose,partial_verified,not_implemented,not_implemented,math-later,planning/evidence/static-loops-2026-10-26.json,Shared frontend float matrices1..4 by1..4; not all official overloads
+intrinsic,trunc,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-trunc,not_supported,not_implemented,not_implemented,math-next,,
+wave-quad,QuadReadAcrossDiagonal,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/quadreadacrossdiagonal,not_supported,not_implemented,not_implemented,wave-later,,
+wave-quad,QuadReadAcrossX,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/quadswapx,not_supported,not_implemented,not_implemented,wave-later,,
+wave-quad,QuadReadAcrossY,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/quadswapy,not_supported,not_implemented,not_implemented,wave-later,,
+wave-quad,QuadReadLaneAt,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/quadreadlaneat,not_supported,not_implemented,not_implemented,wave-later,,
+wave-quad,WaveActiveAllEqual,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/waveactiveallequal,not_supported,not_implemented,not_implemented,wave-later,,
+wave-quad,WaveActiveAllTrue,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/wavealltrue,not_supported,not_implemented,not_implemented,wave-later,,
+wave-quad,WaveActiveAnyTrue,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/waveanytrue,not_supported,not_implemented,not_implemented,wave-later,,
+wave-quad,WaveActiveBallot,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/waveballot,not_supported,not_implemented,not_implemented,wave-later,,
+wave-quad,WaveActiveBitAnd,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/waveallbitand,not_supported,not_implemented,not_implemented,wave-later,,
+wave-quad,WaveActiveBitOr,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/waveallbitor,not_supported,not_implemented,not_implemented,wave-later,,
+wave-quad,WaveActiveBitXor,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/waveallbitxor,not_supported,not_implemented,not_implemented,wave-later,,
+wave-quad,WaveActiveCountBits,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/waveactivecountbits,not_supported,not_implemented,not_implemented,wave-later,,
+wave-quad,WaveActiveMax,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/waveallmax,not_supported,not_implemented,not_implemented,wave-later,,
+wave-quad,WaveActiveMin,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/waveallmin,not_supported,not_implemented,not_implemented,wave-later,,
+wave-quad,WaveActiveProduct,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/waveallproduct,not_supported,not_implemented,not_implemented,wave-later,,
+wave-quad,WaveActiveSum,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/waveallsum,not_supported,not_implemented,not_implemented,wave-later,,
+wave-quad,WaveGetLaneCount,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/wavegetlanecount,not_supported,not_implemented,not_implemented,wave-later,,
+wave-quad,WaveGetLaneIndex,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/wavegetlaneindex,not_supported,not_implemented,not_implemented,wave-later,,
+wave-quad,WaveIsFirstLane,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/waveisfirstlane,not_supported,not_implemented,not_implemented,wave-later,,
+wave-quad,WavePrefixCountBits,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/waveprefixcountbytes,not_supported,not_implemented,not_implemented,wave-later,,
+wave-quad,WavePrefixProduct,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/waveprefixproduct,not_supported,not_implemented,not_implemented,wave-later,,
+wave-quad,WavePrefixSum,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/waveprefixsum,not_supported,not_implemented,not_implemented,wave-later,,
+wave-quad,WaveReadLaneAt,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/wavereadlaneat,not_supported,not_implemented,not_implemented,wave-later,,
+wave-quad,WaveReadLaneFirst,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/wavereadfirstlane,not_supported,not_implemented,not_implemented,wave-later,,
+operator,+,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators,partial_verified,not_implemented,not_implemented,core,planning/evidence/static-loops-2026-10-26.json,float/vector and scalar uint32 subsets
+operator,-,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators,partial_verified,not_implemented,not_implemented,core,planning/evidence/static-loops-2026-10-26.json,float/vector and scalar uint32 subsets
+operator,*,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators,partial_verified,not_implemented,not_implemented,core,planning/evidence/static-loops-2026-10-26.json,componentwise matrix multiplication differs from mul
+operator,/,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators,not_supported,not_implemented,not_implemented,basic-math-first,planning/coverage-expansion/investigation.json#probes,Real divisor nonzero; IEEE follows selected profile; signed/unsigned integer separate
+operator,%,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators,not_supported,not_implemented,not_implemented,integer-next,,Integer remainder differs from floating fmod
+operator,comparisons,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators,partial_verified,not_implemented,not_implemented,core,planning/evidence/static-loops-2026-10-26.json,Current real/uint/bool subset; IEEE NaN comparisons need separate definitions
+operator,bitwise-and-or-xor-not-shifts,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators,partial_verified,not_implemented,not_implemented,integer-next,planning/evidence/static-loops-2026-10-26.json,Scalar uint32 only; signed views/vector forms pending
+operator,compound-assignment,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators,partial_verified,not_implemented,not_implemented,integer-next,planning/evidence/static-loops-2026-10-26.json,Float/vector forms available; general uint forms pending
+operator,increment-decrement,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators,partial_verified,not_implemented,not_implemented,control-next,planning/evidence/static-loops-2026-10-26.json,Special canonical loop ++ only; no general source support
+operator,casts-bitcasts,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators,partial_verified,not_implemented,not_implemented,ieee-foundation,planning/evidence/static-loops-2026-10-26.json,Numeric casts and internal bit carriers differ; all32 bit-pattern roundtrip required in IEEE mode
+statement,if-else,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-flow-control,partial_verified,not_implemented,not_implemented,core,planning/evidence/static-loops-2026-10-26.json,Accepted scalar condition subset
+statement,ternary-short-circuit,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators,partial_verified,not_implemented,not_implemented,core,planning/evidence/static-loops-2026-10-26.json,Preserve side effects and actual execution guards
+statement,return,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-flow-control,partial_verified,not_implemented,not_implemented,core,planning/evidence/static-loops-2026-10-26.json,Ordinary functions; loop-body return unsupported
+statement,discard-clip,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-flow-control,partial_verified,not_implemented,not_implemented,core,planning/evidence/static-loops-2026-10-26.json,Main/void helper subset; output-parameter discard restrictions
+statement,for,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-flow-control,partial_verified,not_implemented,not_implemented,control-next,planning/evidence/static-loops-2026-10-26.json,"Static uint < constant ++, <=64 iterations, <=4096 body expansions/frame"
+statement,while,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-flow-control,not_supported,not_implemented,not_implemented,control-next,,Requires termination argument and loop invariants
+statement,do-while,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-flow-control,not_supported,not_implemented,not_implemented,control-next,,Requires termination argument and loop invariants
+statement,break,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-flow-control,not_supported,not_implemented,not_implemented,control-next,,Explicit exit state; no fuel truncation
+statement,continue,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-flow-control,not_supported,not_implemented,not_implemented,control-next,,Explicit continue state; no fuel truncation
+statement,switch,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-flow-control,not_supported,not_implemented,not_implemented,control-next,,Case/default/fallthrough and exits require semantics
+type,float32,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-data-types,partial_verified,not_implemented,not_implemented,ieee-foundation,planning/evidence/static-loops-2026-10-26.json,"Current interpretation is Real, not IEEE binary32"
+type,uint32,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-data-types,partial_verified,not_implemented,not_implemented,integer-next,planning/evidence/static-loops-2026-10-26.json,Exact scalar bitvectors; stage/uniform/vector gaps remain
+type,int32,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-data-types,not_supported,not_implemented,not_implemented,integer-next,,Fixed width signed view; define arithmetic/conversion edge rules from target
+type,bool,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-data-types,partial_verified,not_implemented,not_implemented,core,planning/evidence/static-loops-2026-10-26.json,Local/record/array/helper; uniform/stage restrictions
+type,vectors,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-data-types,partial_verified,not_implemented,not_implemented,integer-next,planning/evidence/static-loops-2026-10-26.json,Float vectors1..4; integer vectors pending
+type,matrices,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-data-types,partial_verified,not_implemented,not_implemented,core,planning/evidence/static-loops-2026-10-26.json,Float1..4 by1..4 and limited conversions/selectors
+type,fixed-arrays,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-data-types,partial_verified,not_implemented,not_implemented,core,planning/evidence/static-loops-2026-10-26.json,Nested fixed arrays; bounds/initialization obligations
+type,struct,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-data-types,partial_verified,not_implemented,not_implemented,core,planning/evidence/static-loops-2026-10-26.json,Nested value fields; arbitrary aggregate brace initialization pending
+type,half-double-wide-integers,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-data-types,not_supported,not_implemented,not_implemented,formats-later,,Later formats; not silently alias to real/binary32
+declaration,helper-default-out-inout,https://microsoft.github.io/hlsl-specs/,partial_verified,not_implemented,not_implemented,core,planning/evidence/static-loops-2026-10-26.json,Acyclic shared helpers; no recursion; conservative alias/order checks
+declaration,cbuffer-layout,https://microsoft.github.io/hlsl-specs/,partial_verified,not_implemented,not_implemented,resource-next,planning/evidence/static-loops-2026-10-26.json,One float cbuffer b0; multiple buffers and integer leaves pending
+declaration,globals-initializers,https://microsoft.github.io/hlsl-specs/,not_supported,not_implemented,not_implemented,resource-next,,General static initialization dependency/effect lowering pending
+resource,Texture2D.Sample,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-to-type,partial_verified,not_implemented,not_implemented,resource-next,planning/evidence/static-loops-2026-10-26.json,Shared whole-field opaque operation; current resource formats only
+resource,Texture2D.SampleLevel,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-to-type,partial_verified,not_implemented,not_implemented,resource-next,planning/evidence/static-loops-2026-10-26.json,Shared whole-field opaque operation; current resource formats only
+resource,Texture2D.SampleGrad,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-to-type,partial_verified,not_implemented,not_implemented,resource-next,planning/evidence/static-loops-2026-10-26.json,Shared whole-field opaque operation; current resource formats only
+resource,Texture.Load,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-to-type,not_supported,not_implemented,not_implemented,compute-load-store-first,,Read immutable initial resource with explicit bounds/coordinates
+resource,StructuredBuffer-read,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/sm5-object-structuredbuffer,not_supported,not_implemented,not_implemented,compute-load-store-first,,Typed layout plus finite input memory
+resource,RWStructuredBuffer-write,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/sm5-object-rwstructuredbuffer,not_supported,not_implemented,not_implemented,compute-load-store-first,,Memory state update plus bounds/alias/race proof
+resource,RWTexture-write,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-to-type,not_supported,not_implemented,not_implemented,compute-load-store-first,,Coordinate updates; preserve untouched outputs; race checks
+resource,ByteAddressBuffer-load-store,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-to-type,not_supported,not_implemented,not_implemented,resource-next,,Byte ranges/alignment/encoding and overlapping accesses
+resource,Texture-arrays-cube-3D-comparison,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-to-type,not_supported,not_implemented,not_implemented,resource-next,,Per-type/method semantics and coordinate conventions
+stage,pixel-main-return-float4,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-semantics,partial_verified,not_implemented,not_implemented,entry-next,planning/evidence/static-loops-2026-10-26.json,Current ps_6_0 main path
+stage,Frag-out-vertex-multiple-targets,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-semantics,not_supported,not_implemented,not_implemented,entry-next,,General entry/output contracts pending
+stage,compute-numthreads-dispatch-ids,https://learn.microsoft.com/en-us/windows/win32/api/d3d11/nf-d3d11-id3d11devicecontext-dispatch,not_supported,not_implemented,not_implemented,compute-load-store-first,,Launch dimensions and exact uint3 IDs are inputs
+memory,readonly-load-independent-store,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/sm5-object-rwstructuredbuffer,not_supported,not_implemented,not_implemented,compute-load-store-first,,Prove bounds and no conflicting write/write or write/read
+memory,groupshared-barrier-phases,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/groupmemorybarrierwithgroupsync,not_supported,not_implemented,not_implemented,compute-synchronization-next,,"Ownership transfer, barrier convergence and phase invariants"
+memory,atomics-scoped-ordering,https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/interlockedadd,not_supported,not_implemented,not_implemented,compute-synchronization-later,,Allowed executions/order/observations; not just one deterministic output

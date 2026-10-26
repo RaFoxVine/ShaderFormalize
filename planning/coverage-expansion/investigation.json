@@ -1,0 +1,63 @@
+{
+  "date": "2026-10-26",
+  "source": "https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-intrinsic-functions",
+  "source_sha256": "c9619b1297209cbfd5e4ea6f71f8edc10b37fca1724b9efa7a8bad661b4fcc28",
+  "intrinsic_count": 132,
+  "wave_source": "https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/hlsl-shader-model-6-0-features-for-direct3d-12",
+  "wave_source_sha256": "a4eadb4d5f961e974f561b36cca6c48af1ba02ef5f782daf7fdbe741a9261001",
+  "wave_intrinsic_count": 24,
+  "probes": {
+    "min": {
+      "dxc": "accepted",
+      "adapter": "UNSUPPORTED",
+      "message": "Only defined helpers and whitelisted compiler intrinsics are supported"
+    },
+    "max": {
+      "dxc": "accepted",
+      "adapter": "UNSUPPORTED",
+      "message": "Only defined helpers and whitelisted compiler intrinsics are supported"
+    },
+    "sqrt": {
+      "dxc": "accepted",
+      "adapter": "UNSUPPORTED",
+      "message": "Only defined helpers and whitelisted compiler intrinsics are supported"
+    },
+    "division": {
+      "dxc": "accepted",
+      "adapter": "UNSUPPORTED",
+      "message": "Unsupported expression: BinaryOperator"
+    }
+  },
+  "rounding_counterexample": {
+    "a": 16777216.0,
+    "b": 1.0,
+    "c": -16777216.0,
+    "left": 0.0,
+    "right": 1.0,
+    "scope": "Concrete binary32 round-to-nearest-even witness using Python struct; not a Lean proof or GPU experiment"
+  },
+  "baseline_commit": "77a19da",
+  "coverage_rows": 203,
+  "note": "Catalog rows are families/names, not full overload coverage or complete HLSL. IEEE/Compute columns describe whole new backend/stage availability; existing uint32 subset remains exact in current mode.",
+  "probe_recipe": {
+    "dxc_version": "v1.8.2505.1 (validated against dependencies.lock.json)",
+    "dxc_arguments": [
+      "-T",
+      "ps_6_0",
+      "-E",
+      "main",
+      "-HV",
+      "2021",
+      "-ast-dump",
+      "<source.hlsl>"
+    ],
+    "frontend_call": "shader_model.import_shader(source, dxc_stdout, \"shared\")",
+    "source_template": "float4 main(float4 a:COLOR0,float4 b:COLOR1):SV_Target{return <expression>;}\n",
+    "expressions": {
+      "min": "min(a,b)",
+      "max": "max(a,b)",
+      "sqrt": "sqrt(a)",
+      "division": "a/b"
+    }
+  }
+}
