@@ -57,7 +57,7 @@ flowchart LR
 
 - 第一份Hash函数使用uint、异或与右移；它们需要整数/位运算语义，不能当作实数加减乘处理。
 - Frag入口为void并用out float4参数输出，当前核心只接受返回float4的main；这需要入口/输出契约适配。
-- sampler内建类型含隐式C++方法，源码关联跨include文件；当前只支持单份普通源码及受控Texture2D/SamplerState声明。
+- sampler1D结构体含DXC隐式赋值方法，源码关联跨include文件；当前只支持单份普通源码及受控Texture2D/SamplerState声明。
 
 入口上界分析已经排除一千余份无关定义，并为缺口给出调用路径；仍未做常量传播，不能把每个可达声明都称为该配置的运行时必需能力。此轮没有临时忽略未知节点或改写数学语义来“导入成功”。
 
