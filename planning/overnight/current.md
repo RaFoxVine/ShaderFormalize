@@ -205,12 +205,13 @@
         "71f307f",
         "2fc87bb",
         "b074163",
-        "4cfa77a"
+        "4cfa77a",
+        "64992ea"
       ],
-      "grant_reference": "planning/shared-functions/execution-authority.md#copyback-001@revision-2",
+      "grant_reference": "planning/shared-functions/execution-authority.md#aggregate-001@revision-1",
       "result": "IN_PROGRESS",
-      "summary": "共享定义已完成并推送4cfa77a；copyback修订2独立P2 Ready、依赖已闭合，派生copyback-001开始默认参数与out/inout。",
-      "updated_at": "2026-10-26T04:26:14+08:00"
+      "summary": "Copyback completed: 165 units and 47 controls PASSED, Q2 Verified and independent Windows three positives verified. Aggregate revision1 P1 Ready; deriving exact approved grant for matrices, arrays and typed addresses.",
+      "updated_at": "2026-10-26T10:27:50+08:00"
     },
     "packing": {
       "commits": [
@@ -247,7 +248,7 @@
   "schema_version": 1,
   "session_id": "shader-forward-2026-10-26",
   "status": "running",
-  "updated_at": "2026-10-26T05:29:25+08:00"
+  "updated_at": "2026-10-26T10:27:50+08:00"
 }
 ```
 <!-- SMART_OVERNIGHT_STATE_END -->

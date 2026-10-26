@@ -33,7 +33,7 @@
 
 ## Grant copyback-001@revision-2
 
-- status: active
+- status: completed
 - source: delegated_session；sealed running overnight language条目。
 - frame: copyback-plan.md修订2，独立P2 Ready；前置shared-definition已于4cfa77a以146单元/41控制/最终Q闭合并推送。
 - target: 显式shared下默认参数与out/inout复制进出、每个正常返回的完整输出、静态地址重叠/兄弟读写检查、if/三元/短路状态合并、普通/默认调用图的裁剪/terminal discard传播、纯void/out组合、outputs模型/发射/有限求值/引用检查、组合正反例/回归/当前说明/独立Q/本地提交。
@@ -43,3 +43,17 @@
 - stop: 需要修改完整字段/实际执行/输入域保证、对有顺序依赖的表达式任意选次序、关键oracle不可用或Q三轮仍有关键问题。
 - acceptance: 真实DXC组合与范围/别名/未初始化负例；正常材质与导数完整场正例及错误数值/实际非法域负例；旧全部控制和新增控制的统一runner、独立Q、证据及本地提交。不以本片冒充全部language或Forward。
 - recorded_at: 2026-10-26；依赖已闭合，具体代码实施权在此派生，不凭前置grant。
+- result: 64992ea，19新/165全单元及47控制全部符合预期，21 PROVED/24 UNPROVED/2 INVALID_INPUT；独立Q2最终Verified，含额度中断恢复后的全21正例目标/哈希/公理与两新负例复核。独立Windows副本三正例及事实审阅通过。见../evidence/copyback-2026-10-26.json。
+
+## Grant aggregate-001@revision-1
+
+- status: active
+- source: running sealed overnight language条目PLAN_AND_CODE内派生；用户持续免重复人工方案审阅，2026-10-26重置额度后明确“接下来继续工作”。
+- frame: aggregate-plan.md修订1，独立P1 Ready；前置copyback已由64992ea、165单元/47控制/Q2及独立Windows追加验证闭合。
+- target: shared/schema6的float矩阵与固定数组、统一typed元素地址、静态/动态读写和copy-out、逐叶初始化、矩阵运算/mul/transpose/零转换、复合float uniform布局与范围组、bounded_index域结论及发射/有限/模型消费者、真实组合正负例、全部回归、独立Q、当前文档和本地提交。
+- authority: shader-forward-2026-10-26；planning/overnight/current.md；item language；sealed sha256 afcc1f80b2eb30be69411cd4633dc9d8ac79b0b918eaaf4302fc76ae66188206；旧P覆盖本修订且中断前后无产品或合同漂移。
+- allowed: 当前Ready计划列明的核心/测试/手写证明/文档/证据变更、真实本地验证和提交；旧auto保持。
+- exclusions: 循环（下一片单独grant）、新stage/uint或bool uniform、浮点编码/新公理/隐藏域前提、外部写入/并发、新依赖/Unity写入、push/merge/archive。
+- stop: 需改变实数/完整字段/实际域/接口布局保证、接受未定序读写、关键oracle不可用或三轮Q仍有关键问题。
+- acceptance: 计划至少六正式控制（正常材质/错误系数/完整场导数/合法与实际越界/非实际越界），全部旧47控制和真实DXC回归、旧生成文字不变、独立Q/目标绑定及公理审计/文档/证据。不以本片代表循环或完整Forward完成。
+- recorded_at: 2026-10-26；代码权限须随Approved状态先提交，再写产品代码。

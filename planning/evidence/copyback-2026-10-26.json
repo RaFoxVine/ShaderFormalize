@@ -1,0 +1,528 @@
+{
+  "date": "2026-10-26",
+  "scope": "shared defaults and copy-in/copy-out; not matrices, arrays, loops or complete HDRP/Lit",
+  "source_commit": "64992ea52d9995628f94a36a2c3c2e4fed929441",
+  "authority_commit": "10ac78d735d61f0c4107e3d8c326c6bccba7cd4f",
+  "suite": {
+    "status": "PASSED",
+    "layer": "core",
+    "example": "all",
+    "regression_tests": 165,
+    "controls": [
+      {
+        "case": "wrong-expression",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "missing-range-premise",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "custom-axiom",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "sorry-proof",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "forged-target",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "positive",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "unlit-missing-domain",
+        "expected": "INVALID_INPUT",
+        "actual": "INVALID_INPUT"
+      },
+      {
+        "case": "unlit-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "unlit-positive",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "structured-missing-domain",
+        "expected": "INVALID_INPUT",
+        "actual": "INVALID_INPUT"
+      },
+      {
+        "case": "structured-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "structured-positive",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "textured-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "textured-wrong-uv",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "textured-wrong-derivative",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "textured-wrong-lod",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "textured-wrong-sampler",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "textured-positive",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "control-alias",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "control-else",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "control-return",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "control-domain-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "control-domain",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "control-mixed",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "control-helper-field",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "control-helper-domain-original",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "control-helper-domain-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "branched-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "branched-wrong-cutoff",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "branched-positive",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "packed-wrong-field",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "packed-domain-safe",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "packed-domain-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "packed-shift-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "packed-positive",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "shared-structured-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "shared-structured-positive",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "shared-helper-field",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "shared-helper-domain-original",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "shared-helper-domain-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "shared-helper-domain-ignored",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "copyback-structured-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      },
+      {
+        "case": "copyback-structured-positive",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "copyback-field",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "copyback-clip",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "copyback-default-domain-original",
+        "expected": "PROVED",
+        "actual": "PROVED"
+      },
+      {
+        "case": "copyback-default-domain-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED"
+      }
+    ]
+  },
+  "result_counts": {
+    "UNPROVED": 24,
+    "PROVED": 21,
+    "INVALID_INPUT": 2
+  },
+  "new_formal_controls": {
+    "copyback-structured-wrong": {
+      "status": "UNPROVED",
+      "message": "Agent proof did not check against the generated Shader model; see lean-build.log"
+    },
+    "copyback-structured-positive": {
+      "status": "PROVED",
+      "inputs": [
+        {
+          "role": "original",
+          "path": "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\examples\\copyback\\original.hlsl",
+          "sha256": "ccb7f9633f5bc535d23b479d302a91d84d1ac18970ce9aa6dc9a436b7a1e2ccb",
+          "dxc_seconds": 0.047
+        },
+        {
+          "role": "optimized",
+          "path": "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\examples\\copyback\\optimized.hlsl",
+          "sha256": "4e12a0b5ab833c0b4b7f97d7100d9d2b55de81eabdf0f9fb3007c941cb8e5059",
+          "dxc_seconds": 0.047
+        }
+      ],
+      "constraints": {
+        "schema": 2,
+        "ranges": {
+          "_BaseColor": {
+            "min": "0",
+            "max": "1"
+          },
+          "_LightColor": {
+            "min": "0",
+            "max": "1"
+          },
+          "_RimColor": {
+            "min": "0",
+            "max": "1"
+          },
+          "_Ambient": {
+            "min": "0",
+            "max": "1"
+          },
+          "_RimStrength": {
+            "min": "0",
+            "max": "4"
+          }
+        },
+        "nonzero_vectors": [
+          "input.geometry.normalWS",
+          "input.geometry.viewWS",
+          "_LightDirection.xyz"
+        ]
+      },
+      "model_schema": 6,
+      "generated_sha256": "909947eda2af4c6a9d626f8be9ba5097098087179ccf1f8e9d060ee4d08b7472",
+      "dxc_files": {
+        "dxcompiler.dll": "5888d3e590f5bfd8743484e7f31313996734adec5741506271a5c6368cbe8ba9",
+        "dxc.exe": "ce11bb02f6027055e0b9f8c062d13b14f373c876a16557a4fa744314117d31e7",
+        "dxil.dll": "0cf5fa4b90f74550166108b3870c883f4a85243976b246b1da3ea90ad5b92015"
+      },
+      "guarantee": "ideal real-number model with exact uint32 fields and guarded conversions; translator and DXC remain trusted",
+      "theorem": "ShaderFormalize.Verification.checked",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "agent_proof_sha256": "528f7bca75d0e308b531bb57f443568e177cc580fa2ac6c9b029aed93dc71c8c",
+      "semantic_model_sha256": "5a3af29b09a4696a1632b0e30595d5465d9486cd71d604bdb1fbcea512133d4e",
+      "semantic_modules": {
+        "Model.lean": "5a3af29b09a4696a1632b0e30595d5465d9486cd71d604bdb1fbcea512133d4e",
+        "Fragment.lean": "c7a4195c9b5b84ce39a959e1fff8870ccb4a6f9e302bda8aa957302bf1ea069a",
+        "Control.lean": "1bdb1e21015cd10e05593ec42bf1c8c6d522ed9d9ffb2ac6f33f8bda4f90b44b",
+        "Packing.lean": "b7a28c0eeb178976e7060e1053bd45926eccf6e395d6087b3851632ef841f350"
+      },
+      "lake_manifest_sha256": "56e940f0e5f093d6124567592bb4b1d3f0c62d6408aea2678700ffffefa14e6e",
+      "lean_build_seconds": 38.531,
+      "lean_verify_seconds": 22.875,
+      "lean_version": "Lean (version 4.24.0, x86_64-w64-windows-gnu, commit 797c613eb9b6d4ec95db23e3e00af9ac6657f24b, Release)"
+    },
+    "copyback-field": {
+      "status": "PROVED",
+      "inputs": [
+        {
+          "role": "original",
+          "path": "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\examples\\copyback\\field.original.hlsl",
+          "sha256": "9b51de5ef3b87c6078c300fb3b41cfbe13736818e78f8e635e01635f0b1d99a7",
+          "dxc_seconds": 0.063
+        },
+        {
+          "role": "optimized",
+          "path": "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\examples\\copyback\\field.optimized.hlsl",
+          "sha256": "936c865288ea798029df2a53ffb021b4bc183d8ee75e0efd2e8c7e4c1cec898d",
+          "dxc_seconds": 0.032
+        }
+      ],
+      "constraints": {
+        "schema": 2,
+        "ranges": {},
+        "nonzero_vectors": []
+      },
+      "model_schema": 6,
+      "generated_sha256": "704fda325c99f43637bb475e6d199ca7d24eec608a3fc63df67c2988750f7cdd",
+      "dxc_files": {
+        "dxcompiler.dll": "5888d3e590f5bfd8743484e7f31313996734adec5741506271a5c6368cbe8ba9",
+        "dxc.exe": "ce11bb02f6027055e0b9f8c062d13b14f373c876a16557a4fa744314117d31e7",
+        "dxil.dll": "0cf5fa4b90f74550166108b3870c883f4a85243976b246b1da3ea90ad5b92015"
+      },
+      "guarantee": "ideal real-number model with exact uint32 fields and guarded conversions; translator and DXC remain trusted",
+      "theorem": "ShaderFormalize.Verification.checked",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "agent_proof_sha256": "6d9e5bbfd159a147bf9444992942cc6edc15ba63199f068bedd827a7fb1caa6c",
+      "semantic_model_sha256": "5a3af29b09a4696a1632b0e30595d5465d9486cd71d604bdb1fbcea512133d4e",
+      "semantic_modules": {
+        "Model.lean": "5a3af29b09a4696a1632b0e30595d5465d9486cd71d604bdb1fbcea512133d4e",
+        "Fragment.lean": "c7a4195c9b5b84ce39a959e1fff8870ccb4a6f9e302bda8aa957302bf1ea069a",
+        "Control.lean": "1bdb1e21015cd10e05593ec42bf1c8c6d522ed9d9ffb2ac6f33f8bda4f90b44b",
+        "Packing.lean": "b7a28c0eeb178976e7060e1053bd45926eccf6e395d6087b3851632ef841f350"
+      },
+      "lake_manifest_sha256": "56e940f0e5f093d6124567592bb4b1d3f0c62d6408aea2678700ffffefa14e6e",
+      "lean_build_seconds": 37.719,
+      "lean_verify_seconds": 24.016,
+      "lean_version": "Lean (version 4.24.0, x86_64-w64-windows-gnu, commit 797c613eb9b6d4ec95db23e3e00af9ac6657f24b, Release)"
+    },
+    "copyback-clip": {
+      "status": "PROVED",
+      "inputs": [
+        {
+          "role": "original",
+          "path": "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\examples\\copyback\\clip.original.hlsl",
+          "sha256": "49b2fcd35850de978f743c1b715c9ce6f96a5dcd60f42d1a6691aea056870cda",
+          "dxc_seconds": 0.031
+        },
+        {
+          "role": "optimized",
+          "path": "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\examples\\copyback\\clip.optimized.hlsl",
+          "sha256": "6d00ef10c3c24b27e8cf6ca553147dc9fd6caf359710bdb58c9e484ce0f579dc",
+          "dxc_seconds": 0.047
+        }
+      ],
+      "constraints": {
+        "schema": 2,
+        "ranges": {},
+        "nonzero_vectors": []
+      },
+      "model_schema": 6,
+      "generated_sha256": "bed5f78602fdfbb84a2adacd4f14862262d7d163e86a454af105b3a856d70ae7",
+      "dxc_files": {
+        "dxcompiler.dll": "5888d3e590f5bfd8743484e7f31313996734adec5741506271a5c6368cbe8ba9",
+        "dxc.exe": "ce11bb02f6027055e0b9f8c062d13b14f373c876a16557a4fa744314117d31e7",
+        "dxil.dll": "0cf5fa4b90f74550166108b3870c883f4a85243976b246b1da3ea90ad5b92015"
+      },
+      "guarantee": "ideal real-number model with exact uint32 fields and guarded conversions; translator and DXC remain trusted",
+      "theorem": "ShaderFormalize.Verification.checked",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "agent_proof_sha256": "ec69c0256c73e30ea4b381dc85b4bddd68f9b2de688536ebb4178d7156e60341",
+      "semantic_model_sha256": "5a3af29b09a4696a1632b0e30595d5465d9486cd71d604bdb1fbcea512133d4e",
+      "semantic_modules": {
+        "Model.lean": "5a3af29b09a4696a1632b0e30595d5465d9486cd71d604bdb1fbcea512133d4e",
+        "Fragment.lean": "c7a4195c9b5b84ce39a959e1fff8870ccb4a6f9e302bda8aa957302bf1ea069a",
+        "Control.lean": "1bdb1e21015cd10e05593ec42bf1c8c6d522ed9d9ffb2ac6f33f8bda4f90b44b",
+        "Packing.lean": "b7a28c0eeb178976e7060e1053bd45926eccf6e395d6087b3851632ef841f350"
+      },
+      "lake_manifest_sha256": "56e940f0e5f093d6124567592bb4b1d3f0c62d6408aea2678700ffffefa14e6e",
+      "lean_build_seconds": 37.734,
+      "lean_verify_seconds": 22.734,
+      "lean_version": "Lean (version 4.24.0, x86_64-w64-windows-gnu, commit 797c613eb9b6d4ec95db23e3e00af9ac6657f24b, Release)"
+    },
+    "copyback-default-domain-original": {
+      "status": "PROVED",
+      "inputs": [
+        {
+          "role": "original",
+          "path": "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\examples\\copyback\\domain.original.hlsl",
+          "sha256": "f177925a9e58ee2180d213a0b3b6b5472af40194a7a8ef2fc3dcc6b7f3b456c1",
+          "dxc_seconds": 0.047
+        },
+        {
+          "role": "optimized",
+          "path": "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\examples\\copyback\\domain.optimized.hlsl",
+          "sha256": "eb1e6079578abfb8b6a4c160409b408688433e786e8309fb68b686ebdf842349",
+          "dxc_seconds": 0.047
+        }
+      ],
+      "constraints": {
+        "schema": 2,
+        "ranges": {
+          "a": {
+            "min": "0",
+            "max": "0"
+          }
+        },
+        "nonzero_vectors": []
+      },
+      "model_schema": 6,
+      "generated_sha256": "f8f29cad0132da1e4ec0cae4a3640d9d79bd5e635e96e386e496df44ee06bfb8",
+      "dxc_files": {
+        "dxcompiler.dll": "5888d3e590f5bfd8743484e7f31313996734adec5741506271a5c6368cbe8ba9",
+        "dxc.exe": "ce11bb02f6027055e0b9f8c062d13b14f373c876a16557a4fa744314117d31e7",
+        "dxil.dll": "0cf5fa4b90f74550166108b3870c883f4a85243976b246b1da3ea90ad5b92015"
+      },
+      "guarantee": "ideal real-number model with exact uint32 fields and guarded conversions; translator and DXC remain trusted",
+      "theorem": "ShaderFormalize.Verification.checked",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "agent_proof_sha256": "ea82bd01da782234ca0b405e5ae6a80e72d6d14bbd8b2646985df23c5023cf62",
+      "semantic_model_sha256": "5a3af29b09a4696a1632b0e30595d5465d9486cd71d604bdb1fbcea512133d4e",
+      "semantic_modules": {
+        "Model.lean": "5a3af29b09a4696a1632b0e30595d5465d9486cd71d604bdb1fbcea512133d4e",
+        "Fragment.lean": "c7a4195c9b5b84ce39a959e1fff8870ccb4a6f9e302bda8aa957302bf1ea069a",
+        "Control.lean": "1bdb1e21015cd10e05593ec42bf1c8c6d522ed9d9ffb2ac6f33f8bda4f90b44b",
+        "Packing.lean": "b7a28c0eeb178976e7060e1053bd45926eccf6e395d6087b3851632ef841f350"
+      },
+      "lake_manifest_sha256": "56e940f0e5f093d6124567592bb4b1d3f0c62d6408aea2678700ffffefa14e6e",
+      "lean_build_seconds": 37.0,
+      "lean_verify_seconds": 22.594,
+      "lean_version": "Lean (version 4.24.0, x86_64-w64-windows-gnu, commit 797c613eb9b6d4ec95db23e3e00af9ac6657f24b, Release)"
+    },
+    "copyback-default-domain-wrong": {
+      "status": "UNPROVED",
+      "message": "Agent proof did not check against the generated Shader model; see lean-build.log"
+    }
+  },
+  "review": "Independent Q2 Verified; final recovery review checked all 21 positive targets, hashes and axioms plus real negative failures, without rerunning tests",
+  "source_sha256": {
+    "docs/agent-workflow.md": "cc76b949699d163e692e778e7cfb0d7fd4e24e2fc20bf8189b0f107ef1f64f78",
+    "docs/shared-functions.md": "a8a379cd5cc0be6b27d34b4a52fe78d385f9f848ab279b6723cc41fa519976f8",
+    "examples/copyback/clip.optimized.hlsl": "6d00ef10c3c24b27e8cf6ca553147dc9fd6caf359710bdb58c9e484ce0f579dc",
+    "examples/copyback/clip.original.hlsl": "49b2fcd35850de978f743c1b715c9ce6f96a5dcd60f42d1a6691aea056870cda",
+    "examples/copyback/constraints.json": "b9756230658c7c876f93d09e41e23c53071aff1d22ffb36ac0bec606515b0124",
+    "examples/copyback/domain.optimized.hlsl": "eb1e6079578abfb8b6a4c160409b408688433e786e8309fb68b686ebdf842349",
+    "examples/copyback/domain.original.hlsl": "f177925a9e58ee2180d213a0b3b6b5472af40194a7a8ef2fc3dcc6b7f3b456c1",
+    "examples/copyback/domain.wrong.hlsl": "e97c696827c44728c01a5b85e05fc580610f44d9446a5aca1c7799f808e9e3cc",
+    "examples/copyback/field.optimized.hlsl": "936c865288ea798029df2a53ffb021b4bc183d8ee75e0efd2e8c7e4c1cec898d",
+    "examples/copyback/field.original.hlsl": "9b51de5ef3b87c6078c300fb3b41cfbe13736818e78f8e635e01635f0b1d99a7",
+    "examples/copyback/optimized.hlsl": "4e12a0b5ab833c0b4b7f97d7100d9d2b55de81eabdf0f9fb3007c941cb8e5059",
+    "examples/copyback/original.hlsl": "ccb7f9633f5bc535d23b479d302a91d84d1ac18970ce9aa6dc9a436b7a1e2ccb",
+    "examples/copyback/wrong.hlsl": "9459f0d74e0e421e574b87011e319099942488a09f2af5c717e67b2cc2a2b334",
+    "proof/CopybackClipProof.lean": "ec69c0256c73e30ea4b381dc85b4bddd68f9b2de688536ebb4178d7156e60341",
+    "proof/CopybackDomainProof.lean": "ea82bd01da782234ca0b405e5ae6a80e72d6d14bbd8b2646985df23c5023cf62",
+    "proof/CopybackFieldProof.lean": "6d9e5bbfd159a147bf9444992942cc6edc15ba63199f068bedd827a7fb1caa6c",
+    "proof/CopybackStructuredProof.lean": "528f7bca75d0e308b531bb57f443568e177cc580fa2ac6c9b029aed93dc71c8c",
+    "tools/run_demo.ps1": "60d0d45698712057010d7429b9bc15ecbf3ee77f6068466948f604f0a699d13c",
+    "tools/shader_access.py": "8ed2932c0b6706d07518c846276fc5c5212fca72104ed72ba5520f94a9ff075d",
+    "tools/shader_control.py": "5c424ced3c53c627879c6648d54d070038daa6f92a946bdca01d3c6c10f5c342",
+    "tools/shader_copyback.py": "58694140f8ee9b7227e3d7163432c9175106aab9542c1ce851927c59a4f880af",
+    "tools/shader_frontend.py": "c58e269483667c7a611f8c3a3a9cb68e978e67ef2f5f13849b35e143487bbc7d",
+    "tools/shader_shared.py": "d4e24c1e6b4b5e508c4084f631c4542102ad1e2ebe810385e83aa77dab69ccba",
+    "tools/shader_shared_eval.py": "7f77f0c97c8c277958fc315b3a8fe666d0b502aa7fc79a2ca3b6ae97636d8a06",
+    "tools/shader_shared_lean.py": "6c2fb2f41efb2013fc582d9486f02a68ff0f6a43c8f0f2ed754204d0f2fc68f5",
+    "tools/shader_types.py": "e1740d549c03b42127ef84c1e1f120d3d8fb243df2b47af2eeeb4109f4d2d5da",
+    "tools/shader_validation.py": "fcec386989b8ea6fd28ae1813bdbc186fae60594a5d0dfc9b73a7c9290c5aa10",
+    "tools/test_copyback.py": "5190b55f9d87e018fa9d5c77f811123331d96824e75a25c00663f7a457521bc5",
+    "tools/verify_demo.py": "463dd1212779acbf96ea67d49e8149280df2cd468b90c7d05400868719f20d87"
+  },
+  "raw_log": "artifacts/language-probes/full-core-47.log",
+  "frozen": "artifacts/copyback/acceptance47",
+  "raw_master_sha256": "a5c0688287c4270818ccc379931b52130bee8da144be43dc77645961525c78af",
+  "windows_evidence": "windows-copyback-2026-10-26.json",
+  "finite_tests": "19 new real DXC cases; all 165 unit tests passed; finite evaluation is not the Lean proof",
+  "axiom_whitelist": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+  ]
+}

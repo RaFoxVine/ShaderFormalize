@@ -1,6 +1,8 @@
-# 可静态确定次数的普通for循环（修订1，待独立P，无代码授权）
+# 可静态确定次数的普通for循环（修订1，P1 Ready，依赖待闭合）
 
 这份后续规划服务language组合Shader；实施依赖矩阵/数组切片闭合。首个循环范围选择常见的固定次数for，而非一次实现全部循环：`for(uint i = start; i < end; ++i)`，start/end为固定DXC能表示的纯uint常量表达式，实际次数在导入时确定。此前aggregate-loop-notes讨论的uniform符号次数Nat迭代保留Outlined；未将它写成已完成能力。varying/uniform符号边界、一般while/do、break/continue/循环体return或terminal discard、<=及非单位步长暂拒绝，调用的void helper自身正常return不等于外层循环return。
+
+2026-10-26独立P1 Ready，无关键阻断；核对真实DXC结构、终止与预算、完整字段/域、逐叶初始化、计数器身份保护和实际组合oracle。仍须前置aggregate闭合并核对其最终接口，才能派生代码grant。
 
 DXC仍负责解析、作用域、类型、重载，导入器检查确切计数器声明身份、起点、严格上界及++目标。运行次数是自然数max(end-start,0)，最多64次，每个frame嵌套总展开步数最多4096且沿用4096 binding/65536总helper binding预算。超过静态预算直接UNSUPPORTED；不运行到任意fuel后把截断结果当原Shader。每步i<end<=2^32-1，因此增加1不回绕；最后i=end后条件假。最终范围和次数应记录在可审计元数据并进入源/目标哈希。零次循环不执行任何body域或效果，但其语法、类型、调用图仍检查。
 
@@ -17,3 +19,5 @@ if/三元/短路、纯helper、clip、纹理/导数可以出现在body；每次�
 实际oracle：真实DXC测试0/1/多次、非零start、start>end、uint最大附近不回绕、纯常量边界及wrap、错误计数器/步长/动态边界/修改计数器拒绝、局部重声明/作用域、嵌套/预算、逐次数组填充和缺初始化、helper/out/default组合、clip后的实际域及导数完整场，并与手算结果比较。正式控制四项：正常含纹理采样/裁剪/导数/矩阵/数组/循环/struct/out/default的Shader与手工等价版本PROVED；错误次数/系数UNPROVED；零次非法normalize域PROVED与实际执行非法域UNPROVED。前一项必须保留任意E/Ops且真实使用这些操作，不使用固定有限采样或identity导数替代。原所有正式控制和回归通过，独立Q核对真实哈希/目标/公理、旧生成文本和次数/无截断检查。无Unity验证不宣称GPU一致。
 
 目前只规划、无产品代码权限；须独立P，且aggregate实际完成后核对其地址/partial初始化/程序类接口没有合同漂移，才能派生精确grant。停止条件沿用language：需实数/完整字段/实际域变化、不能证明次数或需隐式fuel、关键oracle不可用、三轮审阅有关键未闭合问题。普通静态for是已确定可终止子集；uniform符号次数或更广循环继续Outlined，不能以本片宣称全部HLSL循环已实现。固定DXC已成功解析原始loop-static/loop-unroll探针：ForStmt五槽、前/后缀++和AttributedStmt/HLSLUnrollAttr均有实际AST记录。
+
+P要求落实的已有合同细节：正式组合正例至少两次真实迭代，并使Ops/裁剪或累积状态参与迭代关系；嵌套预算计入每次外层和内层body执行，包括空body，新增空body超预算负例；循环元数据的规范摘要实际写入新模型的生成目标（可用注释摘要使GeneratedModel字节绑定），旧无循环模型不增注释或改变文本。元数据不能替代真实顺序展开的数学定义。
