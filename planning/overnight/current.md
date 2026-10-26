@@ -206,12 +206,13 @@
         "2fc87bb",
         "b074163",
         "4cfa77a",
-        "64992ea"
+        "64992ea",
+        "9bec4aa"
       ],
       "grant_reference": "planning/shared-functions/execution-authority.md#aggregate-001@revision-1",
       "result": "IN_PROGRESS",
-      "summary": "Copyback completed: 165 units and 47 controls PASSED, Q2 Verified and independent Windows three positives verified. Aggregate revision1 P1 Ready; deriving exact approved grant for matrices, arrays and typed addresses.",
-      "updated_at": "2026-10-26T10:27:50+08:00"
+      "summary": "Aggregate source committed after 25 new unit regressions and six individual formal controls matched (4 PROVED,2 UNPROVED); Q1 observation repaired. Unified 190 unit/53 control gate running, final Q pending.",
+      "updated_at": "2026-10-26T11:19:49+08:00"
     },
     "packing": {
       "commits": [
@@ -226,12 +227,13 @@
       "commits": [
         "69d058a",
         "2fc87bb",
-        "64992ea"
+        "64992ea",
+        "9bec4aa"
       ],
-      "grant_reference": "planning/portability/execution-authority.md#windows-refresh-003@revision-1",
-      "result": "DONE",
-      "summary": "64992ea latest source verified in independently installed Windows checkout: copyback material, whole-field derivative and packed PROVED; same locks, six tools, nine dependencies, no Unity, clean Git; independent factual review passed.",
-      "updated_at": "2026-10-26T05:29:25+08:00"
+      "grant_reference": "planning/portability/execution-authority.md#windows-refresh-004@revision-1",
+      "result": "IN_PROGRESS",
+      "summary": "Running same-lock independent Windows checkout verification for aggregate material, whole-field derivative and legal index; no copied tools or outputs.",
+      "updated_at": "2026-10-26T11:20:15+08:00"
     },
     "publish": {
       "commits": [
@@ -249,7 +251,7 @@
   "schema_version": 1,
   "session_id": "shader-forward-2026-10-26",
   "status": "running",
-  "updated_at": "2026-10-26T10:52:05+08:00"
+  "updated_at": "2026-10-26T11:20:15+08:00"
 }
 ```
 <!-- SMART_OVERNIGHT_STATE_END -->

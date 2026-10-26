@@ -57,3 +57,17 @@
 - stop: 需改变实数/完整字段/实际域/接口布局保证、接受未定序读写、关键oracle不可用或三轮Q仍有关键问题。
 - acceptance: 计划至少六正式控制（正常材质/错误系数/完整场导数/合法与实际越界/非实际越界），全部旧47控制和真实DXC回归、旧生成文字不变、独立Q/目标绑定及公理审计/文档/证据。不以本片代表循环或完整Forward完成。
 - recorded_at: 2026-10-26；代码权限须随Approved状态先提交，再写产品代码。
+
+## Grant loop-001@revision-2
+
+- status: active-isolated
+- source: sealed running overnight language条目PLAN_AND_CODE内派生；持续免重复人工方案审阅及用户“接下来继续工作”。
+- frame: loop-plan.md修订2，独立P2 Ready；数学语义与P1相同，静态uint for精确次数、不截断，最终四控制及全旧回归/Q不变。
+- baseline: 9bec4aa有25新单元/六正式控制/Q2源码审读，完整190单元通过，主53控制进行中、完整Q尚待。不得称aggregate已Completed。
+- current_target: 仅D:/2FileBuildWorkPlace/Formalize/ShaderFormalize/artifacts/loop-development独立Git clone，从9bec4aa创建。root唯一writer；创建前核对绝对路径在仓库指定artifacts内、目标不存在。
+- current_allowed: 副本中的计划循环代码/测试/组合示例/手写证明/文档草稿与本地提交；.tools junction只读复用主仓库锁定工具，明确不称独立依赖安装；只运行经检查不含CLI的test_loops新集、DXC/有限oracle和内存Lean生成。主目录只更新规划/授权/证据。
+- current_forbidden: 主目录产品/生成文件改动；副本bootstrap、Lean/Lake build、prepare/check、完整runner、共享proof/.lake/包构建目录写入；新依赖/全局配置/Unity/浮点编码/新公理/隐含fuel或输入前提；push/merge/rebase/archive。
+- conditional_integration: 仅aggregate默认53和最终Q全部通过、基线接口无合同漂移且主产品差异已核对后，在本authority/tasks先记录条件满足，才可将副本确切循环patch应用至主目录，实施本计划剩余正式四控制/全回归/Q/说明/本地提交。禁止覆盖用户变更，禁止把隔离单元当最终形式验收。
+- stop: 基线语义变化、主完整gate/Q未通过时停止整合；实数/完整字段/实际域/终止或源支持合同漂移、关键oracle不可用或第三轮关键问题未闭合时停止受影响工作并重新规划。
+- session: shader-forward-2026-10-26；planning/overnight/current.md；language；sealed sha256 afcc1f80b2eb30be69411cd4633dc9d8ac79b0b918eaaf4302fc76ae66188206。
+- recorded_at: 2026-10-26；P2 Ready后派生，随隔离Approved状态先提交，clone和代码随后。
