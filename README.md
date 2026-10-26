@@ -12,7 +12,9 @@
 
 整数打包阶段的2026-10-26核心验收：128项回归及32项证明正负控制全部符合预期，12项完整目标PROVED；新增整数打包和定义域正负例均经过真实DXC、Lean绑定与公理审计。[阶段证据](planning/evidence/integer-packing-2026-10-26.json)。后续共享定义阶段146项单元/41项控制通过，[对应证据](planning/evidence/shared-functions-2026-10-26.json)。
 
-当前固定次数循环与组合材质阶段：213项单元、57项正式控制全部符合预期（27 PROVED）；独立审阅、旧25目标兼容及独立安装依赖的Windows副本两正例复现通过。[最新验收证据](planning/evidence/static-loops-2026-10-26.json)，[独立副本证据](planning/evidence/windows-loops-2026-10-26.json)。
+2026-10-27数学与Compute扩展验收：242项单元、69项正式控制全部符合预期（32 PROVED、35 UNPROVED、2 INVALID_INPUT）。DXC环境中断恢复后复用39项已验证结果，实际续跑30项，记录未改写为单次无中断通过。[最新验收证据](planning/evidence/parallel-expansion-2026-10-27.json)。独立浮点和同步原型另有各自的运行证据，见下方可选原型说明。
+
+固定次数循环与组合材质阶段：213项单元、57项正式控制全部符合预期（27 PROVED）；独立审阅、旧25目标兼容及独立安装依赖的Windows副本两正例复现通过。[阶段证据](planning/evidence/static-loops-2026-10-26.json)，[独立副本证据](planning/evidence/windows-loops-2026-10-26.json)。
 
 矩阵/数组阶段完整验收：190项单元、53项正式控制全部符合预期（25 PROVED），独立Q2和同锁Windows三正例复现通过。[验收证据](planning/evidence/aggregate-2026-10-26.json)，[异地复现证据](planning/evidence/windows-aggregate-2026-10-26.json)。
 

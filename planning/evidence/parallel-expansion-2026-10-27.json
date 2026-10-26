@@ -1,0 +1,897 @@
+{
+  "date": "2026-10-27",
+  "status": "PASSED",
+  "core_implementation_commit": "563955a",
+  "recorded_head": "7b7038f1d4d8ae4119086cdc305d40f82b297cd5",
+  "command": "pwsh -NoProfile -File tools/run_demo.ps1",
+  "regression_tests": 242,
+  "control_count": 69,
+  "outcomes": {
+    "PROVED": 32,
+    "UNPROVED": 35,
+    "INVALID_INPUT": 2
+  },
+  "cases": [
+    {
+      "case": "basic-math-optimized",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "5f686fcb4896722cdb172a38af002bdb646f646c0dc98fd7b3bd3e253fbf6a0b",
+      "generated_sha256": "01ed65250705d20475e3a30226d7f8211d6689ae8eacfb6701ea726b8f3dd10e",
+      "proof": "proof/BasicMathProof.lean",
+      "proof_sha256": "a1ed64eaf24b5d744eb300de9b2b68c147372f300bf728401dcb20e3895c3640",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "verify_log_sha256": "64281b41cc00905b3a5127be7f245e74d88e554ed00dfc656a45327c3d4e80c6"
+    },
+    {
+      "case": "basic-math-wrong",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+      "generated_sha256": "53647fea4dc31ab002caec21dbb882367d575525ee4fcb7991fe6486244126ed"
+    },
+    {
+      "case": "basic-math-domain-original",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "1406702795dc143b80735c3643d442ec2aee37b17cf2fc814ef6e183ee8a8f19",
+      "generated_sha256": "05164e0dd754db496dc570a9823e1bc32c60f22d5df8843e6391d56410ad2687",
+      "proof": "proof/BasicMathDomainProof.lean",
+      "proof_sha256": "6cff3fc2874e04339bff1158e52899c8cadb0d6692c46bbfff7ca6b5756ece9d",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "verify_log_sha256": "64281b41cc00905b3a5127be7f245e74d88e554ed00dfc656a45327c3d4e80c6"
+    },
+    {
+      "case": "basic-math-domain-wrong",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+      "generated_sha256": "859bbe1a1e57081d1d18178c8b6f9c63f3f41263ff7e7abd95238f10a8c64cda"
+    },
+    {
+      "case": "basic-math-auto",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "596275d93e3db22c2dea3de9d40658c25cbd833bf106f534cbf60db0704038d1",
+      "generated_sha256": "596520166b15e2b9753ed31b202f0c8b81e74a78b157391fd899e7589c3cbda6",
+      "proof": "proof/BasicMathAutoProof.lean",
+      "proof_sha256": "a53edc1f8427004484e35f827a14a329a558f2890a725d0a9e5d3077623561b2",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "verify_log_sha256": "64281b41cc00905b3a5127be7f245e74d88e554ed00dfc656a45327c3d4e80c6"
+    },
+    {
+      "case": "basic-math-unused-clamp-domain",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+      "generated_sha256": "d2c891653b877f7a49638fa1c6187cb9d53a1099a4bc72b07162dcd8d0e80d25"
+    },
+    {
+      "case": "compute-postprocess",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "df97e2b0907a0ff5597dfba826f17bc3eee1137b47013b81afd469ea2fcfebe2",
+      "generated_sha256": "f3ea7def8f749c8f324915212303b7a34db0ec9544db13653de7fcac31bdef39",
+      "proof": "proof/ComputePostProof.lean",
+      "proof_sha256": "484b252857af6db038bcad7dabc47517313f6ef489cfa2bdddf32d413b7f2581",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "verify_log_sha256": "64281b41cc00905b3a5127be7f245e74d88e554ed00dfc656a45327c3d4e80c6"
+    },
+    {
+      "case": "compute-same-thread-alias",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "e624a667e0d4ffff5c0ea5526ca8247b11400386181574a907fabe7e65503065",
+      "generated_sha256": "d7754d2435258a3e0cabe8f592b7aec414f029e50e60638e828ae9091cb26e73",
+      "proof": "proof/ComputeAliasProof.lean",
+      "proof_sha256": "f190774db6e1d77392700e87ba2c48989842757c72bd81992fd1fd608f3b562d",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "verify_log_sha256": "64281b41cc00905b3a5127be7f245e74d88e554ed00dfc656a45327c3d4e80c6"
+    },
+    {
+      "case": "compute-wrong-output",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "8f1f069bf45754f7897aa62c1af69d74c4c03531f666cec3eaf74098a50892f1",
+      "generated_sha256": "ea03c53a69b406abe3f31819575cc4692517d6eb88dc1a5cbdca035f2f010843"
+    },
+    {
+      "case": "compute-out-of-bounds",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "8f1f069bf45754f7897aa62c1af69d74c4c03531f666cec3eaf74098a50892f1",
+      "generated_sha256": "6ca453a2ca0e6b49a572c6ec9c07862f4b02cec1ef1fec700ce61bbdd569e612"
+    },
+    {
+      "case": "compute-write-write-conflict",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "8f1f069bf45754f7897aa62c1af69d74c4c03531f666cec3eaf74098a50892f1",
+      "generated_sha256": "960551a12c23b6f1a2b224489abe9627b40634c741a158e746e3f1335488d001"
+    },
+    {
+      "case": "compute-alias-write-read-conflict",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "8f1f069bf45754f7897aa62c1af69d74c4c03531f666cec3eaf74098a50892f1",
+      "generated_sha256": "864332165cb280a47de1bb041b1b90b95d488a95fb5d049bf47b28c4ad65fcac"
+    },
+    {
+      "case": "complete-wrong",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+      "generated_sha256": "0674de44ed1a0318be3744fdadd214d7754fb57087264eafc7e68e041b89d6f8"
+    },
+    {
+      "case": "complete-positive",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "6a5d26f81ac50bd723862e69517efdeb7b139bfe87d4a128ce305ce6526d5cf7",
+      "generated_sha256": "d001b2ddec401a73440cc3650011ec26489ca2fb051f2682cf3b30de9fe79ba2",
+      "proof": "proof/CompleteMaterialProof.lean",
+      "proof_sha256": "5ced48dfd8744b74a43b12ece4972fa0943f13c1a71314586ce245e08d812e2d",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "verify_log_sha256": "64281b41cc00905b3a5127be7f245e74d88e554ed00dfc656a45327c3d4e80c6"
+    },
+    {
+      "case": "loop-domain-zero",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "c416dd41c012fe80ef66de0cdda6c549e1dc8156c98fe1fd5c5cbee37c1e30da",
+      "generated_sha256": "de542f70062efc40dfda0fbf57bd6ac1d0b92b8c3810c973502ae60051a4f884",
+      "proof": "proof/LoopDomainProof.lean",
+      "proof_sha256": "d61a1b74c4512703722eec484d0d5c83c33f36e9b8d19a9011c9faa121936133",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "verify_log_sha256": "64281b41cc00905b3a5127be7f245e74d88e554ed00dfc656a45327c3d4e80c6"
+    },
+    {
+      "case": "loop-domain-wrong",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+      "generated_sha256": "d9dd44a84462d10270288b1082e45729e8ce9c127398f8dd3d53cdc4b5fab712"
+    },
+    {
+      "case": "wrong-expression",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+      "generated_sha256": "19068c54390391f6133b6944ee15a94b53247c8b84318dfdc7c7620e39a22a51"
+    },
+    {
+      "case": "missing-range-premise",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+      "generated_sha256": "15016267294efee0a0798642097a6e0f3dfa95a1be246cb607dfa48dddc90fd0"
+    },
+    {
+      "case": "custom-axiom",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "fdf3f607fbe79a07d52ebf035889d7b525790ef6fb0a6a1a28bf8efc55abbc08",
+      "generated_sha256": "6faeecdaaa6762950e7ccb870118ff5f251e267650587cd59a01dc20a7a633d9"
+    },
+    {
+      "case": "sorry-proof",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "4c90a3601d1c004f652b8f446a9e59a359a5c8de28e239d278caa6dba02ce66a",
+      "generated_sha256": "6faeecdaaa6762950e7ccb870118ff5f251e267650587cd59a01dc20a7a633d9"
+    },
+    {
+      "case": "forged-target",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "aabd872ae0d308a6298919eb3ab5d1f975f48874beb548bc7615478b1ca09a29",
+      "generated_sha256": "6faeecdaaa6762950e7ccb870118ff5f251e267650587cd59a01dc20a7a633d9"
+    },
+    {
+      "case": "positive",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "9d3c23d1f81c9b41766b076aaf47052b6e1cbe590d0cbb6108b3e680e9f3521c",
+      "generated_sha256": "6faeecdaaa6762950e7ccb870118ff5f251e267650587cd59a01dc20a7a633d9",
+      "proof": "proof/AgentProof.lean",
+      "proof_sha256": "af907b2a6a3baab2f8b13985de886070ceaa5aa2db1308617facc594542466a8",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "verify_log_sha256": "64281b41cc00905b3a5127be7f245e74d88e554ed00dfc656a45327c3d4e80c6"
+    },
+    {
+      "case": "unlit-missing-domain",
+      "expected": "INVALID_INPUT",
+      "actual": "INVALID_INPUT",
+      "report_sha256": "bed1d7a4dde6b0c2b8fc188633b72ac62d73ce9f82e03fa7fb4dd5eda683daac"
+    },
+    {
+      "case": "unlit-wrong",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+      "generated_sha256": "54974398cec51dd75b2f0d1e1db37d15c2e8657a6e57cbf593fd669a0583794f"
+    },
+    {
+      "case": "unlit-positive",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "ce7ffae13a1a8fec6cb03d35e551b943547bb761d9da676f5f80dc94d212d6f3",
+      "generated_sha256": "b6eb2fdaac6b423c622a42d5cfc96bcbe24104b41d730c3bf60cc86d66d4409c",
+      "proof": "proof/UnlitProof.lean",
+      "proof_sha256": "bfb0e583b8b54223e5c56d67c1d9e081e1b0d49a196f5e61df62ad38133e1487",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "verify_log_sha256": "64281b41cc00905b3a5127be7f245e74d88e554ed00dfc656a45327c3d4e80c6"
+    },
+    {
+      "case": "structured-missing-domain",
+      "expected": "INVALID_INPUT",
+      "actual": "INVALID_INPUT",
+      "report_sha256": "bed1d7a4dde6b0c2b8fc188633b72ac62d73ce9f82e03fa7fb4dd5eda683daac"
+    },
+    {
+      "case": "structured-wrong",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+      "generated_sha256": "ce3e6b36a8e34aec7c71ece20967a7d845808aefbf6cb2f85d8d4504e95b546d"
+    },
+    {
+      "case": "structured-positive",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "c60b8f33e3b6077a749acdd5aea6158118cc5d622061ce93395450a07bfd39a3",
+      "generated_sha256": "3337fbdf763872249564fb972f56c9ebb1596c0f80f82e33fba0b68d3c0d2dd0",
+      "proof": "proof/UnlitProof.lean",
+      "proof_sha256": "bfb0e583b8b54223e5c56d67c1d9e081e1b0d49a196f5e61df62ad38133e1487",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "verify_log_sha256": "64281b41cc00905b3a5127be7f245e74d88e554ed00dfc656a45327c3d4e80c6"
+    },
+    {
+      "case": "textured-wrong",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+      "generated_sha256": "f8cb47eb4ab067096077cfa63be121a3ac296713a8a7c140e0e23772b51be3e6"
+    },
+    {
+      "case": "textured-wrong-uv",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+      "generated_sha256": "f39bbdc0ca3b8fad027ede63336f056dacc9d33ccf96e308f064ca383a69419a"
+    },
+    {
+      "case": "textured-wrong-derivative",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+      "generated_sha256": "5eced28683fa692b5b96bbb8a79a83681877fea5060b89d4e34cb08f5eb827d6"
+    },
+    {
+      "case": "textured-wrong-lod",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+      "generated_sha256": "a5317dcd24f867fd15620577ad5e9cb45408ddf6029b744e54b4513df0a0bf9e"
+    },
+    {
+      "case": "textured-wrong-sampler",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+      "generated_sha256": "eb1a380f29733577f4d47aa274361c2b58cb4afea5167f7b24257ff3801564a1"
+    },
+    {
+      "case": "textured-positive",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "8de9076a1a51c53b87ca16185577ded840540f69d2b2e3f7d3e3be60826e01ac",
+      "generated_sha256": "154796db151cef5fd85efa6fbf569f4d1dc6deb5f4f9038e56bd207376e040b8",
+      "proof": "proof/TexturedProof.lean",
+      "proof_sha256": "9bc224cce89c955f816e709e026a759e765abf83e3a70e8f14a823032a29556b",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "verify_log_sha256": "64281b41cc00905b3a5127be7f245e74d88e554ed00dfc656a45327c3d4e80c6"
+    },
+    {
+      "case": "control-alias",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "434bc42fc0c102819a8acdfbac0a5e4ea7d1f61b1c7d2279a8f043f2d784ae03",
+      "generated_sha256": "e35a7c2a94dcf858b41b3fdb109c89ea196e602fefd006f24ebad2cb6065ee1b",
+      "proof": "proof/ControlAliasProof.lean",
+      "proof_sha256": "3b1706be9993b6b14ec8346a5968165ba8f2a764ada052d1f657717df1983fbd",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "verify_log_sha256": "64281b41cc00905b3a5127be7f245e74d88e554ed00dfc656a45327c3d4e80c6"
+    },
+    {
+      "case": "control-else",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "dda405dd2d1df50878ae074519f733e216a83c727b62a893c6306dd4e3ccb0f5",
+      "generated_sha256": "8fed3d134598b4928f52109bcb15b69468769e45d7432eb521873aad0d451023",
+      "proof": "proof/ControlElseProof.lean",
+      "proof_sha256": "edfb8f2037bdf5a81ff54af10fbbc9d35ba58aa6ebea3073b63b7904160d3ab9",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "verify_log_sha256": "64281b41cc00905b3a5127be7f245e74d88e554ed00dfc656a45327c3d4e80c6"
+    },
+    {
+      "case": "control-return",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "1bf92de7d2a94c70ba13f0c27802d0a73c23d6eb32838ba85d2043c2edfb8a65",
+      "generated_sha256": "9b05824ef730907fbac4450639220eadda9909ea5279228aea9ac87fc3ad744c",
+      "proof": "proof/ControlReturnProof.lean",
+      "proof_sha256": "596ed71d47792f98ffd1f2a49bf8ef809db9541ba894f8c4e0b08247e974834a",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "verify_log_sha256": "64281b41cc00905b3a5127be7f245e74d88e554ed00dfc656a45327c3d4e80c6"
+    },
+    {
+      "case": "control-domain-wrong",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+      "generated_sha256": "52deb122fbcfa3980a54547da189b5894bd50df86c3708beb763204af3714385"
+    },
+    {
+      "case": "control-domain",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "837f4666348c8c5eedd9f60e63894d1960fc1ebaf30853db55294c26807ceaf0",
+      "generated_sha256": "ba9f29eb55a145fec9eefa51a2b714fb4068621e6efb3202dde6267f7af2523a",
+      "proof": "proof/ControlDomainProof.lean",
+      "proof_sha256": "4f9041dada0d32307b583f757b83022a428ce8119b907b466c1475903d9d5ed3",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "verify_log_sha256": "64281b41cc00905b3a5127be7f245e74d88e554ed00dfc656a45327c3d4e80c6"
+    },
+    {
+      "case": "control-mixed",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "c7e029d58c33c4d6a30fb34aa902a6e074f6a48f1c71ad8639e367f48fdb3968",
+      "generated_sha256": "518250c2c7f7eb9bbaab95de97312b293a2810169014ed0c57d65fac27f3f85d",
+      "proof": "proof/ControlMixedProof.lean",
+      "proof_sha256": "25634870716a58cdbbe992db04771bdb3c541ac664ed6926fa499e352a919f02",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "verify_log_sha256": "64281b41cc00905b3a5127be7f245e74d88e554ed00dfc656a45327c3d4e80c6"
+    },
+    {
+      "case": "control-helper-field",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "aa0c0eabc486e1d31f4c46770e10d90b0a621e5459f1a41ba16b22a6d7fc59d5",
+      "generated_sha256": "5a377c8fb14ca5b9310927752b1f684a92742ebf2c0b90d5684b9bee09c369e4",
+      "proof": "proof/ControlHelperFieldProof.lean",
+      "proof_sha256": "3aa66e9bad1e57e1542db673576c5b86d883ef6082fc1514a318a674e56ac73e",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "verify_log_sha256": "64281b41cc00905b3a5127be7f245e74d88e554ed00dfc656a45327c3d4e80c6"
+    },
+    {
+      "case": "control-helper-domain-original",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "4b9e7da6d845cbb025cd6baea187ba565a7f42ca301123593b8e7cb981e51e95",
+      "generated_sha256": "e0e7274f15272e7220c86cca369d0a0683d3f6db5487f59043d5f3ef2a1fb731",
+      "proof": "proof/ControlHelperDomainProof.lean",
+      "proof_sha256": "2671800a7cb082655a2e21c3cdce3c7f5f16ad5e41cb33c0e94356df874a224f",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "verify_log_sha256": "64281b41cc00905b3a5127be7f245e74d88e554ed00dfc656a45327c3d4e80c6"
+    },
+    {
+      "case": "control-helper-domain-wrong",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+      "generated_sha256": "cddb2a59525e920ffe5b2d18b9ad7da0c7da0e1521f52c14b3284389d2f78fe2"
+    },
+    {
+      "case": "branched-wrong",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+      "generated_sha256": "c2b1304bcf883ee94c69fbe64c7bfcc756be41eae128ba49a1ae4677720ecd01"
+    },
+    {
+      "case": "branched-wrong-cutoff",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+      "generated_sha256": "02679b509e409bb44ab6fb247d56d62d8abad0c24915b54946af0bde4f6a1201"
+    },
+    {
+      "case": "branched-positive",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "66439919c35b42d783a9930c6c0ccf080d8d89444903d443445923a73752089e",
+      "generated_sha256": "b694898bb802f23072de74127b53f7e3074f051b29bcea683391da9e29d3fa73",
+      "proof": "proof/BranchedProof.lean",
+      "proof_sha256": "4a62da4962ea3fefb0e1a10b72388242f199cdf6055d1b90502d3ff946e16425",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "verify_log_sha256": "64281b41cc00905b3a5127be7f245e74d88e554ed00dfc656a45327c3d4e80c6"
+    },
+    {
+      "case": "packed-wrong-field",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+      "generated_sha256": "8e79a8c4c5f6af8cf5a4a96bb7b41d3bb2e5f55f41cb32d46d7cd241e4fe1b43"
+    },
+    {
+      "case": "packed-domain-safe",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "55fece5a91d18bc97cb68bf05b71f63f8852abdd651e642ff918a0ca2be419e2",
+      "generated_sha256": "afec2287d4a2d9b9b8ee65c7bd0a88fe83637a7f6bded134d760434a33e11d09",
+      "proof": "proof/PackingDomainProof.lean",
+      "proof_sha256": "47aa5763e5a11ae38d52033b981ffd0bb674ac0c95564e54d11f84f6d44aa8de",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "verify_log_sha256": "64281b41cc00905b3a5127be7f245e74d88e554ed00dfc656a45327c3d4e80c6"
+    },
+    {
+      "case": "packed-domain-wrong",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+      "generated_sha256": "515462a987d36b215f90f7e87c57b472ca684372afa0fa9f5964689ece399f0c"
+    },
+    {
+      "case": "packed-shift-wrong",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+      "generated_sha256": "a7b9d1ee7a8ed20c225e0f7bdc0cd0b72bda1d9247733c52665f7f15ff5a92da"
+    },
+    {
+      "case": "packed-positive",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "dc7adaf06d1b9a5fa6481d007e459b48ef5dc0ec6916951b5030821e0cccd268",
+      "generated_sha256": "104acefe228169bf7e7d805e5c8b71552a79dd8d2a174fec66df1d1e913cbbf9",
+      "proof": "proof/PackedProof.lean",
+      "proof_sha256": "23f6f7c83b3fb47984fbb8d59d72a30b568c0040f98defd092da34c1b84b3d6e",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "verify_log_sha256": "64281b41cc00905b3a5127be7f245e74d88e554ed00dfc656a45327c3d4e80c6"
+    },
+    {
+      "case": "shared-structured-wrong",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+      "generated_sha256": "bc4441eb7325409dea2f4cef89a8eba506faf73ad91b2edb93b3d1ccddb300d3"
+    },
+    {
+      "case": "shared-structured-positive",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "c5c521d1a874d0b03d37f53291b98ea013e6d4b0b5bea78f3423cba4e77c985f",
+      "generated_sha256": "10c3d5329f77695c6d2ba7a98beec46e66764dac28f0e7ce5b2d4a072150e75d",
+      "proof": "proof/SharedStructuredProof.lean",
+      "proof_sha256": "e471f68c746db7dea27f88be32cf028edf4cb6758081f5a4050afbb65e6054d7",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "verify_log_sha256": "64281b41cc00905b3a5127be7f245e74d88e554ed00dfc656a45327c3d4e80c6"
+    },
+    {
+      "case": "shared-helper-field",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "d6d9ac5e3f80813046a763406fc9a9400c1c7610b5be864e8b3a635fc8397f0b",
+      "generated_sha256": "10dc640c54184789a75ecefdefe8bb00305407597187589f67e84568d9964b4c",
+      "proof": "proof/SharedHelperFieldProof.lean",
+      "proof_sha256": "afa30ba78a9b14c61c96e637293ef59f1be2f1d25ed43771bd2775b63ed057df",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "verify_log_sha256": "64281b41cc00905b3a5127be7f245e74d88e554ed00dfc656a45327c3d4e80c6"
+    },
+    {
+      "case": "shared-helper-domain-original",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "ee75d52339a838da3f9b911b25050cf1c967f83a42eee01ca5d6611e1c303604",
+      "generated_sha256": "f260a58b5df7ee85c9efc6b5a41966584b7c28819c4ea450dbc3b575f60e3624",
+      "proof": "proof/SharedHelperDomainProof.lean",
+      "proof_sha256": "ea82bd01da782234ca0b405e5ae6a80e72d6d14bbd8b2646985df23c5023cf62",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "verify_log_sha256": "64281b41cc00905b3a5127be7f245e74d88e554ed00dfc656a45327c3d4e80c6"
+    },
+    {
+      "case": "shared-helper-domain-wrong",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+      "generated_sha256": "7cbf45bbed65cd6471b49dbd45b8554aad9b5542b83dcb6342e3422104e9349f"
+    },
+    {
+      "case": "shared-helper-domain-ignored",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+      "generated_sha256": "1369245453b3e7b8251609c90da0146258795705c6b1b8d6ffa641fc605b305a"
+    },
+    {
+      "case": "copyback-structured-wrong",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+      "generated_sha256": "fec234d2943f0d855c3e61916c060421287c24842d899b6889845b3fbd418fd4"
+    },
+    {
+      "case": "copyback-structured-positive",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "38ac18a5ae05402c988ebeeeaa995cee744845b9fb2c8ce500ada02c528c72c8",
+      "generated_sha256": "909947eda2af4c6a9d626f8be9ba5097098087179ccf1f8e9d060ee4d08b7472",
+      "proof": "proof/CopybackStructuredProof.lean",
+      "proof_sha256": "528f7bca75d0e308b531bb57f443568e177cc580fa2ac6c9b029aed93dc71c8c",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "verify_log_sha256": "64281b41cc00905b3a5127be7f245e74d88e554ed00dfc656a45327c3d4e80c6"
+    },
+    {
+      "case": "copyback-field",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "83ed8623f4b56d024f7dc80acf0c038f7cec607c9966a7fd7b31e9548452cc51",
+      "generated_sha256": "704fda325c99f43637bb475e6d199ca7d24eec608a3fc63df67c2988750f7cdd",
+      "proof": "proof/CopybackFieldProof.lean",
+      "proof_sha256": "6d9e5bbfd159a147bf9444992942cc6edc15ba63199f068bedd827a7fb1caa6c",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "verify_log_sha256": "64281b41cc00905b3a5127be7f245e74d88e554ed00dfc656a45327c3d4e80c6"
+    },
+    {
+      "case": "copyback-clip",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "4ade9a7ccfe3c0ceb40e485f0fc2da8cae08fe79e60c6401832af16fb7427fc8",
+      "generated_sha256": "bed5f78602fdfbb84a2adacd4f14862262d7d163e86a454af105b3a856d70ae7",
+      "proof": "proof/CopybackClipProof.lean",
+      "proof_sha256": "ec69c0256c73e30ea4b381dc85b4bddd68f9b2de688536ebb4178d7156e60341",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "verify_log_sha256": "64281b41cc00905b3a5127be7f245e74d88e554ed00dfc656a45327c3d4e80c6"
+    },
+    {
+      "case": "copyback-default-domain-original",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "00522b380cdb6ec19b555455cac7f17883303b5537aee44267ee3ea67b151630",
+      "generated_sha256": "f8f29cad0132da1e4ec0cae4a3640d9d79bd5e635e96e386e496df44ee06bfb8",
+      "proof": "proof/SharedHelperDomainProof.lean",
+      "proof_sha256": "ea82bd01da782234ca0b405e5ae6a80e72d6d14bbd8b2646985df23c5023cf62",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "verify_log_sha256": "64281b41cc00905b3a5127be7f245e74d88e554ed00dfc656a45327c3d4e80c6"
+    },
+    {
+      "case": "copyback-default-domain-wrong",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+      "generated_sha256": "e03f05259c4900b292f530a3bd43b665e648d8af8cab65938218bd29c61eb3d4"
+    },
+    {
+      "case": "aggregate-material-wrong",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+      "generated_sha256": "de5ba7a289794f1df8f64738433c9ee387aab3ba5308356b51e23aada7e61983"
+    },
+    {
+      "case": "aggregate-material-positive",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "f2ffd485fd8a9d96a5fc70d49edf2769baaf6f335b0045effd19c85ad386ef70",
+      "generated_sha256": "71d12a0c94d92b258190df515436f21df7cf11b9b938acf9624ad35735671471",
+      "proof": "proof/AggregateMaterialProof.lean",
+      "proof_sha256": "29be2149fffb7e6fc0de720e70a89d8d1e7e6c25dc313bb416d9cb334fe6bc60",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "verify_log_sha256": "64281b41cc00905b3a5127be7f245e74d88e554ed00dfc656a45327c3d4e80c6"
+    },
+    {
+      "case": "aggregate-field",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "96c68fdbc4672f1dfacd5bf5588f4ba1fb310a92f7867392f9d34245e6c1a8ad",
+      "generated_sha256": "3f6128dda055ebb9bec859063d3f31ca29266cd7ff0049546818e50bc95c3fc1",
+      "proof": "proof/AggregateFieldProof.lean",
+      "proof_sha256": "cd12760846db4ea6eba1393c533f2ecea86314c376dd2c4ac22d663539edbedf",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "verify_log_sha256": "64281b41cc00905b3a5127be7f245e74d88e554ed00dfc656a45327c3d4e80c6"
+    },
+    {
+      "case": "aggregate-index-safe",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "d8092c67e610b6fc47eb2d90ceaab677fe6f3026531a261a22ee996dab34d832",
+      "generated_sha256": "11743e3f4c42de3a6e9d676ef98a287a01873eb66712c5ec1b797c34b73ff966",
+      "proof": "proof/SubmittedProof.lean",
+      "proof_sha256": "9a55501fb48f6bc9a1440bf66453d8e2faf3e01ef7f3461dad1268dc6d3ca389",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "verify_log_sha256": "64281b41cc00905b3a5127be7f245e74d88e554ed00dfc656a45327c3d4e80c6"
+    },
+    {
+      "case": "aggregate-index-wrong",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+      "generated_sha256": "ceb23d7e781b83f5709786748fe4ab116f190448c3670f0dd4b697920e3906e7"
+    },
+    {
+      "case": "aggregate-index-inactive",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "6fd7a15b922048d9e626ed9fd13538e115ba7f7526b8b0009b905f96f1f00c46",
+      "generated_sha256": "23220d071e6c2f2a19355bcfb37c0d935bc8702e22ef1e085925c2f64674466a",
+      "proof": "proof/SubmittedProof.lean",
+      "proof_sha256": "9a55501fb48f6bc9a1440bf66453d8e2faf3e01ef7f3461dad1268dc6d3ca389",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "verify_log_sha256": "64281b41cc00905b3a5127be7f245e74d88e554ed00dfc656a45327c3d4e80c6"
+    }
+  ],
+  "acceptance_summary_sha256": "4a7344be6aa73f64f13ae73cc636b419a1bc511512356989eddd5650002b43d0",
+  "log_sha256": "b1200c016c488b9df1436fedb061d04b39069bbb8bde5e141ef09d3d96c006c0",
+  "execution": {
+    "interrupted_then_resumed": true,
+    "initial_summary": "artifacts/acceptance-interrupted-20261027/result.json",
+    "initial_log": "artifacts/acceptance-interrupted-20261027/initial.log",
+    "resume_log": "artifacts/parallel-core-resume.log",
+    "completed_before_interruption": 39,
+    "reason": "control-mixed: expected PROVED, got {'status': 'ENVIRONMENT_ERROR', 'message': 'Pinned DXC file missing/changed: dxcompiler.dll'}",
+    "recovery": "Official cached DXC archive and all pinned binaries SHA256 verified; core Lean smoke passed; core sources unchanged",
+    "review": "basic_math_expansion independent recovery review Verified",
+    "executed_after_recovery": 30
+  },
+  "resume_log_sha256": "8e0a8834988173f7d573df53db7432f1243c5175aed5bf091baebc135a327901",
+  "interrupted_summary_sha256": "bdfab46dc686fccd84d805982dd1fe755d2481867db02d27472673fde1a640e3",
+  "recovery_smoke_log_sha256": "91808c45d05dcc25c32d688c6db15f80d4213a19a5dc5245e34c2d8b33f9c395",
+  "resume_helper_sha256": "addca08fdc7b57f3818eed54841229dc394c1d12a088c1ae92e26f0ccba79baa",
+  "source_files": {
+    "examples/basic-math/auto.optimized.hlsl": "1b3952295d55b898e4dab4d64881394ede5550c83aaed8f73043e41fda3aef6c",
+    "examples/basic-math/auto.original.hlsl": "d1ba4db553428cc926bca8a483a1c62c4a4c10bfca0af17a5ba17969d655815d",
+    "examples/basic-math/auto.wrong-domain.hlsl": "0e43af20fe30772728ccaf4ab5e51b541ddeba2cdeacef2621ed2fe2f12d4a91",
+    "examples/basic-math/constraints.json": "2675c65bf84863fde631fae532fefe4ae3a5779fb5dbc059b00a9655abd901e8",
+    "examples/basic-math/domain.optimized.hlsl": "feb906a8efa8fac82524cd19df771732c5d0a48afc268f5ff8461beed6d0fd1b",
+    "examples/basic-math/domain.original.hlsl": "4450aa5f23bca2eb7980b53c8bb9db2dcda736a2b4b98f5e627f20cc5840e91e",
+    "examples/basic-math/domain.wrong.hlsl": "2e2c72073ba61e2f232e8614806d33499f4feac29b472377e9b041e3f7566409",
+    "examples/basic-math/optimized.hlsl": "b58cdfa1562b92ed31c08410d71bf726c3bfb9a4db283368a11262786a011154",
+    "examples/basic-math/original.hlsl": "281321cc34ade46685d419de053de008db18e0a8cb67aed5814738ca4c684a13",
+    "examples/basic-math/wrong.hlsl": "224f3ad09c563d0dd632176ace1b1e1838b2d8f2379426ebb1dc3f95632ffd42",
+    "examples/compute/alias-constraints.json": "e2939aa09b67b241ed7f0623c8b0bdbc9fabda71704c61d34278a964e5141b2e",
+    "examples/compute/alias-optimized.hlsl": "423cea19f74b1ffe67d0a58783532167a3b7119afe06f71f9971af840eef73ad",
+    "examples/compute/alias-original.hlsl": "6e76837c03888f075a60f50ac57ac7dfd18b951d343fadc519248051638cbf68",
+    "examples/compute/alias-write-read-conflict.hlsl": "2dd9ce3f554c8660b5d0b4744413d587904944c23930c0f95a5c0fd8b79341e6",
+    "examples/compute/constraints.json": "f7f00e59a35f4d921a9f33e7fe8585fc0e0729e052020c995ea4b1dbd4f35ed4",
+    "examples/compute/controls.json": "7f98d1601c3c529fd11405273abc7118a01f043fceda4e72c9878fcf2163918b",
+    "examples/compute/optimized.hlsl": "fe3d6efa1684db63c871b7043e9756f6bb043fc1a4023a53cefe2c5a4c983c7e",
+    "examples/compute/original.hlsl": "ae48939d7c02f89a4e051c6b17b6e3f1b359a8fd9f0ba66a9c3451f5622b03d7",
+    "examples/compute/out-of-bounds.hlsl": "5efc8cfdef3540dbb97eee8199ad0a9a256fb428f4740c42b506207ba4cc1a5b",
+    "examples/compute/write-write-conflict.hlsl": "1e2b1ac5132fbcf7962b84a11c25fd4b8b8e52ea5929732d3231a09e759b2823",
+    "examples/compute/wrong-output.hlsl": "125313e5cadae4933bc3afee03709cd2df30ad02b7b7636b935871e918d1dc49",
+    "proof/AgentProof.lean": "af907b2a6a3baab2f8b13985de886070ceaa5aa2db1308617facc594542466a8",
+    "proof/AggregateDomainProof.lean": "9a55501fb48f6bc9a1440bf66453d8e2faf3e01ef7f3461dad1268dc6d3ca389",
+    "proof/AggregateFieldProof.lean": "cd12760846db4ea6eba1393c533f2ecea86314c376dd2c4ac22d663539edbedf",
+    "proof/AggregateMaterialProof.lean": "29be2149fffb7e6fc0de720e70a89d8d1e7e6c25dc313bb416d9cb334fe6bc60",
+    "proof/BasicMathAutoProof.lean": "a53edc1f8427004484e35f827a14a329a558f2890a725d0a9e5d3077623561b2",
+    "proof/BasicMathDomainProof.lean": "6cff3fc2874e04339bff1158e52899c8cadb0d6692c46bbfff7ca6b5756ece9d",
+    "proof/BasicMathProof.lean": "a1ed64eaf24b5d744eb300de9b2b68c147372f300bf728401dcb20e3895c3640",
+    "proof/BranchedProof.lean": "4a62da4962ea3fefb0e1a10b72388242f199cdf6055d1b90502d3ff946e16425",
+    "proof/CompleteMaterialProof.lean": "5ced48dfd8744b74a43b12ece4972fa0943f13c1a71314586ce245e08d812e2d",
+    "proof/ComputeAliasProof.lean": "f190774db6e1d77392700e87ba2c48989842757c72bd81992fd1fd608f3b562d",
+    "proof/ComputePostProof.lean": "484b252857af6db038bcad7dabc47517313f6ef489cfa2bdddf32d413b7f2581",
+    "proof/ControlAliasProof.lean": "3b1706be9993b6b14ec8346a5968165ba8f2a764ada052d1f657717df1983fbd",
+    "proof/ControlDomainProof.lean": "4f9041dada0d32307b583f757b83022a428ce8119b907b466c1475903d9d5ed3",
+    "proof/ControlElseProof.lean": "edfb8f2037bdf5a81ff54af10fbbc9d35ba58aa6ebea3073b63b7904160d3ab9",
+    "proof/ControlHelperDomainProof.lean": "2671800a7cb082655a2e21c3cdce3c7f5f16ad5e41cb33c0e94356df874a224f",
+    "proof/ControlHelperFieldProof.lean": "3aa66e9bad1e57e1542db673576c5b86d883ef6082fc1514a318a674e56ac73e",
+    "proof/ControlMixedProof.lean": "25634870716a58cdbbe992db04771bdb3c541ac664ed6926fa499e352a919f02",
+    "proof/ControlReturnProof.lean": "596ed71d47792f98ffd1f2a49bf8ef809db9541ba894f8c4e0b08247e974834a",
+    "proof/CopybackClipProof.lean": "ec69c0256c73e30ea4b381dc85b4bddd68f9b2de688536ebb4178d7156e60341",
+    "proof/CopybackDomainProof.lean": "ea82bd01da782234ca0b405e5ae6a80e72d6d14bbd8b2646985df23c5023cf62",
+    "proof/CopybackFieldProof.lean": "6d9e5bbfd159a147bf9444992942cc6edc15ba63199f068bedd827a7fb1caa6c",
+    "proof/CopybackStructuredProof.lean": "528f7bca75d0e308b531bb57f443568e177cc580fa2ac6c9b029aed93dc71c8c",
+    "proof/LoopDomainProof.lean": "d61a1b74c4512703722eec484d0d5c83c33f36e9b8d19a9011c9faa121936133",
+    "proof/PackedProof.lean": "23f6f7c83b3fb47984fbb8d59d72a30b568c0040f98defd092da34c1b84b3d6e",
+    "proof/PackingDomainProof.lean": "47aa5763e5a11ae38d52033b981ffd0bb674ac0c95564e54d11f84f6d44aa8de",
+    "proof/ShaderFormalize/BootstrapSmoke.lean": "f59d7dbed6a8bea035f011ae0511c4d6d076df670a1d16570cf002682340c530",
+    "proof/ShaderFormalize/Compute.lean": "00d4ffd9a7b943fd7e33919b22371f576b01b3e16c318bd0bef2e61e793e2190",
+    "proof/ShaderFormalize/Control.lean": "1bdb1e21015cd10e05593ec42bf1c8c6d522ed9d9ffb2ac6f33f8bda4f90b44b",
+    "proof/ShaderFormalize/FetchCache.lean": "1249d5497ad4872275e95e0ea1957bbf706aba287e5c0fd9cbdaad653b20a4ba",
+    "proof/ShaderFormalize/Fragment.lean": "c7a4195c9b5b84ce39a959e1fff8870ccb4a6f9e302bda8aa957302bf1ea069a",
+    "proof/ShaderFormalize/Model.lean": "5a3af29b09a4696a1632b0e30595d5465d9486cd71d604bdb1fbcea512133d4e",
+    "proof/ShaderFormalize/Packing.lean": "b7a28c0eeb178976e7060e1053bd45926eccf6e395d6087b3851632ef841f350",
+    "proof/SharedHelperDomainProof.lean": "ea82bd01da782234ca0b405e5ae6a80e72d6d14bbd8b2646985df23c5023cf62",
+    "proof/SharedHelperFieldProof.lean": "afa30ba78a9b14c61c96e637293ef59f1be2f1d25ed43771bd2775b63ed057df",
+    "proof/SharedStructuredProof.lean": "e471f68c746db7dea27f88be32cf028edf4cb6758081f5a4050afbb65e6054d7",
+    "proof/StructuredProof.lean": "bfb0e583b8b54223e5c56d67c1d9e081e1b0d49a196f5e61df62ad38133e1487",
+    "proof/SubmittedProof.lean": "9a55501fb48f6bc9a1440bf66453d8e2faf3e01ef7f3461dad1268dc6d3ca389",
+    "proof/TexturedProof.lean": "9bc224cce89c955f816e709e026a759e765abf83e3a70e8f14a823032a29556b",
+    "proof/UnlitProof.lean": "bfb0e583b8b54223e5c56d67c1d9e081e1b0d49a196f5e61df62ad38133e1487",
+    "tools/analyze_shader.py": "59d4d00785b30f77a193672ae507ec233b6fb74bccd253d655f8c684c7f8c993",
+    "tools/computeformalize.py": "83104279b9c765b142248dc3a6ae1d167053f4921e2d88d1861bf0540d658241",
+    "tools/download_release.py": "4d12da52a50fd07d638dfb5cc411f4f2a01391d76c839ba06186d9d8866d2c31",
+    "tools/dxc_ast_index.py": "a65f87aabfc62bfd1e8dd2989a6d32254c64127cd23b5ed4b8a8682a9766fda0",
+    "tools/inventory_hdrp.py": "c58139c192cecf71b4ec2ebeb560a0cd74c4b64c4dfff0c9cea7d873180f60de",
+    "tools/run_compute_suite.py": "464beb2dfa619509ce04a989a68759b0ecdbccd6a246c47ae49396d754dc3550",
+    "tools/run_unity.py": "6bbb21288c03ea240c221927ce6883ac3f873dd64cb8e164f278cdb13f574985",
+    "tools/seed_dependencies.py": "a09236eea153d5ab2a9c2c6efc10f3e4aa5bc5fb1009837d1262cd6bf93314a6",
+    "tools/shader_access.py": "d22ad3e260e9c62c85593eb328359421684a08962a39ee257002b28f3b70a9b2",
+    "tools/shader_addresses.py": "ea21e5e7af4ce3b20a12ff8acf1161d2ee3b4679af2e8cd1c2d7422b854c3a30",
+    "tools/shader_aggregate.py": "30a92b2277582496b71c97efc15db279f1015ba3b6807496bbc167419b4d8181",
+    "tools/shader_aggregate_metadata.py": "973c6981c3fead2bb5b5ca74d530d40412e913dbb3f8f662907600e76ca523f1",
+    "tools/shader_aggregate_types.py": "7efe9536a257091651202bc61352a2c289a03facc0f961a291fbefa43bf50406",
+    "tools/shader_aggregate_values.py": "7e75d66016e8d5461d09535b0f5c45f37243d06d278709f6a67c6ebb57e231d1",
+    "tools/shader_ast.py": "4f369885048951a027834ffae295d1e50744d41f1a3d4dbb0d8ac8dba6f26d8d",
+    "tools/shader_boolean.py": "11cb4ae5b82f6054cb0f2e5f2e65dddc49ac5267157c6a055552e22f2387ec18",
+    "tools/shader_compute.py": "3aa6538d9e95680574f1b81ed93a3dea7ce83d8308642bcf7f532a62a1893929",
+    "tools/shader_control.py": "a38a92ca6028e6cb25d118cff283f6fcbc5a6d77c51386626f2ea55cdc7fea59",
+    "tools/shader_control_eval.py": "13f5d2c5c82063a73150b0ed503a8b25aea4180a01dbcdc9c4327175a0846052",
+    "tools/shader_control_lean.py": "e47beb7a97276004bd01a5067246b8462bcd73e9dcef01c674525a86c17b4304",
+    "tools/shader_control_values.py": "5172f501d5dec5590a32c874706fe6381080cb3f26782ccf2e179bb7fee4c15f",
+    "tools/shader_copyback.py": "9e7af61e321bc16124742be7874c18ac5463de1b782dd02c187b3520ccc7d1d9",
+    "tools/shader_effects.py": "2c9eb1c0681285a8ec8001d52e65879974b7ddf094bcf34e6db222f1ce0bbe2f",
+    "tools/shader_eval.py": "85b92ee0c691b5d612c601dc726700e0dddbe8729f0c3bbe4f400f4e8c5bf63b",
+    "tools/shader_fragment.py": "1e381d29d26b79a2fd10b62eba01686d2ebfdf95de5410372e42fa6f137e4889",
+    "tools/shader_fragment_eval.py": "260c92a88e03382aeb199ae613f1b2f6974c8d5cf9440e82406e8eb949c7aab8",
+    "tools/shader_frontend.py": "f537f12b809a08b8f7e16c46445d8ea3f2b3872efb12fbf185af22342edc57aa",
+    "tools/shader_lean.py": "04398a37afe5bf02baae3e13ffbec9ea983acf7d6c8af801be5e0ae72fbec63f",
+    "tools/shader_loop_metadata.py": "1a040c91c18e4ea3eb3ae460df7538d2286206dbbd33c437664e81040c1443d9",
+    "tools/shader_loops.py": "a87cc4a286eb8b508c25236bd1fa89edb40ab0c777447216cdc63d70f07b4746",
+    "tools/shader_math.py": "a3896ecea295ee0763663161bf7af93443355f4741746d15104d7af680d47d0c",
+    "tools/shader_model.py": "26ab13684bd54c4fcd59891721ccba20bef52da7d54c0d00180c41ca48b97ccc",
+    "tools/shader_packing.py": "fbb9726d1027cecdc30f71be45f33af559bfd9c1f6fbb09218560dc261f2a23b",
+    "tools/shader_packing_eval.py": "f9083a2040d0c230d7af7cb1b66cc048d6f8a5521541f691744b9de91f281915",
+    "tools/shader_packing_lean.py": "c23f044f82482ede07994ff6e495a22c34262f381a4e58753903a6b6f8daf356",
+    "tools/shader_shared.py": "d4e24c1e6b4b5e508c4084f631c4542102ad1e2ebe810385e83aa77dab69ccba",
+    "tools/shader_shared_eval.py": "7f77f0c97c8c277958fc315b3a8fe666d0b502aa7fc79a2ca3b6ae97636d8a06",
+    "tools/shader_shared_lean.py": "3fd8452f6fb4ff6578efa3a651eaed9f1585be8323aa6e232bf3d517d77cf7be",
+    "tools/shader_types.py": "efee0e5f755ce022034a7e143492fefb07cc0ec607c4a4920e72eddb7c30d361",
+    "tools/shader_validation.py": "8116367656732068a701fc9433bdcd2d47f645c7f47cda043108ffc206f8c10a",
+    "tools/shaderformalize.py": "86b64ed0c82e7a718e83abe1958b4689556cba7a2912de576ddecdcde3def8ec",
+    "tools/test_aggregate.py": "cc926db2d5f051b90e8f7b115fd0acd998fb838ecc2f6244c7ed16894d6cebb7",
+    "tools/test_ast_index.py": "755c0f431141e8fedde6ab27e11672cd3ab88552660a4a708bff7ee0c59b2839",
+    "tools/test_basic_math.py": "4965d8ab6944bb8dcdca6fcf0cacce8ec30d6a306fbc7623bc276ca0c4ac1d9a",
+    "tools/test_boolean.py": "09836732038797be7c862a37c3b08951a88571644ae8b09a234439b13c08bc6d",
+    "tools/test_compute.py": "aadea6fc398a7a5c8cd3759139b903afa08287fd4b6ce62cbb9ecac9cbcfe05d",
+    "tools/test_control.py": "20855ab2c6789574905d4d2c3c08efc6961d576a0fd53bbf84d6cacf86237643",
+    "tools/test_copyback.py": "344abc8baf1922951bebe62bdf9940543995ca0b98472a176520edcc122c0591",
+    "tools/test_fragment.py": "4dd059d9ecfdbdc2e49e1d139fb09a585ea45ce94266c6bf6df5024e061715d8",
+    "tools/test_loops.py": "2a6ffb69b3bed3a53dffa27c280deff9bcbd7765e8060fc6b77ecc6cfbc374ee",
+    "tools/test_packing.py": "ac666957f0ed83c3d33d8d16f798f8bc5c9d68338dc5a747a4e8e81b25a710f6",
+    "tools/test_portability.py": "2b9aee86491a8657cb6b2a550ee0f40ab2f37644bc58451a2f9c218fb8074672",
+    "tools/test_shaderformalize.py": "f66b09d95453e8514cf8faf388ad447ba9ec4456cc848002cacba04b3419930c",
+    "tools/test_shared.py": "53b3db67ae8218565010bb4fd53d312ed5b291766cf8861004afd8ff09d2222b",
+    "tools/test_structured.py": "89f18804b4209e8ace186b543a02dea159a3e3de2d81118c4834ed15f81190c9",
+    "tools/test_unlit.py": "a7daeef26df2b5d9222a6facf85bf7a7148d27275ab120fcb40d81e179773761",
+    "tools/verify_demo.py": "a646bee3d6d48d4f71955194a96e769269e3aac4ee0ad34a07a56ee337142ca6"
+  },
+  "dependencies_lock_sha256": "9acfaf31d323e18a29aed29553315da698c61b4d2037bd7bc4b6e18bba502370",
+  "lake_manifest_sha256": "56e940f0e5f093d6124567592bb4b1d3f0c62d6408aea2678700ffffefa14e6e",
+  "scope": "Ideal-real fragment/basic-math and experimental 1D Compute buffer semantics; no IEEE hardware or Unity claim",
+  "reviews": {
+    "math": "ieee_library_integration Q1 Verified; 3 PROVED/3 UNPROVED isolated controls and 27 identical legacy targets",
+    "compute": "basic_math_expansion Q2 Verified: final six captured ASTs regenerate identical models and Lean targets; reports, proofs, semantics and axioms match; root runner integration checked"
+  },
+  "final_evidence_review": "basic_math_expansion Verified: all 69 unique runner cases match summary, 32 positive bindings and 117 source hashes match; actual 242-unit log plus disjoint 39 earlier and 30 resumed controls; interruption retained; no Lean rerun"
+}

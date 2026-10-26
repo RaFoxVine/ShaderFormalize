@@ -7,9 +7,9 @@
 - 主目录：D:/2FileBuildWorkPlace/Formalize/ShaderFormalize，分支codex/shader-equivalence-planning。
 - c3a2297：本批委派、切片与精确授权；新Session shader-expansion-parallel-2026-10-26，封存hash见authority。
 - c401924：固定VerCors2.4本地接入及实际并行/barrier正负例。4项PASSED，独立Q1 Verified；入库证据../evidence/vercors-integration-2026-10-27.json。
-- 563955a：数学与实验性Compute产品源码、独立命令/手写证明/例子及统一runner已整合提交。源码审阅通过，默认完整验收仍进行，不能提前称最终全套通过。
-- 主目录完整验收初次运行`pwsh -NoProfile -File tools/run_demo.ps1`（原session58689）因DXC文件缺失中断：实际242单元及39控制已通过，其中包含新增6数学和6Compute。原失败摘要/日志保存artifacts/acceptance-interrupted-20261027。DXC已由本地官方ZIP核对锁SHA后恢复，所有固定二进制及核心Lean smoke通过，核心源码无变化；独立恢复审阅Verified。当前仅续跑剩余30控制：ignored helper artifacts/resume-parallel-acceptance.py，exec session61456，日志artifacts/parallel-core-resume.log，最终摘要仍artifacts/acceptance/result.json。不要启动第二份主目录CLI或改正在检验的核心源码。
-- 最终成功后运行ignored helper `python artifacts/record-parallel-evidence.py`，它只接受实际PASSED的统一摘要，并核对目标、输入、证明、语义与公理日志后记录入库证据。其存在不代表验收完成。
+- 563955a：数学与实验性Compute源码及统一runner；独立审阅通过，最终完整验收已完成，242单元/69控制=32P/35U/2INVALID。
+- 主目录初次验收`pwsh -NoProfile -File tools/run_demo.ps1`（原session58689）因DXC缺失中断，已完成242单元及39控制。原失败摘要/日志保留artifacts/acceptance-interrupted-20261027。固定DXC恢复及核心Lean smoke通过后，核心源码无变化，独立恢复审阅Verified；ignored helper artifacts/resume-parallel-acceptance.py实际完成剩余30控制（session61456 exit0），日志artifacts/parallel-core-resume.log，最终artifacts/acceptance/result.json为PASSED并显式保存39+30中断上下文。
+- ignored helper `python artifacts/record-parallel-evidence.py`已实际运行，只接受PASSED统一摘要，核对目标/输入/证明/语义/公理日志后生成../evidence/parallel-expansion-2026-10-27.json。该JSON保存代码、报告、原中断及续跑日志hash，未把单次失败伪装成无中断通过。
 
 ## 数学切片
 
@@ -43,4 +43,4 @@ Compute隔离证据先保留到主目录artifacts/compute-isolated。手动移�
 
 恢复使用既有独立Windows副本的官方DXC压缩包，完整SHA及三个binary均与核心锁一致；核心Lean/lake二进制也匹配，BootstrapSmoke实际exit0；独立Lean4.35文件总数和体积仍与迁移前完全一致。源码、已有报告和证明快照无改动。恢复审阅另外对中断前未纳入组摘要的五个control例，从捕获AST重生成，目标逐字相同。已完成39个控制可复用，剩余30个必须实际续跑；最终摘要保留中断事实。不要把初次失败日志改写成单次全通过。
 
-主目录后续工作：等待续跑和最终Q、更新机器证据与当前说明、记录真实完成状态并git push。必要的IEEE环境已经保留主目录；基础数学与IEEE临时worktree暂留，以避免共享链接再次影响主环境。未执行merge、正式H-X或Node归档。
+本批实际续跑已完成，收尾证据审阅后结束Session并推送。必要IEEE环境保留主目录；基础数学与IEEE临时worktree暂留，下一批先做源快照再复用，不归档这些共享链接。用户已明确批准下一轮四项Overnight，计划在../overnight-expansion-2026-10-27/。未执行merge、正式H-X或Node归档。

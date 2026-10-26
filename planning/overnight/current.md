@@ -4,6 +4,13 @@
 ```json
 {
   "created_at": "2026-10-26T23:47:14+08:00",
+  "final_results": {
+    "compute": "DONE",
+    "ieee": "DONE",
+    "math": "DONE",
+    "synchronization": "DONE"
+  },
+  "finished_at": "2026-10-27T02:06:46+08:00",
   "grant_sha256": "6632ef1efc2581bfda4ef504b0335f90c939295bad955da7cd2db7c4dfe6c884",
   "items": [
     {
@@ -140,9 +147,9 @@
         "563955a"
       ],
       "grant_reference": "planning/coverage-expansion/execution-authority.md#compute-001@revision-1",
-      "result": "IN_PROGRESS",
-      "summary": "主目录2正4负完整控制通过，独立Q2 Verified；与数学整合共242单位已通过，完整旧回归恢复后续跑中。",
-      "updated_at": "2026-10-27T01:30:01+08:00"
+      "result": "DONE",
+      "summary": "Compute2P4U和独立Q2通过，旧回归恢复续跑完成，总计242单元/69控制符合预期；保持完整内存、访问和跨线程安全目标。",
+      "updated_at": "2026-10-27T02:05:44+08:00"
     },
     "ieee": {
       "commits": [
@@ -158,9 +165,9 @@
         "563955a"
       ],
       "grant_reference": "planning/coverage-expansion/execution-authority.md#math-001@revision-1",
-      "result": "IN_PROGRESS",
-      "summary": "已整合10项数学运算，主目录242单位、新增3正3负通过，独立Q Verified。旧回归DXC环境中断已恢复，39控制证据有效，剩余30续跑；核心源码不变。",
-      "updated_at": "2026-10-27T01:30:00+08:00"
+      "result": "DONE",
+      "summary": "最终242单元/69正式控制全符合预期；新数学3P3U，独立Q通过。39项中断前结果有效、30项实际续跑，精简证据已生成。",
+      "updated_at": "2026-10-27T02:05:44+08:00"
     },
     "synchronization": {
       "commits": [
@@ -175,8 +182,8 @@
   "request_text": "外部工具尤其是论文，我认为他们的置信度不低，所以他们声明他们能做，那么我们可以当他们能做，进行简单检验以后觉得没问题我们就可以拉过来（不要为了后期的严格而在早期给自己增加奇怪的工作量，我认为我们还是先以大框架为主，只要置信度覆盖一般情况，就先往后过）。\n接下来我们可以开多个subagent进行同时推进。我认为你提出的上面四个推进方向都是有很多可以并行的内容的。",
   "schema_version": 1,
   "session_id": "shader-expansion-parallel-2026-10-26",
-  "status": "running",
-  "updated_at": "2026-10-27T01:30:01+08:00"
+  "status": "finished",
+  "updated_at": "2026-10-27T02:06:47+08:00"
 }
 ```
 <!-- SMART_OVERNIGHT_STATE_END -->
@@ -188,5 +195,20 @@ Record task-specific planning and evidence in the owning Node artifacts. Keep on
 ## Final Result Report
 
 <!-- SMART_OVERNIGHT_REPORT_BEGIN -->
-Not finished.
+# 四方向并行扩展结果
+
+本批四项已完成，源码已发布至origin/codex/shader-equivalence-planning。
+
+- 数学：min/max/abs/clamp、源码除法、sqrt/rcp/rsqrt/length/distance接入现有实数路径，实际执行域进入完整待证目标。
+- Compute：独立一维StructuredBuffer两输入两输出入口，保留物理alias、同线程有序读写、完整最终内存和跨线程WW/WR安全目标。
+- 浮点：固定FloatLib、独立本地Lean4.35；2396构建任务、19运行检查、两条上游定理通过，主目录迁移后热跑及独立Q2通过。尚非HLSL IEEE导入。
+- 同步：固定VerCors2.4，本地PVL并行/barrier四控制实际符合预期，独立Q通过；尚非HLSL同步导入或Lean桥接。
+
+核心最终242单元、69正式控制均符合预期：32 PROVED、35 UNPROVED、2 INVALID_INPUT。初次运行在39控制后因DXC缺失中断；官方ZIP和二进制哈希恢复、Lean smoke通过后，实际续跑30控制。日志/原失败摘要及中断上下文全部保留，最终独立证据审阅Verified，没有将失败记录改写成一次无中断通过。
+
+实现提交563955a、浮点提交8372a6e、同步提交c401924。精简证据在planning/evidence/parallel-expansion-2026-10-27.json、ieee-integration-2026-10-27.json、vercors-integration-2026-10-27.json；核心4.24、默认实数语义及Unity独立性保持。
+
+临时worktree清理遇到共享链接风险：自动审批拒绝手动移除链接，内置归档后DXC缺失的具体删除原因未完全确定。工具已恢复验证，两个临时目录保留，必要IEEE环境已位于主目录。
+
+用户已批准下一轮Overnight：七项数学、HLSL IEEE入口、二维纹理Compute及HLSL同步安全。下一批具体Frame在planning/overnight-expansion-2026-10-27/，需要新Session及各项精确Grant，不复用本批已完成授权。未执行merge、正式H-X或Node归档。
 <!-- SMART_OVERNIGHT_REPORT_END -->

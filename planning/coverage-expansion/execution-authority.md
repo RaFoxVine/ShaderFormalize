@@ -6,7 +6,7 @@
 
 ## Grant math-001@revision-1
 
-- status: active；source: delegated_session；item: math。
+- status: completed；source: delegated_session；item: math。
 - target: parallel-plan数学10项及所列前端/发射/求值/证明/正负控制；根agent负责公共runner/CLI消费者与主目录集成。
 - current_target: C:/Users/xc/.codex/worktrees/basic-math/ShaderFormalize；该agent唯一代码writer；主目录仅根agent整合精确补丁。
 - authorization_message_exact: “接下来我们可以开多个subagent进行同时推进。我认为你提出的上面四个推进方向都是有很多可以并行的内容的。”
@@ -14,6 +14,7 @@
 - exclusions: 默认数值语义变化、新隐含前提/公理、全局配置、Unity写入、merge/archive；不写其他agent文件或共享生成/构建目录。
 - oracle: 代表材质与域/错误输出正式正负控制、旧目标兼容、最终默认全套及独立Q。
 - stop: 需降低既有实数/实际执行域保证；Q第三轮关键问题未闭合。
+- result: 563955a，独立Q通过；最终242单元/69正式控制均符合预期，新数学3P3U；中断恢复上下文见../evidence/parallel-expansion-2026-10-27.json。
 
 ## Grant ieee-001@revision-1
 
@@ -29,7 +30,7 @@
 
 ## Grant compute-001@revision-1
 
-- status: active；source: delegated_session；item: compute。
+- status: completed；source: delegated_session；item: compute。
 - target: parallel-plan的1D StructuredBuffer Compute AST→Lean、独立experimental命令、两输入两输出及负控；严格包含物理identity/线程内有序overlay/完整内存/范围与跨线程WW/WR安全目标。
 - current_target: C:/Users/xc/.codex/worktrees/compute-load-store/ShaderFormalize；该agent唯一代码writer；独立生成目标/构建。
 - authorization_message_exact: “我认为你提出的上面四个推进方向都是有很多可以并行的内容的。”
@@ -37,6 +38,7 @@
 - exclusions: 修改默认ps路径、跨线程竞争任意顺序化、隐含无alias假设、宣称任意Compute或同步、全局配置、merge/archive。
 - oracle: 正常后处理完整等价与安全目标实际PROVED；错算、越界、冲突/alias负例不能PROVED；独立Q。
 - stop: 需要弱化完整状态或安全目标；Q第三轮关键问题未闭合。
+- result: 563955a，独立Q2 Verified；新Compute2P4U，最终242单元/69正式控制均符合预期；见../evidence/parallel-expansion-2026-10-27.json。
 
 ## Grant synchronization-001@revision-1
 
