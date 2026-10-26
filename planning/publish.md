@@ -48,7 +48,7 @@
 
 ## checkpoint-4：矩阵/数组完整验收与独立Windows复现
 
-- status: approved
+- status: completed
 - source: running sealed overnight publish委派，用户明确要求完成后push；免重复方案审阅持续有效。
 - target: 当前分支9bec4aa及全部祖先和已验证矩阵/数组190/53/Q2、Windows三正例证据/说明/后续循环条件授权；循环产品仍只在ignored副本，本检查点不包含它。
 - readiness: 全部53正式控制符合预期，25 PROVED；独立Q2最终Verified，同锁Windows复现及事实核验通过；无未审产品/秘密/缓存/Unity入Git。
@@ -56,3 +56,5 @@
 - exclusions: force push、merge/rebase、改remote、发布未验证产品/工具缓存/Unity、archive。
 - stop: 远端分叉、认证/网络失败或无关修改。
 - acceptance: 实际远端SHA等于推送HEAD；循环和最终报告仍继续。
+
+- result: 非强制push成功；远端ls-remote与当时HEAD均为72418757553d829b9590befc542a057351b2895c。循环产品尚未应用，不在本检查点。
