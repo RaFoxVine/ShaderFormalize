@@ -1,0 +1,100 @@
+{
+  "schema": 1,
+  "status": "EXTERNAL_LIBRARY_PROTOTYPE_PASSED",
+  "checked_at": "2026-10-27T01:20:50.6067170+08:00",
+  "command": "lake env lean --run Main.lean",
+  "exit_code": 0,
+  "lean_version": "Lean (version 4.35.0, x86_64-w64-windows-gnu, commit eb6cafb7290e8bd5f2937522d8d804f58f02bafc, Release)",
+  "shader_cli_ieee_integrated": false,
+  "interpretation": "FloatLib binary32 reference operations, nearest ties-to-even; HLSL GPU profile not yet connected",
+  "main_sha256": "3e24b5e2f17d13add84e49980e13621400157b35d6959fff2804a889afc40196",
+  "lake_manifest_sha256": "9ffad8fec4e7dc10c185f2fb2cddd3511c22c912851186c9be22e64d53e82ade",
+  "dependency_lock_sha256": "d2e290b950b935a537655d8dd27f9f9b6ca78ff0040d43a1c4784a3ff446a9a6",
+  "log_sha256": "5cb43717979a42e00aaaac0fb7ca5977eaf4bad440632e8c68b72973abcc79ad",
+  "packages": [
+    {
+      "name": "mathlib",
+      "url": "https://github.com/leanprover-community/mathlib4",
+      "rev": "56a005855ea17e0b0958f73ec801ae140b0a1679"
+    },
+    {
+      "name": "plausible",
+      "url": "https://github.com/leanprover-community/plausible",
+      "rev": "dfa4f38190d07c37e315953e08b90fe2d95b3c24"
+    },
+    {
+      "name": "LeanSearchClient",
+      "url": "https://github.com/leanprover-community/LeanSearchClient",
+      "rev": "d6b4c7be5be75ec4917c873ac50c756dc1436372"
+    },
+    {
+      "name": "importGraph",
+      "url": "https://github.com/leanprover-community/import-graph",
+      "rev": "a41f0e9a4dea23188ea9cc1c41ac9f8bbafe0b93"
+    },
+    {
+      "name": "proofwidgets",
+      "url": "https://github.com/leanprover-community/ProofWidgets4",
+      "rev": "df72b022e558978a1c50264cfc4d7fec86fa8e04"
+    },
+    {
+      "name": "aesop",
+      "url": "https://github.com/leanprover-community/aesop",
+      "rev": "4a174c490d8707121c4a9290800489f105d85e07"
+    },
+    {
+      "name": "Qq",
+      "url": "https://github.com/leanprover-community/quote4",
+      "rev": "dce0ad79c486cb1fb504af04f953c3466b0c6db8"
+    },
+    {
+      "name": "batteries",
+      "url": "https://github.com/leanprover-community/batteries",
+      "rev": "66e469188fe07963e5cf666c7d4433f45b8131c5"
+    },
+    {
+      "name": "Cli",
+      "url": "https://github.com/leanprover/lean4-cli",
+      "rev": "c24fe6078c630e89b489bffe59b3e20ac30d12c8"
+    },
+    {
+      "name": "floatlib",
+      "url": "https://github.com/lean-dojo/FloatLib.git",
+      "rev": "8c8871576a941a86e73dcf0882702b823139aa93"
+    }
+  ],
+  "checks_passed": 19,
+  "date": "2026-10-27",
+  "scope": "Isolated FloatLib binary32 library integration, not HLSL IEEE importer or GPU execution proof",
+  "main_workspace_hot_run": true,
+  "isolated_build_jobs": 2396,
+  "isolated_build_log_sha256": "b346b4a2d34f41fb876ace89c45f7c17bc6ed2afd2f6727c69ef2f1cfb814b34",
+  "result_report_sha256": "33dadb346f9b9141f4120599ab1d98a09cd1006a4b10c115d1f433d97fb8f226",
+  "theorems": {
+    "ShaderIeeePrototype.executable_eq_reference": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "ShaderIeeePrototype.stored_value_roundtrip": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ]
+  },
+  "source_files": {
+    "prototypes/ieee/.gitignore": "1e60ced0ddc886a1b10cc64b10173550504ea923d0608748e58e116e4c6b345e",
+    "prototypes/ieee/bootstrap.ps1": "924d0c0328821d278f2528212ee63070d15884ad7f0042a24b39dd3ae141c7e8",
+    "prototypes/ieee/cache_targets.py": "0d6c963c0d8077f85f7d59039ebfbd5d5f328043f2e7ebe5a55d267b9c96dc5b",
+    "prototypes/ieee/dependencies.lock.json": "d2e290b950b935a537655d8dd27f9f9b6ca78ff0040d43a1c4784a3ff446a9a6",
+    "prototypes/ieee/environment.ps1": "5a3d1c989f5366427d0687d57a80a75a2af23d710ac7201f8048c7a6c4694405",
+    "prototypes/ieee/lake-manifest.json": "9ffad8fec4e7dc10c185f2fb2cddd3511c22c912851186c9be22e64d53e82ade",
+    "prototypes/ieee/lakefile.lean": "b9155f0e7bc7eb08acfefa9f46636946a5eccbd323f243908a62f3c1a9ea49ba",
+    "prototypes/ieee/lean-toolchain": "ca5f1f601d34c49079e38d7e7041eb0f2a9c227fbc1df0f404820069a052330c",
+    "prototypes/ieee/Main.lean": "3e24b5e2f17d13add84e49980e13621400157b35d6959fff2804a889afc40196",
+    "prototypes/ieee/README.md": "4ef6e36a9b15f714dfe02a733d187b152e273b14ed50bbe78799a75fafe78ac5",
+    "prototypes/ieee/run.ps1": "387678a952ede4a3916ce6efcb6ad6da84b4cc8f21a549ff28c023ab615a5318",
+    "prototypes/ieee/seed_sources.py": "cfd8a1482f11662a06ec3e0fe32282e410eca5069ff255793903adecff2ee55a"
+  },
+  "review": "compute_load_store Q2 Verified: main-workspace hot run, 19 assertions, two theorem axiom logs, pinned files, local Lean4.35 and common downloader reference checked"
+}

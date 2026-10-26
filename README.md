@@ -147,6 +147,12 @@ proof/ShaderFormalize/Model.lean和Fragment.lean定义数学语义。dependencie
 
 .tools/、.cache/、proof/.lake/、artifacts/、生成Lean模块由Git忽略；提交源码/锁/手写证明/模板/必要说明与精简证据。Unity资产由脚本重建，不把Library复制入仓库。实验和完整日志留artifacts便于诊断，正式材料见planning/evidence；用户资料不清理。
 
+## 可选浮点与同步原型
+
+[浮点原型](prototypes/ieee/README.md)固定 FloatLib 与独立 Lean4.35，可运行 binary32 运算、NaN/正负零和位解释检查，并直接应用上游定理。它的本地安装在本仓库内，与核心 Lean4.24 分开；尚未接入 HLSL 的自动浮点转换。
+
+[同步原型](prototypes/synchronization/README.md)固定本地 VerCors2.4，用实际并行访问和 barrier 权限的正负例验证外部工具可用。输入是 PVL 模型，尚未实现 HLSL 同步导入。这两个原型均为可选入口，不参与默认核心验收，也不依赖 Unity。
+
 ## 可选官方 HDRP/Lit 调查
 
 `python tools/inventory_hdrp.py --project '外部Unity工程绝对路径'` 仅供开发调查。当前固定HDRP17.5.0的Lit Forward宏配置，镜像并记录146份相关源码，固定配置的预处理和完整DXC typed AST解析均成功。独立的 `tools/analyze_shader.py --ast ... --entry Frag --output ...` 已能输出调用上界、默认实参/全局初始化和能力缺口；ANALYZED只表示结构分析成功。数学转换器仍拒绝该输入，尚无Lit等价证明，也不把Unity包写入核心依赖。[具体缺口与复现](docs/hdrp-investigation.md)。
