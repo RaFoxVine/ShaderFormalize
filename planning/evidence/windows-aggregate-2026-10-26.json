@@ -1,0 +1,229 @@
+{
+  "date": "2026-10-26",
+  "scope": "Same-lock source refresh of independently installed Windows x64 checkout; not a second blank installation",
+  "review": "Independent factual review passed; raw inputs, target, proof, four semantic modules, tool locks and actual standard three axioms checked",
+  "original_blank_evidence": "windows-fresh-2026-10-26.json",
+  "previous_source_evidence": "windows-copyback-2026-10-26.json",
+  "line_endings": "Main locks use CRLF and Fresh Checkout uses LF: parsed JSON matches, raw hashes differ across directories. Fresh raw hashes match its original installation baseline.",
+  "isolation": "Fresh dependencies and tools were downloaded by its original blank bootstrap; no junction to main tools, no copied build outputs, no Unity dependency. Separate from loop-development.",
+  "report": {
+    "status": "PASSED",
+    "commit": "9bec4aa4d6430c367e7fe70f7d70ccb671f95744",
+    "bootstrap_origin_commit": "69d058a84170fcd78e0c2ac617b31db9419a894a",
+    "initial_blank_bootstrap_evidence": "fresh-bootstrap.json",
+    "lock_hashes": {
+      "dependencies.lock.json": "eb2502ea5dc10629119cd08ac87b242a3c3a072c0446e53dd7bf641fb0f5d587",
+      "proof/lake-manifest.json": "30e84037d4c7684408b7b63dad0e195c6da9d247389a5be7ff02e7526c35e495"
+    },
+    "binaries": {
+      "lean.exe": "20bc808248e38cf072f84f4eb389f8f98e5925d703bcbfa400d9dd44f310c4db",
+      "lake.exe": "82375bd6d578a680032606c38a313899a99d47ea5fd33fdc9872e1b2e0d9f7b1",
+      "dxcompiler.dll": "5888d3e590f5bfd8743484e7f31313996734adec5741506271a5c6368cbe8ba9",
+      "dxc.exe": "ce11bb02f6027055e0b9f8c062d13b14f373c876a16557a4fa744314117d31e7",
+      "dxil.dll": "0cf5fa4b90f74550166108b3870c883f4a85243976b246b1da3ea90ad5b92015",
+      "leantar.exe": "a623f68963b36b1c33ebe1c4fa0f73f4103f3282b940320a9c1d1b543744c3d2"
+    },
+    "packages": {
+      "plausible": "dfd06ebfe8d0e8fa7faba9cb5e5a2e74e7bd2805",
+      "LeanSearchClient": "99657ad92e23804e279f77ea6dbdeebaa1317b98",
+      "importGraph": "d768126816be17600904726ca7976b185786e6b9",
+      "proofwidgets": "556caed0eadb7901e068131d1be208dd907d07a2",
+      "aesop": "725ac8cd67acd70a7beaf47c3725e23484c1ef50",
+      "Qq": "dea6a3361fa36d5a13f87333dc506ada582e025c",
+      "batteries": "8da40b72fece29b7d3fe3d768bac4c8910ce9bee",
+      "Cli": "91c18fa62838ad0ab7384c03c9684d99d306e1da",
+      "mathlib": "f897ebcf72cd16f89ab4577d0c826cd14afaafc7"
+    },
+    "unity_discoverable": null,
+    "git_status_before": "",
+    "checks": [
+      {
+        "case": "aggregate-material",
+        "exit_code": 0,
+        "seconds": 329.282,
+        "result": {
+          "status": "PROVED",
+          "inputs": [
+            {
+              "role": "original",
+              "path": "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\artifacts\\portability\\Fresh Checkout\\examples\\aggregate\\original.hlsl",
+              "sha256": "fbce9b9ee3c09c3d1404ec2e07543a825e724424808feec95f0a7a68a27ed20f",
+              "dxc_seconds": 0.203
+            },
+            {
+              "role": "optimized",
+              "path": "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\artifacts\\portability\\Fresh Checkout\\examples\\aggregate\\optimized.hlsl",
+              "sha256": "05075f0946be726c0a89556e94d74c36f574e0bc8ba3479dfc8fd37432f76ad4",
+              "dxc_seconds": 0.032
+            }
+          ],
+          "constraints": {
+            "schema": 2,
+            "ranges": {
+              "_ColorMix": {
+                "min": "-1",
+                "max": "1"
+              },
+              "_LightColors": {
+                "min": "0",
+                "max": "1"
+              },
+              "_BaseColor": {
+                "min": "0",
+                "max": "1"
+              },
+              "_RimStrength": {
+                "min": "0",
+                "max": "2"
+              }
+            },
+            "nonzero_vectors": [
+              "input.normalWS",
+              "input.viewWS"
+            ]
+          },
+          "model_schema": 6,
+          "generated_sha256": "71d12a0c94d92b258190df515436f21df7cf11b9b938acf9624ad35735671471",
+          "dxc_files": {
+            "dxcompiler.dll": "5888d3e590f5bfd8743484e7f31313996734adec5741506271a5c6368cbe8ba9",
+            "dxc.exe": "ce11bb02f6027055e0b9f8c062d13b14f373c876a16557a4fa744314117d31e7",
+            "dxil.dll": "0cf5fa4b90f74550166108b3870c883f4a85243976b246b1da3ea90ad5b92015"
+          },
+          "guarantee": "ideal real-number model with exact uint32 fields and guarded conversions; translator and DXC remain trusted",
+          "theorem": "ShaderFormalize.Verification.checked",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ],
+          "agent_proof_sha256": "29be2149fffb7e6fc0de720e70a89d8d1e7e6c25dc313bb416d9cb334fe6bc60",
+          "semantic_model_sha256": "5a3af29b09a4696a1632b0e30595d5465d9486cd71d604bdb1fbcea512133d4e",
+          "semantic_modules": {
+            "Model.lean": "5a3af29b09a4696a1632b0e30595d5465d9486cd71d604bdb1fbcea512133d4e",
+            "Fragment.lean": "c7a4195c9b5b84ce39a959e1fff8870ccb4a6f9e302bda8aa957302bf1ea069a",
+            "Control.lean": "1bdb1e21015cd10e05593ec42bf1c8c6d522ed9d9ffb2ac6f33f8bda4f90b44b",
+            "Packing.lean": "b7a28c0eeb178976e7060e1053bd45926eccf6e395d6087b3851632ef841f350"
+          },
+          "lake_manifest_sha256": "30e84037d4c7684408b7b63dad0e195c6da9d247389a5be7ff02e7526c35e495",
+          "lean_build_seconds": 282.75,
+          "lean_verify_seconds": 43.75,
+          "lean_version": "Lean (version 4.24.0, x86_64-w64-windows-gnu, commit 797c613eb9b6d4ec95db23e3e00af9ac6657f24b, Release)"
+        }
+      },
+      {
+        "case": "aggregate-field",
+        "exit_code": 0,
+        "seconds": 123.203,
+        "result": {
+          "status": "PROVED",
+          "inputs": [
+            {
+              "role": "original",
+              "path": "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\artifacts\\portability\\Fresh Checkout\\examples\\aggregate\\field.original.hlsl",
+              "sha256": "efcae32e188631725933084143b5f78ab2f9f2da0290d0c125473cb0faeceba6",
+              "dxc_seconds": 0.141
+            },
+            {
+              "role": "optimized",
+              "path": "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\artifacts\\portability\\Fresh Checkout\\examples\\aggregate\\field.optimized.hlsl",
+              "sha256": "b0c53cf4aa746f15bc77f22eb933fb545f4e044fb643a7844fa44ae682fd6fc0",
+              "dxc_seconds": 0.047
+            }
+          ],
+          "constraints": {
+            "schema": 2,
+            "ranges": {},
+            "nonzero_vectors": []
+          },
+          "model_schema": 6,
+          "generated_sha256": "3f6128dda055ebb9bec859063d3f31ca29266cd7ff0049546818e50bc95c3fc1",
+          "dxc_files": {
+            "dxcompiler.dll": "5888d3e590f5bfd8743484e7f31313996734adec5741506271a5c6368cbe8ba9",
+            "dxc.exe": "ce11bb02f6027055e0b9f8c062d13b14f373c876a16557a4fa744314117d31e7",
+            "dxil.dll": "0cf5fa4b90f74550166108b3870c883f4a85243976b246b1da3ea90ad5b92015"
+          },
+          "guarantee": "ideal real-number model with exact uint32 fields and guarded conversions; translator and DXC remain trusted",
+          "theorem": "ShaderFormalize.Verification.checked",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ],
+          "agent_proof_sha256": "cd12760846db4ea6eba1393c533f2ecea86314c376dd2c4ac22d663539edbedf",
+          "semantic_model_sha256": "5a3af29b09a4696a1632b0e30595d5465d9486cd71d604bdb1fbcea512133d4e",
+          "semantic_modules": {
+            "Model.lean": "5a3af29b09a4696a1632b0e30595d5465d9486cd71d604bdb1fbcea512133d4e",
+            "Fragment.lean": "c7a4195c9b5b84ce39a959e1fff8870ccb4a6f9e302bda8aa957302bf1ea069a",
+            "Control.lean": "1bdb1e21015cd10e05593ec42bf1c8c6d522ed9d9ffb2ac6f33f8bda4f90b44b",
+            "Packing.lean": "b7a28c0eeb178976e7060e1053bd45926eccf6e395d6087b3851632ef841f350"
+          },
+          "lake_manifest_sha256": "30e84037d4c7684408b7b63dad0e195c6da9d247389a5be7ff02e7526c35e495",
+          "lean_build_seconds": 80.985,
+          "lean_verify_seconds": 40.843,
+          "lean_version": "Lean (version 4.24.0, x86_64-w64-windows-gnu, commit 797c613eb9b6d4ec95db23e3e00af9ac6657f24b, Release)"
+        }
+      },
+      {
+        "case": "aggregate-index-safe",
+        "exit_code": 0,
+        "seconds": 111.64,
+        "result": {
+          "status": "PROVED",
+          "inputs": [
+            {
+              "role": "original",
+              "path": "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\artifacts\\portability\\Fresh Checkout\\examples\\aggregate\\domain.safe.hlsl",
+              "sha256": "95253ff7bda8aa945d5e8b66616c8eba2e8a5c699b9a51256f284a23912852e8",
+              "dxc_seconds": 0.094
+            },
+            {
+              "role": "optimized",
+              "path": "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\artifacts\\portability\\Fresh Checkout\\examples\\aggregate\\domain.optimized.hlsl",
+              "sha256": "54b71e8d75ace5d5a9e306e68ec2ebaf4e7a0bc08d1e7e54f795c40b759bd90a",
+              "dxc_seconds": 0.079
+            }
+          ],
+          "constraints": {
+            "schema": 2,
+            "ranges": {
+              "a": {
+                "min": "0",
+                "max": "0"
+              }
+            },
+            "nonzero_vectors": []
+          },
+          "model_schema": 6,
+          "generated_sha256": "11743e3f4c42de3a6e9d676ef98a287a01873eb66712c5ec1b797c34b73ff966",
+          "dxc_files": {
+            "dxcompiler.dll": "5888d3e590f5bfd8743484e7f31313996734adec5741506271a5c6368cbe8ba9",
+            "dxc.exe": "ce11bb02f6027055e0b9f8c062d13b14f373c876a16557a4fa744314117d31e7",
+            "dxil.dll": "0cf5fa4b90f74550166108b3870c883f4a85243976b246b1da3ea90ad5b92015"
+          },
+          "guarantee": "ideal real-number model with exact uint32 fields and guarded conversions; translator and DXC remain trusted",
+          "theorem": "ShaderFormalize.Verification.checked",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ],
+          "agent_proof_sha256": "9a55501fb48f6bc9a1440bf66453d8e2faf3e01ef7f3461dad1268dc6d3ca389",
+          "semantic_model_sha256": "5a3af29b09a4696a1632b0e30595d5465d9486cd71d604bdb1fbcea512133d4e",
+          "semantic_modules": {
+            "Model.lean": "5a3af29b09a4696a1632b0e30595d5465d9486cd71d604bdb1fbcea512133d4e",
+            "Fragment.lean": "c7a4195c9b5b84ce39a959e1fff8870ccb4a6f9e302bda8aa957302bf1ea069a",
+            "Control.lean": "1bdb1e21015cd10e05593ec42bf1c8c6d522ed9d9ffb2ac6f33f8bda4f90b44b",
+            "Packing.lean": "b7a28c0eeb178976e7060e1053bd45926eccf6e395d6087b3851632ef841f350"
+          },
+          "lake_manifest_sha256": "30e84037d4c7684408b7b63dad0e195c6da9d247389a5be7ff02e7526c35e495",
+          "lean_build_seconds": 70.938,
+          "lean_verify_seconds": 39.562,
+          "lean_version": "Lean (version 4.24.0, x86_64-w64-windows-gnu, commit 797c613eb9b6d4ec95db23e3e00af9ac6657f24b, Release)"
+        }
+      }
+    ],
+    "git_status_after": ""
+  },
+  "raw_report_sha256": "fccd8b67e4ba0cf80a71e2bb17ee4a85f3e5e60691722c769f0841980043d3d6",
+  "script_sha256": "c1ab220b432f76a599491cb4e7fb78baefc330309f613f058ca2e9b167f8f857"
+}

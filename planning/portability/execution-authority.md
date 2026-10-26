@@ -43,7 +43,7 @@
 
 ## Grant windows-refresh-004@revision-1
 
-- status: active
+- status: completed
 - source: 同一sealed running overnight portability条目的最新源码追加验证；沿用已P/Q通过的独立同锁协议，无产品或配置变更。
 - target: 独立Fresh Checkout由64992ea更新到9bec4aa，只fetch Git源码，使用副本自身原始下载的工具/缓存。主目录完整190/53验收另行串行，不共享生成文件。
 - actions: 干净状态后detach确切9bec4aa；核对两锁/六工具/九依赖/无alternates及隔离/无Unity；实际检查aggregate材质、完整场导数、合法下标三个正例；另存fresh-aggregate-verification及日志、独立事实复核、精简证据和本地提交。
@@ -51,3 +51,5 @@
 - stop: 副本dirty、锁/工具/依赖或隔离不匹配、形式正例失败。
 - acceptance: 三例实际PROVED及输入/目标/证明/模块/公理核对、前后clean；只称同锁追加源码复现，保留原真空安装和前两次记录。不替代aggregate完整Q或主验收。
 - recorded_at: 2026-10-26；数学语义与依赖锁没有漂移，复用已Ready验证步骤，仅换确切源码和覆盖正例。
+
+- result: 9bec4aa三个正例实际PROVED，前后clean；独立事实复核通过，输入/目标/证明/四数学模块/manifest/DXC及标准三项公理吻合。副本锁原始哈希与其原安装基线一致；主副本CRLF/LF不同而JSON内容一致。见../evidence/windows-aggregate-2026-10-26.json；不替代主190/53或aggregate最终Q。

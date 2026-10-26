@@ -209,10 +209,10 @@
         "64992ea",
         "9bec4aa"
       ],
-      "grant_reference": "planning/shared-functions/execution-authority.md#aggregate-001@revision-1",
+      "grant_reference": "planning/shared-functions/execution-authority.md#loop-001@revision-2",
       "result": "IN_PROGRESS",
-      "summary": "Aggregate source committed after 25 new unit regressions and six individual formal controls matched (4 PROVED,2 UNPROVED); Q1 observation repaired. Unified 190 unit/53 control gate running, final Q pending.",
-      "updated_at": "2026-10-26T11:19:49+08:00"
+      "summary": "Aggregate frozen main gate remains running, 190 unit tests passed. P2-approved static loops start only in ignored isolated development clone with read-only local tools; main integration and final formal gate remain conditional on aggregate53/finalQ.",
+      "updated_at": "2026-10-26T11:31:59+08:00"
     },
     "packing": {
       "commits": [
@@ -231,9 +231,9 @@
         "9bec4aa"
       ],
       "grant_reference": "planning/portability/execution-authority.md#windows-refresh-004@revision-1",
-      "result": "IN_PROGRESS",
-      "summary": "Running same-lock independent Windows checkout verification for aggregate material, whole-field derivative and legal index; no copied tools or outputs.",
-      "updated_at": "2026-10-26T11:20:15+08:00"
+      "result": "DONE",
+      "summary": "Independent checkout at 9bec4aa: aggregate material, derivative and legal index all PROVED; factual review passed. Same-lock source refresh, not a second blank bootstrap. Tracked evidence windows-aggregate-2026-10-26.json.",
+      "updated_at": "2026-10-26T11:48:28+08:00"
     },
     "publish": {
       "commits": [
@@ -251,7 +251,7 @@
   "schema_version": 1,
   "session_id": "shader-forward-2026-10-26",
   "status": "running",
-  "updated_at": "2026-10-26T11:20:15+08:00"
+  "updated_at": "2026-10-26T11:48:28+08:00"
 }
 ```
 <!-- SMART_OVERNIGHT_STATE_END -->

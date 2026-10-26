@@ -5,4 +5,6 @@
 - 证据：planning/evidence/windows-fresh-2026-10-26.json。当前Windows指南已更新，失败尝试与旧日志覆盖边界如实记录；publish条目统一推送。此项不覆盖后续frame/共享后端的语义变更。
 - 追加源码复现（windows-refresh-002）：Completed；副本更新至2fc87bb，shared光照、helper导数、packed三例实际PROVED，独立事实复核通过。见planning/evidence/windows-shared-2026-10-26.json；复用该副本自行下载的同锁依赖，不是再次空目录安装，也不覆盖后续错误路径补丁。
 - 最新copyback源码追加复现（windows-refresh-003）：Completed；副本64992ea的正常材质/完整场导数/packed三例PROVED，独立事实核验通过，前后clean。见planning/evidence/windows-copyback-2026-10-26.json；沿用副本自己取得的同锁依赖。
-- 矩阵/数组源码追加复现（windows-refresh-004）：Approved；确切9bec4aa，三个新正式正例，沿用同一独立同锁协议；主目录190/53验收另行进行。
+- 矩阵/数组源码追加复现（windows-refresh-004）：Completed；确切9bec4aa，三个新正式正例通过及独立事实复核；主目录190/53验收另行进行。
+
+- windows-refresh-004结果：9bec4aa材质、完整场导数、合法下标三例PROVED，独立事实复核通过；见planning/evidence/windows-aggregate-2026-10-26.json。同锁源码更新，非第二次空目录安装，主完整gate另行完成。
