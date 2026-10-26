@@ -55,3 +55,9 @@ Q1的坏模型结构异常和predicate类型缺口已修复并回归；literal�
 默认完整runner实际PASSED：190单元/53控制，25 PROVED、26 UNPROVED、2 INVALID_INPUT，session48755退出0。完整53目录与摘要冻结artifacts/aggregate/acceptance53；精简证据aggregate-2026-10-26.json。独立Q2源码与六控制先前审读后，追加完整gate事实闭合最终Verified。独立安装副本9bec4aa的三正例及事实审阅也通过。
 
 隔离循环已23单元/Q1，另从旧47控制及aggregate六控制的25正例保存AST重导入，模型与生成Lean逐字相同，日志副本artifacts/loop-old-targets.json；没有执行Lean。主代码/证明/例子/锁相对9bec4aa无差异，确切22文件patch预检查通过。整合条件已在authority/tasks持久化，代码须在本授权提交后才应用。完整57控制将先跑四新控制，再回放全部53旧控制；不重复运行未发生变化的前置190/53作为aggregate闭合条件。
+
+## 循环整合与实际四控制
+
+7241875持久化aggregate闭合、loop整合条件与精确patch后，e5329b7记录已核对的推送；其后才应用副本22文件patch。主目录213单元两次通过（22.643s/21.976s），组合Shader正确版本真实PROVED、错误系数UNPROVED；零次循环非法normalize不执行的目标PROVED，实际执行normalize(0)的同源目标UNPROVED。四项冻结artifacts/loops/acceptance4，明确由attempt2材质及domain-repair单项检查组成，非完整57控制结果。产品提交d348566；完整默认57控制及Q2继续。
+
+初次完整runner在组合证明处停止：simp已把输出相等消去，脚本仍用三元组拆分后的rfl处理剩余域合取。修正为展开真实定义后norm_num完成域与相等，未改源模型/约束；早期目标/脚本冻结first-proof-failure。第二次在零次域证明停止：dsimp已经关闭True目标，后续trivial多余；改为明确True.intro，零次与实际执行负例随后串行符合预期，失败快照domain-first-proof-failure。实际完整日志full-core-57-attempt1/2与loop-domain-repair保留，均不冒充完整成功。

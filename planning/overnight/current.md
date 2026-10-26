@@ -207,12 +207,13 @@
         "b074163",
         "4cfa77a",
         "64992ea",
-        "9bec4aa"
+        "9bec4aa",
+        "d348566"
       ],
       "grant_reference": "planning/shared-functions/execution-authority.md#loop-001@revision-2",
       "result": "IN_PROGRESS",
-      "summary": "Aggregate 9bec4aa closed: 190 units/53 controls passed, 25 PROVED, final Q2 Verified and independent Windows 3 positives. Static-loop main integration condition satisfied and persisted; 23 isolated tests/Q1 and 25 old byte-identical targets passed. Four new and full 57 controls remain.",
-      "updated_at": "2026-10-26T12:13:39+08:00"
+      "summary": "Main loop product d348566: 213 units passed and four new formal controls match (complete material/zero loop PROVED, wrong coefficient/actual normalize(0) UNPROVED). Initial proof script repairs retained; full 57 gate and final Q2 remain.",
+      "updated_at": "2026-10-26T12:24:56+08:00"
     },
     "packing": {
       "commits": [
@@ -228,12 +229,13 @@
         "69d058a",
         "2fc87bb",
         "64992ea",
-        "9bec4aa"
+        "9bec4aa",
+        "d348566"
       ],
-      "grant_reference": "planning/portability/execution-authority.md#windows-refresh-004@revision-1",
-      "result": "DONE",
-      "summary": "Independent checkout at 9bec4aa: aggregate material, derivative and legal index all PROVED; factual review passed. Same-lock source refresh, not a second blank bootstrap. Tracked evidence windows-aggregate-2026-10-26.json.",
-      "updated_at": "2026-10-26T11:48:28+08:00"
+      "grant_reference": "planning/portability/execution-authority.md#windows-refresh-005@revision-1",
+      "result": "IN_PROGRESS",
+      "summary": "Authorized same-lock source refresh to d348566 for complete material and zero-loop domain positives; original independent tools/caches retained, no main outputs copied.",
+      "updated_at": "2026-10-26T12:24:56+08:00"
     },
     "publish": {
       "commits": [
@@ -252,7 +254,7 @@
   "schema_version": 1,
   "session_id": "shader-forward-2026-10-26",
   "status": "running",
-  "updated_at": "2026-10-26T12:14:05+08:00"
+  "updated_at": "2026-10-26T12:24:56+08:00"
 }
 ```
 <!-- SMART_OVERNIGHT_STATE_END -->

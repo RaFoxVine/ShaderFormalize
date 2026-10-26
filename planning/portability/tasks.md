@@ -8,3 +8,5 @@
 - 矩阵/数组源码追加复现（windows-refresh-004）：Completed；确切9bec4aa，三个新正式正例通过及独立事实复核；主目录190/53验收另行进行。
 
 - windows-refresh-004结果：9bec4aa材质、完整场导数、合法下标三例PROVED，独立事实复核通过；见planning/evidence/windows-aggregate-2026-10-26.json。同锁源码更新，非第二次空目录安装，主完整gate另行完成。
+
+- 固定循环最新源码复现（windows-refresh-005）：Approved；目标d348566，complete组合材质与零次循环定义域两个正例，沿用同一独立同锁协议；主213/57与loop最终Q另行执行。
