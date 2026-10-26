@@ -17,6 +17,9 @@ class Flow:
 class ControlProgram(Program):
     control = True
 
+    def execute_statement(self, node, state):
+        return False
+
     def __init__(self, source, dump):
         super().__init__(source, dump)
         self.fragment = True
@@ -155,6 +158,8 @@ class ControlProgram(Program):
             if state.stopped:
                 raise ModelError("Statements after a terminal return/discard are unsupported")
             self.current_guard = state.mask
+            if self.execute_statement(statement, state):
+                continue
             if statement.kind == "CompoundStmt":
                 scope = Flow(dict(state.symbols), state.mask)
                 self.execute(statement, scope)

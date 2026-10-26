@@ -6,7 +6,7 @@
 python tools/shaderformalize.py check --frontend shared --original examples/structured/original.hlsl --optimized examples/structured/optimized.hlsl --constraints examples/structured/constraints.json --agent-proof proof/SharedStructuredProof.lean --output artifacts/shared/current
 ```
 
-当前支持按值float/向量、bool、uint、嵌套struct、float矩阵和定长数组、尾部默认参数及out/inout，及原有if、三元式、局部return、采样、导数、clip/discard。循环尚未接入。位载体可在函数内部原样保存/恢复，但当前禁止跨函数边界。默认`auto`沿用已有后端和证明；新参数语法及复合值只由shared接受。shared使用模型schema6，两种后端不能混配。[矩阵/数组具体契约](aggregate-values.md)。
+当前支持按值float/向量、bool、uint、嵌套struct、float矩阵和定长数组、尾部默认参数及out/inout，及原有if、三元式、局部return、采样、导数、clip/discard。普通for限于[可静态确定次数的uint子集](static-loops.md)。位载体可在函数内部原样保存/恢复，但当前禁止跨函数边界。默认`auto`沿用已有后端和证明；新参数语法及复合值只由shared接受。shared使用模型schema6，两种后端不能混配。[矩阵/数组具体契约](aggregate-values.md)。
 
 裁剪只允许在入口和void辅助函数内；数值/struct返回函数可以调用纯计算void函数，但不能直接或间接裁剪。含out/inout的函数暂不允许到达终止式discard；void内clip并在正常返回前写全输出可以组合。HLSL不指定参数初始化及重叠输出的恢复顺序，因此工具会检查表达式的数据依赖。[规范草案§5.6](https://microsoft.github.io/hlsl-specs/specs/5-Expr.html#function-calls)
 

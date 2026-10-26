@@ -23,4 +23,4 @@ ranges可以选择整个矩阵/数组/struct、子组或精确输入叶。组范
 
 仍使用schema6，矩阵和数组降低为现有有序record叶；aggregate_types保存规范的类型图，uniform_layout/input_groups保存源布局和范围映射。校验器检查类型身份、引用/环、深度/叶预算、输入映射和bounded_index数据，发射与有限求值共用这些检查。元数据摘要进入GeneratedModel字节哈希，Fragment.Ops接口和公理白名单不变。旧无aggregate模型不增加这些字段或注释，旧目标保持。
 
-默认auto继续沿用此前子集。循环、一般signed int、矩阵具名分量选择器、任意struct花括号初始化、原始除法和其它尚未列入的HLSL功能仍会明确拒绝；struct可逐字段构建或用受支持的零转换。新示例没有Unity runner。转换器及DXC仍属于可信边界，转换器自身尚未形式证明。
+默认auto继续沿用此前子集。shared另有[固定次数uint for](static-loops.md)。一般signed int、矩阵具名分量选择器、任意struct花括号初始化、原始除法和其它尚未列入的HLSL功能仍会明确拒绝；struct可逐字段构建或用受支持的零转换。新示例没有Unity runner。转换器及DXC仍属于可信边界，转换器自身尚未形式证明。

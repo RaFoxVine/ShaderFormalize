@@ -2,7 +2,7 @@
 
 将两份 HLSL 经 DXC 已定类型的语法树转成理想实数与整数位字段模型，提供 agent 编写、迭代并独立检查 Lean 等价证明的本地环境。核心依赖固定版本 DXC、Lean 和 mathlib，安装、转换、证明和默认验收均不依赖 Unity。它不是任意 Shader 的自动等价判定器。
 
-显式`--frontend shared`已支持实际共享helper定义、默认参数、out/inout及正常struct写法。[光照材质原版](examples/copyback/original.hlsl)通过out结构体和inout颜色累积，与[手工等价改写版](examples/copyback/optimized.hlsl)的完整数学目标已获证明；用法和边界见[共享函数说明](docs/shared-functions.md)。矩阵/数组及元素写回已接入，[新材质与具体契约](docs/aggregate-values.md)。默认auto保留此前证明；循环和完整HDRP/Lit Forward尚未完成。
+显式`--frontend shared`已支持实际共享helper定义、默认参数、out/inout及正常struct写法。[光照材质原版](examples/copyback/original.hlsl)通过out结构体和inout颜色累积，与[手工等价改写版](examples/copyback/optimized.hlsl)的完整数学目标已获证明；用法和边界见[共享函数说明](docs/shared-functions.md)。矩阵/数组及元素写回已接入，[新材质与具体契约](docs/aggregate-values.md)。[固定次数uint循环与组合材质](docs/static-loops.md)进一步组合采样、裁剪和导数；默认auto保留此前证明，完整HDRP/Lit Forward尚未完成。
 
 [整数打包示例](examples/packed/original.hlsl)包含颜色量化、uint掩码/移位、float载体复制和拆包；[改写版](examples/packed/optimized.hlsl)直接使用量化结果。实数计算和位载体明确区分，完整范围及证明方式见[整数打包说明](docs/integer-packing.md)。
 
@@ -44,6 +44,9 @@ pwsh -File tools/run_demo.ps1 -Example copyback
 
 # 矩阵、数组、元素写回及越界定义域的正式对照。
 pwsh -File tools/run_demo.ps1 -Example aggregate
+
+# 两次光照循环、矩阵/数组、采样、裁剪、导数的组合与域对照。
+pwsh -File tools/run_demo.ps1 -Example complete
 
 # 仅检查纹理材质数学等价。
 python tools/shaderformalize.py check --original examples/textured/original.hlsl --optimized examples/textured/optimized.hlsl --constraints examples/textured/constraints.json --agent-proof proof/TexturedProof.lean --output artifacts/textured/proof

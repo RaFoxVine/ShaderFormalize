@@ -1,0 +1,11 @@
+{
+  "schema": 2,
+  "ranges": {
+    "_UVTransform": {"min": "-2", "max": "2"},
+    "_LightColors": {"min": "0", "max": "1"},
+    "_BaseColor": {"min": "0", "max": "1"},
+    "_RimStrength": {"min": "0", "max": "4"},
+    "_Cutoff": {"min": "0", "max": "1"}
+  },
+  "nonzero_vectors": ["input.normalWS", "input.viewWS"]
+}

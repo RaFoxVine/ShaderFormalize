@@ -4,6 +4,7 @@ import json
 
 from shader_ast import ModelError
 from shader_aggregate_metadata import validate_metadata
+from shader_loop_metadata import validate_loops
 from shader_packing_lean import PackingEmitter
 from shader_shared import result_leaves
 from shader_lean import fin_index
@@ -20,6 +21,7 @@ def validate_shared(model):
 
 def _validate_shared(model):
     validate_metadata(model)
+    validate_loops(model)
     helpers = model["helpers"]
     if not isinstance(helpers, list) or len(helpers) > 127:
         raise ModelError("Invalid shared helper table")
@@ -259,11 +261,12 @@ def generate_shared(original, optimized, spec):
         validate_shared(original)
         validate_shared(optimized)
         text = generate_control(original, optimized, spec, SharedEmitter, "import ShaderFormalize.Packing\n")
-        keys = ("aggregate_types", "uniform_layout", "input_groups")
+        keys = ("aggregate_types", "uniform_layout", "input_groups", "loop_semantics", "loops")
         if any(key in model for model in (original, optimized) for key in keys):
             metadata = [{key: model[key] for key in keys if key in model} for model in (original, optimized)]
             digest = hashlib.sha256(json.dumps(metadata, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
-            text = "-- Aggregate logical layouts SHA256: " + digest + "\n" + text
+            label = "Loop and logical layouts" if "loops" in original or "loops" in optimized else "Aggregate logical layouts"
+            text = "-- " + label + " SHA256: " + digest + "\n" + text
         # Explicit E is necessary even when a uniform field ignores its position.
         return text.replace("∀ x,", "∀ x : E,")
     except (KeyError, TypeError, IndexError, AttributeError, ValueError, ZeroDivisionError, RecursionError) as error:

@@ -477,8 +477,8 @@ class Program:
 
 def import_shader(source, dump, frontend="auto"):
     if frontend == "shared":
-        from shader_aggregate import AggregateProgram
-        return AggregateProgram(source, dump).model()
+        from shader_loops import LoopProgram
+        return LoopProgram(source, dump).model()
     if frontend != "auto":
         raise ModelError("Unknown frontend", "INVALID_INPUT")
     from shader_control_values import uses_control

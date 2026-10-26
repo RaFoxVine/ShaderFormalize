@@ -174,14 +174,31 @@ def aggregate_controls():
     return controls
 
 
+def complete_controls():
+    material = ROOT / "examples/complete"
+    arguments = ["--frontend", "shared", "--original", material / "original.hlsl",
+                 "--constraints", material / "constraints.json",
+                 "--agent-proof", ROOT / "proof/CompleteMaterialProof.lean"]
+    controls = [check_case("complete-wrong", "UNPROVED", *arguments, "--optimized", material / "wrong.hlsl")]
+    controls.append(check_case("complete-positive", "PROVED", *arguments, "--optimized", material / "optimized.hlsl"))
+    for name, expected in (("zero", "PROVED"), ("wrong", "UNPROVED")):
+        source = material / ("domain-" + name + ".hlsl")
+        optimized = material / "domain-direct.hlsl" if name == "zero" else source
+        controls.append(check_case("loop-domain-" + name, expected, "--frontend", "shared",
+            "--original", source, "--optimized", optimized,
+            "--constraints", material / "domain-constraints.json",
+            "--agent-proof", ROOT / "proof/LoopDomainProof.lean"))
+    return controls
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--example", choices=("all", "lerp", "unlit", "structured", "textured", "branched", "packed", "copyback", "aggregate"), default="all")
+    parser.add_argument("--example", choices=("all", "lerp", "unlit", "structured", "textured", "branched", "packed", "copyback", "aggregate", "complete"), default="all")
     args = parser.parse_args()
     output = ROOT / "artifacts" / ("acceptance" if args.example == "all" else "acceptance-" + args.example)
     output.mkdir(parents=True, exist_ok=True)
     write_json(output / "result.json", {"status": "IN_PROGRESS", "layer": "core", "example": args.example})
-    patterns = {"lerp": "test_shaderformalize.py", "unlit": "test_unlit.py", "structured": "test_structured.py", "textured": "test_fragment.py", "branched": "test_control.py", "packed": "test_packing.py", "copyback": "test_copyback.py", "aggregate": "test_aggregate.py"}
+    patterns = {"lerp": "test_shaderformalize.py", "unlit": "test_unlit.py", "structured": "test_structured.py", "textured": "test_fragment.py", "branched": "test_control.py", "packed": "test_packing.py", "copyback": "test_copyback.py", "aggregate": "test_aggregate.py", "complete": "test_loops.py"}
     suite = unittest.defaultTestLoader.discover(str(ROOT / "tools"), pattern=patterns.get(args.example, "test_*.py"))
     result = unittest.TextTestRunner(verbosity=1).run(suite)
     if not result.wasSuccessful():
@@ -189,6 +206,8 @@ def main():
         return 1
     controls = []
     try:
+        if args.example in ("all", "complete"):
+            controls.extend(complete_controls())
         if args.example in ("all", "lerp"):
             controls.extend(lerp_controls(output))
         for example in ("unlit", "structured", "textured"):
