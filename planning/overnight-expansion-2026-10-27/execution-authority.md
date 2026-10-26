@@ -40,9 +40,19 @@
 - oracle: 正确HLSL实际外部安全通过，删barrier/共享写冲突到实际权限错误；AST完整性、模索引、状态/哈希/环境拒绝单位检查，独立Q。
 - stop: 需要增加未批准执行语义/隐含假设；第三轮关键问题未闭合；缺关键实际外部oracle。
 
-## IEEE HLSL及公共检查提取
+## Grant ieee-hlsl-001@revision-1
 
-status: planning-only。Frame已完成，独立P等待固定工具binary预期哈希校验澄清；IEEE agent和root均不得写该项产品代码。P闭合后在此新增精确Grant，并同步Approved状态，再开工。
+- status: active；source: delegated_session；item: ieee_hlsl。
+- authorization_message_exact: 按上述四项继续 Overnight。
+- target: plan.md独立IEEE HLSL入口、数值profile、语法/约束边界和证明/报告。IEEE agent独占新shader_ieee_*、ieeeformalize.py、IEEE测试/独立suite、prototypes/ieee、examples/ieee；root独占proof_contract.py与旧shaderformalize.py的纯检查提取及公共集成。
+- readiness: Compute独立P Verified；固定binary启动校验已闭合。源/特定位profile/舍入/字面量/NaN/位相等、独立proof/锁、完整目标绑定及旧路径兼容均固定。
+- workspace: C:/Users/xc/.codex/worktrees/ieee-prototype/ShaderFormalize；root已保留snapshot5067283并checkout d3b7f5f，4.35与依赖缓存保留，独立DXC已物理复制。root在D主目录提取共同API后回拷该两个只读文件。
+- tool_contract: 独立lock固定lean.exe=ec7a472d1c12a09b0c0c718f7427c2be527b3f5f07810fdbe076c2507c7a91ea、lake.exe=023feb24d3e7244fe671dba79f1cd1affc6c7a7cacfe497bf3675febb506578c。预期来自已核完整SHA官方ZIP，逐次任何Lean调用前检查缺失/不符ENVIRONMENT_ERROR，不仅事后记录。
+- common_contract: root提取verification_module()无参数返回现有Verify.lean精确文字、audit_axioms(text)保持原行为；shaderformalize再导出原audit_axioms以兼容旧消费者。模块只拥有纯文字/审计，不拥有版本/环境/目录。旧实数入口及生成目标保持。
+- allowed: 指定代码/本地依赖lock和bootstrap/run改进、实际DXC/Lean/代表求值、独立Q、root整合/证据/命名提交及非强制push。
+- exclusions: 新公理/位枚举审计/上游全面重证、核心4.24或默认实数保证变化、非空区间、一般if/循环/资源效果/其他intrinsic/数值类型转换/uint算术与移位/矩阵数组/out-inout/默认参数、GPU实现匹配声明、全局配置、Unity/merge/正式归档。
+- oracle: 正常struct/helper Shader、位往返及四则sqrt同序完整IEEE证明；重结合/±0/NaN错误负控和代表运行见证；目标/公理/工具/锁/旧成功失败控制、旧4.24正例兼容、独立Q。直接使用已固定上游API与定理，不要求审计整个库。
+- stop: 需要改变已批准profile/位相等/源子集或弱化目标；第三轮关键问题未闭合；关键工具oracle不可用或需改全局配置。
 
 ## 发布和完成
 

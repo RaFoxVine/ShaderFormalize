@@ -85,7 +85,7 @@ Math已有共享链接只读使用，任何共享依赖缓存缺失交root串行
 
 数学：IEEE独立P Verified；floor缓存无已知缺失。实施注意双方全部helper的floor导入、inactive域外安全总化、symbolic Fin的整体向量发射及DXC实际reflect重载。
 
-IEEE：Frame完成，等待Compute审阅；共享检查提取由root独占。
+IEEE：Compute独立P Verified；启动工具校验使用完整官方ZIP提取并对照本地安装的固定Lean/lake预期hash，缺失/不符返回ENVIRONMENT_ERROR。共享检查提取由root独占。
 
 Compute：数学独立P Verified；物理kind、OOB Load无读事件、Store安全单独待证三项已按上述固定字段闭合。
 
