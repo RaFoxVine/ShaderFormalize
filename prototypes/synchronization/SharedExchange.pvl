@@ -1,0 +1,23 @@
+// Each lane writes its own shared slot, then reads its neighbour after a barrier.
+class SharedExchange {
+  context_everywhere shared != null && output != null;
+  context_everywhere shared.length == 2 && output.length == 2;
+  context (\forall* int i; 0 <= i && i < 2; Perm(shared[i], write));
+  context (\forall* int i; 0 <= i && i < 2; Perm(output[i], write));
+  void execute(int[] shared, int[] output) {
+    par lanes (int tid = 0..2)
+      requires Perm(shared[tid], write);
+      ensures Perm(shared[1-tid], write);
+      context Perm(output[tid], write);
+    {
+      shared[tid] = tid + 10;
+      barrier(lanes)
+        context 0 <= tid && tid < 2;
+        requires Perm(shared[tid], write);
+        ensures Perm(shared[1-tid], write);
+      {
+      }
+      output[tid] = shared[1-tid];
+    }
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "date": "2026-10-27",
+  "scope": "PVL parallel/permission/barrier examples; not HLSL import or Lean proof",
+  "kind": "EXTERNAL_VERIFIER",
+  "status": "PASSED",
+  "verifier": "VerCors 2.4.0",
+  "java_version": "java version \"21.0.1\" 2023-10-17 LTS\nJava(TM) SE Runtime Environment (build 21.0.1+12-LTS-29)\nJava HotSpot(TM) 64-Bit Server VM (build 21.0.1+12-LTS-29, mixed mode, sharing)",
+  "dependency_lock_sha256": "e451fce3bb2c22e660f2dd1962bf52fc0607e7213f78c6c6c6443ec892012268",
+  "launcher_sha256": "713202ee816d19d32e6c5d34ffba63195dab9bd83c9a2e9101d084354749a411",
+  "cases": [
+    {
+      "case": "parallel-add",
+      "expected": "VERIFIED",
+      "actual": "VERIFIED",
+      "matched": true,
+      "exit_code": 0,
+      "seconds": 22.813,
+      "source_sha256": "a584b5bc1f227dd8b4f707d30310c55149ea1a38f2c2870bafc16d091aa8dd9c",
+      "log_sha256": "e0b12968470f36733c378a5e351505802565e4fbf695249cb7f25f2dd285ff88",
+      "command": [
+        "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\.tools\\vercors-2.4.0\\vercors.bat",
+        "--backend",
+        "silicon",
+        "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\artifacts\\synchronization\\parallel-add.pvl"
+      ]
+    },
+    {
+      "case": "parallel-conflict",
+      "expected": "PERMISSION_REJECTED",
+      "actual": "PERMISSION_REJECTED",
+      "matched": true,
+      "exit_code": 1,
+      "seconds": 27.547,
+      "source_sha256": "ae8c7f9bac0cf30a89c850a229940a2c6c4dec1734dc4c5e9a6ffca492c74a98",
+      "log_sha256": "4f9282fb2943e75236412b47c091ba07673c5df3ecfc1574e64b1c59ac975216",
+      "command": [
+        "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\.tools\\vercors-2.4.0\\vercors.bat",
+        "--backend",
+        "silicon",
+        "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\artifacts\\synchronization\\parallel-conflict.pvl"
+      ]
+    },
+    {
+      "case": "shared-exchange",
+      "expected": "VERIFIED",
+      "actual": "VERIFIED",
+      "matched": true,
+      "exit_code": 0,
+      "seconds": 16.203,
+      "source_sha256": "3ad437ace78c6a3ca8cd85ea44875aa8844b5ff3bfdd4ffbe9ba99d4c82fec94",
+      "log_sha256": "884dcac19617f20bb792814720a9f42648685b25fe908490aa79aaa434b5eb9a",
+      "command": [
+        "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\.tools\\vercors-2.4.0\\vercors.bat",
+        "--backend",
+        "silicon",
+        "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\artifacts\\synchronization\\shared-exchange.pvl"
+      ]
+    },
+    {
+      "case": "missing-barrier",
+      "expected": "PERMISSION_REJECTED",
+      "actual": "PERMISSION_REJECTED",
+      "matched": true,
+      "exit_code": 1,
+      "seconds": 16.0,
+      "source_sha256": "842f20b33b7aaf85190a1c963a5f863ba3eecb3430eef92ebe56606e56d6b9b3",
+      "log_sha256": "8dc812877c54d19d6633825447524f04a94b41e1f8a402712953036ed98a5bd3",
+      "command": [
+        "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\.tools\\vercors-2.4.0\\vercors.bat",
+        "--backend",
+        "silicon",
+        "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\artifacts\\synchronization\\missing-barrier.pvl"
+      ]
+    }
+  ],
+  "independent_review": "basic_math_expansion Q1 Verified; report, inputs/logs/lock/launcher and full release SHA independently checked",
+  "source_files": {
+    "prototypes/synchronization/bootstrap.ps1": "2d6aa6082aad74df6131b3686369a3a0d6f8bedd9bac9c6b64e8c984358e5f94",
+    "prototypes/synchronization/dependencies.lock.json": "e451fce3bb2c22e660f2dd1962bf52fc0607e7213f78c6c6c6443ec892012268",
+    "prototypes/synchronization/ParallelAdd.pvl": "3e21fb5a8c4511c436c27127505ad761edf04370df219ad6ca404b8cd028729b",
+    "prototypes/synchronization/README.md": "68df0ae4e3aa6ea87e7f2a0115cb90bb3cd35df809411beacf506eda8ae24eca",
+    "prototypes/synchronization/run.py": "0b7a324259652479dfe15578a633f0da5d64eb0896289365fe6c5d2d50e197e7",
+    "prototypes/synchronization/SharedExchange.pvl": "44f97bdaecbfcf3ad7e5a70c7aaaec140aa5b33f347d066d90b6f31cda3dbe9b",
+    "tools/download_release.py": "4d12da52a50fd07d638dfb5cc411f4f2a01391d76c839ba06186d9d8866d2c31"
+  },
+  "evidence_directory": "artifacts/synchronization",
+  "post_run_change": "Launcher lookup simplified to its verified fixed release path; independent Q checked equivalence without rerunning cases."
+}

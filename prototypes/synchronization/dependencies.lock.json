@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "vercors": {
+    "version": "2.4.0",
+    "archive_bytes": 196789102,
+    "url": "https://github.com/utwente-fmt/vercors/releases/download/v2.4.0/vercors-2.4.0-win.zip",
+    "sha256": "0b0eb981ade04017aaeb6cfa7d1ebc4561f6fce20eac5c19a1cb38803b3eaefc",
+    "license": "MPL-2.0",
+    "source": "https://github.com/utwente-fmt/vercors/tree/v2.4.0"
+  },
+  "java": {
+    "minimum_major": 17,
+    "installation": "existing JDK/JRE or explicit -JavaHome; process-local environment only"
+  }
+}

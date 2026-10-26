@@ -1,0 +1,21 @@
+// A two-input parallel kernel in VerCors's PVL modelling language.
+// Permission syntax follows the pinned VerCors documentation/examples.
+class ParallelAdd {
+  context_everywhere a != null && b != null && output != null;
+  context_everywhere count >= 0;
+  context_everywhere a.length == count && b.length == count && output.length == count;
+  context (\forall* int i; 0 <= i && i < count; Perm(a[i], read));
+  context (\forall* int i; 0 <= i && i < count; Perm(b[i], read));
+  context (\forall* int i; 0 <= i && i < count; Perm(output[i], write));
+  ensures (\forall int i; 0 <= i && i < count; output[i] == a[i] + b[i]);
+  void execute(int count, int[] a, int[] b, int[] output) {
+    par (int tid = 0..count)
+      context Perm(a[tid], read);
+      context Perm(b[tid], read);
+      context Perm(output[tid], write);
+      ensures output[tid] == a[tid] + b[tid];
+    {
+      output[tid] = a[tid] + b[tid];
+    }
+  }
+}
