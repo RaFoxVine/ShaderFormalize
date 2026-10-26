@@ -60,7 +60,8 @@
 
 ## Grant loop-001@revision-2
 
-- status: active-isolated
+- status: active
+- phase: isolated implementation; main integration condition remains unsatisfied.
 - source: sealed running overnight language条目PLAN_AND_CODE内派生；持续免重复人工方案审阅及用户“接下来继续工作”。
 - frame: loop-plan.md修订2，独立P2 Ready；数学语义与P1相同，静态uint for精确次数、不截断，最终四控制及全旧回归/Q不变。
 - baseline: 9bec4aa有25新单元/六正式控制/Q2源码审读，完整190单元通过，主53控制进行中、完整Q尚待。不得称aggregate已Completed。
