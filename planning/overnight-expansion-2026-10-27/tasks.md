@@ -6,7 +6,7 @@
 |---|---|---|
 | 七项数学 | Implementing | P Verified；Grant已提交8a13f50；C basic-math已保留b27f399旧源快照并切换d3b7f5f，ignored依赖保留 |
 | HLSL IEEE入口 | Candidate | 独立P闭合、公共proof_contract接口及Grant |
-| 二维纹理Compute | Approved | P三项澄清闭合及Grant；root准备独立checkout/物理依赖副本后开工 |
+| 二维纹理Compute | Implementing | P Verified及8a13f50 Grant；C compute-texture为d3b7f5f基线，物理依赖副本复制中，代码可写、Lean须待环境完成 |
 | HLSL同步安全 | Approved | P2闭合及Grant，root可开工 |
 | root公共检查提取 | Candidate | 在IEEE Frame中核对旧文字/行为兼容，独占实施 |
 | 最终整合、验证与发布 | Outlined | 各项实际结果和独立Q通过后整合 |

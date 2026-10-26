@@ -158,9 +158,10 @@
   "progress": {
     "compute_texture": {
       "commits": [],
-      "grant_reference": "",
-      "result": "PENDING",
-      "summary": ""
+      "grant_reference": "planning/overnight-expansion-2026-10-27/execution-authority.md#compute-texture-001@revision-1",
+      "result": "IN_PROGRESS",
+      "summary": "P Verified及8a13f50 Grant；新C compute-texture基线d3b7f5f，物理依赖复制进行，writer可实现自身代码，实际Lean检查等待环境完成。",
+      "updated_at": "2026-10-27T02:13:57+08:00"
     },
     "ieee_hlsl": {
       "commits": [],
@@ -186,7 +187,7 @@
   "schema_version": 1,
   "session_id": "shader-overnight-expansion-2026-10-27",
   "status": "running",
-  "updated_at": "2026-10-27T02:12:06+08:00"
+  "updated_at": "2026-10-27T02:13:57+08:00"
 }
 ```
 <!-- SMART_OVERNIGHT_STATE_END -->
