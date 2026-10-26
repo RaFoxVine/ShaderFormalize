@@ -41,3 +41,11 @@ Q1的坏模型结构异常和predicate类型缺口已修复并回归；literal�
 独立Q1源码初审没有发现确定语义阻断，并将旧21正例从保存的真实DXC AST重新导入，模型与目标逐字一致。它发现说明性形状表允许未知元素/环；虽不参与数值定义，仍按完整性合同修复为完整规范类型图，检查source record字段、引用、环、深度/叶和canonical identity，发射与有限求值均受保护，已有坏模型回归通过。尚待六正式控制全部通过、全套及最终Q，不预先标Verified。
 
 导数正例的初始证明脚本在BitVec.toNat 0<2的闭合义务处未完成；原脚本与失败目标冻结于artifacts/aggregate/field-first-failed。补充合法索引的内核decide证明后正式PROVED，不移动域到前提、不更改数学生成。下标正例一版脚本因simp没有可化简项而失败，改为条件尝试后，合法与未执行越界正式PROVED，实际越界同源UNPROVED。六控制现全部符合预期；对应日志分别保留aggregate-controls.log、aggregate-field-domain.log、aggregate-field-domain-fixed.log及aggregate-domain-fixed.log，不将早期失败当通过。
+
+## 静态循环：隔离实施进行中
+
+0fe6bd6/756b0f6持久化loop-001修订2的隔离代码权限后，root在ignored artifacts/loop-development从9bec4aa创建独立Git clone；只读复用主.tools junction，没有副本.lake或共享proof写入。主产品在aggregate完整验收期间未改。只运行确切test_loops.py、新DXC/有限求值和内存Lean生成，未在副本运行bootstrap/Lean/Lake/prepare/check。
+
+当前23项新回归通过（副本artifacts/loop-unit23.log）：静态0/1/多次、uint边界/wrap/非法shift、嵌套/空体预算、局部scope、部分初始化、out/default、分支状态、clip实际域/完整场导数、计数器/动态界限/控制拒绝、metadata目标绑定与坏metadata双消费者检查、正常helper return和未调用循环，以及完整材质手算/错误系数反例。独立Q1源码审读未发现确定语义阻断；不等于形式验收或最终Verified。
+
+组合草稿examples/complete含纹理、clip、normalize、平方边缘光、UV矩阵、光源数组、out数组、默认系数、struct及两次真实ddx/累积循环；手工展开版在三位置有限oracle得到相同结果，错误第二次系数有数值差异。正式证明草稿和四控制接入仍须主整合后实际检查。早期新metadata测试误将spec当第三位置参数，已改显式spec=，22及随后23项均通过；有限示例首轮把uniform误作位置场输入，修正测试输入形状后通过，没有改产品接口。

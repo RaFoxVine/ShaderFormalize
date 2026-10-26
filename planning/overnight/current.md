@@ -211,8 +211,8 @@
       ],
       "grant_reference": "planning/shared-functions/execution-authority.md#loop-001@revision-2",
       "result": "IN_PROGRESS",
-      "summary": "Aggregate frozen main gate remains running, 190 unit tests passed. P2-approved static loops start only in ignored isolated development clone with read-only local tools; main integration and final formal gate remain conditional on aggregate53/finalQ.",
-      "updated_at": "2026-10-26T11:31:59+08:00"
+      "summary": "Aggregate main 190 units passed; 53 formal controls running. Isolated static loops have 23 DXC/finite/in-memory-generation tests passing and Q1 code review without blockers. Combined material and four formal proof drafts await main integration condition; no Lean or shared proof writes in development clone.",
+      "updated_at": "2026-10-26T11:52:40+08:00"
     },
     "packing": {
       "commits": [
@@ -251,7 +251,7 @@
   "schema_version": 1,
   "session_id": "shader-forward-2026-10-26",
   "status": "running",
-  "updated_at": "2026-10-26T11:48:28+08:00"
+  "updated_at": "2026-10-26T11:52:40+08:00"
 }
 ```
 <!-- SMART_OVERNIGHT_STATE_END -->
