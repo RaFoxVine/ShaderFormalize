@@ -170,9 +170,10 @@
     },
     "math_extensions": {
       "commits": [],
-      "grant_reference": "",
-      "result": "PENDING",
-      "summary": ""
+      "grant_reference": "planning/overnight-expansion-2026-10-27/execution-authority.md#math-extensions-001@revision-1",
+      "result": "IN_PROGRESS",
+      "summary": "P Verified及8a13f50精确Grant；C basic-math保留旧快照b27f399后切至d3b7f5f，依赖保留，可按七项数学Frame实现。",
+      "updated_at": "2026-10-27T02:12:06+08:00"
     },
     "synchronization_hlsl": {
       "commits": [],
@@ -185,7 +186,7 @@
   "schema_version": 1,
   "session_id": "shader-overnight-expansion-2026-10-27",
   "status": "running",
-  "updated_at": "2026-10-27T02:08:07+08:00"
+  "updated_at": "2026-10-27T02:12:06+08:00"
 }
 ```
 <!-- SMART_OVERNIGHT_STATE_END -->

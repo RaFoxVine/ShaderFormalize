@@ -4,7 +4,7 @@
 
 | 工作 | 状态 | 下一动作 |
 |---|---|---|
-| 七项数学 | Approved | P Verified、Grant已持久化；root保留旧源快照/切换基线后开工 |
+| 七项数学 | Implementing | P Verified；Grant已提交8a13f50；C basic-math已保留b27f399旧源快照并切换d3b7f5f，ignored依赖保留 |
 | HLSL IEEE入口 | Candidate | 独立P闭合、公共proof_contract接口及Grant |
 | 二维纹理Compute | Approved | P三项澄清闭合及Grant；root准备独立checkout/物理依赖副本后开工 |
 | HLSL同步安全 | Approved | P2闭合及Grant，root可开工 |
