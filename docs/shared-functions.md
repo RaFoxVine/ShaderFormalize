@@ -6,11 +6,11 @@
 python tools/shaderformalize.py check --frontend shared --original examples/structured/original.hlsl --optimized examples/structured/optimized.hlsl --constraints examples/structured/constraints.json --agent-proof proof/SharedStructuredProof.lean --output artifacts/shared/current
 ```
 
-当前支持按值float/向量、bool、uint和嵌套struct参数/返回值、尾部默认参数及out/inout，及原有if、三元式、局部return、采样、导数、clip/discard。矩阵/数组和循环尚未接入。位载体可在函数内部原样保存/恢复，但当前禁止跨函数边界。默认`auto`沿用已有后端和证明；新参数语法只由shared接受。shared使用模型schema6，两种后端不能混配。
+当前支持按值float/向量、bool、uint、嵌套struct、float矩阵和定长数组、尾部默认参数及out/inout，及原有if、三元式、局部return、采样、导数、clip/discard。循环尚未接入。位载体可在函数内部原样保存/恢复，但当前禁止跨函数边界。默认`auto`沿用已有后端和证明；新参数语法及复合值只由shared接受。shared使用模型schema6，两种后端不能混配。[矩阵/数组具体契约](aggregate-values.md)。
 
 裁剪只允许在入口和void辅助函数内；数值/struct返回函数可以调用纯计算void函数，但不能直接或间接裁剪。含out/inout的函数暂不允许到达终止式discard；void内clip并在正常返回前写全输出可以组合。HLSL不指定参数初始化及重叠输出的恢复顺序，因此工具会检查表达式的数据依赖。[规范草案§5.6](https://microsoft.github.io/hlsl-specs/specs/5-Expr.html#function-calls)
 
-`out`从未初始化副本开始，所有正常出口必须写全；`inout`先复制调用前的值。返回后才将输出副本写到调用者的整变量或struct字段，不能让函数体直接修改调用者字典。两个输出地址重叠会拒绝；向量swizzle输出地址暂不支持。`F(out x, x)`可以读取调用前的输入副本；`F(inout x, G(out x))`或`G(out x)+x`依赖未规定的实参/操作数顺序，返回UNSUPPORTED。三元式和标量短路运算按选中的分支合并调用者变量状态。
+`out`从未初始化副本开始，所有正常出口必须写全；`inout`先复制调用前的值。返回后才将输出副本写到调用者的整变量、字段或元素地址，不能让函数体直接修改调用者字典。两个输出地址重叠或动态无法判定会拒绝；支持不重复分量的向量swizzle地址，下标形成时捕获一次。`F(out x, x)`可以读取调用前的输入副本；`F(inout x, G(out x))`或`G(out x)+x`依赖未规定的实参/操作数顺序，返回UNSUPPORTED。三元式和标量短路运算按选中的分支合并调用者变量状态。
 
 默认参数使用DXC绑定的声明表达式，在省略实参且调用实际执行时检查其域；显式传参不会增加未用默认的域要求。默认表达式中的全局名字按声明环境查找，不能被调用者的同名局部变量替代。所有未调用函数与默认表达式仍做语法及初始化检查。
 

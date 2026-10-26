@@ -1,6 +1,6 @@
 param(
     [string]$UnityProject,
-    [ValidateSet('all','lerp','unlit','structured','textured','branched','packed','copyback')][string]$Example = 'all',
+    [ValidateSet('all','lerp','unlit','structured','textured','branched','packed','copyback','aggregate')][string]$Example = 'all',
     [switch]$Bootstrap
 )
 $ErrorActionPreference = 'Stop'
@@ -14,7 +14,7 @@ try {
         Write-Host 'Core checks passed. Unity is an optional development integration.'
         return
     }
-    if ($Example -in @('packed','copyback')) {
+    if ($Example -in @('packed','copyback','aggregate')) {
         throw "The $Example example has core formal checks only; no Unity runner is available."
     }
     & "$PSScriptRoot/run_unity_suite.ps1" -UnityProject $UnityProject -Example $Example

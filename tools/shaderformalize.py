@@ -132,6 +132,8 @@ def prepare(args, output):
     if (models[0]["interface"] != models[1]["interface"] or models[0]["buffer"] != models[1]["buffer"]
             or models[0]["output_semantic"] != models[1]["output_semantic"]
             or models[0]["entry_layout"] != models[1]["entry_layout"]
+            or models[0].get("uniform_layout", []) != models[1].get("uniform_layout", [])
+            or models[0].get("input_groups", {}) != models[1].get("input_groups", {})
             or models[0].get("resources", []) != models[1].get("resources", [])):
         raise ModelError("The two source interfaces differ", "INVALID_INPUT")
     constraints = read_json(args.constraints)

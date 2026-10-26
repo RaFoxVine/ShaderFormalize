@@ -27,6 +27,8 @@ class PackingEmitter(ControlEmitter):
 
     def element(self, expr, index, position):
         kind = expr["kind"]
+        if kind == "bounded_index":
+            return self.element(expr["arguments"][0], None, position)
         if kind == "uint_literal":
             return f"({expr['value']} : BitVec 32)"
         if (expr["width"] == "uint" or expr.get("payload")) and kind in ("local", "choose"):
@@ -49,6 +51,9 @@ class PackingEmitter(ControlEmitter):
 
     def collect_domains(self, expr, guard):
         condition = None
+        if expr["kind"] == "bounded_index":
+            value = self.element(expr["arguments"][0], None, "x")
+            condition = f"({value}).toNat < {expr['size']}"
         if expr["kind"] == "real_to_uint":
             value = self.element(expr["arguments"][0], None, "x")
             condition = f"(0 : ℝ) ≤ {value} ∧ {value} < (4294967296 : ℝ)"

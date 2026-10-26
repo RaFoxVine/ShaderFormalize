@@ -129,8 +129,9 @@ void Change(inout T t){t.c*=2.0;}void Set(out float x,out float y){x=2.0;y=3.0;}
     def test_bool_uint_outputs_and_carrier_swizzle_boundaries(self):
         source = "void Set(out bool b,inout uint x){b=true;x=x+1u;}" + ENTRY + "bool b;uint x=2u;Set(b,x);return float4(b,(float)x,0,1);}"
         self.assertEqual(self.values(source), [1,3,0,1])
-        for prefix, body in (("void Set(out float x){x=1.0;}","float4 x=a;Set(x.y);return x;"),
-                             ("void Set(out float x){x=asfloat(1u);}","float x;Set(x);return a;")):
+        source = "void Set(out float x){x=1.0;}" + ENTRY + "float4 x=a;Set(x.y);return x;}"
+        self.assertEqual(self.values(source), [1,1,3,4])
+        for prefix, body in (("void Set(out float x){x=asfloat(1u);}","float x;Set(x);return a;"),):
             with self.subTest(body=body), self.assertRaises(ModelError):
                 self.compile(prefix + ENTRY + body + "}")
 

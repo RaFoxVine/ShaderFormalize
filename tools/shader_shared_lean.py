@@ -1,5 +1,9 @@
 """Shared helper definitions, concrete call results and guarded domain conclusions."""
+import hashlib
+import json
+
 from shader_ast import ModelError
+from shader_aggregate_metadata import validate_metadata
 from shader_packing_lean import PackingEmitter
 from shader_shared import result_leaves
 from shader_lean import fin_index
@@ -15,6 +19,7 @@ def validate_shared(model):
 
 
 def _validate_shared(model):
+    validate_metadata(model)
     helpers = model["helpers"]
     if not isinstance(helpers, list) or len(helpers) > 127:
         raise ModelError("Invalid shared helper table")
@@ -41,6 +46,8 @@ class SharedFrameValidator:
         if predicate and expr["width"] != "bool":
             raise ModelError("Shared predicate must have Boolean type")
         kind = expr["kind"]
+        if kind == "partial_vector":
+            raise ModelError("Internal partial initialization escaped into a shared model")
         if kind == "record":
             for value in expr["fields"].values():
                 self.check(value)
@@ -60,6 +67,11 @@ class SharedFrameValidator:
                 raise ModelError("Invalid shared uint literal")
         if kind == "boolean" and (width != "bool" or type(expr["value"]) is not bool):
             raise ModelError("Invalid shared Boolean literal")
+        if kind == "bounded_index":
+            if (width != "uint" or type(expr["size"]) is not int or not 1 <= expr["size"] <= 64
+                    or not isinstance(expr["arguments"], list) or len(expr["arguments"]) != 1
+                    or expr["arguments"][0]["width"] != "uint" or has_payload(expr["arguments"][0])):
+                raise ModelError("Invalid bounded index type or size")
         expected = None
         if kind in ("local", "effect"):
             check_reference(expr["index"], self.available[kind])
@@ -247,6 +259,11 @@ def generate_shared(original, optimized, spec):
         validate_shared(original)
         validate_shared(optimized)
         text = generate_control(original, optimized, spec, SharedEmitter, "import ShaderFormalize.Packing\n")
+        keys = ("aggregate_types", "uniform_layout", "input_groups")
+        if any(key in model for model in (original, optimized) for key in keys):
+            metadata = [{key: model[key] for key in keys if key in model} for model in (original, optimized)]
+            digest = hashlib.sha256(json.dumps(metadata, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+            text = "-- Aggregate logical layouts SHA256: " + digest + "\n" + text
         # Explicit E is necessary even when a uniform field ignores its position.
         return text.replace("∀ x,", "∀ x : E,")
     except (KeyError, TypeError, IndexError, AttributeError, ValueError, ZeroDivisionError, RecursionError) as error:

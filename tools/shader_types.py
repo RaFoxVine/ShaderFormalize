@@ -58,6 +58,8 @@ def initialized(value):
     if value["kind"] == "record":
         for field in value["fields"].values():
             initialized(field)
+    if value["kind"] == "partial_vector":
+        raise ModelError("Read before all selected vector components are initialized")
     return value
 
 
@@ -100,7 +102,7 @@ class TypeRegistry:
             if name in self.records or len(self.records) >= 64:
                 raise ModelError("Repeated or excessive struct declarations")
             self.records[name] = {"node": node, "fields": []}
-        for name, record in self.records.items():
+        for name, record in list(self.records.items()):
             for child in record["node"].children:
                 tail = source_header(child.text).group("tail").strip()
                 if child.kind == "CXXRecordDecl" and not child.children and tail == f"implicit struct {name}":

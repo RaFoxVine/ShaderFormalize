@@ -7,6 +7,9 @@ from shader_effects import discard_condition
 
 
 def lvalue_type(node, program):
+    extension = program.address_type(node)
+    if extension is not None:
+        return extension
     kind = program.types.node_type(node)
     if node.kind == "DeclRefExpr" and not node.children:
         if re.search(r"\b(ParmVar|Var) 0x[0-9a-fA-F]+ '", source_header(node.text).group("tail")) is None:
@@ -119,6 +122,10 @@ def validate_block(body, result_type, program, effects_allowed=False):
     for statement in body.children:
         if returned:
             raise ModelError("Statements after return are outside the straight-line subset")
+        extension = program.validate_statement(statement, result_type, effects_allowed)
+        if extension is not None:
+            returned = extension
+            continue
         if statement.kind == "IfStmt" and program.control:
             condition, yes, no = control_branches(statement, program)
             validate_expression(condition, program)

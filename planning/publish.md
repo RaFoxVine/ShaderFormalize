@@ -34,9 +34,9 @@
 - acceptance: 远端SHA与实际推送HEAD一致；language仍继续，最终报告/最终push未以本检查点冒充完成。
 - result: 非强制push成功，远端独立ls-remote和本地均为4cfa77a10d78465a1d69d23f739400d934842f57；后续copyback尚无产品改动，未混入此检查点。
 
-## 检查点3：默认参数、out/inout及最新Windows复现（Approved）
+## 检查点3：默认参数、out/inout及最新Windows复现（Completed）
 
-- status: active
+- status: completed
 - source: 同一sealed running overnight publish条目；用户明确要求git push，额度恢复后明确继续。
 - target: 发布1d0b227及祖先，包含已验证copyback64992ea、独立Windows追加复现和精简证据、当前说明、已审阅的后续规划/授权；本检查点不包含尚未开始的矩阵/数组产品代码。
 - readiness: 默认165单元/47控制全部符合预期，21 PROVED/24 UNPROVED/2 INVALID_INPUT；独立Q2最终Verified；独立安装副本64992ea的三正例PROVED且事实复核通过。无未提交产品变更、无依赖变更、无工具缓存/Unity/完整日志进入tracked内容。
@@ -44,3 +44,4 @@
 - exclusions: force push、merge/rebase、改remote、推缓存/秘密/未验证产品、归档。
 - stop: 远端分叉、认证/网络失败、存在无关变更或待审关键代码。
 - acceptance: 远端SHA与实际推送HEAD一致；不将本检查点当整个overnight完成。
+- result: 非强制push成功，远端ls-remote与本地当时HEAD均为8923b25953f2b82b4bb71aa11bc233b09df516a4。后续矩阵/数组产品代码在该push之后才开始，不在此检查点。

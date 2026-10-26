@@ -157,14 +157,31 @@ def copyback_controls():
     return controls
 
 
+def aggregate_controls():
+    material = ROOT / "examples/aggregate"
+    arguments = ["--frontend", "shared", "--original", material / "original.hlsl",
+                 "--constraints", material / "constraints.json", "--agent-proof", ROOT / "proof/AggregateMaterialProof.lean"]
+    controls = [check_case("aggregate-material-wrong", "UNPROVED", *arguments, "--optimized", material / "wrong.hlsl")]
+    controls.append(check_case("aggregate-material-positive", "PROVED", *arguments, "--optimized", material / "optimized.hlsl"))
+    controls.append(check_case("aggregate-field", "PROVED", "--frontend", "shared",
+        "--original", material / "field.original.hlsl", "--optimized", material / "field.optimized.hlsl",
+        "--constraints", ROOT / "examples/control/constraints.json", "--agent-proof", ROOT / "proof/AggregateFieldProof.lean"))
+    for role, expected in (("safe", "PROVED"), ("wrong", "UNPROVED"), ("inactive", "PROVED")):
+        source = material / ("domain." + role + ".hlsl")
+        controls.append(check_case("aggregate-index-" + role, expected, "--frontend", "shared",
+            "--original", source, "--optimized", source if role == "wrong" else material / "domain.optimized.hlsl",
+            "--constraints", ROOT / "examples/control/zero-constraints.json", "--agent-proof", ROOT / "proof/AggregateDomainProof.lean"))
+    return controls
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--example", choices=("all", "lerp", "unlit", "structured", "textured", "branched", "packed", "copyback"), default="all")
+    parser.add_argument("--example", choices=("all", "lerp", "unlit", "structured", "textured", "branched", "packed", "copyback", "aggregate"), default="all")
     args = parser.parse_args()
     output = ROOT / "artifacts" / ("acceptance" if args.example == "all" else "acceptance-" + args.example)
     output.mkdir(parents=True, exist_ok=True)
     write_json(output / "result.json", {"status": "IN_PROGRESS", "layer": "core", "example": args.example})
-    patterns = {"lerp": "test_shaderformalize.py", "unlit": "test_unlit.py", "structured": "test_structured.py", "textured": "test_fragment.py", "branched": "test_control.py", "packed": "test_packing.py", "copyback": "test_copyback.py"}
+    patterns = {"lerp": "test_shaderformalize.py", "unlit": "test_unlit.py", "structured": "test_structured.py", "textured": "test_fragment.py", "branched": "test_control.py", "packed": "test_packing.py", "copyback": "test_copyback.py", "aggregate": "test_aggregate.py"}
     suite = unittest.defaultTestLoader.discover(str(ROOT / "tools"), pattern=patterns.get(args.example, "test_*.py"))
     result = unittest.TextTestRunner(verbosity=1).run(suite)
     if not result.wasSuccessful():
@@ -185,6 +202,8 @@ def main():
             controls.extend(shared_controls())
         if args.example in ("all", "copyback"):
             controls.extend(copyback_controls())
+        if args.example in ("all", "aggregate"):
+            controls.extend(aggregate_controls())
         write_json(output / "result.json", {"status": "PASSED", "layer": "core", "example": args.example, "regression_tests": result.testsRun, "controls": controls})
         return 0
     except (OSError, ValueError, RuntimeError, subprocess.TimeoutExpired) as error:

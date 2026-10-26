@@ -14,6 +14,20 @@ def output_parameters(function):
     return [param for param in function["parameters"] if param.get("mode", "in") != "in"]
 
 
+class FieldDestination:
+    def __init__(self, symbol, path, kind):
+        self.symbol, self.path, self.kind = symbol, path, kind
+
+    def name(self):
+        return self.symbol["name"]
+
+    def read(self):
+        return initialized(read_path(self.symbol["value"], self.path))
+
+    def write(self, value):
+        self.symbol["value"] = replace_path(self.symbol["value"], self.path, value)
+
+
 class CopybackTypes(PackingTypes):
     def node_type(self, node):
         name = quoted(node.text)[0].removeprefix("const ")
@@ -53,6 +67,9 @@ class CopybackTypes(PackingTypes):
 
 class CopybackProgram(SharedProgram):
     type_registry = CopybackTypes
+
+    def capture_destination(self, node, symbols):
+        return FieldDestination(*self.lvalue(node, symbols))
 
     def __init__(self, source, dump):
         self.default_nodes = {}
@@ -222,13 +239,13 @@ class CopybackProgram(SharedProgram):
         flattened, destinations = [], []
         for argument, param in zip(node.children[1:], function["parameters"]):
             if param["mode"] != "in":
-                symbol, path, kind = self.lvalue(self.output_argument(argument, param), symbols)
-                if not symbol["writable"] or kind != param["type"]:
+                destination = self.capture_destination(self.output_argument(argument, param), symbols)
+                if not destination.symbol["writable"] or destination.kind != param["type"]:
                     raise ModelError("Copy-out requires a writable local with matching type")
-                destinations.append((symbol, path, kind))
+                destinations.append(destination)
                 if param["mode"] == "out":
                     continue
-                value = initialized(read_path(symbol["value"], path))
+                value = destination.read()
             else:
                 value = self.expression(argument, symbols)
             if value_type(initialized(value)) != param["type"] or has_payload(value):
@@ -238,11 +255,11 @@ class CopybackProgram(SharedProgram):
         fields = []
         result = self.shape(function["type"], "call_result", fields, index)
         writes = []
-        for symbol, path, kind in destinations:
-            value = self.shape(kind, "call_result", fields, index)
-            writes.append((symbol, path, self.snapshot(value, "copyout." + symbol["name"])))
-        for symbol, path, value in writes:
-            symbol["value"] = replace_path(symbol["value"], path, value)
+        for destination in destinations:
+            value = self.shape(destination.kind, "call_result", fields, index)
+            writes.append((destination, self.snapshot(value, "copyout." + destination.name())))
+        for destination, value in writes:
+            destination.write(value)
         return result
 
     def expression(self, node, symbols):

@@ -29,3 +29,15 @@ Q1的坏模型结构异常和predicate类型缺口已修复并回归；literal�
 固定DXC对record输出使用__restrict S，并将调用者目标包在LValueToRValue中；这层经确切类型核对后作为地址包装处理，不能误读out旧值。raw探针artifacts/language-probes/out-record.*保留。F(out x,x)允许旧输入副本；F(inout x,G(out x))拒绝；F(out x,G(out x))按先完成内调用后外copy-out得到5。默认参数在声明全局环境查找，调用者同名变量不会捕获它。两个输出先全部快照再写回。
 
 最新源码另在已独立安装依赖的Fresh Checkout更新至64992ea，copyback材质、完整场导数、packed三正例均实际PROVED；复用副本自己的同锁工具/缓存，不是再次从空目录安装。独立事实复核通过，精简证据见../evidence/windows-copyback-2026-10-26.json。
+
+## 矩阵、数组与typed元素地址（实施中）
+
+授权aggregate-001修订1及Approved状态在1d0b227先提交；前置copyback165/47/Q2闭合后开始代码。矩阵/数组降为现有record数值叶，统一地址捕获下标、元素/不重复swizzle写回、逐叶初始化和别名足迹；复合float uniform保留源布局、packing和范围组；bounded_index保留原uint并生成实际执行域结论。默认auto与四个数学模块不变。
+
+初始20项真实DXC单元、随后新增至25项全部通过；原copyback19/shared14也通过。非方阵、transpose/矩阵积、全元素splat/左上截断、float1与标量重载区别、嵌套数组顺序、out数组、矩阵返回/输出、索引只求值一次、partial初始化、动态越界和未实际越界、静态别名/索引副作用、复合输入/范围交集/物理packing拒绝及坏模型均覆盖；实际新材质另有两组合法输入的独立手算公式及错误系数有限反例，uint/bool数组叶类型也实际验证。一次readonly uniform写入负例被DXC先拒绝，回归最初只期待ModelError；修正为也接受确切CalledProcessError，不改产品拒绝行为。
+
+正常新材质使用LightData[2]、out数组、默认系数、inout累积和颜色混合矩阵；手工展开版以行列项计算。两版实际材质目标PROVED，故意改错矩阵系数UNPROVED。组合prepare发现DXC的只读矩阵operator[]带const方法和const pointer decay，已严格按对应签名补支持并加回归。首个完整材质check在元数据完整性补丁前完成，随后统一aggregate控制中的材质正反例在补丁后再次核验。
+
+独立Q1源码初审没有发现确定语义阻断，并将旧21正例从保存的真实DXC AST重新导入，模型与目标逐字一致。它发现说明性形状表允许未知元素/环；虽不参与数值定义，仍按完整性合同修复为完整规范类型图，检查source record字段、引用、环、深度/叶和canonical identity，发射与有限求值均受保护，已有坏模型回归通过。尚待六正式控制全部通过、全套及最终Q，不预先标Verified。
+
+导数正例的初始证明脚本在BitVec.toNat 0<2的闭合义务处未完成；原脚本与失败目标冻结于artifacts/aggregate/field-first-failed。补充合法索引的内核decide证明后正式PROVED，不移动域到前提、不更改数学生成。下标正例一版脚本因simp没有可化简项而失败，改为条件尝试后，合法与未执行越界正式PROVED，实际越界同源UNPROVED。六控制现全部符合预期；对应日志分别保留aggregate-controls.log、aggregate-field-domain.log、aggregate-field-domain-fixed.log及aggregate-domain-fixed.log，不将早期失败当通过。

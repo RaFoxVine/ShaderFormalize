@@ -87,6 +87,9 @@ def expression_key(expr):
 
 def constraint_spec(data, original, optimized):
     interface = original["interface"]
+    from shader_aggregate_metadata import validate_metadata
+    validate_metadata(original)
+    validate_metadata(optimized)
     if isinstance(data, dict) and type(data.get("schema")) is int and data["schema"] == 1:
         lower, upper = load_constraints(data, interface)
         spec = {"ranges": [(2, lower, upper)], "nonzero": []}
@@ -94,11 +97,23 @@ def constraint_spec(data, original, optimized):
         if not isinstance(data, dict) or set(data) != {"schema", "ranges", "nonzero_vectors"} or type(data["schema"]) is not int or data["schema"] != 2:
             raise ModelError("Unknown constraint schema or fields", "INVALID_INPUT")
         inputs = {item["name"]: item for item in interface}
-        if not isinstance(data["ranges"], dict) or any(name not in inputs for name in data["ranges"]):
+        groups = original.get("input_groups", {})
+        if not isinstance(data["ranges"], dict) or any(name not in inputs and name not in groups for name in data["ranges"]):
             raise ModelError("Unknown input range", "INVALID_INPUT")
-        ranges = []
+        intervals = {}
         for name, interval in data["ranges"].items():
-            ranges.append((inputs[name]["index"], *bounds(interval)))
+            lower, upper = bounds(interval)
+            indices = [inputs[name]["index"]] if name in inputs else groups[name]
+            for index in indices:
+                if index in intervals:
+                    lower_existing, upper_existing = intervals[index]
+                    merged = max(lower_existing, lower), min(upper_existing, upper)
+                else:
+                    merged = lower, upper
+                if merged[0] > merged[1]:
+                    raise ModelError("Contradictory overlapping input ranges", "INVALID_INPUT")
+                intervals[index] = merged
+        ranges = [(index, lo, hi) for index, (lo, hi) in intervals.items()]
         if not isinstance(data["nonzero_vectors"], list):
             raise ModelError("nonzero_vectors must be a list", "INVALID_INPUT")
         nonzero = [selector(text, interface) for text in data["nonzero_vectors"]]

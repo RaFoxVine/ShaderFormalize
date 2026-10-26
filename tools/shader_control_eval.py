@@ -37,6 +37,11 @@ def control_field(expr, model, inputs, locals_, effects, count, operations, guar
         values = [arg[point] for arg in args]
         if kind == "choose":
             result.append(values[1] if values[0][0] else values[2])
+        elif kind == "bounded_index":
+            value = values[0][0]
+            if not 0 <= value < expr["size"] and (guard is None or guard[point]):
+                raise ValueError("Executed array/vector/matrix index is outside its domain")
+            result.append([value])
         elif kind.startswith("uint_") or kind in ("real_to_uint", "carrier", "recover"):
             from shader_packing_eval import packing_scalar
             active = guard is None or guard[point]

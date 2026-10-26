@@ -35,6 +35,6 @@ float→uint对非负实数向零截断，必须证明0≤x<2³²。uint→float
 
 ## 当前范围和后续接口
 
-支持标量uint局部、内部struct字段、按值helper参数/返回；十进制/十六进制uint字面量及u后缀；+、-、*、&、|、^、~、<<、>>、无符号比较和现有控制流。uint复合赋值尚未开放。入口及cbuffer输入仍只接受现有实数布局；int、有符号位操作、整数向量/数组/矩阵和out/inout仍会拒绝，均非永久排除项。
+默认auto支持标量uint局部、内部struct字段、按值helper参数/返回；十进制/十六进制uint字面量及u后缀；+、-、*、&、|、^、~、<<、>>、无符号比较和现有控制流。显式shared另支持uint的out/inout及固定数组；具体参数和复合值规则见[共享函数](shared-functions.md)、[矩阵/数组](aggregate-values.md)。uint复合赋值尚未开放。整数stage/cbuffer、一般int、有符号位操作、整数向量/矩阵仍拒绝，均非永久排除项。
 
-外部输入的位载体语义和按调用区分的helper接口，需要在下一阶段明确。完整Forward还需要共享函数表示、out/inout、矩阵/数组、只读资源、循环和更多数学操作；不能把本示例的PROVED当作官方Lit的证明。
+外部输入的位载体语义仍待明确，不能从普通float输入猜测。共享函数定义、out/inout及矩阵/数组基础已有独立入口和示例；完整Forward仍需更多入口、只读资源、循环和数学操作，并存在IsNaN等实数模型边界，不能把本示例的PROVED当作官方Lit的证明。

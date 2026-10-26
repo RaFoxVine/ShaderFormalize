@@ -17,7 +17,7 @@ def swizzle_indices(mask, size):
     return [alphabet.index(c) for c in mask]
 
 
-def buffer_declaration(node):
+def buffer_declaration(node, check_numeric=True):
     match = re.fullmatch(r" cbuffer ([A-Za-z_][A-Za-z0-9_]*)", source_header(node.text).group("tail"))
     if match is None or not node.children or node.children[0].kind != "RegisterAssignment":
         raise ModelError("Expected one explicitly registered cbuffer")
@@ -31,7 +31,8 @@ def buffer_declaration(node):
         parent = re.search(r" parent cbuffer (0x[0-9a-fA-F]+) ", field.text)
         if parent is None or parent.group(1) != identifier(node):
             raise ModelError("Cbuffer field owner mismatch")
-        width(field)
+        if check_numeric:
+            width(field)
         fields.append(field)
     if not fields:
         raise ModelError("Empty cbuffer")
@@ -100,6 +101,18 @@ class Program:
     packing = False
     type_registry = TypeRegistry
 
+    def read_buffer(self, node):
+        return buffer_declaration(node)
+
+    def address_type(self, node):
+        return None
+
+    def validate_statement(self, node, result_type, effects_allowed):
+        return None
+
+    def assign_statement(self, node, symbols):
+        return False
+
     def validate_extension(self, node):
         return False
 
@@ -127,7 +140,7 @@ class Program:
             elif node.kind == "FunctionDecl":
                 functions.append(node)
             elif node.kind == "HLSLBufferDecl" and self.buffer is None:
-                self.buffer, self.fields = buffer_declaration(node)
+                self.buffer, self.fields = self.read_buffer(node)
             elif node.kind == "VarDecl":
                 resources.append(node)
             elif node.kind == "EmptyDecl" and not node.children and not source_header(node.text).group("tail").strip():
@@ -398,6 +411,8 @@ class Program:
                         if value_type(value) != kind:
                             raise ModelError("Initializer type mismatch")
                         symbol["value"] = self.snapshot(value, name)
+            elif self.assign_statement(statement, symbols):
+                continue
             elif statement.kind in ("BinaryOperator", "CompoundAssignOperator") and len(statement.children) == 2:
                 symbol, path, kind = self.lvalue(statement.children[0], symbols)
                 if not symbol["writable"]:
@@ -434,17 +449,20 @@ class Program:
                 raise ModelError(f"Unsupported statement: {statement.kind}")
         return did_return, returned
 
-    def model(self):
-        interface, entry_layout, arguments = [], [], []
-        for param in self.main["parameters"]:
-            entry_layout.append(dict(self.types.layout(param["type"]), name=param["name"], semantic=param["semantic"]))
-            arguments.append(self.types.input_value(param["type"], param["name"], param["semantic"], interface))
+    def uniform_inputs(self, interface):
         for field in self.fields:
             name, size = declaration_name(field), width(field)
             index = len(interface)
             interface.append({"index": index, "name": name, "width": size, "semantic": None,
                               "storage": "uniform", "buffer": self.buffer["name"], "register": self.buffer["register"]})
             self.globals[identifier(field)] = make_symbol(name, size, "Var", False, reference("parameter", size, index))
+
+    def model(self):
+        interface, entry_layout, arguments = [], [], []
+        for param in self.main["parameters"]:
+            entry_layout.append(dict(self.types.layout(param["type"]), name=param["name"], semantic=param["semantic"]))
+            arguments.append(self.types.input_value(param["type"], param["name"], param["semantic"], interface))
+        self.uniform_inputs(interface)
         if not 1 <= len(interface) <= 64 or len({item["name"] for item in interface}) != len(interface):
             raise ModelError("Invalid/ambiguous input declarations")
         self.interface = interface
@@ -459,8 +477,8 @@ class Program:
 
 def import_shader(source, dump, frontend="auto"):
     if frontend == "shared":
-        from shader_copyback import CopybackProgram
-        return CopybackProgram(source, dump).model()
+        from shader_aggregate import AggregateProgram
+        return AggregateProgram(source, dump).model()
     if frontend != "auto":
         raise ModelError("Unknown frontend", "INVALID_INPUT")
     from shader_control_values import uses_control
