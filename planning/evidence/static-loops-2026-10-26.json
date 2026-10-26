@@ -1,0 +1,686 @@
+{
+  "date": "2026-10-26",
+  "source_commit": "d34856609b7a897c093314bc497606d9f6a369d1",
+  "grant": "loop-001@revision-2",
+  "isolated_grant_commits": [
+    "0fe6bd6",
+    "756b0f6"
+  ],
+  "main_integration_authority_commit": "7241875",
+  "dependency": "aggregate-2026-10-26.json",
+  "status": "PASSED",
+  "review": "Independent Q2 final Verified: code/frozen4/old25 checked, full213/57 frozen reports and actual hashes finally closed; no remaining issues",
+  "regression_tests": 213,
+  "new_loop_tests": 23,
+  "formal_controls": 57,
+  "counts": {
+    "PROVED": 27,
+    "UNPROVED": 28,
+    "INVALID_INPUT": 2
+  },
+  "cases": [
+    {
+      "case": "complete-wrong",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321"
+    },
+    {
+      "case": "complete-positive",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "b1f0c31f3c592d2ea76653fd8a78287e7f4d36136d0a4fe5c616ecc21eb8b781",
+      "generated_sha256": "d001b2ddec401a73440cc3650011ec26489ca2fb051f2682cf3b30de9fe79ba2",
+      "agent_proof_sha256": "5ced48dfd8744b74a43b12ece4972fa0943f13c1a71314586ce245e08d812e2d",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ]
+    },
+    {
+      "case": "loop-domain-zero",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "cb891b3dbdc17ca4bbe2fee01255702e2fa32711ac50c18c1ccf358ead5d4a58",
+      "generated_sha256": "de542f70062efc40dfda0fbf57bd6ac1d0b92b8c3810c973502ae60051a4f884",
+      "agent_proof_sha256": "d61a1b74c4512703722eec484d0d5c83c33f36e9b8d19a9011c9faa121936133",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ]
+    },
+    {
+      "case": "loop-domain-wrong",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321"
+    },
+    {
+      "case": "wrong-expression",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321"
+    },
+    {
+      "case": "missing-range-premise",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321"
+    },
+    {
+      "case": "custom-axiom",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "fdf3f607fbe79a07d52ebf035889d7b525790ef6fb0a6a1a28bf8efc55abbc08"
+    },
+    {
+      "case": "sorry-proof",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "4c90a3601d1c004f652b8f446a9e59a359a5c8de28e239d278caa6dba02ce66a"
+    },
+    {
+      "case": "forged-target",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "aabd872ae0d308a6298919eb3ab5d1f975f48874beb548bc7615478b1ca09a29"
+    },
+    {
+      "case": "positive",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "a74fe2230c5becc59bc153fb1fe9acf2e408eb21aa95ad917b0faf959899803d",
+      "generated_sha256": "6faeecdaaa6762950e7ccb870118ff5f251e267650587cd59a01dc20a7a633d9",
+      "agent_proof_sha256": "af907b2a6a3baab2f8b13985de886070ceaa5aa2db1308617facc594542466a8",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ]
+    },
+    {
+      "case": "unlit-missing-domain",
+      "expected": "INVALID_INPUT",
+      "actual": "INVALID_INPUT",
+      "report_sha256": "bed1d7a4dde6b0c2b8fc188633b72ac62d73ce9f82e03fa7fb4dd5eda683daac"
+    },
+    {
+      "case": "unlit-wrong",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321"
+    },
+    {
+      "case": "unlit-positive",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "09d6de3edeedfcc89c3ebecbb91527a8e7a8eaef2ecbb629452b9af1aa8d0441",
+      "generated_sha256": "b6eb2fdaac6b423c622a42d5cfc96bcbe24104b41d730c3bf60cc86d66d4409c",
+      "agent_proof_sha256": "bfb0e583b8b54223e5c56d67c1d9e081e1b0d49a196f5e61df62ad38133e1487",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ]
+    },
+    {
+      "case": "structured-missing-domain",
+      "expected": "INVALID_INPUT",
+      "actual": "INVALID_INPUT",
+      "report_sha256": "bed1d7a4dde6b0c2b8fc188633b72ac62d73ce9f82e03fa7fb4dd5eda683daac"
+    },
+    {
+      "case": "structured-wrong",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321"
+    },
+    {
+      "case": "structured-positive",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "af8dae7767c07ca2c9444778606fc646e4126535b11ef26392ed0215d5ff2d19",
+      "generated_sha256": "3337fbdf763872249564fb972f56c9ebb1596c0f80f82e33fba0b68d3c0d2dd0",
+      "agent_proof_sha256": "bfb0e583b8b54223e5c56d67c1d9e081e1b0d49a196f5e61df62ad38133e1487",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ]
+    },
+    {
+      "case": "textured-wrong",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321"
+    },
+    {
+      "case": "textured-wrong-uv",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321"
+    },
+    {
+      "case": "textured-wrong-derivative",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321"
+    },
+    {
+      "case": "textured-wrong-lod",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321"
+    },
+    {
+      "case": "textured-wrong-sampler",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321"
+    },
+    {
+      "case": "textured-positive",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "594fdd71bf1f7f4a1bd8bcc221142684ca2c5b527a2b68411ebc6bc0403fb94e",
+      "generated_sha256": "154796db151cef5fd85efa6fbf569f4d1dc6deb5f4f9038e56bd207376e040b8",
+      "agent_proof_sha256": "9bc224cce89c955f816e709e026a759e765abf83e3a70e8f14a823032a29556b",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ]
+    },
+    {
+      "case": "control-alias",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "a466fae87ac32580f7d8241500f4dd122a87a884241fae36df058e21a76afabe",
+      "generated_sha256": "e35a7c2a94dcf858b41b3fdb109c89ea196e602fefd006f24ebad2cb6065ee1b",
+      "agent_proof_sha256": "3b1706be9993b6b14ec8346a5968165ba8f2a764ada052d1f657717df1983fbd",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ]
+    },
+    {
+      "case": "control-else",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "72cf7bb26c020080cedd54417b50f994d5dd20326c6e6348b98f15b4a4e64e5c",
+      "generated_sha256": "8fed3d134598b4928f52109bcb15b69468769e45d7432eb521873aad0d451023",
+      "agent_proof_sha256": "edfb8f2037bdf5a81ff54af10fbbc9d35ba58aa6ebea3073b63b7904160d3ab9",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ]
+    },
+    {
+      "case": "control-return",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "b93d709f811e97ab33f6a84550f7403186b0d6dc14805f4dc0b3865861159cc4",
+      "generated_sha256": "9b05824ef730907fbac4450639220eadda9909ea5279228aea9ac87fc3ad744c",
+      "agent_proof_sha256": "596ed71d47792f98ffd1f2a49bf8ef809db9541ba894f8c4e0b08247e974834a",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ]
+    },
+    {
+      "case": "control-domain-wrong",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321"
+    },
+    {
+      "case": "control-domain",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "cce0f4ef18526d93d2e084fe4945d0f14d9a46e7015f3849fc658e67af43a938",
+      "generated_sha256": "ba9f29eb55a145fec9eefa51a2b714fb4068621e6efb3202dde6267f7af2523a",
+      "agent_proof_sha256": "4f9041dada0d32307b583f757b83022a428ce8119b907b466c1475903d9d5ed3",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ]
+    },
+    {
+      "case": "control-mixed",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "3eface4829af88b709883711483e0ff21fa05d1d8fcd5b15f44ac5430023f55d",
+      "generated_sha256": "518250c2c7f7eb9bbaab95de97312b293a2810169014ed0c57d65fac27f3f85d",
+      "agent_proof_sha256": "25634870716a58cdbbe992db04771bdb3c541ac664ed6926fa499e352a919f02",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ]
+    },
+    {
+      "case": "control-helper-field",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "5d2587d39b0153191f712e02cef083ae85de14ed6f6d839dd8db9794ee15050d",
+      "generated_sha256": "5a377c8fb14ca5b9310927752b1f684a92742ebf2c0b90d5684b9bee09c369e4",
+      "agent_proof_sha256": "3aa66e9bad1e57e1542db673576c5b86d883ef6082fc1514a318a674e56ac73e",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ]
+    },
+    {
+      "case": "control-helper-domain-original",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "96a2ce4b4487b959fb1be61ed795e3547fe34918900ddb3fe78909e3d2efe604",
+      "generated_sha256": "e0e7274f15272e7220c86cca369d0a0683d3f6db5487f59043d5f3ef2a1fb731",
+      "agent_proof_sha256": "2671800a7cb082655a2e21c3cdce3c7f5f16ad5e41cb33c0e94356df874a224f",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ]
+    },
+    {
+      "case": "control-helper-domain-wrong",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321"
+    },
+    {
+      "case": "branched-wrong",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321"
+    },
+    {
+      "case": "branched-wrong-cutoff",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321"
+    },
+    {
+      "case": "branched-positive",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "c9c2b7681ab711277f99df48b4e64deed862c15a8382948ccc44a04864e93617",
+      "generated_sha256": "b694898bb802f23072de74127b53f7e3074f051b29bcea683391da9e29d3fa73",
+      "agent_proof_sha256": "4a62da4962ea3fefb0e1a10b72388242f199cdf6055d1b90502d3ff946e16425",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ]
+    },
+    {
+      "case": "packed-wrong-field",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321"
+    },
+    {
+      "case": "packed-domain-safe",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "acaa99429590f3740a9f6cac01f003144168e087a81708a9fe439fa52a7d73cf",
+      "generated_sha256": "afec2287d4a2d9b9b8ee65c7bd0a88fe83637a7f6bded134d760434a33e11d09",
+      "agent_proof_sha256": "47aa5763e5a11ae38d52033b981ffd0bb674ac0c95564e54d11f84f6d44aa8de",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ]
+    },
+    {
+      "case": "packed-domain-wrong",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321"
+    },
+    {
+      "case": "packed-shift-wrong",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321"
+    },
+    {
+      "case": "packed-positive",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "d53c4d628489c8daaa524a18c58cc6c820f13f8f65262400dae76b60bf031b8a",
+      "generated_sha256": "104acefe228169bf7e7d805e5c8b71552a79dd8d2a174fec66df1d1e913cbbf9",
+      "agent_proof_sha256": "23f6f7c83b3fb47984fbb8d59d72a30b568c0040f98defd092da34c1b84b3d6e",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ]
+    },
+    {
+      "case": "shared-structured-wrong",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321"
+    },
+    {
+      "case": "shared-structured-positive",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "c3d1f3f43ac521421b979dd05a7545abbe72ab84a2ed4d34a7bf53fb5b53a770",
+      "generated_sha256": "10c3d5329f77695c6d2ba7a98beec46e66764dac28f0e7ce5b2d4a072150e75d",
+      "agent_proof_sha256": "e471f68c746db7dea27f88be32cf028edf4cb6758081f5a4050afbb65e6054d7",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ]
+    },
+    {
+      "case": "shared-helper-field",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "eecf1c829f0dcc7514c2614cf89b8b5e0cb23e354cde49f84187b381305fbd4b",
+      "generated_sha256": "10dc640c54184789a75ecefdefe8bb00305407597187589f67e84568d9964b4c",
+      "agent_proof_sha256": "afa30ba78a9b14c61c96e637293ef59f1be2f1d25ed43771bd2775b63ed057df",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ]
+    },
+    {
+      "case": "shared-helper-domain-original",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "0458a0dcc9ab84067f267284f3cee93664ab508816e10f6790546ba6b8e81ed6",
+      "generated_sha256": "f260a58b5df7ee85c9efc6b5a41966584b7c28819c4ea450dbc3b575f60e3624",
+      "agent_proof_sha256": "ea82bd01da782234ca0b405e5ae6a80e72d6d14bbd8b2646985df23c5023cf62",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ]
+    },
+    {
+      "case": "shared-helper-domain-wrong",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321"
+    },
+    {
+      "case": "shared-helper-domain-ignored",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321"
+    },
+    {
+      "case": "copyback-structured-wrong",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321"
+    },
+    {
+      "case": "copyback-structured-positive",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "051e7dd4553cec8c944bce38fc43f5be8afad401d12cb5038d3e391b380cf9e6",
+      "generated_sha256": "909947eda2af4c6a9d626f8be9ba5097098087179ccf1f8e9d060ee4d08b7472",
+      "agent_proof_sha256": "528f7bca75d0e308b531bb57f443568e177cc580fa2ac6c9b029aed93dc71c8c",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ]
+    },
+    {
+      "case": "copyback-field",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "c952d43d14b9901f974156130c3e5cf5740bde06529830e8b173231924b0ad15",
+      "generated_sha256": "704fda325c99f43637bb475e6d199ca7d24eec608a3fc63df67c2988750f7cdd",
+      "agent_proof_sha256": "6d9e5bbfd159a147bf9444992942cc6edc15ba63199f068bedd827a7fb1caa6c",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ]
+    },
+    {
+      "case": "copyback-clip",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "5b2ec6cd1073e60e91ac1b56fc9e697790475590b6fc4712972227b1bad23a1e",
+      "generated_sha256": "bed5f78602fdfbb84a2adacd4f14862262d7d163e86a454af105b3a856d70ae7",
+      "agent_proof_sha256": "ec69c0256c73e30ea4b381dc85b4bddd68f9b2de688536ebb4178d7156e60341",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ]
+    },
+    {
+      "case": "copyback-default-domain-original",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "e1724e7586d8783581cfaeb88ce920772d7c2371d694ab719d6476b98f012f7b",
+      "generated_sha256": "f8f29cad0132da1e4ec0cae4a3640d9d79bd5e635e96e386e496df44ee06bfb8",
+      "agent_proof_sha256": "ea82bd01da782234ca0b405e5ae6a80e72d6d14bbd8b2646985df23c5023cf62",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ]
+    },
+    {
+      "case": "copyback-default-domain-wrong",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321"
+    },
+    {
+      "case": "aggregate-material-wrong",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321"
+    },
+    {
+      "case": "aggregate-material-positive",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "83d4f4b1e58dd86060d52ca30c7996013578ecf52993bb51d1fda865769c7637",
+      "generated_sha256": "71d12a0c94d92b258190df515436f21df7cf11b9b938acf9624ad35735671471",
+      "agent_proof_sha256": "29be2149fffb7e6fc0de720e70a89d8d1e7e6c25dc313bb416d9cb334fe6bc60",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ]
+    },
+    {
+      "case": "aggregate-field",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "d76f6f543bffd5c6f8edcf9c19136e33ce86f0de230cf9fbd2c95f5ba255c148",
+      "generated_sha256": "3f6128dda055ebb9bec859063d3f31ca29266cd7ff0049546818e50bc95c3fc1",
+      "agent_proof_sha256": "cd12760846db4ea6eba1393c533f2ecea86314c376dd2c4ac22d663539edbedf",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ]
+    },
+    {
+      "case": "aggregate-index-safe",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "e9b4f71091cdc4fc32abbae31890affa695be2c9df5938eb6d6ea7956cc7c4bf",
+      "generated_sha256": "11743e3f4c42de3a6e9d676ef98a287a01873eb66712c5ec1b797c34b73ff966",
+      "agent_proof_sha256": "9a55501fb48f6bc9a1440bf66453d8e2faf3e01ef7f3461dad1268dc6d3ca389",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ]
+    },
+    {
+      "case": "aggregate-index-wrong",
+      "expected": "UNPROVED",
+      "actual": "UNPROVED",
+      "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321"
+    },
+    {
+      "case": "aggregate-index-inactive",
+      "expected": "PROVED",
+      "actual": "PROVED",
+      "report_sha256": "a6871d0326dfd2c8d6cc1e1b09b0efa40fd99f8bbdfa8c0da8d35e607017890a",
+      "generated_sha256": "23220d071e6c2f2a19355bcfb37c0d935bc8702e22ef1e085925c2f64674466a",
+      "agent_proof_sha256": "9a55501fb48f6bc9a1440bf66453d8e2faf3e01ef7f3461dad1268dc6d3ca389",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ]
+    }
+  ],
+  "source_sha256": {
+    "examples/complete/constraints.json": "1b2797f5309c3cc5df19750eed122ecf0150a32e939da3099c66812eb32da461",
+    "examples/complete/domain-constraints.json": "ff1fd95d29c8da469c94fc2146a78bd34c39f8a0d1d431125f2eed81d59284a3",
+    "examples/complete/domain-direct.hlsl": "7433433b197f9dc4d5f97d12c3f5c3b7021c7a73cc03581f6fd53e31281c174c",
+    "examples/complete/domain-wrong.hlsl": "f48a5ab488fcc023126622505e2c88cd7f1bc00de5f6b20369bd93434feba426",
+    "examples/complete/domain-zero.hlsl": "a8b97320de8abe693f4e7b916cab5d67a7ed0dec046e7ad4e8861c560d12c820",
+    "examples/complete/optimized.hlsl": "25c244ee612e031fb092f2e8f0a0d93f36786859f87668939e1301c843137e5a",
+    "examples/complete/original.hlsl": "418d5b9f9ef6abefc925ee43c80c37c8a16da9cf4f14c1a12a9fef6083dc239d",
+    "examples/complete/wrong.hlsl": "562e3cefbce69094363c83ae497f3387ac4215988512ea6fbb0f57dc6124778f",
+    "proof/CompleteMaterialProof.lean": "5ced48dfd8744b74a43b12ece4972fa0943f13c1a71314586ce245e08d812e2d",
+    "proof/LoopDomainProof.lean": "d61a1b74c4512703722eec484d0d5c83c33f36e9b8d19a9011c9faa121936133",
+    "tools/run_demo.ps1": "cbca124f2143854438bd28e65c00eba5ac9f784ce217050f1ca5a8f7f992d977",
+    "tools/shader_control.py": "a64287c46558698616337c442046cee86ce70e7baa5b8e88cbfb056bdc32ae53",
+    "tools/shader_frontend.py": "d56f8064c1e08ad39e2d71715fd3f54eebb44f534132ae1a266a726be6cb725b",
+    "tools/shader_loop_metadata.py": "1a040c91c18e4ea3eb3ae460df7538d2286206dbbd33c437664e81040c1443d9",
+    "tools/shader_loops.py": "a87cc4a286eb8b508c25236bd1fa89edb40ab0c777447216cdc63d70f07b4746",
+    "tools/shader_shared_lean.py": "738db8b9b97a92c3b956b794208547f28b7b4c116882ca462b03d20ae14ddac4",
+    "tools/test_loops.py": "2a6ffb69b3bed3a53dffa27c280deff9bcbd7765e8060fc6b77ecc6cfbc374ee",
+    "tools/verify_demo.py": "4ba5a7ac3b06a415b0c64726c26249c4cf91ff58272b3f152d914dfb55570525"
+  },
+  "old_target_compatibility": {
+    "status": "PASSED",
+    "checks": [
+      {
+        "case": "branched-positive",
+        "generated_sha256": "b694898bb802f23072de74127b53f7e3074f051b29bcea683391da9e29d3fa73"
+      },
+      {
+        "case": "control-alias",
+        "generated_sha256": "e35a7c2a94dcf858b41b3fdb109c89ea196e602fefd006f24ebad2cb6065ee1b"
+      },
+      {
+        "case": "control-domain",
+        "generated_sha256": "ba9f29eb55a145fec9eefa51a2b714fb4068621e6efb3202dde6267f7af2523a"
+      },
+      {
+        "case": "control-else",
+        "generated_sha256": "8fed3d134598b4928f52109bcb15b69468769e45d7432eb521873aad0d451023"
+      },
+      {
+        "case": "control-helper-domain-original",
+        "generated_sha256": "e0e7274f15272e7220c86cca369d0a0683d3f6db5487f59043d5f3ef2a1fb731"
+      },
+      {
+        "case": "control-helper-field",
+        "generated_sha256": "5a377c8fb14ca5b9310927752b1f684a92742ebf2c0b90d5684b9bee09c369e4"
+      },
+      {
+        "case": "control-mixed",
+        "generated_sha256": "518250c2c7f7eb9bbaab95de97312b293a2810169014ed0c57d65fac27f3f85d"
+      },
+      {
+        "case": "control-return",
+        "generated_sha256": "9b05824ef730907fbac4450639220eadda9909ea5279228aea9ac87fc3ad744c"
+      },
+      {
+        "case": "copyback-clip",
+        "generated_sha256": "bed5f78602fdfbb84a2adacd4f14862262d7d163e86a454af105b3a856d70ae7"
+      },
+      {
+        "case": "copyback-default-domain-original",
+        "generated_sha256": "f8f29cad0132da1e4ec0cae4a3640d9d79bd5e635e96e386e496df44ee06bfb8"
+      },
+      {
+        "case": "copyback-field",
+        "generated_sha256": "704fda325c99f43637bb475e6d199ca7d24eec608a3fc63df67c2988750f7cdd"
+      },
+      {
+        "case": "copyback-structured-positive",
+        "generated_sha256": "909947eda2af4c6a9d626f8be9ba5097098087179ccf1f8e9d060ee4d08b7472"
+      },
+      {
+        "case": "packed-domain-safe",
+        "generated_sha256": "afec2287d4a2d9b9b8ee65c7bd0a88fe83637a7f6bded134d760434a33e11d09"
+      },
+      {
+        "case": "packed-positive",
+        "generated_sha256": "104acefe228169bf7e7d805e5c8b71552a79dd8d2a174fec66df1d1e913cbbf9"
+      },
+      {
+        "case": "positive",
+        "generated_sha256": "6faeecdaaa6762950e7ccb870118ff5f251e267650587cd59a01dc20a7a633d9"
+      },
+      {
+        "case": "shared-helper-domain-original",
+        "generated_sha256": "f260a58b5df7ee85c9efc6b5a41966584b7c28819c4ea450dbc3b575f60e3624"
+      },
+      {
+        "case": "shared-helper-field",
+        "generated_sha256": "10dc640c54184789a75ecefdefe8bb00305407597187589f67e84568d9964b4c"
+      },
+      {
+        "case": "shared-structured-positive",
+        "generated_sha256": "10c3d5329f77695c6d2ba7a98beec46e66764dac28f0e7ce5b2d4a072150e75d"
+      },
+      {
+        "case": "structured-positive",
+        "generated_sha256": "3337fbdf763872249564fb972f56c9ebb1596c0f80f82e33fba0b68d3c0d2dd0"
+      },
+      {
+        "case": "textured-positive",
+        "generated_sha256": "154796db151cef5fd85efa6fbf569f4d1dc6deb5f4f9038e56bd207376e040b8"
+      },
+      {
+        "case": "unlit-positive",
+        "generated_sha256": "b6eb2fdaac6b423c622a42d5cfc96bcbe24104b41d730c3bf60cc86d66d4409c"
+      },
+      {
+        "case": "aggregate-field",
+        "generated_sha256": "3f6128dda055ebb9bec859063d3f31ca29266cd7ff0049546818e50bc95c3fc1"
+      },
+      {
+        "case": "aggregate-index-inactive",
+        "generated_sha256": "23220d071e6c2f2a19355bcfb37c0d935bc8702e22ef1e085925c2f64674466a"
+      },
+      {
+        "case": "aggregate-index-safe",
+        "generated_sha256": "11743e3f4c42de3a6e9d676ef98a287a01873eb66712c5ec1b797c34b73ff966"
+      },
+      {
+        "case": "aggregate-material-positive",
+        "generated_sha256": "71d12a0c94d92b258190df515436f21df7cf11b9b938acf9624ad35735671471"
+      }
+    ]
+  },
+  "frozen_report_sha256": "af153b6f4f5236f6f7de5590b5f89c5907219c66c35a6c63d56600db175afe34",
+  "full_log_sha256": "025b4d61aec4d38c5141a3b218a21138d22a0ee50c7c9fb34e7f46cf0bb0ece7",
+  "windows_evidence": "windows-loops-2026-10-26.json",
+  "scope": "Exact canonical static uint for, max64 iterations and4096 total body expansions per frame; no fuel truncation; no symbolic bounds/while/break/continue/body-return/terminal-discard",
+  "proof": "Complete material includes two actual derivative/accumulation iterations, texture/clip/normalize/rim/matrix/array/struct/default/out; arbitrary E/Ops and guarded domains in conclusions; wrong coefficient and actual normalize(0) remain unproved",
+  "repairs": "Only proof tactics repaired after initial213-unit success: conjunction shape after simp, and redundant tactic after dsimp closed True. Failed logs/snapshots retained; no math/source/constraint weakening",
+  "limits": "No Unity/GPU claim; trusted DXC/translator; real numbers plus exact uint32; no new axioms or dependencies; full HDRP Forward blocked separately by real-boundary.md"
+}

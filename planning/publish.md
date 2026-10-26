@@ -58,3 +58,14 @@
 - acceptance: 实际远端SHA等于推送HEAD；循环和最终报告仍继续。
 
 - result: 非强制push成功；远端ls-remote与当时HEAD均为72418757553d829b9590befc542a057351b2895c。循环产品尚未应用，不在本检查点。
+
+## checkpoint-5：固定次数循环、组合材质及overnight最终状态
+
+- status: approved
+- source: sealed running overnight publish委派，用户明确要求完成后push；免重复人工方案审阅持续有效。
+- target: 当前分支全部已验证提交，包括d348566循环产品、213/57/Q2最终证据、独立Windows两正例、当前说明与Forward实数边界和最终session报告/状态。无未审产品、缓存或Unity工程混入。
+- readiness: 213单元/57控制PASSED，27 PROVED/28 UNPROVED/2 INVALID_INPUT；独立Q2最终Verified及Windows事实核验通过，主产品自d348566未变。
+- actions: 提交完成记录和自包含报告，fetch检查远端为祖先，非强制push同名分支，ls-remote核对SHA；记录实际结果，完成session，再推送最终状态提交并核对。
+- exclusions: force push、merge/rebase、改remote、推送工具缓存/秘密/Unity或未验证产品、archive。
+- stop: 远端分叉、认证/网络失败或无关变更。
+- acceptance: 所有已验证源码/锁/证明/证据/最终状态都在远端同名分支；报告完整Forward仍被明确语义选择阻断，不冒充已证明。

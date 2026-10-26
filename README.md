@@ -8,11 +8,13 @@
 
 整数打包阶段的2026-10-26核心验收：128项回归及32项证明正负控制全部符合预期，12项完整目标PROVED；新增整数打包和定义域正负例均经过真实DXC、Lean绑定与公理审计。[阶段证据](planning/evidence/integer-packing-2026-10-26.json)。后续共享定义阶段146项单元/41项控制通过，[对应证据](planning/evidence/shared-functions-2026-10-26.json)。
 
+当前固定次数循环与组合材质阶段：213项单元、57项正式控制全部符合预期（27 PROVED）；独立审阅、旧25目标兼容及独立安装依赖的Windows副本两正例复现通过。[最新验收证据](planning/evidence/static-loops-2026-10-26.json)，[独立副本证据](planning/evidence/windows-loops-2026-10-26.json)。
+
 矩阵/数组阶段完整验收：190项单元、53项正式控制全部符合预期（25 PROVED），独立Q2和同锁Windows三正例复现通过。[验收证据](planning/evidence/aggregate-2026-10-26.json)，[异地复现证据](planning/evidence/windows-aggregate-2026-10-26.json)。
 
-最新默认参数/out/inout阶段：165项单元、47项正式正负控制全部符合预期（21 PROVED）；独立审阅和同锁Windows副本三例复现通过。[验收证据](planning/evidence/copyback-2026-10-26.json)，[独立副本证据](planning/evidence/windows-copyback-2026-10-26.json)。
+默认参数/out/inout阶段：165项单元、47项正式正负控制全部符合预期（21 PROVED）；独立审阅和同锁Windows副本三例复现通过。[验收证据](planning/evidence/copyback-2026-10-26.json)，[独立副本证据](planning/evidence/windows-copyback-2026-10-26.json)。
 
-最新 [原版分支材质](examples/branched/original.hlsl) 使用结构体、bool helper、提前返回、纹理开关、三种着色模式、嵌套条件裁剪和 ddx/ddy；[等价改写版](examples/branched/optimized.hlsl) 调整条件组织、使用三元选择并展开颜色计算。两边直接接受正常源码，不要求先拍平。原有 lerp、Unlit、structured、textured 示例和证明保留。
+[原版分支材质](examples/branched/original.hlsl) 使用结构体、bool helper、提前返回、纹理开关、三种着色模式、嵌套条件裁剪和 ddx/ddy；[等价改写版](examples/branched/optimized.hlsl) 调整条件组织、使用三元选择并展开颜色计算。两边直接接受正常源码，不要求先拍平。原有 lerp、Unlit、structured、textured 示例和证明保留。
 
 使用者从 [agent 证明工作流](docs/agent-workflow.md) 开始：生成完整命题，编写证明，运行检查器，根据诊断继续尝试。前一阶段的 [纹理材质机器证据](planning/evidence/textured-material-2026-10-25.json) 与 [历史执行记录](planning/fragment-effects/implementation-evidence.md) 保留供追溯。
 

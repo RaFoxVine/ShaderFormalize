@@ -63,8 +63,8 @@
 
 ## Grant loop-001@revision-2
 
-- status: active
-- phase: main integration authorized; aggregate dependency condition satisfied and persisted before main product writes.
+- status: completed
+- phase: completed; isolated and conditional main implementation both verified.
 - source: sealed running overnight language条目PLAN_AND_CODE内派生；持续免重复人工方案审阅及用户“接下来继续工作”。
 - frame: loop-plan.md修订2，独立P2 Ready；数学语义与P1相同，静态uint for精确次数、不截断，最终四控制及全旧回归/Q不变。
 - baseline: 9bec4aa有25新单元/六正式控制/Q2源码审读，完整190单元通过，主53控制进行中、完整Q尚待。不得称aggregate已Completed。
@@ -77,3 +77,5 @@
 - recorded_at: 2026-10-26；P2 Ready后派生，随隔离Approved状态先提交，clone和代码随后。
 
 - integration_condition_satisfied: 2026-10-26；aggregate190/53及Q2最终通过，主tools/proof/examples/依赖锁相对9bec4aa无差异，基线职责和接口无漂移。副本5025b6a的确切22文件patch已git apply --check通过，SHA256 4633cc4e75e5f3904c72f9104b15db8aac2d813ca4184f33a70c8df384cf1f0b。允许按原P2合同将patch应用至主目录并实际运行四新控制/完整57控制及全部回归、Q2、当前说明/本地提交；不merge/rebase，不覆盖已有HDRP调查文档修正。
+
+- result: d348566完整213单元/57控制PASSED（27 PROVED/28 UNPROVED/2 INVALID_INPUT），独立Q2最终Verified；四新控制含真实组合材质与零次域正例、错误系数与实际非法域负例。旧25目标逐字兼容，独立Windows最新源码两正例及事实核验通过；见../evidence/static-loops-2026-10-26.json。只支持约定静态uint for，不宣称全部循环或完整Forward。

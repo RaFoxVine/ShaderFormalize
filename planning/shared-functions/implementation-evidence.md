@@ -64,4 +64,8 @@ Q1的坏模型结构异常和predicate类型缺口已修复并回归；literal�
 
 循环Q2源码/冻结四控制/旧25正例兼容审读通过，未发现关键问题；reviewer从当前主源码与保存AST在内存逐字重建四新与25旧模型/目标，核验两正例输入/目标/proof/四模块/锁/标准三项公理，两负例确为输出等式与实际域未证。完整57仍运行，最终Verified待同次Q2事实闭合；本次独立审查未执行DXC/CLI/Lean/测试。最终完整runner本次213单元22.932s通过。
 
-当前唯一主目录完整验收：源d348566，tools/run_demo.ps1默认213单元/57控制，日志artifacts/language-probes/full-core-57-final.log，exec session52499；主tools/proof/examples/锁保持冻结。请先读artifacts/acceptance/result.json及日志状态，不并行运行任何主prepare/check/full单元。独立Windows refresh005已完成，24583已回收；证据windows-loops-2026-10-26.json。Q2代码/四控制/旧25已通过，57 PASSED后须在同次Q2做最终事实闭合并最终push。
+本轮最终主目录完整验收（已结束）：源d348566，tools/run_demo.ps1默认213单元/57控制，日志artifacts/language-probes/full-core-57-final.log，exec session52499；主tools/proof/examples/锁保持冻结。请先读artifacts/acceptance/result.json及日志状态，不并行运行任何主prepare/check/full单元。独立Windows refresh005已完成，24583已回收；证据windows-loops-2026-10-26.json。Q2代码/四控制/旧25已通过，57 PASSED后须在同次Q2做最终事实闭合并最终push。
+
+## 循环最终闭合
+
+默认完整runner最终PASSED：213单元/57控制，27 PROVED、28 UNPROVED、2 INVALID_INPUT；session52499退出0。全57目录和摘要冻结artifacts/loops/acceptance57，源码/约束/proof/目标/模块/锁/公理与前置四控制均核对。独立Q2最终事实闭合Verified，无遗留；精简证据static-loops-2026-10-26.json。Windows副本d348566两正例及独立事实核验通过。主产品自d348566未变，后续仅当前事实/状态/发布记录。此前attempt1/2失败保留，不计作完整成功。完整HDRP Forward仍在单独记录的实数边界停止。

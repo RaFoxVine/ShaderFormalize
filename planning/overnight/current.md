@@ -212,9 +212,9 @@
         "d348566"
       ],
       "grant_reference": "planning/shared-functions/execution-authority.md#loop-001@revision-2",
-      "result": "IN_PROGRESS",
-      "summary": "Main loop product d348566: 213 units passed and four new formal controls match (complete material/zero loop PROVED, wrong coefficient/actual normalize(0) UNPROVED). Initial proof script repairs retained; full 57 gate and final Q2 remain.",
-      "updated_at": "2026-10-26T12:24:56+08:00"
+      "result": "DONE",
+      "summary": "d348566 complete: 213 unit tests/57 formal controls passed (27 PROVED/28 UNPROVED/2 INVALID_INPUT), independent Q2 final Verified, old25 targets byte-compatible, complete material and exact static uint loops proved, Windows latest-source two positives passed. Broader loops and full Lit explicitly excluded from this completion.",
+      "updated_at": "2026-10-26T13:18:23+08:00"
     },
     "packing": {
       "commits": [
@@ -243,19 +243,20 @@
         "53f8e66",
         "4cfa77a",
         "8923b25",
-        "7241875"
+        "7241875",
+        "d348566"
       ],
-      "grant_reference": "planning/publish.md#checkpoint-4",
+      "grant_reference": "planning/publish.md#checkpoint-5",
       "result": "IN_PROGRESS",
-      "summary": "Verified aggregate checkpoint pushed non-force; ls-remote matched 72418757553d829b9590befc542a057351b2895c. Loop product not yet included; final publication remains.",
-      "updated_at": "2026-10-26T12:14:05+08:00"
+      "summary": "Final verified language/source/locks/proofs/evidence and Forward semantic boundary ready for non-force current-branch push; final report prepared, remote verification pending.",
+      "updated_at": "2026-10-26T13:18:23+08:00"
     }
   },
   "request_text": "2026-10-26 用户请求：\n接下来我们要执行 overnight 了，接下来还有什么工作是在 overnight 里面能一块干完的？\n还有一件事情，就是接下来明天的话，我可能会在别的地方使用我们这里的仓库，所以说我希望你在完成了工作以后，要记得 git push 一下，能让我在别的地方拉到最新的提交，拿到最新的状态。\n\n此前持续有效的执行授权：\n“完整的方案需要给我审阅吗？其实我认为也不需要，先把东西跑通再说，因为我对于这些东西，我也不清楚，我做这个审阅可能没有意义。”\n“OK，继续吧。反正我们是需要把它跑通的，把它跑通吧，补齐暂时还没有的能力。”\n用户确认“不考虑浮点数底层实现”和“延迟渲染”，支持常见整数打包和float位载体。\n\n本次在对话中明确的执行范围：收尾整数打包；补共享函数/out/inout/默认参数、矩阵/数组及可证明终止的普通循环，组合成正常写法Shader验证；继续固定HDRP/Lit Forward实际转换，保留浮点编码等真实语义阻断；准备异地运行的干净目录验证和启动说明，完成后推送现有工作分支并留下报告。沿用免反复人工方案审阅，独立P/Q仍执行。异地环境暂按已有Windows x64支持，已询问用户，未获回复前不扩展到其它系统。",
   "schema_version": 1,
   "session_id": "shader-forward-2026-10-26",
   "status": "running",
-  "updated_at": "2026-10-26T12:32:03+08:00"
+  "updated_at": "2026-10-26T13:18:23+08:00"
 }
 ```
 <!-- SMART_OVERNIGHT_STATE_END -->

@@ -73,4 +73,4 @@ flowchart LR
 
 初版导出没有SHADER_TARGET，Common.hlsl中FastLog2受 `SHADER_TARGET>=45` 保护而未定义。Lit自身声明target4.5，补充SHADER_TARGET=45后预处理和完整typed AST均成功。错误日志留在早期artifacts中供追溯；当前工具包含该宏，不能继续把FastLog2当现有阻塞。
 
-共享函数/default/out/inout、矩阵/数组和uint打包已有普通材质证明，固定次数uint循环组合的正式控制也已通过，完整回归仍在运行。完整Forward剩余接入包括Frag/out入口、只读资源和现有子集之外的循环/数学；还须先明确[实数边界的目标选择与恢复条件](../planning/hdrp-forward/real-boundary.md)。完整Forward不适合全部展开成4096条绑定；共享函数已缓解重复展开，但不能据此宣称动态灯光循环、资源读取和异常恢复已经处理。完整Lit尚未产生数学目标，已有普通材质证明不替代它。
+共享函数/default/out/inout、矩阵/数组和uint打包已有普通材质证明，固定次数uint循环组合的正式控制也已通过，完整213单元/57控制及独立审阅已通过。完整Forward剩余接入包括Frag/out入口、只读资源和现有子集之外的循环/数学；还须先明确[实数边界的目标选择与恢复条件](../planning/hdrp-forward/real-boundary.md)。完整Forward不适合全部展开成4096条绑定；共享函数已缓解重复展开，但不能据此宣称动态灯光循环、资源读取和异常恢复已经处理。完整Lit尚未产生数学目标，已有普通材质证明不替代它。
