@@ -215,6 +215,18 @@ def basic_math_controls():
     return controls
 
 
+def math_extension_controls():
+    material = ROOT / "examples/math-extensions"
+    manifest = json.loads((material / "controls.json").read_text(encoding="utf-8"))
+    controls = []
+    for case in manifest["cases"]:
+        controls.append(check_case("math-extensions-" + case["name"], case["expected"],
+            "--frontend", case["frontend"], "--original", material / case["original"],
+            "--optimized", material / case["optimized"], "--constraints", material / "constraints.json",
+            "--agent-proof", ROOT / case["proof"]))
+    return controls
+
+
 def compute_controls():
     manifest = json.loads((ROOT / "examples/compute/controls.json").read_text(encoding="utf-8"))
     controls = []
@@ -228,12 +240,12 @@ def compute_controls():
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--example", choices=("all", "lerp", "unlit", "structured", "textured", "branched", "packed", "copyback", "aggregate", "complete", "basic-math", "compute"), default="all")
+    parser.add_argument("--example", choices=("all", "lerp", "unlit", "structured", "textured", "branched", "packed", "copyback", "aggregate", "complete", "basic-math", "math-extensions", "compute"), default="all")
     args = parser.parse_args()
     output = ROOT / "artifacts" / ("acceptance" if args.example == "all" else "acceptance-" + args.example)
     output.mkdir(parents=True, exist_ok=True)
     write_json(output / "result.json", {"status": "IN_PROGRESS", "layer": "core", "example": args.example})
-    patterns = {"lerp": "test_shaderformalize.py", "unlit": "test_unlit.py", "structured": "test_structured.py", "textured": "test_fragment.py", "branched": "test_control.py", "packed": "test_packing.py", "copyback": "test_copyback.py", "aggregate": "test_aggregate.py", "complete": "test_loops.py", "basic-math": "test_basic_math.py", "compute": "test_compute.py"}
+    patterns = {"lerp": "test_shaderformalize.py", "unlit": "test_unlit.py", "structured": "test_structured.py", "textured": "test_fragment.py", "branched": "test_control.py", "packed": "test_packing.py", "copyback": "test_copyback.py", "aggregate": "test_aggregate.py", "complete": "test_loops.py", "basic-math": "test_basic_math.py", "math-extensions": "test_math_extensions.py", "compute": "test_compute.py"}
     suite = unittest.defaultTestLoader.discover(str(ROOT / "tools"), pattern=patterns.get(args.example, "test_*.py"))
     result = unittest.TextTestRunner(verbosity=1).run(suite)
     if not result.wasSuccessful():
@@ -243,6 +255,8 @@ def main():
     try:
         if args.example in ("all", "basic-math"):
             controls.extend(basic_math_controls())
+        if args.example in ("all", "math-extensions"):
+            controls.extend(math_extension_controls())
         if args.example in ("all", "compute"):
             controls.extend(compute_controls())
         if args.example in ("all", "complete"):

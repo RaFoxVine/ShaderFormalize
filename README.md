@@ -59,6 +59,9 @@ pwsh -File tools/run_demo.ps1 -Example complete
 # 常见数学运算、守卫定义域和错误改写的正式对照。
 pwsh -File tools/run_demo.ps1 -Example basic-math
 
+# floor/ceil/frac/step/smoothstep/cross/reflect及3正3负对照。
+pwsh -File tools/run_demo.ps1 -Example math-extensions
+
 # 仅检查纹理材质数学等价。
 python tools/shaderformalize.py check --original examples/textured/original.hlsl --optimized examples/textured/optimized.hlsl --constraints examples/textured/constraints.json --agent-proof proof/TexturedProof.lean --output artifacts/textured/proof
 
@@ -113,7 +116,7 @@ schema5在相同执行模型中加入精确uint32及静态标记的float位载�
 
 - 一个返回float4、SV_Target的像素main；numeric值参数或叶字段带semantic的嵌套结构体输入；可选一个register(b0) cbuffer，float/float2/float3/float4字段。
 - 具名嵌套结构体、字段读写、整记录按值复制/返回；默认按值非递归辅助函数及重载、读取uniform。入口参数/uniform不可写，helper参数可修改自己的副本。单字段读取只需该字段初始化；整记录复制/实参/返回须全部初始化。
-- 局部声明/初始化/嵌套块、完整变量或字段的=、+=、-=、*=；精确十进制、括号、加减乘除、负号、向量构造、swizzle、标量广播、dot/normalize/lerp/saturate；基础数学另支持float1..4的min/max/abs/clamp、sqrt/rcp/rsqrt、length/distance，具体形状和实际执行域见[说明](docs/basic-math.md)。
+- 局部声明/初始化/嵌套块、完整变量或字段的=、+=、-=、*=；精确十进制、括号、加减乘除、负号、向量构造、swizzle、标量广播、dot/normalize/lerp/saturate；基础数学另支持float1..4的min/max/abs/clamp、sqrt/rcp/rsqrt、length/distance、floor/ceil/frac/step/smoothstep/reflect，以及float3的cross，具体形状和实际执行域见[说明](docs/basic-math.md)。
 - 标量bool局部、内部结构体字段及helper参数/返回；比较、!、&&、||、bool相等；一般if/else、嵌套分支、数值/记录/布尔赋值合并、标量条件?:、main与helper提前return。固定 `-HV 2021`，标量&&/||/?:短路；未进入的normalize不要求合法，已执行的必须证明合法。函数return仅结束当前调用，discard结束对应位置的整个Shader。普通别名/算术保留完整输入函数，guard外不会一律清零。
 - 全局Texture2D<float4>（含默认Texture2D）和SamplerState，显式register(tN)/register(sN)，无重复槽位/别名。Sample(sampler,float2)、SampleLevel(sampler,float2,float)、SampleGrad(sampler,float2,float2,float2)。不接受offset/status/clamp等附加重载。
 - ddx/ddy及各自fine/coarse的float1..4；clip(float1..4)、discard、if(两个float标量的< <= > >= == !=比较) discard，可有只含discard的花括号，无else。

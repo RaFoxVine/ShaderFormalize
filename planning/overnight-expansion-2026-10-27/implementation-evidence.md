@@ -23,3 +23,5 @@
 - 独立同步Q1为CHANGES_REQUESTED：arrayBounds误报ENVIRONMENT_ERROR、两输入触发StopIteration并遗留IN_PROGRESS、锁后timeout不覆盖终态、解压VerCors未与锁ZIP逐文件核对。root逐项修复并增加两输入/两输出、timeout、锁竞争、ZIP漂移单元及真实越界控制。
 - 修复后15项同步单元和257项总单元实际通过；同步suite五项控制全符合：正例VERIFIED、删barrier/冲突权限UNPROVED、越界arrayBounds UNPROVED、alias UNSUPPORTED。安装目录597个文件逐项与锁定ZIP的大小和SHA256一致。
 - 独立Q2实际复跑15/257单元、核对41项产物哈希、直接复测两输入和timeout，并调用真实597文件payload比对， verdict PASS，四项Q1 finding全部闭合，无新critical/major。精简证据为planning/evidence/synchronization-hlsl-2026-10-28.json。
+- Math实现agent完成15项新单元、3P3U真实控制、27旧目标逐字一致及257项独立工作区单元。独立Q verdict VERIFIED_WITH_FINDINGS：未发现数学语义缺陷，独立DXC/helper/guard/Lean探针闭合；唯一low为quantize证据目录混有旧SubmittedProof和失败分日志。root已在同一路径用当前证明重新完整DXC+Lean检查并PROVED，刷新同次成功证据。
+- Math 18个源/证明/例子文件已按哈希逐字整合主目录，runner/docs/coverage已接入math-extensions；主目录272项总单元通过。主目录`run_demo.ps1 -Example math-extensions`最终PASSED，3个PROVED和3个UNPROVED均符合预期，精简证据为planning/evidence/math-extensions-2026-10-28.json。

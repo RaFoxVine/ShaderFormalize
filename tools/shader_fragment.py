@@ -3,7 +3,7 @@ from fractions import Fraction
 
 from shader_ast import ModelError
 from shader_lean import fin_index, lean_number, lean_type, vector_literal
-from shader_math import MATH_OPERATIONS, lean_scalar_math
+from shader_math import MATH_OPERATIONS, lean_scalar_math, lean_vector_components
 
 
 class FragmentEmitter:
@@ -65,6 +65,13 @@ class FragmentEmitter:
                 return components[index]
             return f"({vector_literal(components)} {index})"
         arguments = expr["arguments"]
+        if kind in ("cross", "reflect"):
+            values = lean_vector_components(kind, [self.components(arg, position) for arg in arguments])
+            if size == 1:
+                return values[0]
+            if isinstance(index, int):
+                return values[index]
+            return f"({vector_literal(values)} {index})"
         if kind == "normalize":
             return f"(normalize ({self.field(arguments[0])} {position}) {fin_index(index)})"
         if kind == "dot":

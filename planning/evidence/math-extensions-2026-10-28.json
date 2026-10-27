@@ -1,0 +1,37 @@
+{
+  "date": "2026-10-28",
+  "status": "PASSED",
+  "command": "pwsh -NoProfile -File tools/run_demo.ps1 -Example math-extensions",
+  "regression_tests_in_example": 15,
+  "core_regression_tests": 272,
+  "controls": [
+    {"case": "algebra", "expected": "PROVED", "actual": "PROVED"},
+    {"case": "quantize", "expected": "PROVED", "actual": "PROVED"},
+    {"case": "smooth", "expected": "PROVED", "actual": "PROVED"},
+    {"case": "wrong-boundary", "expected": "UNPROVED", "actual": "UNPROVED"},
+    {"case": "zero-domain", "expected": "UNPROVED", "actual": "UNPROVED"},
+    {"case": "reverse-domain", "expected": "UNPROVED", "actual": "UNPROVED"}
+  ],
+  "legacy_targets": {
+    "regenerated": 27,
+    "byte_identical": 27,
+    "existing_basic_math_targets_byte_identical": 3
+  },
+  "review": {
+    "verdict": "VERIFIED_WITH_FINDINGS",
+    "semantic_issues": 0,
+    "packaging_issue": "quantize directory mixed an older SubmittedProof/log with the successful result; the current proof was independently Lean-checked and the complete control was rerun to refresh the package",
+    "refresh_result": "PROVED"
+  },
+  "acceptance_summary_sha256": "3e3edf5a9379aab7bf2771cee535d2218ebe00f574a4238b4b5c719618f0394d",
+  "source_files": {
+    "tools/shader_math.py": "f7218dff89174bf7a7754b7a77c1c06c20d3cfbc8c38544b1b63b393df5ba2ba",
+    "tools/shader_fragment.py": "2a348d951af36bbb794cefd8e55b6d60ee0365f67156a15cc3178b50f49fc4c5",
+    "tools/shader_control_lean.py": "acf54553fe2d68d06a735563f2481810cee234aedb8d57c5c53687d9f18cf086",
+    "tools/test_math_extensions.py": "417dc1559f69a6c2df7fce43d679dec8bca6d2296bf92b5838f19a1c76110922",
+    "proof/MathAlgebraProof.lean": "5d97763ea72c67177c8625a4929fb9e463fd325abb9669a19dbaf4fb13804ca3",
+    "proof/MathQuantizeProof.lean": "d4fecc88043fd69c122b1ab1b2a79e205de00b4f3267b71a3132f79626f4f5dc",
+    "proof/MathSmoothProof.lean": "e5f90141490c82387f545e02c9e66215bc36b0d81dc841fbb4131b53fba681b9"
+  },
+  "scope": "Ideal-real floor/ceil/frac/step/smoothstep/cross/reflect in the accepted float1..4 subset; smoothstep definedness under actual execution guards; no IEEE, integer or matrix overload claim"
+}

@@ -1,0 +1,8 @@
+{"schema":1,"cases":[
+ {"name":"algebra","original":"algebra.original.hlsl","optimized":"algebra.optimized.hlsl","frontend":"shared","proof":"proof/MathAlgebraProof.lean","expected":"PROVED"},
+ {"name":"quantize","original":"quantize.original.hlsl","optimized":"quantize.optimized.hlsl","frontend":"auto","proof":"proof/MathQuantizeProof.lean","expected":"PROVED"},
+ {"name":"smooth","original":"smooth.original.hlsl","optimized":"smooth.optimized.hlsl","frontend":"shared","proof":"proof/MathSmoothProof.lean","expected":"PROVED"},
+ {"name":"wrong-boundary","original":"algebra.original.hlsl","optimized":"algebra.wrong.hlsl","frontend":"shared","proof":"proof/MathAlgebraProof.lean","expected":"UNPROVED"},
+ {"name":"zero-domain","original":"smooth.zero.hlsl","optimized":"smooth.optimized.hlsl","frontend":"shared","proof":"proof/MathSmoothProof.lean","expected":"UNPROVED"},
+ {"name":"reverse-domain","original":"smooth.reverse.hlsl","optimized":"smooth.optimized.hlsl","frontend":"shared","proof":"proof/MathSmoothProof.lean","expected":"UNPROVED"}
+]}

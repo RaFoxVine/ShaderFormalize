@@ -4,7 +4,7 @@ from shader_fragment import FragmentEmitter
 from shader_lean import lean_number, lean_type
 from shader_control_values import logical, truth
 from shader_boolean import BooleanDAG
-from shader_math import has_math_domain, lean_domain_condition
+from shader_math import has_math_domain, lean_domain_condition, math_imports
 
 
 def effects_mask(count):
@@ -155,6 +155,7 @@ class ControlEmitter(FragmentEmitter):
 
 
 def generate_control(original, optimized, spec, emitter_type=ControlEmitter, extra_import=""):
+    extra_import += math_imports([original, optimized])
     interface = original["interface"]
     parameters = " ".join(f"(p{x['index']} : " + ("E → " if x["storage"] == "parameter" else "") + lean_type(x["width"]) + ")" for x in interface)
     names = " ".join(f"p{x['index']}" for x in interface)

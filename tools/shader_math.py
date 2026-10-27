@@ -14,6 +14,13 @@ MATH_OPERATIONS = {
     "rsqrt": {"arity": 1, "shape": "componentwise", "domain": "positive"},
     "length": {"arity": 1, "shape": "reduction", "domain": None},
     "distance": {"arity": 2, "shape": "reduction", "domain": None},
+    "floor": {"arity": 1, "shape": "componentwise", "domain": None},
+    "ceil": {"arity": 1, "shape": "componentwise", "domain": None},
+    "frac": {"arity": 1, "shape": "componentwise", "domain": None},
+    "step": {"arity": 2, "shape": "componentwise", "domain": None},
+    "smoothstep": {"arity": 3, "shape": "componentwise", "domain": "increasing_bounds"},
+    "cross": {"arity": 2, "shape": "cross3", "domain": None},
+    "reflect": {"arity": 2, "shape": "vector_same", "domain": None},
 }
 MATH_INTRINSICS = set(MATH_OPERATIONS) - {"divide"}
 
@@ -26,6 +33,8 @@ def valid_math_shape(name, result, arguments):
         return False
     if spec["shape"] == "reduction":
         return result == 1 and len(set(arguments)) == 1
+    if spec["shape"] == "cross3":
+        return result == 3 and arguments == [3, 3]
     return arguments == [result] * spec["arity"]
 
 
@@ -59,6 +68,8 @@ def domain_conditions(kind, arguments):
         return [value > 0 for value in arguments[0]]
     if kind == "clamp":
         return [low <= high for low, high in zip(arguments[1], arguments[2])]
+    if kind == "smoothstep":
+        return [low < high for low, high in zip(arguments[0], arguments[1])]
     return []
 
 
@@ -84,6 +95,28 @@ def evaluate_math(kind, arguments, active=True):
     if kind in ("length", "distance"):
         values = arguments[0] if kind == "length" else [a - b for a, b in zip(*arguments)]
         return [math.sqrt(sum(value * value for value in values))]
+    if kind == "floor":
+        return [math.floor(value) for value in arguments[0]]
+    if kind == "ceil":
+        return [math.ceil(value) for value in arguments[0]]
+    if kind == "frac":
+        return [value - math.floor(value) for value in arguments[0]]
+    if kind == "step":
+        return [0 if value < edge else 1 for edge, value in zip(*arguments)]
+    if kind == "smoothstep":
+        result = []
+        for low, high, value in zip(*arguments):
+            ratio = (value - low) / (high - low) if high != low else 0
+            t = min(1, max(0, ratio))
+            result.append(t * t * (3 - 2 * t))
+        return result
+    if kind == "cross":
+        a, b = arguments
+        return [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]]
+    if kind == "reflect":
+        incident, normal = arguments
+        dot = sum(i * n for i, n in zip(incident, normal))
+        return [i - 2 * n * dot for i, n in zip(incident, normal)]
     raise ValueError(f"Unknown math operation: {kind}")
 
 
@@ -100,7 +133,44 @@ def lean_scalar_math(kind, arguments):
         return f"(Real.sqrt {arguments[0]})"
     if kind == "rsqrt":
         return f"((1 : ℝ) / Real.sqrt {arguments[0]})"
+    if kind in ("floor", "ceil"):
+        return f"((Int.{kind} {arguments[0]} : ℤ) : ℝ)"
+    if kind == "frac":
+        return f"({arguments[0]} - ((Int.floor {arguments[0]} : ℤ) : ℝ))"
+    if kind == "step":
+        return f"(if {arguments[1]} < {arguments[0]} then (0 : ℝ) else 1)"
+    if kind == "smoothstep":
+        low, high, value = arguments
+        t = f"(min 1 (max 0 (({value} - {low}) / ({high} - {low}))))"
+        return f"({t} * {t} * (3 - 2 * {t}))"
     raise ValueError(f"Math reduction requires whole-vector emission: {kind}")
+
+
+def lean_vector_components(kind, arguments):
+    """Render whole-vector operations before the emitter selects a component."""
+    a, b = arguments
+    if kind == "cross":
+        return [f"({a[1]} * {b[2]} - {a[2]} * {b[1]})",
+                f"({a[2]} * {b[0]} - {a[0]} * {b[2]})",
+                f"({a[0]} * {b[1]} - {a[1]} * {b[0]})"]
+    if kind == "reflect":
+        dot = " + ".join(f"({i} * {n})" for i, n in zip(a, b))
+        return [f"({i} - 2 * {n} * ({dot}))" for i, n in zip(a, b)]
+    raise ValueError(f"Unknown whole-vector math operation: {kind}")
+
+
+def math_imports(models):
+    """Include helpers as well as entry frames; retain legacy target bytes."""
+    pending = list(models)
+    while pending:
+        item = pending.pop()
+        if isinstance(item, dict):
+            if item.get("kind") in ("floor", "ceil", "frac"):
+                return "import Mathlib.Data.Real.Archimedean\nimport Mathlib.Algebra.Order.Floor.Ring\n"
+            pending.extend(item.values())
+        elif isinstance(item, list):
+            pending.extend(item)
+    return ""
 
 
 def lean_domain_condition(kind, arguments):
@@ -114,4 +184,6 @@ def lean_domain_condition(kind, arguments):
         return f"(0 : ℝ) < {arguments[0]}"
     if kind == "clamp":
         return f"{arguments[1]} ≤ {arguments[2]}"
+    if kind == "smoothstep":
+        return f"{arguments[0]} < {arguments[1]}"
     raise ValueError(f"Math operation has no domain condition: {kind}")

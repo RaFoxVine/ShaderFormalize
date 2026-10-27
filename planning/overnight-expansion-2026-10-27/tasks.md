@@ -4,7 +4,7 @@
 
 | 工作 | 状态 | 下一动作 |
 |---|---|---|
-| 七项数学 | Implementing | P Verified；Grant已提交8a13f50；C basic-math已保留b27f399旧源快照并切换d3b7f5f，ignored依赖保留 |
+| 七项数学 | Completed | 主目录272项总单元及3P3U通过，27旧目标逐字一致，独立Q闭合；证据planning/evidence/math-extensions-2026-10-28.json |
 | HLSL IEEE入口 | Implementing | root共同API已交付新agent，独立工作区继续实现 |
 | 二维纹理Compute | Implementing | 新agent接手未提交实现；先修复uint2类型，再跑新3P5U和旧2P4U |
 | HLSL同步安全 | Completed | 15项同步单元、257项总单元、五实际控制及独立Q2通过；证据planning/evidence/synchronization-hlsl-2026-10-28.json |
