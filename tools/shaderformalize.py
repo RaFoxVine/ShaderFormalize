@@ -5,13 +5,13 @@ import hashlib
 import json
 import os
 from pathlib import Path
-import re
 import subprocess
 import sys
 import time
 from contextlib import contextmanager
 
 from shader_model import ModelError, generate_lean, import_shader, constraint_spec, validate_source
+from proof_contract import audit_axioms, verification_module
 
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -152,23 +152,6 @@ def prepare(args, output):
     }
 
 
-def audit_axioms(text):
-    name = "ShaderFormalize.Verification.checked"
-    found = re.findall(re.escape(name) + r"'? depends on axioms:\s*\[([^]]*)\]", text)
-    if len(found) == 1:
-        names = []
-        for item in found[0].split(","):
-            if item.strip():
-                names.append(item.strip())
-        allowed = {"propext", "Classical.choice", "Quot.sound"}
-        if not set(names).issubset(allowed):
-            raise ModelError(f"Proof depends on unapproved axioms: {names}", "UNPROVED")
-        return names
-    if name + "' does not depend on any axioms" in text or name + " does not depend on any axioms" in text:
-        return []
-    raise ModelError("Lean did not produce an unambiguous audit of the bound theorem", "UNPROVED")
-
-
 def check(args, output):
     summary = prepare(args, output)
     lake = ROOT / ".tools" / "lean-4.24.0-windows" / "bin" / "lake.exe"
@@ -184,17 +167,7 @@ def check(args, output):
         raise ModelError("Unexpected local Lean version", "ENVIRONMENT_ERROR")
     proof_bytes = Path(args.agent_proof).read_bytes()
     write_text(PROOF / "SubmittedProof.lean", proof_bytes.decode("utf-8-sig"))
-    verify = '''import GeneratedModel
-import SubmittedProof
-
-namespace ShaderFormalize.Verification
-theorem checked : ShaderFormalize.Generated.expected :=
-  ShaderFormalize.AgentProof.equivalent
-end ShaderFormalize.Verification
-
-#print axioms ShaderFormalize.Verification.checked
-'''
-    write_text(PROOF / "Verify.lean", verify)
+    write_text(PROOF / "Verify.lean", verification_module())
     result, build_seconds = run_tool([lake, "--no-cache", "build"], PROOF, output / "lean-build.log", 600)
     if result.returncode:
         raise ModelError("Agent proof did not check against the generated Shader model; see lean-build.log", "UNPROVED")
