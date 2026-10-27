@@ -322,11 +322,17 @@ class ComputeProgram(Program):
                 "bindings": self.bindings, "events": self.events}
 
 
-def import_compute(source, dump):
+def import_compute(source, dump, schema=1):
+    if schema == 2:
+        from shader_compute_texture import TextureProgram
+        return TextureProgram(source, dump).model()
     return ComputeProgram(source, dump).model()
 
 
 def compute_contract(data, original, optimized):
+    if original["schema"] == "compute-2":
+        from shader_compute_texture import compute_contract as texture_contract
+        return texture_contract(data, original, optimized)
     for field in ("resources", "uniform", "parameter", "numthreads"):
         if original[field] != optimized[field]:
             raise ModelError(f"Compute interfaces differ: {field}", "INVALID_INPUT")
@@ -449,6 +455,9 @@ def compute_definition(name, model, contract):
 
 
 def generate_compute(original, optimized, contract):
+    if original["schema"] == "compute-2":
+        from shader_compute_texture import generate_compute as texture_generate
+        return texture_generate(original, optimized, contract)
     contract = compute_contract(contract, original, optimized)
     threads = original["numthreads"] * contract["dispatch_groups"]
     lower, upper = contract["count_range"]
@@ -541,6 +550,9 @@ def evaluate_expression(expr, values, loads, count, thread):
 
 
 def evaluate_compute(model, contract, initial, count):
+    if model["schema"] == "compute-2":
+        from shader_compute_texture import evaluate_compute as texture_evaluate
+        return texture_evaluate(model, contract, initial, count)
     if not contract["count_range"][0] <= count <= contract["count_range"][1]:
         raise ValueError("Count outside the supplied contract")
     accesses = []

@@ -9,6 +9,7 @@ import unittest
 from shader_ast import ModelError
 from shader_compute import compute_contract, evaluate_compute, generate_compute, import_compute
 from shaderformalize import ROOT, local_environment, validate_dxc
+from shader_compute_math import evaluate_expression as evaluate_texture_expression, signed
 
 
 class ComputeTests(unittest.TestCase):
@@ -153,6 +154,137 @@ Difference[index]=SourceA[index]-b;"""
         self.assertLess(len(json.dumps(model)), 200000)
         self.assertEqual(evaluate_compute(model, self.contract, self.memory(), 7),
                          evaluate_compute(self.compile(self.original), self.contract, self.memory(), 7))
+
+
+class TextureComputeTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.dxc = validate_dxc()
+        cls.directory = ROOT / "artifacts/compute-texture/unit"
+        cls.directory.mkdir(parents=True, exist_ok=True)
+        cls.original = (ROOT / "examples/compute-texture/original.hlsl").read_text()
+        cls.optimized = (ROOT / "examples/compute-texture/optimized.hlsl").read_text()
+        cls.contract = json.loads((ROOT / "examples/compute-texture/constraints.json").read_text())
+
+    def compile(self, source):
+        path = self.directory / "input.hlsl"
+        path.write_text(source, encoding="utf-8")
+        result = subprocess.run([str(self.dxc), "-T", "cs_6_0", "-E", "main", "-HV", "2021", "-ast-dump", str(path)],
+                                env=local_environment(), capture_output=True, text=True, encoding="utf-8", timeout=60)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        return import_compute(source, result.stdout, 2)
+
+    def source(self, body, helper=""):
+        prefix = self.original[:self.original.index("float3 ToneMap")]
+        return prefix + helper + "\n[numthreads(8,8,1)] void main(uint3 threadId : SV_DispatchThreadID) {\n" + body + "\n}\n"
+
+    def memory(self):
+        return {(r, i): tuple(Fraction(r * 7 + i - c - 100) for c in range(4)) for r in range(4) for i in range(230)}
+
+    def uniforms(self, width=17, height=13):
+        return {"Width": width, "Height": height, "Exposure": Fraction(2), "BloomStrength": Fraction(1, 2)}
+
+    def test_texture_tonemap_and_untouched_pixels(self):
+        original, optimized = self.compile(self.original), self.compile(self.optimized)
+        compute_contract(self.contract, original, optimized)
+        memory = self.memory()
+        for width, height in [(0, 0), (1, 1), (16, 12), (17, 13)]:
+            uniforms = self.uniforms(width, height)
+            left = evaluate_compute(original, self.contract, memory, uniforms)
+            self.assertEqual(left, evaluate_compute(optimized, self.contract, memory, uniforms))
+            for (r, i), value in memory.items():
+                if r < 2 or i >= 221 or i % 17 >= width or i // 17 >= height:
+                    self.assertEqual(left[r, i], value)
+
+    def test_signed_wrap_and_exact_bit_cast(self):
+        self.assertEqual(signed(0xffffffff), -1)
+        self.assertEqual(signed(0x80000000), -(2**31))
+        source = self.source("int a=(int)0xffffffffu; int b=(int)0x80000000u; uint c=(uint)a; bool negative=-1<0;")
+        model = self.compile(source)
+        values = {}
+        for event in model["events"]:
+            if event["kind"] == "binding":
+                index = event["index"]
+                values[index] = evaluate_texture_expression(model["bindings"][index]["expression"], values, {}, self.uniforms(), 0, 24)
+        self.assertIn(0xffffffff, values.values())
+        self.assertIn(0x80000000, values.values())
+        self.assertIn(True, values.values())
+
+    def test_out_of_bounds_load_zero_and_no_false_conflict(self):
+        source = self.source("uint2 p=threadId.xy;if(p.x>=Width||p.y>=Height)return; float4 a=Scene.Load(int3(-1,0,0));Color[p]=a;")
+        model = self.compile(source)
+        contract = copy.deepcopy(self.contract)
+        contract["bindings"]["Color"]["identity"] = 0
+        final = evaluate_compute(model, contract, self.memory(), self.uniforms())
+        self.assertEqual(final[0, 0], (Fraction(0),) * 4)
+        target = generate_compute(model, model, contract)
+        self.assertIn("else (fun _ => 0)", target)
+        self.assertIn("allValid threads", target)
+
+    def test_store_two_dimensional_bounds_not_flat_address(self):
+        source = self.source("if(threadId.x!=0u||threadId.y!=0u)return;Color[uint2(17u,0u)]=float4(1,1,1,1);")
+        model = self.compile(source)
+        with self.assertRaisesRegex(ValueError, "two-dimensional Store"):
+            evaluate_compute(model, self.contract, self.memory(), self.uniforms())
+
+    def test_alias_forwarding_and_last_store(self):
+        source = self.source("uint2 p=threadId.xy;if(p.x>=Width||p.y>=Height)return;Color[p]=float4(1,2,3,4);Color[p]=Scene.Load(int3(p,0))*2.0;Auxiliary[p]=Scene.Load(int3(p,0));")
+        model = self.compile(source)
+        contract = copy.deepcopy(self.contract)
+        contract["bindings"]["Color"]["identity"] = 0
+        compute_contract(contract, model, model)
+        final = evaluate_compute(model, contract, self.memory(), self.uniforms())
+        self.assertEqual(final[0, 0], (Fraction(2), Fraction(4), Fraction(6), Fraction(8)))
+        self.assertEqual(final[3, 0], final[0, 0])
+
+    def test_alias_shape_mismatch_rejected(self):
+        model = self.compile(self.original)
+        contract = copy.deepcopy(self.contract)
+        contract["bindings"]["Color"] = {"identity": 0, "dimensions": [13, 17]}
+        with self.assertRaisesRegex(ModelError, "same physical kind and shape"):
+            compute_contract(contract, model, model)
+
+    def test_write_write_and_read_write_conflicts(self):
+        body = "uint2 p=threadId.xy;if(p.x>=Width||p.y>=Height)return;Color[uint2(0u,0u)]=float4(1,1,1,1);"
+        with self.assertRaisesRegex(ValueError, "Conflicting physical"):
+            evaluate_compute(self.compile(self.source(body)), self.contract, self.memory(), self.uniforms())
+        body = "uint2 p=threadId.xy;if(p.x>=Width||p.y>=Height)return;float4 a=Scene.Load(int3(0,0,0));Color[p]=a;"
+        contract = copy.deepcopy(self.contract)
+        contract["bindings"]["Color"]["identity"] = 0
+        with self.assertRaisesRegex(ValueError, "Conflicting physical"):
+            evaluate_compute(self.compile(self.source(body)), contract, self.memory(), self.uniforms())
+
+    def test_unused_division_and_helper_argument_preserve_domain(self):
+        helper = "float Ignore(float x){return 1.0;}\n"
+        source = self.source("float x=Ignore(1.0/(Exposure-Exposure));", helper)
+        model = self.compile(source)
+        self.assertTrue(any(e["kind"] == "domain" for e in model["events"]))
+        with self.assertRaisesRegex(ValueError, "real domain"):
+            evaluate_compute(model, self.contract, self.memory(), self.uniforms())
+
+    def test_inactive_and_short_circuit_domains(self):
+        source = self.source("if(Exposure<0.0){float x=1.0/(Exposure-Exposure);} bool b=Exposure<0.0 && (1.0/(Exposure-Exposure)>0.0);float y=Exposure>=0.0?1.0:1.0/(Exposure-Exposure);")
+        model = self.compile(source)
+        self.assertEqual(evaluate_compute(model, self.contract, self.memory(), self.uniforms()), self.memory())
+
+    def test_helper_if_and_nested_call(self):
+        helper = "float Twice(float x){return x*2.0;} float F(float x){float y=x;if(x<0.0){y=0.0;}return Twice(y);}\n"
+        source = self.source("uint2 p=threadId.xy;if(p.x>=Width||p.y>=Height)return;Color[p]=float4(F(Exposure),0,0,1);", helper)
+        final = evaluate_compute(self.compile(source), self.contract, self.memory(), self.uniforms())
+        self.assertEqual(final[2, 0], (Fraction(4), Fraction(0), Fraction(0), Fraction(1)))
+
+    def test_nonzero_mip_and_new_intrinsic_rejected(self):
+        source = self.source("float4 a=Scene.Load(int3(0,0,1));")
+        model = self.compile(source)
+        with self.assertRaisesRegex(ModelError, "mip0"):
+            generate_compute(model, model, self.contract)
+        with self.assertRaisesRegex(ModelError, "Unsupported Compute intrinsic"):
+            self.compile(self.source("float x=sqrt(Exposure);"))
+
+    def test_unused_impure_helper_rejected(self):
+        helper = "float F(float x){return Scene.Load(int3(0,0,0)).x;}\n"
+        with self.assertRaisesRegex(ModelError, "Pure Compute helpers"):
+            self.compile(self.source("", helper))
 
 
 if __name__ == "__main__":

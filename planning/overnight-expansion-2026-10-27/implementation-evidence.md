@@ -25,3 +25,9 @@
 - 独立Q2实际复跑15/257单元、核对41项产物哈希、直接复测两输入和timeout，并调用真实597文件payload比对， verdict PASS，四项Q1 finding全部闭合，无新critical/major。精简证据为planning/evidence/synchronization-hlsl-2026-10-28.json。
 - Math实现agent完成15项新单元、3P3U真实控制、27旧目标逐字一致及257项独立工作区单元。独立Q verdict VERIFIED_WITH_FINDINGS：未发现数学语义缺陷，独立DXC/helper/guard/Lean探针闭合；唯一low为quantize证据目录混有旧SubmittedProof和失败分日志。root已在同一路径用当前证明重新完整DXC+Lean检查并PROVED，刷新同次成功证据。
 - Math 18个源/证明/例子文件已按哈希逐字整合主目录，runner/docs/coverage已接入math-extensions；主目录272项总单元通过。主目录`run_demo.ps1 -Example math-extensions`最终PASSED，3个PROVED和3个UNPROVED均符合预期，精简证据为planning/evidence/math-extensions-2026-10-28.json。
+- Compute首轮agent达到2小时时限后恢复，最终`run_compute_suite.py` PASSED：27项单元、旧2P4U、新3P5U全部匹配，9个负例均到lean-SubmittedProof.log；旧六份完整Lean目标逐字一致。权威结果artifacts/compute/acceptance/result.json；早期冗余IN_PROGRESS目录不作最终证据。独立Q进行中。
+- IEEE首轮agent达到2小时时限后恢复，最终`run_ieee_suite.py` IEEE_SUITE_PASSED：11项IEEE单元，struct/helper/cbuffer、四则sqrt同序、位往返3个IEEE_PROVED；重结合/±0/NaN/sorry/额外公理/伪造目标6个预期UNPROVED；旧核心PROVED。另242项旧单元与19项原型通过，gpu_profile_matched=false。
+- 独立IEEE Q1实际重跑3P6U、253项单元、19项原型并核验42项报告哈希，确认逐运算RNE、精确一次字面量舍入、NaN/±0/subnormal和完整存储位目标。 verdict CHANGES_REQUESTED仅限两项辅助合同：PowerShell原型/bootstrap并非每次Lean调用前校验binary；suite超时未杀进程树/写终态。实现agent随后修复并做针对性控制，数学语义无未闭合finding。
+- 独立Compute Q verdict VERIFIED_WITH_LOW_SEVERITY_METADATA_ISSUE：隔离回放14/14控制、真实DXC坐标/alias/inactive Store探针和旧六目标兼容均闭合；唯一清单schema元数据已从1改2。主目录25个Compute文件整合后文本一致，27项Compute单元及14项控制全部通过，证据planning/evidence/compute-texture-2026-10-28.json。
+- IEEE两项Q1修复后，独立Q2 verdict VERIFIED：14项单元、19项原型、最终3P6U及42项哈希通过，真实二进制替换和父子进程回收控制闭合，无剩余critical/major。主目录30个IEEE文件已整合，14项IEEE单元和19项原型通过。
+- 主目录298项总单元曾因Compute suite持锁出现预期INCONCLUSIVE及旧报告未刷新；未计为通过。Compute完成后锁释放，298项总单元无竞争重跑全部OK。IEEE最终suite和统一核心全套分别待完成。

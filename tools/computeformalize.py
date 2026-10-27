@@ -12,6 +12,7 @@ from shaderformalize import (ROOT, PROOF, audit_axioms, read_json, run_tool, sha
 
 def prepare(args, output):
     dxc = validate_dxc()
+    supplied_contract = read_json(args.constraints)
     models = []
     inputs = []
     for role, filename in (("original", args.original), ("optimized", args.optimized)):
@@ -24,16 +25,16 @@ def prepare(args, output):
         result, seconds = run_tool([dxc, "-T", "cs_6_0", "-E", "main", "-HV", "2021", "-ast-dump", snapshot],
                                    output, output / f"{role}.dxc.log")
         if result.returncode:
-            raise ModelError(f"DXC rejected {role}; see its log", "INVALID_INPUT")
-        model = import_compute(source, result.stdout)
+            raise ModelError(f"DXC rejected {role} (exit {result.returncode}); see its log", "INVALID_INPUT")
+        model = import_compute(source, result.stdout, supplied_contract.get("schema", 1))
         models.append(model)
         write_json(output / f"{role}.model.json", model)
         inputs.append({"role": role, "path": str(source_path), "sha256": sha256(snapshot), "dxc_seconds": seconds})
-    contract = compute_contract(read_json(args.constraints), models[0], models[1])
+    contract = compute_contract(supplied_contract, models[0], models[1])
     generated = generate_compute(models[0], models[1], contract)
     write_text(PROOF / "GeneratedModel.lean", generated)
     write_text(output / "GeneratedModel.lean", generated)
-    return {"status": "PREPARED", "model_schema": "compute-1", "inputs": inputs, "constraints": contract,
+    return {"status": "PREPARED", "model_schema": models[0]["schema"], "inputs": inputs, "constraints": contract,
             "generated_sha256": sha256(output / "GeneratedModel.lean"),
             "guarantee": "ideal real values, exact uint32, guarded thread-local forwarding and proved race-free unique-writer final memory; experimental typed AST translator remains trusted",
             "dxc_files": read_json(ROOT / "dependencies.lock.json")["dxc"]["binaries"]}
@@ -64,7 +65,13 @@ end ShaderFormalize.Verification
     cache_path = ROOT / ".cache" / "compute-compiled-modules.json"
     cache = read_json(cache_path) if cache_path.is_file() else {}
     module_hashes = {}
-    for module in ("ShaderFormalize/Model", "ShaderFormalize/Compute", "GeneratedModel", "SubmittedProof"):
+    semantic_names = ["Model.lean", "Compute.lean"]
+    modules = ["ShaderFormalize/Model", "ShaderFormalize/Compute"]
+    if summary["model_schema"] == "compute-2":
+        semantic_names.append("ComputeTexture.lean")
+        modules.append("ShaderFormalize/ComputeTexture")
+    modules.extend(["GeneratedModel", "SubmittedProof"])
+    for module in modules:
         module_hashes[module] = sha256(PROOF / (module + ".lean"))
         dependency_hashes = dict(module_hashes)
         dependency_hashes["manifest"] = sha256(PROOF / "lake-manifest.json")
@@ -93,7 +100,7 @@ end ShaderFormalize.Verification
         raise ModelError("Compute semantic/proof source changed during checking", "UNPROVED")
     summary.update(status="PROVED", theorem="ShaderFormalize.Verification.checked", axioms=axioms,
                    agent_proof_sha256=hashlib.sha256(proof_bytes).hexdigest(),
-                   semantic_modules={name: sha256(PROOF / "ShaderFormalize" / name) for name in ("Model.lean", "Compute.lean")},
+                    semantic_modules={name: sha256(PROOF / "ShaderFormalize" / name) for name in semantic_names},
                    lake_manifest_sha256=sha256(PROOF / "lake-manifest.json"),
                    lean_build_seconds=build_seconds, lean_verify_seconds=verify_seconds)
     return summary

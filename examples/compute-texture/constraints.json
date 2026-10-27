@@ -1,0 +1,11 @@
+{
+  "schema": 2,
+  "dispatch_groups": [3, 2, 1],
+  "uniform_ranges": {"Width": [0, 17], "Height": [0, 13], "Exposure": [0, 4], "BloomStrength": [0, 1]},
+  "bindings": {
+    "Scene": {"identity": 0, "dimensions": [17, 13]},
+    "Bloom": {"identity": 1, "dimensions": [17, 13]},
+    "Color": {"identity": 2, "dimensions": [17, 13]},
+    "Auxiliary": {"identity": 3, "dimensions": [17, 13]}
+  }
+}

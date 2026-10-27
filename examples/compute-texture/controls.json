@@ -1,0 +1,69 @@
+{
+  "schema": 2,
+  "cases": [
+    {
+      "name": "texture-tonemap",
+      "original": "examples/compute-texture/original.hlsl",
+      "optimized": "examples/compute-texture/optimized.hlsl",
+      "constraints": "examples/compute-texture/constraints.json",
+      "proof": "proof/ComputeTexturePostProof.lean",
+      "expected": "PROVED"
+    },
+    {
+      "name": "texture-alias",
+      "original": "examples/compute-texture/alias-original.hlsl",
+      "optimized": "examples/compute-texture/alias-optimized.hlsl",
+      "constraints": "examples/compute-texture/alias-constraints.json",
+      "proof": "proof/ComputeTextureAliasProof.lean",
+      "expected": "PROVED"
+    },
+    {
+      "name": "texture-oob-zero",
+      "original": "examples/compute-texture/oob-original.hlsl",
+      "optimized": "examples/compute-texture/oob-optimized.hlsl",
+      "constraints": "examples/compute-texture/alias-constraints.json",
+      "proof": "proof/ComputeTextureOobProof.lean",
+      "expected": "PROVED"
+    },
+    {
+      "name": "texture-wrong-output",
+      "original": "examples/compute-texture/original.hlsl",
+      "optimized": "examples/compute-texture/wrong-output.hlsl",
+      "constraints": "examples/compute-texture/constraints.json",
+      "proof": "proof/ComputeTexturePostProof.lean",
+      "expected": "UNPROVED"
+    },
+    {
+      "name": "texture-out-of-bounds-store",
+      "original": "examples/compute-texture/original.hlsl",
+      "optimized": "examples/compute-texture/out-of-bounds-store.hlsl",
+      "constraints": "examples/compute-texture/constraints.json",
+      "proof": "proof/ComputeTexturePostProof.lean",
+      "expected": "UNPROVED"
+    },
+    {
+      "name": "texture-write-write",
+      "original": "examples/compute-texture/original.hlsl",
+      "optimized": "examples/compute-texture/write-write.hlsl",
+      "constraints": "examples/compute-texture/constraints.json",
+      "proof": "proof/ComputeTexturePostProof.lean",
+      "expected": "UNPROVED"
+    },
+    {
+      "name": "texture-alias-write-read",
+      "original": "examples/compute-texture/alias-original.hlsl",
+      "optimized": "examples/compute-texture/alias-write-read.hlsl",
+      "constraints": "examples/compute-texture/alias-constraints.json",
+      "proof": "proof/ComputeTextureAliasProof.lean",
+      "expected": "UNPROVED"
+    },
+    {
+      "name": "texture-zero-denominator",
+      "original": "examples/compute-texture/original.hlsl",
+      "optimized": "examples/compute-texture/zero-denominator.hlsl",
+      "constraints": "examples/compute-texture/constraints.json",
+      "proof": "proof/ComputeTexturePostProof.lean",
+      "expected": "UNPROVED"
+    }
+  ]
+}

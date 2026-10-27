@@ -1,0 +1,42 @@
+{
+  "date": "2026-10-28",
+  "status": "PASSED",
+  "command": "python tools/run_compute_suite.py",
+  "unit_tests": 27,
+  "core_regression_tests": 298,
+  "controls": [
+    {"case": "postprocess", "expected": "PROVED", "actual": "PROVED"},
+    {"case": "same-thread-alias", "expected": "PROVED", "actual": "PROVED"},
+    {"case": "wrong-output", "expected": "UNPROVED", "actual": "UNPROVED"},
+    {"case": "out-of-bounds", "expected": "UNPROVED", "actual": "UNPROVED"},
+    {"case": "write-write-conflict", "expected": "UNPROVED", "actual": "UNPROVED"},
+    {"case": "alias-write-read-conflict", "expected": "UNPROVED", "actual": "UNPROVED"},
+    {"case": "texture-tonemap", "expected": "PROVED", "actual": "PROVED"},
+    {"case": "texture-alias", "expected": "PROVED", "actual": "PROVED"},
+    {"case": "texture-oob-zero", "expected": "PROVED", "actual": "PROVED"},
+    {"case": "texture-wrong-output", "expected": "UNPROVED", "actual": "UNPROVED"},
+    {"case": "texture-out-of-bounds-store", "expected": "UNPROVED", "actual": "UNPROVED"},
+    {"case": "texture-write-write", "expected": "UNPROVED", "actual": "UNPROVED"},
+    {"case": "texture-alias-write-read", "expected": "UNPROVED", "actual": "UNPROVED"},
+    {"case": "texture-zero-denominator", "expected": "UNPROVED", "actual": "UNPROVED"}
+  ],
+  "legacy_schema1_targets_byte_identical": 6,
+  "negative_controls_reaching_submitted_proof": 9,
+  "review": {
+    "verdict": "VERIFIED_WITH_LOW_SEVERITY_METADATA_ISSUE",
+    "semantic_issues": 0,
+    "metadata_fix": "examples/compute-texture/controls.json schema corrected from 1 to 2",
+    "independent_replay": "14/14 controls replayed in isolated Lean workspace; five positives use only the three approved axioms"
+  },
+  "acceptance_summary_sha256": "2a0bce423da09f8550bd620e9be029e5e9eec39fe2469b8b3852b4d64bdd7dc2",
+  "unit_log_sha256": "a2bd1601cc4c5df0597faef3f3861bbde86a044ce908f27e382c3cf6db3b19ae",
+  "source_files": {
+    "tools/shader_compute_texture.py": "906d4f7a7f66ee5aa313f386b727cce40d41d66c2cb2c0b7d2c86bd3327e4261",
+    "tools/shader_compute_math.py": "7fad3e8a92841586f320cc28f122b5adbb2753f471cb3d9c04328d29b8fb9bbc",
+    "proof/ShaderFormalize/ComputeTexture.lean": "fb44e5eb15521b8823fb84b6c32b82dbcbe4a67a1d61846d386ebac8da74bc9d",
+    "proof/ComputeTexturePostProof.lean": "65aa687f71b8ab88f3f208d9be5043a124a0dfd6676cb345e5ed4249dbe70e90",
+    "proof/ComputeTextureAliasProof.lean": "8deff6499f7b181c880d9c29e28299ac61eecc5a87043fc67c1b61bba1f782e9",
+    "proof/ComputeTextureOobProof.lean": "5c25822e00c86b18c02785a7facf57d18131d29c5843cffe45a26aa87d7c9ebc"
+  },
+  "scope": "Ideal-real schema1 1D buffers and schema2 2D Texture2D with exact integer coordinates, guarded math, independent Store bounds, alias/race safety and complete final memory; no IEEE or arbitrary GPU memory-model claim"
+}

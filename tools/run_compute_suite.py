@@ -25,6 +25,7 @@ def main():
         print("COMPUTE_FAILED: unit regressions; see artifacts/compute/acceptance/unit.log")
         return 1
     cases = read_json(ROOT / "examples/compute/controls.json")["cases"]
+    cases += read_json(ROOT / "examples/compute-texture/controls.json")["cases"]
     reports = []
     for case in cases:
         name, expected = case["name"], case["expected"]
@@ -49,7 +50,7 @@ def main():
     passed = len(reports) == len(cases) and all(item["matches"] for item in reports)
     unit_count = re.search(r"Ran ([0-9]+) tests?", units.stdout + units.stderr)
     summary = {"status": "PASSED" if passed else "FAILED", "unit_tests": int(unit_count.group(1)) if unit_count else None, "controls": reports,
-               "scope": "experimental ideal-real Compute buffers; no Unity or IEEE hardware claim"}
+               "scope": "experimental ideal-real 1D buffers and 2D textures; no Unity or IEEE hardware claim"}
     write_json(directory / "result.json", summary)
     print("COMPUTE_" + summary["status"])
     return 0 if passed else 1
