@@ -160,21 +160,22 @@
       "commits": [],
       "grant_reference": "planning/overnight-expansion-2026-10-27/execution-authority.md#compute-texture-001@revision-1",
       "result": "IN_PROGRESS",
-      "summary": "P Verified及8a13f50 Grant；新C compute-texture基线d3b7f5f，物理依赖复制进行，writer可实现自身代码，实际Lean检查等待环境完成。",
-      "updated_at": "2026-10-27T02:13:57+08:00"
+      "summary": "Compute工作区已有二维纹理前端/语义/3份证明/docs，首轮agent时限后从中断点恢复单元和新3P5U、旧2P4U实际验收。",
+      "updated_at": "2026-10-28T02:24:44+08:00"
     },
     "ieee_hlsl": {
-      "commits": [],
-      "grant_reference": "",
-      "result": "PENDING",
-      "summary": ""
+      "commits": ["778e18d"],
+      "grant_reference": "planning/overnight-expansion-2026-10-27/execution-authority.md#ieee-hlsl-001@revision-1",
+      "result": "IN_PROGRESS",
+      "summary": "root共同证明检查API已提交推送；IEEE工作区已有独立前端/发射器/CLI/例子/测试，首轮agent时限后从中断点恢复实际验收。",
+      "updated_at": "2026-10-28T02:24:44+08:00"
     },
     "math_extensions": {
-      "commits": [],
+      "commits": ["274523c3401331b3226c340d80c7a68dd4ecaff8"],
       "grant_reference": "planning/overnight-expansion-2026-10-27/execution-authority.md#math-extensions-001@revision-1",
-      "result": "IN_PROGRESS",
-      "summary": "P Verified及8a13f50精确Grant；C basic-math保留旧快照b27f399后切至d3b7f5f，依赖保留，可按七项数学Frame实现。",
-      "updated_at": "2026-10-27T02:12:06+08:00"
+      "result": "COMPLETED",
+      "summary": "七项实数数学已整合并推送；主目录272项总单元及3P3U通过，27旧目标逐字一致，独立Q闭合，证据已入库。",
+      "updated_at": "2026-10-28T02:24:44+08:00"
     },
     "synchronization_hlsl": {
       "commits": ["6f02a08f61223f76fe3ea2b6671f8b29a96392e8"],
@@ -188,7 +189,7 @@
   "schema_version": 1,
   "session_id": "shader-overnight-expansion-2026-10-27",
   "status": "running",
-  "updated_at": "2026-10-28T01:13:03+08:00"
+  "updated_at": "2026-10-28T02:24:44+08:00"
 }
 ```
 <!-- SMART_OVERNIGHT_STATE_END -->
