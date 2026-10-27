@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "bindings": {
+    "Input": {
+      "identity": 1,
+      "capacity": 2
+    },
+    "Output": {
+      "identity": 2,
+      "capacity": 2
+    }
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "date": "2026-10-28",
+  "status": "PASSED",
+  "command": "python tools/run_sync_suite.py",
+  "kind": "EXTERNAL_VERIFIER",
+  "unit_tests": 15,
+  "core_regression_tests": 257,
+  "controls": [
+    {
+      "case": "original",
+      "expected": "EXTERNAL_SAFETY_VERIFIED",
+      "actual": "EXTERNAL_SAFETY_VERIFIED"
+    },
+    {
+      "case": "missing-barrier",
+      "expected": "EXTERNAL_SAFETY_UNPROVED",
+      "actual": "EXTERNAL_SAFETY_UNPROVED",
+      "diagnostic": "insufficient permission / arrayPerm"
+    },
+    {
+      "case": "shared-conflict",
+      "expected": "EXTERNAL_SAFETY_UNPROVED",
+      "actual": "EXTERNAL_SAFETY_UNPROVED",
+      "diagnostic": "insufficient permission / assignFieldFailed"
+    },
+    {
+      "case": "out-of-bounds",
+      "expected": "EXTERNAL_SAFETY_UNPROVED",
+      "actual": "EXTERNAL_SAFETY_UNPROVED",
+      "diagnostic": "arrayBounds"
+    },
+    {
+      "case": "aliased-contract",
+      "expected": "UNSUPPORTED",
+      "actual": "UNSUPPORTED"
+    }
+  ],
+  "reviews": {
+    "q1": "CHANGES_REQUESTED: arrayBounds verdict, resource-direction terminal state, lock-aware timeout state and installed-payload locking",
+    "q2": "PASS: all four findings closed; no new critical or major issue in the approved Grant"
+  },
+  "integrity": {
+    "vercors_payload_files_compared_with_locked_zip": 597,
+    "q2_recomputed_artifact_hashes": 41,
+    "q2_hash_failures": 0,
+    "acceptance_summary_sha256": "023698f1ce88f96ff80579227e1fa09df0cd0c4ca669180141280d548779a035",
+    "unit_log_sha256": "98accc38cc4faaf849d7046b1fca0e03b9a380f93d16a83dcd24af487a0674f6",
+    "positive_report_sha256": "ba2d8da89e2649e52cfed6fb36be4108dd9c826ee685af285b70d11b175407cb",
+    "positive_vercors_log_sha256": "1db57d4145e57a5e20a09279e71c92d6084d4440527dcd77ca2478f1f9b815f4"
+  },
+  "source_files": {
+    "tools/shader_sync.py": "2d9d52feff79f8ccd5de8942a4634a2af486fdea98bb61b9cefad1b260f8816a",
+    "tools/syncformalize.py": "84d0d8fd5233ea6efc8f3ff0960b2395f5a0b869b56e45e9614d231ecfa333bd",
+    "tools/run_sync_suite.py": "df4899ebfa2784e4d2d4f140c9a33ca70e82105023af8262759fb39f55011eb0",
+    "tools/test_sync.py": "ee443e86c76c513a3a8c7c0b223a4937237d760086a6f666d5aa9e2ee6a908de"
+  },
+  "scope": "Fixed two-lane HLSL typed-AST to PVL access bounds, permissions and one real barrier. Not Lean, value equivalence, initialization, arbitrary GPU scheduling or a complete GPU memory model."
+}

@@ -153,7 +153,7 @@ proof/ShaderFormalize/Model.lean和Fragment.lean定义数学语义。dependencie
 
 [浮点原型](prototypes/ieee/README.md)固定 FloatLib 与独立 Lean4.35，可运行 binary32 运算、NaN/正负零和位解释检查，并直接应用上游定理。它的本地安装在本仓库内，与核心 Lean4.24 分开；尚未接入 HLSL 的自动浮点转换。
 
-[同步原型](prototypes/synchronization/README.md)固定本地 VerCors2.4，用实际并行访问和 barrier 权限的正负例验证外部工具可用。输入是 PVL 模型，尚未实现 HLSL 同步导入。这两个原型均为可选入口，不参与默认核心验收，也不依赖 Unity。
+[同步原型](prototypes/synchronization/README.md)固定本地 VerCors2.4，用实际并行访问和 barrier 权限的正负例验证外部工具可用。[固定两线程 HLSL 同步入口](docs/synchronization-hlsl.md)进一步把真实 DXC typed AST 转成 PVL，正确例、删 barrier 和共享冲突均经过外部验证器实际控制。外部安全结果不冒充 Lean 或数值等价证明。这些可选入口不参与默认核心验收，也不依赖 Unity。
 
 ## 可选官方 HDRP/Lit 调查
 
