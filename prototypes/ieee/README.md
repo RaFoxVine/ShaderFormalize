@@ -1,8 +1,18 @@
 # 独立 binary32 接入原型
 
-这个原型用实际 FloatLib 运算和 Lean 定理验证浮点库可以被本项目调用。它与当前实数 Shader 证明环境分开，尚未把 HLSL 自动转换到浮点模型，也没有改变核心 `shaderformalize.py` 的 `PROVED` 含义。
+这个原型用实际 FloatLib 运算和 Lean 定理验证浮点库可以被本项目调用。它与当前实数 Shader 证明环境分开；受限 HLSL 入口使用独立 `ieee-1` IR 和 `IEEE_PROVED` 结果，不改变核心 `shaderformalize.py` 的实数模型或 `PROVED` 含义。
 
-## 运行
+## 受限 HLSL prepare/check
+
+```powershell
+python tools/ieeeformalize.py prepare --output artifacts/ieee-hlsl/current
+python tools/ieeeformalize.py check --output artifacts/ieee-hlsl/current
+python tools/run_ieee_suite.py
+```
+
+入口固定调用 DXC 和本目录 Lean4.35/FloatLib，生成文件写入 `proof`，跨进程锁为仓库 `.cache/ieee-verification.lock`。只接受空 schema2 约束，输入量化所有 binary32 存储值；每个源码运算分别舍入，不做隐式 FMA，目标是完整存储位结构相等。成功报告的 `gpu_profile_matched` 始终为 `false`。支持范围与排除项由 `shader_ieee_frontend.py` 白名单实际执行，所有 helper（包括未调用者）都检查语法和初始化。
+
+## 运行库原型
 
 在仓库根目录使用 Windows x64、PowerShell7、Python3.9+、Git 和 curl：
 

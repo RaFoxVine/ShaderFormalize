@@ -1,0 +1,47 @@
+{
+  "date": "2026-10-28",
+  "status": "IEEE_SUITE_PASSED",
+  "command": "python tools/run_ieee_suite.py",
+  "profile": "binary32-rne-preserve-subnormals-separate-ops-v1",
+  "gpu_profile_matched": false,
+  "unit_tests": 14,
+  "core_regression_tests": 298,
+  "controls": [
+    {"case": "struct-helper-cbuffer", "expected": "IEEE_PROVED", "actual": "IEEE_PROVED"},
+    {"case": "ordered-arithmetic-sqrt", "expected": "IEEE_PROVED", "actual": "IEEE_PROVED"},
+    {"case": "stored-bit-roundtrip", "expected": "IEEE_PROVED", "actual": "IEEE_PROVED"},
+    {"case": "reassociation-zero-one", "expected": "UNPROVED", "actual": "UNPROVED"},
+    {"case": "signed-zero-merge", "expected": "UNPROVED", "actual": "UNPROVED"},
+    {"case": "nan-self-compare-true", "expected": "UNPROVED", "actual": "UNPROVED"},
+    {"case": "sorry-rejected", "expected": "UNPROVED", "actual": "UNPROVED"},
+    {"case": "extra-axiom-rejected", "expected": "UNPROVED", "actual": "UNPROVED"},
+    {"case": "forged-target-rejected", "expected": "UNPROVED", "actual": "UNPROVED"}
+  ],
+  "legacy_core": {
+    "status": "PROVED",
+    "lean_version": "4.24.0",
+    "axioms": ["propext", "Classical.choice", "Quot.sound"]
+  },
+  "prototype": {
+    "status": "EXTERNAL_LIBRARY_PROTOTYPE_PASSED",
+    "checks_passed": 19,
+    "report_sha256": "a425fbf804f227450c39358fb45b3e8fd782fd2ace5f3dff25ab376741052238"
+  },
+  "reviews": {
+    "q1": "CHANGES_REQUESTED only for PowerShell per-call binary hashes and suite timeout process-tree cleanup; binary32 semantics and 3P6U independently verified",
+    "q2": "VERIFIED; both infrastructure findings closed with real binary-replacement and parent/child-process controls; no remaining critical or major issue",
+    "evidence_hashes_rechecked": 42,
+    "evidence_hash_failures": 0
+  },
+  "acceptance_summary_sha256": "738cab460ccbebe5d9447b19a8b74d352edfc2b8a5b177ccf9ebc56f93549596",
+  "unit_log_sha256": "a5ac9b4286053ccf384c2ed3323f01b2045a1e9fce65aed1b3e84f8dd50b99ca",
+  "source_files": {
+    "tools/ieeeformalize.py": "8d07ff5b631bdb039c822b07512e87cffcef6c2322a64a5f454f7d95fe5bbab5",
+    "tools/shader_ieee_frontend.py": "dce62d790119cb843c0d51a333ed07b80b5210aefc3d88b0ba5d369d4038e985",
+    "tools/shader_ieee_lean.py": "88b2b779e3a09488d086bad2dceb1ee96dc5acec3152cb054809f995ec3d77fb",
+    "tools/run_ieee_suite.py": "235d04a838d3d67cbe06ea0d694f7e5bd6c261056ef7333698afd75673e2c504",
+    "tools/test_ieee.py": "f3cfd12f82941dc51e704aa36da1818205a16df04e8c1453013bcde7889a9292",
+    "prototypes/ieee/ShaderIeee/Model.lean": "d421785bdb8afb8e4e2fc9d0c6256a70c8216d6641583adc29340f135d8fbc6f"
+  },
+  "scope": "Restricted ordinary HLSL to independent FloatLib binary32; arbitrary binary32 inputs, exact one-time literal rounding, separate operation rounding, NaN/signed-zero/subnormal preservation and full stored-value equality; no GPU implementation match claim"
+}

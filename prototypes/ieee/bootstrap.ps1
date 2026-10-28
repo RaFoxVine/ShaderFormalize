@@ -24,6 +24,7 @@ if (-not (Test-Path -LiteralPath $ieeeStamp) -or (Get-Content -LiteralPath $ieee
     }
     Set-Content -LiteralPath $ieeeStamp -Value $ieeeLock.lean.sha256 -Encoding ascii
 }
+Assert-IeeeToolchain
 $ieeeVersion = & (Join-Path $ieeeBin 'lean.exe') --version
 Assert-IeeeExit 'Independent Lean toolchain'
 if ($ieeeVersion -notmatch 'version 4\.35\.0\b') { throw "Unexpected IEEE Lean version: $ieeeVersion" }
@@ -35,9 +36,11 @@ try {
     if (-not $SkipCache) {
         $ieeeTargets = @(python (Join-Path $PSScriptRoot 'cache_targets.py'))
         Assert-IeeeExit 'Required Mathlib import discovery'
+        Assert-IeeeToolchain
         & (Join-Path $ieeeBin 'lake.exe') exe cache get @ieeeTargets
         Assert-IeeeExit 'Required Mathlib cache'
     }
+    Assert-IeeeToolchain
     & (Join-Path $ieeeBin 'lake.exe') build +Main:olean
     Assert-IeeeExit 'IEEE prototype Lean build'
 } finally { Pop-Location }

@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "cases": [
+    {"name": "struct-helper-cbuffer", "original": "examples/ieee/original.hlsl", "optimized": "examples/ieee/optimized.hlsl", "proof": "prototypes/ieee/proof/IdentityProof.lean", "expected": "IEEE_PROVED"},
+    {"name": "ordered-arithmetic-sqrt", "original": "examples/ieee/arithmetic-original.hlsl", "optimized": "examples/ieee/arithmetic-optimized.hlsl", "proof": "prototypes/ieee/proof/IdentityProof.lean", "expected": "IEEE_PROVED"},
+    {"name": "stored-bit-roundtrip", "original": "examples/ieee/bits-original.hlsl", "optimized": "examples/ieee/bits-optimized.hlsl", "proof": "prototypes/ieee/proof/RoundtripProof.lean", "expected": "IEEE_PROVED"},
+    {"name": "reassociation-zero-one", "original": "examples/ieee/reassociated-original.hlsl", "optimized": "examples/ieee/reassociated-optimized.hlsl", "proof": "prototypes/ieee/proof/IdentityProof.lean", "expected": "UNPROVED", "message": "lean-SubmittedProof.log"},
+    {"name": "signed-zero-merge", "original": "examples/ieee/zeros-original.hlsl", "optimized": "examples/ieee/zeros-optimized.hlsl", "proof": "prototypes/ieee/proof/IdentityProof.lean", "expected": "UNPROVED", "message": "lean-SubmittedProof.log"},
+    {"name": "nan-self-compare-true", "original": "examples/ieee/nan-original.hlsl", "optimized": "examples/ieee/nan-optimized.hlsl", "proof": "prototypes/ieee/proof/IdentityProof.lean", "expected": "UNPROVED", "message": "lean-SubmittedProof.log"},
+    {"name": "sorry-rejected", "original": "examples/ieee/original.hlsl", "optimized": "examples/ieee/optimized.hlsl", "proof": "prototypes/ieee/proof/SorryProof.lean", "expected": "UNPROVED", "message": "sorryAx"},
+    {"name": "extra-axiom-rejected", "original": "examples/ieee/original.hlsl", "optimized": "examples/ieee/optimized.hlsl", "proof": "prototypes/ieee/proof/ExtraAxiomProof.lean", "expected": "UNPROVED", "message": "unapproved"},
+    {"name": "forged-target-rejected", "original": "examples/ieee/original.hlsl", "optimized": "examples/ieee/optimized.hlsl", "proof": "prototypes/ieee/proof/ForgedProof.lean", "expected": "UNPROVED", "message": "target binding"}
+  ]
+}

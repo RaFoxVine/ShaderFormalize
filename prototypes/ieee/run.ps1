@@ -13,20 +13,23 @@ try {
     . (Join-Path $PSScriptRoot 'environment.ps1')
     Push-Location $PSScriptRoot
     $ieeePushed = $true
+    Assert-IeeeToolchain
     $ieeeText = & (Join-Path $ieeeBin 'lake.exe') env lean --run Main.lean 2>&1
     $ieeeExit = $LASTEXITCODE
     $ieeeText | Set-Content -LiteralPath $ieeeLog -Encoding utf8
     $ieeePassed = $ieeeExit -eq 0 -and ($ieeeText -match '^IEEE_PROTOTYPE_PASSED$')
     if (-not $ieeePassed) { throw "IEEE prototype failed. See $ieeeLog" }
     $ieeeManifest = Get-Content -LiteralPath 'lake-manifest.json' -Raw | ConvertFrom-Json
+    Assert-IeeeToolchain
+    $ieeeLeanVersion = (& (Join-Path $ieeeBin 'lean.exe') --version | Out-String).Trim()
     $ieeeReport = [ordered]@{
         schema = 1
         status = $(if ($ieeePassed) { 'EXTERNAL_LIBRARY_PROTOTYPE_PASSED' } else { 'FAILED' })
         checked_at = (Get-Date).ToString('o')
         command = 'lake env lean --run Main.lean'
         exit_code = $ieeeExit
-        lean_version = (& (Join-Path $ieeeBin 'lean.exe') --version | Out-String).Trim()
-        shader_cli_ieee_integrated = $false
+        lean_version = $ieeeLeanVersion
+        shader_cli_ieee_integrated = $true
         interpretation = 'FloatLib binary32 reference operations, nearest ties-to-even; HLSL GPU profile not yet connected'
         main_sha256 = (Get-FileHash -Algorithm SHA256 -LiteralPath 'Main.lean').Hash.ToLowerInvariant()
         lake_manifest_sha256 = (Get-FileHash -Algorithm SHA256 -LiteralPath 'lake-manifest.json').Hash.ToLowerInvariant()
@@ -41,7 +44,7 @@ try {
     $ieeeFailure = $_.Exception.Message
     Add-Content -LiteralPath $ieeeLog -Value $ieeeFailure -Encoding utf8
     @{ schema = 1; status = 'FAILED'; checked_at = (Get-Date).ToString('o');
-       exit_code = $ieeeExit; message = $ieeeFailure; shader_cli_ieee_integrated = $false } |
+       exit_code = $ieeeExit; message = $ieeeFailure; shader_cli_ieee_integrated = $true } |
         ConvertTo-Json | Set-Content -LiteralPath $ieeeResult -Encoding utf8
     Write-Host "FAILED: $ieeeFailure"
     exit 1

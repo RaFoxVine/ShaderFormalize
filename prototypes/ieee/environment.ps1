@@ -16,6 +16,24 @@ foreach ($ieeeFile in @('.curlrc','_curlrc')) {
     Set-Content -LiteralPath (Join-Path $env:CURL_HOME $ieeeFile) -Value "ipv4`nconnect-timeout = 15`nmax-time = 120" -Encoding ascii
 }
 
+$ieeeBinaryLock = @{
+    'lean.exe' = 'ec7a472d1c12a09b0c0c718f7427c2be527b3f5f07810fdbe076c2507c7a91ea'
+    'lake.exe' = '023feb24d3e7244fe671dba79f1cd1affc6c7a7cacfe497bf3675febb506578c'
+}
+
+function Assert-IeeeToolchain {
+    foreach ($ieeeName in @('lean.exe', 'lake.exe')) {
+        $ieeePath = Join-Path $ieeeBin $ieeeName
+        if (-not (Test-Path -LiteralPath $ieeePath -PathType Leaf)) {
+            throw "ENVIRONMENT_ERROR: pinned IEEE tool missing: $ieeeName"
+        }
+        $ieeeActual = (Get-FileHash -Algorithm SHA256 -LiteralPath $ieeePath).Hash.ToLowerInvariant()
+        if ($ieeeActual -ne $ieeeBinaryLock[$ieeeName]) {
+            throw "ENVIRONMENT_ERROR: pinned IEEE tool SHA256 mismatch: $ieeeName"
+        }
+    }
+}
+
 function Assert-IeeeExit([string]$Operation) {
     if ($LASTEXITCODE -ne 0) { throw "$Operation failed (exit $LASTEXITCODE)" }
 }

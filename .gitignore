@@ -5,6 +5,9 @@ proof/.lake/
 proof/GeneratedModel.lean
 proof/Verify.lean
 proof/SubmittedProof.lean
+prototypes/ieee/proof/GeneratedModel.lean
+prototypes/ieee/proof/Verify.lean
+prototypes/ieee/proof/SubmittedProof.lean
 local.settings.json
 __pycache__/
 *.pyc

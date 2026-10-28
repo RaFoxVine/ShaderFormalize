@@ -30,4 +30,5 @@
 - 独立IEEE Q1实际重跑3P6U、253项单元、19项原型并核验42项报告哈希，确认逐运算RNE、精确一次字面量舍入、NaN/±0/subnormal和完整存储位目标。 verdict CHANGES_REQUESTED仅限两项辅助合同：PowerShell原型/bootstrap并非每次Lean调用前校验binary；suite超时未杀进程树/写终态。实现agent随后修复并做针对性控制，数学语义无未闭合finding。
 - 独立Compute Q verdict VERIFIED_WITH_LOW_SEVERITY_METADATA_ISSUE：隔离回放14/14控制、真实DXC坐标/alias/inactive Store探针和旧六目标兼容均闭合；唯一清单schema元数据已从1改2。主目录25个Compute文件整合后文本一致，27项Compute单元及14项控制全部通过，证据planning/evidence/compute-texture-2026-10-28.json。
 - IEEE两项Q1修复后，独立Q2 verdict VERIFIED：14项单元、19项原型、最终3P6U及42项哈希通过，真实二进制替换和父子进程回收控制闭合，无剩余critical/major。主目录30个IEEE文件已整合，14项IEEE单元和19项原型通过。
-- 主目录298项总单元曾因Compute suite持锁出现预期INCONCLUSIVE及旧报告未刷新；未计为通过。Compute完成后锁释放，298项总单元无竞争重跑全部OK。IEEE最终suite和统一核心全套分别待完成。
+- 主目录298项总单元曾因Compute suite持锁出现预期INCONCLUSIVE及旧报告未刷新；未计为通过。Compute完成后锁释放，298项总单元无竞争重跑全部OK。
+- 主目录`run_ieee_suite.py`最终IEEE_SUITE_PASSED：14项单元、3个IEEE_PROVED、6个预期UNPROVED、旧核心PROVED，gpu_profile_matched=false；19项原型亦通过。精简证据planning/evidence/ieee-hlsl-2026-10-28.json。统一核心全套待完成。

@@ -5,7 +5,7 @@
 | 工作 | 状态 | 下一动作 |
 |---|---|---|
 | 七项数学 | Completed | 主目录272项总单元及3P3U通过，27旧目标逐字一致，独立Q闭合；证据planning/evidence/math-extensions-2026-10-28.json |
-| HLSL IEEE入口 | Integrating | 独立Q2 VERIFIED；主目录14项IEEE单元、298项总单元及19项原型通过，最终3P6U suite运行中 |
+| HLSL IEEE入口 | Completed | 主目录14项IEEE单元、298项总单元、3P6U、旧核心及19项原型通过，独立Q2 VERIFIED；证据planning/evidence/ieee-hlsl-2026-10-28.json |
 | 二维纹理Compute | Completed | 主目录27项Compute单元、298项总单元、旧2P4U新3P5U及独立Q通过；证据planning/evidence/compute-texture-2026-10-28.json |
 | HLSL同步安全 | Completed | 15项同步单元、257项总单元、五实际控制及独立Q2通过；证据planning/evidence/synchronization-hlsl-2026-10-28.json |
 | root公共检查提取 | Implemented | 242项旧单元及lerp真实Lean PROVED通过，共同API已复制到IEEE工作区 |

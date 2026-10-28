@@ -2,9 +2,9 @@
 
 将两份 HLSL 经 DXC 已定类型的语法树转成理想实数与整数位字段模型，提供 agent 编写、迭代并独立检查 Lean 等价证明的本地环境。核心依赖固定版本 DXC、Lean 和 mathlib，安装、转换、证明和默认验收均不依赖 Unity。它不是任意 Shader 的自动等价判定器。
 
-语言覆盖以[官方目录](planning/coverage-expansion/coverage.csv)逐项推进。[基础数学运算](docs/basic-math.md)已接入现有实数模型，包括 min/max/abs/clamp、除法、sqrt/rcp/rsqrt、length/distance，按实际执行条件证明受限域。[并行扩展范围](planning/coverage-expansion/parallel-plan.md)另包含独立浮点库接入及 Compute/同步工作；各方向当前进度见[任务状态](planning/coverage-expansion/tasks.md)。
+语言覆盖以[官方目录](planning/coverage-expansion/coverage.csv)逐项推进。[基础数学运算](docs/basic-math.md)已接入现有实数模型，包括 min/max/abs/clamp、除法、sqrt/rcp/rsqrt、length/distance、floor/ceil/frac/step/smoothstep/cross/reflect，按实际执行条件证明受限域。[并行扩展范围](planning/coverage-expansion/parallel-plan.md)另包含独立浮点库接入及 Compute/同步工作；各方向当前进度见[任务状态](planning/coverage-expansion/tasks.md)。
 
-[实验性 Compute 入口](docs/compute.md)已支持一维 StructuredBuffer 两输入两输出、物理资源别名与同线程有序读写；完整 Lean 目标同时检查访问范围、跨线程冲突和最终内存相等。使用 `python tools/computeformalize.py check`，或 `pwsh -File tools/run_demo.ps1 -Example compute`。这条路径仍使用理想实数，尚未接入纹理格式、共享内存或原子操作。
+[实验性 Compute 入口](docs/compute.md)已支持一维 StructuredBuffer 及二维 Texture2D 两输入两输出、物理资源别名、同线程有序读写、纯 helper 和精确整数坐标；完整 Lean 目标同时检查数学定义域、访问范围、跨线程冲突和最终内存相等。使用 `python tools/computeformalize.py check`，或 `pwsh -File tools/run_demo.ps1 -Example compute`。这条路径仍使用理想实数，尚未接入纹理格式转换、共享内存或原子操作。
 
 显式`--frontend shared`已支持实际共享helper定义、默认参数、out/inout及正常struct写法。[光照材质原版](examples/copyback/original.hlsl)通过out结构体和inout颜色累积，与[手工等价改写版](examples/copyback/optimized.hlsl)的完整数学目标已获证明；用法和边界见[共享函数说明](docs/shared-functions.md)。矩阵/数组及元素写回已接入，[新材质与具体契约](docs/aggregate-values.md)。[固定次数uint循环与组合材质](docs/static-loops.md)进一步组合采样、裁剪和导数；默认auto保留此前证明，完整HDRP/Lit Forward尚未完成。
 
@@ -154,7 +154,7 @@ proof/ShaderFormalize/Model.lean和Fragment.lean定义数学语义。dependencie
 
 ## 可选浮点与同步原型
 
-[浮点原型](prototypes/ieee/README.md)固定 FloatLib 与独立 Lean4.35，可运行 binary32 运算、NaN/正负零和位解释检查，并直接应用上游定理。它的本地安装在本仓库内，与核心 Lean4.24 分开；尚未接入 HLSL 的自动浮点转换。
+[浮点原型与受限 HLSL 入口](prototypes/ieee/README.md)固定 FloatLib 与独立 Lean4.35，可运行 binary32 运算、NaN/正负零和位解释检查。`python tools/ieeeformalize.py check` 已将受限普通 HLSL 转成独立 `ieee-1` 模型，按每个源码运算分别最近偶数舍入、保留次正规数，并以完整存储位相等给出 `IEEE_PROVED`；它不宣称 GPU profile 匹配，也不改变核心 Lean4.24 实数 `PROVED` 的含义。
 
 [同步原型](prototypes/synchronization/README.md)固定本地 VerCors2.4，用实际并行访问和 barrier 权限的正负例验证外部工具可用。[固定两线程 HLSL 同步入口](docs/synchronization-hlsl.md)进一步把真实 DXC typed AST 转成 PVL，正确例、删 barrier 和共享冲突均经过外部验证器实际控制。外部安全结果不冒充 Lean 或数值等价证明。这些可选入口不参与默认核心验收，也不依赖 Unity。
 
