@@ -34,3 +34,14 @@
 - 主目录`run_ieee_suite.py`最终IEEE_SUITE_PASSED：14项单元、3个IEEE_PROVED、6个预期UNPROVED、旧核心PROVED，gpu_profile_matched=false；19项原型亦通过。精简证据planning/evidence/ieee-hlsl-2026-10-28.json。
 - 首次统一全套发现默认verify_demo只含一维Compute，进度到control-helper-field后主动停止，不作为验收。bd5f1f2修正compute_controls同时读取两份清单，静态确认14个Compute案例，随后重新运行完整83项控制；旧2小时超时运行同样不计为最终通过。
 - 修正后的最终`run_demo.ps1`完整结束：298项单元、83项控制全部符合预期，38 PROVED、43 UNPROVED、2 INVALID_INPUT。最终汇总证据planning/evidence/overnight-expansion-2026-10-28.json，四项实现和独立Q均闭合。
+
+## 2026-10-28 恢复后的独立复查与修复
+
+用户恢复额度后要求继续，并先检查其他AI工作。接管基线为`7e97bcc`，主目录干净，远端同一提交。三个旧工作区的产品源码均已整合；差异仅为换行、本次主目录修复和一份未整合的辅助README，没有遗漏实现。共享junction目录继续保留，不执行归档/删除。
+
+- 核心83项控制名称唯一、实际状态与预期一致；414项源码/目标/证明来源/语义/manifest哈希核对一致。旧核心不在每个目录保存SubmittedProof副本，33个对应证明哈希已在当前tracked proof中找到，未把缺少副本误报为证明失败。IEEE另外50项哈希/状态核对一致。
+- 独立复查：数学15项、Compute27项、IEEE9项针对性单元通过；IEEE五个实际DXC前端探针符合负零、NaN、次正规数、bool比较及位往返边界。未发现已确认的数学、内存目标或浮点绑定缺陷。
+- Compute失败处理缺陷：非对象约束JSON在新增`.get`处触发AttributeError并遗留IN_PROGRESS。现提前检查JSON对象；新增prepare/check×数组/null/整数/字符串共8次真实CLI旧成功覆盖控制。28项Compute单元通过；独立Q另测bool/浮点数共4次，Verified。合法二维目标重新prepare后与此前获证目标SHA完全一致。
+- 同步超时缺陷：旧subprocess.run先杀cmd而Java/Z3继承输出管道继续运行，`--timeout 1`实际约一分钟后才结束。现Popen保留父进程，超时先taskkill整个树，再有界回收/保存日志；suite复用此执行器并写超时终态。新增父子进程实际退出、部分日志和suite旧成功覆盖控制。17项同步单元通过；独立Q真实复测总5.56秒（含环境准备），cmd/Java均消失、无存活后代，INCONCLUSIVE及日志正确，Verified。PVL和安全语义未修改。
+- Smart记录曾被手写为completed/COMPLETED，虽封存hash有效，但不是脚本规定的finished/DONE。接管时保留完整快照，归一化后恢复running以记录上述合同内修复；最终使用脚本record/finish，不修改封存委派范围。当前验证日志与明细保留于ignored artifacts/recovery-audit-20261028。
+- 最终整合：301项全量单元通过（45.187秒），同步suite的17单元及五项真实控制全部符合预期。修复提交`5ba6018`；精简证据为planning/evidence/recovery-review-2026-10-28.json。既有83项形式证明未重复执行，保留7e97bcc所对应的完整验收及本次哈希核对，不把单元回归冒充重新证明。Session通过脚本record/finish闭合。

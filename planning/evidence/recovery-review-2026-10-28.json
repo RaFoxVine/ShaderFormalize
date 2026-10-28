@@ -1,0 +1,81 @@
+{
+  "date": "2026-10-28",
+  "reviewed_base": "7e97bcce3ca775079dad1f9482c0357d464ad169",
+  "repair_commit": "5ba6018687b6bc8066a754c019c8074234fea872",
+  "status": "VERIFIED",
+  "base_evidence": {
+    "core_controls": 83,
+    "hash_checks": 414,
+    "hash_failures": 0,
+    "ieee_additional_hash_checks": 50,
+    "ieee_hash_failures": 0,
+    "core_formal_controls_reexecuted": false,
+    "note": "Existing complete 83-control run was checked against current sources/targets/proof hashes and semantics. No numerical translator or target changed in this repair."
+  },
+  "findings": [
+    {
+      "area": "Compute malformed contract",
+      "severity": "P2",
+      "cause": "Non-object JSON used with .get before validation, leaving IN_PROGRESS",
+      "repair": "Validate top-level object before source compilation; terminal INVALID_INPUT replaces stale success",
+      "review": "Independent Q VERIFIED; 8 regression CLI calls and 4 additional bool/float calls"
+    },
+    {
+      "area": "Synchronization timeout",
+      "severity": "P2",
+      "cause": "subprocess.run killed cmd before its Java/Z3 descendants, then waited for inherited output pipes",
+      "repair": "Popen, tree termination before parent disposal, bounded output drain, saved log and terminal suite status",
+      "review": "Independent Q VERIFIED; actual timeout 1 total 5.56 seconds including setup, no live descendants"
+    }
+  ],
+  "validation": {
+    "unit_command": "python -m unittest discover -s tools -p test_*.py",
+    "unit_tests": 301,
+    "unit_status": "PASSED",
+    "sync_command": "python tools/run_sync_suite.py",
+    "sync_unit_tests": 17,
+    "sync_status": "PASSED",
+    "sync_controls": [
+      {
+        "case": "original",
+        "actual": "EXTERNAL_SAFETY_VERIFIED",
+        "expected": "EXTERNAL_SAFETY_VERIFIED"
+      },
+      {
+        "case": "missing-barrier",
+        "actual": "EXTERNAL_SAFETY_UNPROVED",
+        "expected": "EXTERNAL_SAFETY_UNPROVED"
+      },
+      {
+        "case": "shared-conflict",
+        "actual": "EXTERNAL_SAFETY_UNPROVED",
+        "expected": "EXTERNAL_SAFETY_UNPROVED"
+      },
+      {
+        "case": "out-of-bounds",
+        "actual": "EXTERNAL_SAFETY_UNPROVED",
+        "expected": "EXTERNAL_SAFETY_UNPROVED"
+      },
+      {
+        "case": "aliased-contract",
+        "actual": "UNSUPPORTED",
+        "expected": "UNSUPPORTED"
+      }
+    ],
+    "compute_valid_target_unchanged": "08c6d1ac25f9ec0488caede071d4cf8588a032419f40de75ddadecab42a52db1"
+  },
+  "artifacts": {
+    "artifacts/recovery-audit-20261028/all-units.log": "4029c95b983348a11c8d51c86cde16ba0f0553aa3c8baa3c9a2ae600d7b6bc08",
+    "artifacts/recovery-audit-20261028/sync-suite.log": "19c71055b7b28028491d8f80ed92c882c746183975c2473f350ac77990011612",
+    "artifacts/synchronization-hlsl/acceptance/result.json": "48a3eea58cdfb15263227a1e86a459195f913d49925dbe23c1b25ff170fe1655",
+    "artifacts/recovery-audit-20261028/evidence-check.json": "ff067cf4dd1b9ae0ed3bdc5297a8c9f99da04547e230ecf2ff6e11ba3cff485b"
+  },
+  "source_files": {
+    "tools/computeformalize.py": "cd7d8996ff52b64ead24660882d11c1bba527bc2be5fce47feb7fef9cdc8429c",
+    "tools/test_compute.py": "21c6e875dba9fa82d634fa4e205a2273f848e86da58f95c461395c258554363d",
+    "tools/syncformalize.py": "b8a65a4696f5d5dd16b80a9c1e87c96dfa89ec271c69a0d65ac9f148db81519c",
+    "tools/run_sync_suite.py": "154cec03ab43c7c4570e087d87a2cbc5f454010e0e6db12a1b3134a7dfbe7c3d",
+    "tools/test_sync.py": "7709886e60e5ba332ec658fb07ea8756eaa9430191a194c1ddeb33d752cd63f9"
+  },
+  "workflow": "Sealed envelope unchanged. Normalize hand-written completed/COMPLETED to script-defined terminal values and close through record/finish. No Node archive or worktree deletion."
+}
