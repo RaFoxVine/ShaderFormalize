@@ -188,8 +188,8 @@
   "request_text": "用户请求：接下来我要离开了，可以先梳理一下当前的状态，然后规划Overnight内容。看看今晚我们可以继续做哪些事情\n\n已展示的四项范围：\n1. 补齐HDRP/Forward实际使用的floor/ceil/frac/step/smoothstep/cross/reflect，现有实数路径、正常材质和错误改写验收。\n2. 新增真正接受两份HLSL的独立FloatLib证明入口，覆盖普通struct/purehelper/vector/四则/sqrt/位解释，FP32逐操作舍入、保留NaN/±0/次正规数、存储位相等，默认实数路径不变，首批只做不需输入范围的改写。\n3. 二维Texture Compute两输入两输出，guard/uniform/purehelper/Exposure+Bloom/ToneMap，完整最终资源、访问界限和跨线程冲突目标。\n4. 固定单线程组/共享数组/一个无条件barrier的真实HLSL到VerCors安全检查，删barrier负例，明确外部安全报告。\n\n共同安排：三个subagent并行前三项，root同步/整合/验收，先完成当前69控制，再推进本批；每项实际验证后提交推送，依赖留仓库、不改默认实数路径。不做完整HDRP、一般动态循环、atomic/Wave。具体方案/代码审阅由agent推进，不再等逐项人类确认。\n\n用户对唯一待确认范围的原文回复：按上述四项继续 Overnight\n\ngit push持续授权原文：我希望你在完成了工作以后，要记得 git push 一下，能让我在别的地方拉到最新的提交，拿到最新的状态。",
   "schema_version": 1,
   "session_id": "shader-overnight-expansion-2026-10-27",
-  "status": "running",
-  "updated_at": "2026-10-28T10:26:46+08:00"
+  "status": "completed",
+  "updated_at": "2026-10-28T12:35:19+08:00"
 }
 ```
 <!-- SMART_OVERNIGHT_STATE_END -->
@@ -201,5 +201,5 @@ Record task-specific planning and evidence in the owning Node artifacts. Keep on
 ## Final Result Report
 
 <!-- SMART_OVERNIGHT_REPORT_BEGIN -->
-Not finished.
+四项范围全部完成并推送。七项实数数学、二维Texture Compute、受限HLSL到FloatLib binary32、固定两线程HLSL到VerCors均有真实实现和独立Q闭合。最终主目录298项单元和83项控制全部符合预期（38 PROVED、43 UNPROVED、2 INVALID_INPUT）；IEEE另有3P6U与19项原型，同步另有五项外部控制。最终汇总证据为planning/evidence/overnight-expansion-2026-10-28.json。未做完整HDRP、一般动态循环、atomic/Wave或GPU实现匹配声明。
 <!-- SMART_OVERNIGHT_REPORT_END -->

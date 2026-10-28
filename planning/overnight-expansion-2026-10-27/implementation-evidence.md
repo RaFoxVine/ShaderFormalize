@@ -31,4 +31,6 @@
 - 独立Compute Q verdict VERIFIED_WITH_LOW_SEVERITY_METADATA_ISSUE：隔离回放14/14控制、真实DXC坐标/alias/inactive Store探针和旧六目标兼容均闭合；唯一清单schema元数据已从1改2。主目录25个Compute文件整合后文本一致，27项Compute单元及14项控制全部通过，证据planning/evidence/compute-texture-2026-10-28.json。
 - IEEE两项Q1修复后，独立Q2 verdict VERIFIED：14项单元、19项原型、最终3P6U及42项哈希通过，真实二进制替换和父子进程回收控制闭合，无剩余critical/major。主目录30个IEEE文件已整合，14项IEEE单元和19项原型通过。
 - 主目录298项总单元曾因Compute suite持锁出现预期INCONCLUSIVE及旧报告未刷新；未计为通过。Compute完成后锁释放，298项总单元无竞争重跑全部OK。
-- 主目录`run_ieee_suite.py`最终IEEE_SUITE_PASSED：14项单元、3个IEEE_PROVED、6个预期UNPROVED、旧核心PROVED，gpu_profile_matched=false；19项原型亦通过。精简证据planning/evidence/ieee-hlsl-2026-10-28.json。统一核心全套待完成。
+- 主目录`run_ieee_suite.py`最终IEEE_SUITE_PASSED：14项单元、3个IEEE_PROVED、6个预期UNPROVED、旧核心PROVED，gpu_profile_matched=false；19项原型亦通过。精简证据planning/evidence/ieee-hlsl-2026-10-28.json。
+- 首次统一全套发现默认verify_demo只含一维Compute，进度到control-helper-field后主动停止，不作为验收。bd5f1f2修正compute_controls同时读取两份清单，静态确认14个Compute案例，随后重新运行完整83项控制；旧2小时超时运行同样不计为最终通过。
+- 修正后的最终`run_demo.ps1`完整结束：298项单元、83项控制全部符合预期，38 PROVED、43 UNPROVED、2 INVALID_INPUT。最终汇总证据planning/evidence/overnight-expansion-2026-10-28.json，四项实现和独立Q均闭合。

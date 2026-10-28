@@ -9,4 +9,4 @@
 | 二维纹理Compute | Completed | 主目录27项Compute单元、298项总单元、旧2P4U新3P5U及独立Q通过；证据planning/evidence/compute-texture-2026-10-28.json |
 | HLSL同步安全 | Completed | 15项同步单元、257项总单元、五实际控制及独立Q2通过；证据planning/evidence/synchronization-hlsl-2026-10-28.json |
 | root公共检查提取 | Implemented | 242项旧单元及lerp真实Lean PROVED通过，共同API已复制到IEEE工作区 |
-| 最终整合、验证与发布 | Outlined | 各项实际结果和独立Q通过后整合 |
+| 最终整合、验证与发布 | Completed | 主目录298项单元、83控制（38P/43U/2INVALID）全部符合预期；四项独立Q闭合，证据planning/evidence/overnight-expansion-2026-10-28.json |

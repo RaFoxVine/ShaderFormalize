@@ -1,0 +1,52 @@
+{
+  "date": "2026-10-28",
+  "status": "PASSED",
+  "recorded_code_head": "bd5f1f2",
+  "command": "pwsh -NoProfile -File tools/run_demo.ps1",
+  "regression_tests": 298,
+  "control_count": 83,
+  "outcomes": {
+    "PROVED": 38,
+    "UNPROVED": 43,
+    "INVALID_INPUT": 2
+  },
+  "acceptance_summary_sha256": "57eb5879795e3a72624c0d3c02bebb27faa8b1640d4d075de30032c735ec5921",
+  "tracks": {
+    "math_extensions": {
+      "status": "COMPLETED",
+      "evidence": "planning/evidence/math-extensions-2026-10-28.json",
+      "controls": "3 PROVED / 3 UNPROVED",
+      "legacy_targets_byte_identical": 27
+    },
+    "compute_texture": {
+      "status": "COMPLETED",
+      "evidence": "planning/evidence/compute-texture-2026-10-28.json",
+      "controls": "3 PROVED / 5 UNPROVED plus legacy 2 PROVED / 4 UNPROVED",
+      "legacy_targets_byte_identical": 6
+    },
+    "ieee_hlsl": {
+      "status": "COMPLETED",
+      "evidence": "planning/evidence/ieee-hlsl-2026-10-28.json",
+      "controls": "3 IEEE_PROVED / 6 UNPROVED plus legacy core PROVED",
+      "gpu_profile_matched": false,
+      "prototype_checks": 19
+    },
+    "synchronization_hlsl": {
+      "status": "COMPLETED",
+      "evidence": "planning/evidence/synchronization-hlsl-2026-10-28.json",
+      "controls": "1 EXTERNAL_SAFETY_VERIFIED, 3 EXTERNAL_SAFETY_UNPROVED, 1 UNSUPPORTED",
+      "kind": "EXTERNAL_VERIFIER"
+    }
+  },
+  "reviews": {
+    "math": "VERIFIED_WITH_FINDINGS; low-severity evidence packaging refreshed and current proof independently Lean-checked",
+    "compute": "VERIFIED_WITH_LOW_SEVERITY_METADATA_ISSUE; controls manifest schema corrected; independent 14-case replay passed",
+    "ieee": "Q2 VERIFIED after per-call binary-hash and timeout process-tree controls closed",
+    "synchronization": "Q2 PASS after verdict, resource direction, terminal-state and payload-integrity fixes"
+  },
+  "execution": {
+    "earlier_incomplete_runs_used_as_final_evidence": false,
+    "notes": "An earlier two-hour acceptance timed out, and a later run was stopped after discovering that default compute_controls omitted the texture manifest. bd5f1f2 corrected the manifest. This final 298/83 result is from the subsequent complete run with no process timeout."
+  },
+  "scope": "Ideal-real fragment/math and 1D/2D Compute; independent FloatLib binary32 restricted HLSL; external two-lane VerCors access safety. No full HDRP/Lit, general dynamic loops, atomics/Wave, arbitrary GPU memory model or GPU implementation match claim."
+}
