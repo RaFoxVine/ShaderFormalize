@@ -1,18 +1,21 @@
 """Typed AST, uint32 wrapping and contract checks for HLSL synchronization import."""
 import argparse
 import copy
+import ctypes
 import json
 from pathlib import Path
 import subprocess
 import sys
 import tempfile
 import unittest
+from unittest import mock
 import zipfile
 
 from shader_ast import ModelError
 from shader_sync import generate_pvl, import_sync, sync_contract
 from shaderformalize import ROOT, sha256, validate_dxc
-from syncformalize import java_environment, prepare, synchronization_lock, validate_vercors_payload
+import run_sync_suite
+from syncformalize import java_environment, prepare, run_process, synchronization_lock, validate_vercors_payload
 
 
 class SynchronizationTests(unittest.TestCase):
@@ -134,6 +137,43 @@ class SynchronizationTests(unittest.TestCase):
             report = json.loads((output / "result.json").read_text(encoding="utf-8"))
         self.assertEqual(result.returncode, 2)
         self.assertEqual(report["status"], "INCONCLUSIVE")
+
+    def test_timeout_stops_parent_and_child_and_saves_log(self):
+        with tempfile.TemporaryDirectory(dir=ROOT / "artifacts") as directory:
+            output = Path(directory)
+            pids_path = output / "pids.json"
+            program = (
+                "import json,os,pathlib,subprocess,sys;"
+                "child=subprocess.Popen([sys.executable,'-c','import time;time.sleep(60)']);"
+                "pathlib.Path(sys.argv[1]).write_text(json.dumps([os.getpid(),child.pid]));"
+                "print('child started',flush=True);child.wait()"
+            )
+            with self.assertRaises(ModelError) as caught:
+                run_process([sys.executable, "-c", program, pids_path], output / "timeout.log", None, 2)
+            self.assertEqual(caught.exception.status, "INCONCLUSIVE")
+            self.assertIn("child started", (output / "timeout.log").read_text(encoding="utf-8"))
+            self.assertIn("process tree terminated", (output / "timeout.log").read_text(encoding="utf-8"))
+            kernel = ctypes.WinDLL("kernel32", use_last_error=True)
+            kernel.OpenProcess.argtypes = [ctypes.c_ulong, ctypes.c_int, ctypes.c_ulong]
+            kernel.OpenProcess.restype = ctypes.c_void_p
+            kernel.WaitForSingleObject.argtypes = [ctypes.c_void_p, ctypes.c_ulong]
+            kernel.CloseHandle.argtypes = [ctypes.c_void_p]
+            for pid in json.loads(pids_path.read_text()):
+                handle = kernel.OpenProcess(0x00100000, False, pid)
+                if handle:
+                    try:
+                        self.assertEqual(kernel.WaitForSingleObject(handle, 0), 0, f"Process {pid} still running")
+                    finally:
+                        kernel.CloseHandle(handle)
+
+    def test_suite_timeout_replaces_stale_success_with_terminal_report(self):
+        with tempfile.TemporaryDirectory(dir=ROOT / "artifacts") as directory:
+            output = Path(directory)
+            (output / "result.json").write_text('{"status":"PASSED"}', encoding="utf-8")
+            with mock.patch.object(run_sync_suite, "DIRECTORY", output), mock.patch.object(
+                    run_sync_suite, "run", side_effect=ModelError("controlled timeout", "INCONCLUSIVE")):
+                self.assertEqual(run_sync_suite.main(), 2)
+            self.assertEqual(json.loads((output / "result.json").read_text())["status"], "INCONCLUSIVE")
 
     def test_lock_contention_does_not_create_or_replace_report(self):
         with tempfile.TemporaryDirectory(dir=ROOT / "artifacts") as directory:

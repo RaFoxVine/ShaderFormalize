@@ -4,6 +4,7 @@ from fractions import Fraction
 import json
 from pathlib import Path
 import subprocess
+import sys
 import unittest
 
 from shader_ast import ModelError
@@ -122,6 +123,27 @@ Difference[index]=SourceA[index]-b;"""
         del contract["bindings"]["SourceA"]
         with self.assertRaisesRegex(ModelError, "every resource"):
             compute_contract(contract, model, model)
+
+    def test_non_object_contract_cli_replaces_old_success(self):
+        directory = self.directory / "invalid-contract"
+        directory.mkdir(exist_ok=True)
+        constraints = directory / "constraints.json"
+        for command in ("prepare", "check"):
+            for payload in ([], None, 7, "invalid"):
+                with self.subTest(command=command, payload=payload):
+                    constraints.write_text(json.dumps(payload), encoding="utf-8")
+                    report = directory / "result.json"
+                    report.write_text(json.dumps({"status": "PROVED"}), encoding="utf-8")
+                    result = subprocess.run(
+                        [sys.executable, str(ROOT / "tools/computeformalize.py"), command,
+                         "--constraints", str(constraints), "--output", str(directory)],
+                        cwd=ROOT, env=local_environment(), capture_output=True,
+                        text=True, encoding="utf-8", timeout=60)
+                    self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+                    final = json.loads(report.read_text(encoding="utf-8"))
+                    self.assertEqual(final["status"], "INVALID_INPUT")
+                    self.assertIn("JSON object", final["message"])
+                    self.assertNotIn("Traceback", result.stderr)
 
     def test_interface_mismatch_rejected(self):
         original = self.compile(self.original)

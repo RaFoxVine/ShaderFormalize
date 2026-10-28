@@ -2,21 +2,22 @@
 import json
 from pathlib import Path
 import re
-import subprocess
 import sys
 
 from shaderformalize import ROOT, local_environment, read_json, write_json
+from shader_ast import ModelError
+from syncformalize import run_process
+
+
+DIRECTORY = ROOT / "artifacts" / "synchronization-hlsl" / "acceptance"
 
 
 def run(arguments, log):
-    result = subprocess.run([str(argument) for argument in arguments], cwd=ROOT, env=local_environment(),
-                            capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=900)
-    log.write_text(result.stdout + "\n--- stderr ---\n" + result.stderr, encoding="utf-8")
-    return result
+    return run_process(arguments, log, local_environment(), 900)
 
 
-def main():
-    directory = ROOT / "artifacts" / "synchronization-hlsl" / "acceptance"
+def run_suite():
+    directory = DIRECTORY
     directory.mkdir(parents=True, exist_ok=True)
     write_json(directory / "result.json", {"status": "IN_PROGRESS", "kind": "EXTERNAL_VERIFIER"})
     units = run([sys.executable, "-m", "unittest", "discover", "-s", "tools", "-p", "test_sync.py"], directory / "unit.log")
@@ -58,6 +59,17 @@ def main():
     write_json(directory / "result.json", summary)
     print("SYNCHRONIZATION_HLSL_" + summary["status"])
     return 0 if passed else 1
+
+
+def main():
+    try:
+        return run_suite()
+    except ModelError as error:
+        DIRECTORY.mkdir(parents=True, exist_ok=True)
+        write_json(DIRECTORY / "result.json", {"status": error.status, "kind": "EXTERNAL_VERIFIER",
+                                                "message": str(error)})
+        print("SYNCHRONIZATION_HLSL_" + error.status + ": " + str(error))
+        return 2
 
 
 if __name__ == "__main__":

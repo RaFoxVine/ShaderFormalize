@@ -32,4 +32,6 @@ python tools/run_sync_suite.py
 
 `tools/run_sync_suite.py` 运行导入单元回归及五项实际控制：正确例验证通过，删 barrier 和共享同址写入都到达真实权限错误，越界访问到达 `arrayBounds` 拒绝，别名契约被拒绝。报告位于 `artifacts/synchronization-hlsl/acceptance/result.json`。
 
+`check --timeout N` 限制 VerCors 验证进程的运行时间，不包含此前的安装完整性检查和 Java 准备。超时会终止本次启动的整个进程树、保存部分输出到 `vercors.log`，并写入 `INCONCLUSIVE`；若无法确认清理完成，则报告 `ENVIRONMENT_ERROR`。suite 自身超时也会写入终态，覆盖旧的成功报告。
+
 此模型不声明共享值已初始化、数值等价、任意 GPU 调度或完整 Direct3D 内存模型正确。DXC、HLSL→PVL 转换器和 VerCors 都在可信边界内；没有新增 Lean 公理，也没有把外部报告转换成 Lean 定理。

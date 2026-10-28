@@ -130,19 +130,45 @@ def prepare(args, output):
     }
 
 
+def run_process(command, log, environment, timeout, cwd=ROOT):
+    """Stop the whole Windows process tree on timeout and preserve tool output."""
+    command = [str(argument) for argument in command]
+    try:
+        process = subprocess.Popen(command, cwd=cwd, env=environment, stdout=subprocess.PIPE,
+                                   stderr=subprocess.PIPE, text=True, encoding="utf-8", errors="replace")
+    except OSError as error:
+        raise ModelError(f"Cannot start synchronization tool: {error}", "ENVIRONMENT_ERROR") from error
+    try:
+        stdout, stderr = process.communicate(timeout=timeout)
+    except subprocess.TimeoutExpired as error:
+        try:
+            stopped = subprocess.run(["taskkill", "/F", "/T", "/PID", str(process.pid)],
+                                     capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=15)
+            stdout, stderr = process.communicate(timeout=15)
+        except (OSError, subprocess.TimeoutExpired) as cleanup_error:
+            if process.poll() is None:
+                process.kill()
+            process.stdout.close()
+            process.stderr.close()
+            write_text(log, f"Synchronization timeout; process-tree cleanup failed: {cleanup_error}\n")
+            raise ModelError("Synchronization timeout cleanup failed; see tool log", "ENVIRONMENT_ERROR") from cleanup_error
+        if stopped.returncode:
+            write_text(log, stdout + "\n--- stderr ---\n" + stderr + "\n" + stopped.stdout + stopped.stderr)
+            raise ModelError("Synchronization timeout cleanup was not confirmed; see tool log", "ENVIRONMENT_ERROR") from error
+        write_text(log, stdout + "\n--- stderr ---\n" + stderr + "\nSYNCHRONIZATION_TIMEOUT: process tree terminated\n")
+        raise ModelError("Synchronization tool timed out; its process tree was stopped", "INCONCLUSIVE") from error
+    write_text(log, stdout + "\n--- stderr ---\n" + stderr)
+    return subprocess.CompletedProcess(command, process.returncode, stdout, stderr)
+
+
 def check(args, output):
     summary = prepare(args, output)
     lock_path, launcher = validate_vercors()
     environment, java_version = java_environment(args.java_home)
     command = [str(launcher), "--backend", "silicon", str(output / "Generated.pvl")]
     started = time.monotonic()
-    try:
-        result = subprocess.run(command, cwd=ROOT, env=environment, capture_output=True, text=True,
-                                encoding="utf-8", errors="replace", timeout=args.timeout)
-    except subprocess.TimeoutExpired as error:
-        raise ModelError("VerCors timed out", "INCONCLUSIVE") from error
+    result = run_process(command, output / "vercors.log", environment, args.timeout)
     log = result.stdout + "\n--- stderr ---\n" + result.stderr
-    write_text(output / "vercors.log", log)
     summary.update({
         "verifier": "VerCors 2.4.0", "kind": "EXTERNAL_VERIFIER", "java_version": java_version,
         "command": command, "exit_code": result.returncode, "seconds": round(time.monotonic() - started, 3),

@@ -13,6 +13,8 @@ from shaderformalize import (ROOT, PROOF, audit_axioms, read_json, run_tool, sha
 def prepare(args, output):
     dxc = validate_dxc()
     supplied_contract = read_json(args.constraints)
+    if not isinstance(supplied_contract, dict):
+        raise ModelError("Compute contract must be a JSON object", "INVALID_INPUT")
     models = []
     inputs = []
     for role, filename in (("original", args.original), ("optimized", args.optimized)):
