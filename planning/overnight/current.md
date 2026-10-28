@@ -157,18 +157,18 @@
   ],
   "progress": {
     "compute_texture": {
-      "commits": [],
+      "commits": ["add3f17406d96a1ac42e053e27c5ded81bc17bec"],
       "grant_reference": "planning/overnight-expansion-2026-10-27/execution-authority.md#compute-texture-001@revision-1",
-      "result": "IN_PROGRESS",
-      "summary": "Compute工作区已有二维纹理前端/语义/3份证明/docs，首轮agent时限后从中断点恢复单元和新3P5U、旧2P4U实际验收。",
-      "updated_at": "2026-10-28T02:24:44+08:00"
+      "result": "COMPLETED",
+      "summary": "二维Texture Compute已整合并推送；27项Compute单元、298项总单元、旧2P4U新3P5U及独立Q通过，旧六目标逐字一致，证据已入库。",
+      "updated_at": "2026-10-28T10:26:46+08:00"
     },
     "ieee_hlsl": {
-      "commits": ["778e18d"],
+      "commits": ["778e18d", "65f8fc8b9849e629402c0049d9dfdaf77f573cf7"],
       "grant_reference": "planning/overnight-expansion-2026-10-27/execution-authority.md#ieee-hlsl-001@revision-1",
-      "result": "IN_PROGRESS",
-      "summary": "root共同证明检查API已提交推送；IEEE工作区已有独立前端/发射器/CLI/例子/测试，首轮agent时限后从中断点恢复实际验收。",
-      "updated_at": "2026-10-28T02:24:44+08:00"
+      "result": "COMPLETED",
+      "summary": "受限HLSL到FloatLib binary32独立入口已整合并推送；14项IEEE单元、298项总单元、3P6U、旧核心及19项原型通过，Q1两项基础问题修复后Q2 VERIFIED，gpu_profile_matched=false。",
+      "updated_at": "2026-10-28T10:26:46+08:00"
     },
     "math_extensions": {
       "commits": ["274523c3401331b3226c340d80c7a68dd4ecaff8"],
@@ -189,7 +189,7 @@
   "schema_version": 1,
   "session_id": "shader-overnight-expansion-2026-10-27",
   "status": "running",
-  "updated_at": "2026-10-28T02:24:44+08:00"
+  "updated_at": "2026-10-28T10:26:46+08:00"
 }
 ```
 <!-- SMART_OVERNIGHT_STATE_END -->

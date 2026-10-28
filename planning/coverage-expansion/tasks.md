@@ -10,10 +10,12 @@
 | 扩展路线与责任边界 | Approved（本批范围） | parallel-plan.md；三个独立worktree、根agent集成；交叉P通过 |
 | 基础运算实现 | Completed | 563955a，独立Q1及整合Q2 Verified；最终242单元/69正式控制符合预期，新数学3P3U；中断39项保留、30项实际续跑，见../evidence/parallel-expansion-2026-10-27.json |
 | 浮点库隔离接入 | Completed | 8372a6e；2396项构建、19项运行检查、两定理通过，主目录迁移热跑及独立Q2 Verified，不改核心锁；见../evidence/ieee-integration-2026-10-27.json |
-| IEEE/HLSL 数值配置接入 | Outlined | 取决于评估；固定舍入、NaN/零位相等、融合/FTZ/近似运算等配置和报告保证 |
+| IEEE/HLSL 数值配置接入 | Completed | 65f8fc8；独立binary32逐运算RNE、保留subnormal/NaN/±0、完整存储位相等，3P6U及Q2 VERIFIED；gpu_profile_matched=false；见../evidence/ieee-hlsl-2026-10-28.json |
 | Compute Load/Store | Completed | 563955a；主目录2正4负正式控制及15独立有限回归通过，目标重生成逐字相同，独立Q2 Verified；最终完整69控制符合预期 |
+| 二维Texture Compute | Completed | add3f17；schema2精确整数坐标、纯helper、OOB Load、独立Store边界和最终内存，27单元及新3P5U旧2P4U通过；见../evidence/compute-texture-2026-10-28.json |
+| 七项实数数学 | Completed | 274523c；floor/ceil/frac/step/smoothstep/cross/reflect，主目录3P3U及独立Q通过，27旧目标逐字一致；见../evidence/math-extensions-2026-10-28.json |
 | 并行/同步外部工具接入 | Completed | c401924；本地VerCors实际2正例通过/2权限负例拒绝，独立Q1 Verified；入库证据../evidence/vercors-integration-2026-10-27.json；不冒充HLSL同步导入或Lean证明 |
-| groupshared/barrier/atomics | Outlined | 后端规则、阶段/允许执行语义和可核查安全证明桥接后再定实现 |
+| groupshared/barrier/atomics | Completed（固定子集） | 6f02a08；固定两线程HLSL→PVL访问安全，15单元及五控制、Q2 PASS；atomics/Wave仍排除；见../evidence/synchronization-hlsl-2026-10-28.json |
 
 ## 调查阶段证据与审阅（实现前）
 
