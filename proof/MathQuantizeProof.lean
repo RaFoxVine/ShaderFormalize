@@ -7,10 +7,10 @@ theorem equivalent : ShaderFormalize.Generated.expected := by
   classical
   intro E ops a
   dsimp [Generated.original, Generated.optimized]
-  simp only [if_true, true_implies, and_true, true_and]
+  simp only [ite_true, true_implies, and_true, true_and]
   funext x
   simp only [ShaderFormalize.Control.finish, ShaderFormalize.Fragment.finish,
-    List.mem_singleton, forall_eq, if_true]
+    List.mem_singleton, forall_eq, ite_true]
   congr 1
   funext i
   fin_cases i <;> dsimp

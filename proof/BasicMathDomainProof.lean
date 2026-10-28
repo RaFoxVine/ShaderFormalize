@@ -8,6 +8,6 @@ theorem equivalent : ShaderFormalize.Generated.expected := by
   have square_root_nonzero (x : E) (h : 0 < a x 0) : Real.sqrt (a x 0) ≠ 0 :=
     ne_of_gt (Real.sqrt_pos.2 h)
   dsimp [Generated.original, Generated.optimized]
-  simp only [if_true, true_implies, and_true, true_and]
+  simp only [ite_true, true_implies, and_true, true_and]
   aesop
 end ShaderFormalize.AgentProof
