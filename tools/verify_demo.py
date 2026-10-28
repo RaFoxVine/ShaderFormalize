@@ -228,13 +228,15 @@ def math_extension_controls():
 
 
 def compute_controls():
-    manifest = json.loads((ROOT / "examples/compute/controls.json").read_text(encoding="utf-8"))
+    manifests = [json.loads((ROOT / "examples/compute/controls.json").read_text(encoding="utf-8")),
+                 json.loads((ROOT / "examples/compute-texture/controls.json").read_text(encoding="utf-8"))]
     controls = []
-    for case in manifest["cases"]:
-        controls.append(check_case("compute-" + case["name"], case["expected"],
-            "--original", ROOT / case["original"], "--optimized", ROOT / case["optimized"],
-            "--constraints", ROOT / case["constraints"], "--agent-proof", ROOT / case["proof"],
-            driver="computeformalize"))
+    for manifest in manifests:
+        for case in manifest["cases"]:
+            controls.append(check_case("compute-" + case["name"], case["expected"],
+                "--original", ROOT / case["original"], "--optimized", ROOT / case["optimized"],
+                "--constraints", ROOT / case["constraints"], "--agent-proof", ROOT / case["proof"],
+                driver="computeformalize"))
     return controls
 
 
