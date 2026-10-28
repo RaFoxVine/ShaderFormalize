@@ -1,10 +1,10 @@
-import GeneratedModel
+import ShaderIeee.GeneratedModel
 
-namespace ShaderFormalize.AgentProof
+namespace ShaderIeee.AgentProof
 
-axiom unapproved : ShaderFormalize.Generated.expected
+axiom unapproved : ShaderIeee.Generated.expected
 
-theorem equivalent : ShaderFormalize.Generated.expected :=
+theorem equivalent : ShaderIeee.Generated.expected :=
   unapproved
 
-end ShaderFormalize.AgentProof
+end ShaderIeee.AgentProof

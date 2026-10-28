@@ -2,6 +2,8 @@
 
 这是下一阶段选材的开发记录，不属于核心运行依赖，也不是完整Lit验证结果。目前已取得确定配置的官方Shader，并完成入口依赖上界分析，让后续能力缺口有真实输入依据。
 
+2026-10-28接续：受限[IEEE binary32入口](../prototypes/ieee/README.md)已实现，支持NaN、正负零、次正规数和位重解释。此前“尚未选择异常值模型”是调查阶段的历史状态。完整Forward仍未生成Lean目标：IEEE的语言/资源覆盖比默认实数入口窄，尚不能处理下述官方NaN恢复链及整个入口；当前需要推进覆盖和接入，不是重新征求是否建立IEEE模型。
+
 ## 输入与复现
 
 本机HDRP17.5.0，包缓存目录 `com.unity.render-pipelines.high-definition@6461a40020a9`，入口 `Runtime/Material/Lit/Lit.shader` 的共享HLSLINCLUDE和Forward Pass，片元函数Frag。工具只读取外部工程，将include镜像和报告写入ignored artifacts。
@@ -65,12 +67,12 @@ flowchart LR
 
 2026-10-26补充核查：通用uint打包与内部float载体已经接入，默认参数/out/inout共享函数也有正式材质证明；其当前契约见[整数打包](integer-packing.md)和[共享函数](shared-functions.md)。这仍没有解决普通实数的位编码。固定Forward中的一条可能路径为Frag→LightLoop→EvaluateBSDF_Env→EvaluateLight_EnvIntersection→IntersectSphereProxy→IsNaN；这是静态可能路径，未声称每次绘制执行。
 
-本机Forward.preprocessed.hlsl的IsNaN约298行检查asuint(float)的指数/尾数位；IntersectRaySphereSimple约6600行先算判别式再sqrt，IntersectSphereProxy约15326行将NaN投影距离恢复为-1，再保证不小于最小投影距离。例如半径1、起点(2,0,0)、方向(0,1,0)，该公式的b=0、c=3、判别式=-12，已在纯实数sqrt定义域外。这条恢复逻辑说明，不能为了转换而一律将IsNaN换成false，也不能默添判别式非负前提。[DXIL的Sqrt说明](https://github.com/Microsoft/DirectXShaderCompiler/blob/main/docs/DXIL.rst#sqrt)给出负数返回NaN的行为；本项目尚未决定扩展这种非实数值语义。
+本机Forward.preprocessed.hlsl的IsNaN约298行检查asuint(float)的指数/尾数位；IntersectRaySphereSimple约6600行先算判别式再sqrt，IntersectSphereProxy约15326行将NaN投影距离恢复为-1，再保证不小于最小投影距离。例如半径1、起点(2,0,0)、方向(0,1,0)，该公式的b=0、c=3、判别式=-12，已在纯实数sqrt定义域外。这条恢复逻辑说明，不能为了转换而一律将IsNaN换成false，也不能默添判别式非负前提。[DXIL的Sqrt说明](https://github.com/Microsoft/DirectXShaderCompiler/blob/main/docs/DXIL.rst#sqrt)给出负数返回NaN的行为。后续独立IEEE路径已能表达此类值，但尚缺这份官方代码组合使用的uint掩码及dot/abs/max等覆盖；该函数链使用三元运算符，没有一般if。
 
-独立手写最小复现保留于ignored artifacts/language-probes/real-nan-boundary.*：固定DXC解析成功，当前shared导入明确返回UNSUPPORTED，诊断为`asuint of an ordinary real requires unsupported float encoding`。它不是完整Forward的首个解析错误，也不是GPU验证；用途是单独暴露已约定实数模型的边界。恢复条件是证明该路径在明确配置/已提供输入域中不执行，或另行确定NaN/异常值恢复的数学契约；本轮不擅自引入IEEE模型、黑箱IsNaN或输入假设。
+独立手写最小复现保留于ignored artifacts/language-probes/real-nan-boundary.*：固定DXC解析成功，shared实数导入明确返回UNSUPPORTED，诊断为`asuint of an ordinary real requires unsupported float encoding`。它不是完整Forward的首个解析错误，也不是GPU验证；用途是单独暴露实数模型的边界。该边界记录仍有效；后续IEEE路线已获批准并实现受限版本，接下来应按真实函数链补齐相应覆盖，不用黑箱IsNaN或未声明的输入假设绕过恢复行为。
 
 ## 调查过程中的修正
 
 初版导出没有SHADER_TARGET，Common.hlsl中FastLog2受 `SHADER_TARGET>=45` 保护而未定义。Lit自身声明target4.5，补充SHADER_TARGET=45后预处理和完整typed AST均成功。错误日志留在早期artifacts中供追溯；当前工具包含该宏，不能继续把FastLog2当现有阻塞。
 
-共享函数/default/out/inout、矩阵/数组和uint打包已有普通材质证明，固定次数uint循环组合的正式控制也已通过，完整213单元/57控制及独立审阅已通过。完整Forward剩余接入包括Frag/out入口、只读资源和现有子集之外的循环/数学；还须先明确[实数边界的目标选择与恢复条件](../planning/hdrp-forward/real-boundary.md)。完整Forward不适合全部展开成4096条绑定；共享函数已缓解重复展开，但不能据此宣称动态灯光循环、资源读取和异常恢复已经处理。完整Lit尚未产生数学目标，已有普通材质证明不替代它。
+共享函数/default/out/inout、矩阵/数组和uint打包已有普通材质证明，固定次数uint循环组合的正式控制也已通过，当时完整213单元/57控制及独立审阅已通过。完整Forward剩余接入包括Frag/out入口、只读资源、现有子集之外的循环/数学及[官方异常恢复链的IEEE覆盖](../planning/hdrp-forward/real-boundary.md)。完整Forward不适合全部展开成4096条绑定；共享函数已缓解重复展开，但不能据此宣称动态灯光循环、资源读取和异常恢复已经处理。完整Lit尚未产生数学目标，已有普通材质证明不替代它。

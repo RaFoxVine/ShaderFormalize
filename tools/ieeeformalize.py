@@ -1,9 +1,7 @@
 """Prepare/check restricted HLSL against the independent FloatLib binary32 model."""
 import argparse
-from contextlib import contextmanager
 import hashlib
 import json
-import os
 from pathlib import Path
 import subprocess
 import sys
@@ -13,52 +11,14 @@ from proof_contract import audit_axioms, verification_module
 from shader_ast import ModelError
 from shader_ieee_frontend import import_ieee
 from shader_ieee_lean import PROFILE, empty_constraints, generate_ieee
-from shaderformalize import ROOT, read_json, sha256, validate_dxc, write_json, write_text
+from shaderformalize import ROOT, PROOF, workspace_lock, read_json, sha256, validate_dxc, write_json, write_text
+from lean_environment import lean_bin, toolchain_lock, local_environment, validate_lean as validate_shared_lean
 
 
 PROTOTYPE = ROOT / "prototypes/ieee"
-PROOF = PROTOTYPE / "proof"
-LEAN_BIN = ROOT / ".tools/lean-4.35.0-windows/bin"
-LEAN_LOCK = {
-    "lean.exe": "ec7a472d1c12a09b0c0c718f7427c2be527b3f5f07810fdbe076c2507c7a91ea",
-    "lake.exe": "023feb24d3e7244fe671dba79f1cd1affc6c7a7cacfe497bf3675febb506578c",
-}
-
-
-@contextmanager
-def workspace_lock():
-    import msvcrt
-    lock_path = ROOT / ".cache/ieee-verification.lock"
-    lock_path.parent.mkdir(parents=True, exist_ok=True)
-    with lock_path.open("a+b") as stream:
-        stream.seek(0, os.SEEK_END)
-        if stream.tell() == 0:
-            stream.write(b"0")
-            stream.flush()
-        stream.seek(0)
-        try:
-            msvcrt.locking(stream.fileno(), msvcrt.LK_NBLCK, 1)
-        except OSError as error:
-            raise ModelError("Another IEEE verification owns the workspace", "INCONCLUSIVE") from error
-        try:
-            yield
-        finally:
-            stream.seek(0)
-            msvcrt.locking(stream.fileno(), msvcrt.LK_UNLCK, 1)
-
-
-def local_environment():
-    environment = os.environ.copy()
-    for name in list(environment):
-        if name.startswith("LEAN_") or name == "FLOATLIB_BUILD_DIR":
-            environment.pop(name, None)
-    environment["PATH"] = str(LEAN_BIN) + os.pathsep + environment.get("PATH", "")
-    environment["ELAN_HOME"] = str(ROOT / ".tools/ieee-elan")
-    environment["LAKE_HOME"] = str(ROOT / ".cache/ieee/lake")
-    environment["MATHLIB_CACHE_DIR"] = str(ROOT / ".cache/ieee/mathlib")
-    environment["MATHLIB_NO_CACHE_ON_UPDATE"] = "1"
-    environment["CURL_HOME"] = str(ROOT / ".cache/ieee/curl")
-    return environment
+IEEE_DIR = PROOF / "ShaderIeee"
+LEAN_BIN = lean_bin()
+LEAN_LOCK = toolchain_lock()["binaries"]
 
 
 def run_tool(arguments, cwd, log, timeout=180):
@@ -80,16 +40,12 @@ def run_tool(arguments, cwd, log, timeout=180):
 
 
 def validate_lean():
-    for name, expected in LEAN_LOCK.items():
-        path = LEAN_BIN / name
-        if not path.is_file() or sha256(path) != expected:
-            raise ModelError(f"Pinned IEEE Lean file missing/changed: {name}", "ENVIRONMENT_ERROR")
-    return LEAN_BIN / "lake.exe"
+    return validate_shared_lean(LEAN_BIN)
 
 
 def run_lean(arguments, cwd, log, timeout=180):
     lake = validate_lean()
-    return run_tool([lake, "--dir", PROTOTYPE, "env", "lean"] + list(arguments), cwd, log, timeout)
+    return run_tool([lake, "--dir", PROOF, "env", "lean"] + list(arguments), cwd, log, timeout)
 
 
 def prepare(args, output):
@@ -117,12 +73,12 @@ def prepare(args, output):
         raise ModelError("The two IEEE source interfaces differ", "INVALID_INPUT")
     constraints = empty_constraints(read_json(args.constraints))
     generated = generate_ieee(models[0], models[1])
-    write_text(PROOF / "GeneratedModel.lean", generated)
+    write_text(IEEE_DIR / "GeneratedModel.lean", generated)
     write_text(output / "GeneratedModel.lean", generated)
     return {
         "schema": "ieee-hlsl-1", "status": "PREPARED", "model_schema": "ieee-1", "profile": PROFILE,
         "gpu_profile_matched": False, "inputs": inputs, "constraints": constraints,
-        "generated_sha256": sha256(PROOF / "GeneratedModel.lean"),
+        "generated_sha256": sha256(IEEE_DIR / "GeneratedModel.lean"),
         "dxc_files": read_json(ROOT / "dependencies.lock.json")["dxc"]["binaries"],
         "dxc_version": read_json(ROOT / "dependencies.lock.json")["dxc"]["version"],
         "lean_files": dict(LEAN_LOCK),
@@ -140,28 +96,29 @@ def ensure_unchanged(generated_path, generated_sha256, source_hashes, modules):
 
 def check(args, output):
     summary = prepare(args, output)
-    version, _ = run_lean(["--version"], PROTOTYPE, output / "lean-version.log")
-    if version.returncode or "version 4.35.0," not in version.stdout:
-        raise ModelError("Unexpected independent IEEE Lean version", "ENVIRONMENT_ERROR")
+    version, _ = run_lean(["--version"], PROOF, output / "lean-version.log")
+    if version.returncode or ("version " + toolchain_lock()["version"] + ",") not in version.stdout:
+        raise ModelError("Unexpected shared Lean version", "ENVIRONMENT_ERROR")
     proof_bytes = Path(args.agent_proof).read_bytes()
-    write_text(PROOF / "SubmittedProof.lean", proof_bytes.decode("utf-8-sig"))
+    write_text(IEEE_DIR / "SubmittedProof.lean", proof_bytes.decode("utf-8-sig"))
     write_text(output / "SubmittedProof.lean", proof_bytes.decode("utf-8-sig"))
-    write_text(PROOF / "Verify.lean", verification_module())
-    write_text(output / "Verify.lean", verification_module())
+    verify = verification_module("ShaderIeee.GeneratedModel", "ShaderIeee.SubmittedProof", "ShaderIeee")
+    write_text(IEEE_DIR / "Verify.lean", verify)
+    write_text(output / "Verify.lean", verify)
     build_seconds = 0
     source_hashes = {}
-    cache_path = ROOT / ".cache/ieee-compiled-modules.json"
+    cache_path = ROOT / ".cache/ieee-compiled-modules-v2.json"
     cache = read_json(cache_path) if cache_path.is_file() else {}
-    modules = (("ShaderIeee/Model", PROTOTYPE), ("GeneratedModel", PROOF), ("SubmittedProof", PROOF))
+    modules = (("ShaderIeee/Model", PROOF), ("ShaderIeee/GeneratedModel", PROOF), ("ShaderIeee/SubmittedProof", PROOF))
     for module, cwd in modules:
         source = cwd / (module + ".lean")
         source_hashes[module] = sha256(source)
         dependency_hashes = dict(source_hashes)
-        dependency_hashes["manifest"] = sha256(PROTOTYPE / "lake-manifest.json")
-        dependency_hashes["tool_lock"] = hashlib.sha256(json.dumps(LEAN_LOCK, sort_keys=True).encode("utf-8")).hexdigest()
-        target = PROTOTYPE / ".lake/build/lib/lean" / (module + ".olean")
+        dependency_hashes["manifest"] = sha256(PROOF / "lake-manifest.json")
+        dependency_hashes["tool_lock"] = sha256(ROOT / "dependencies.lock.json")
+        target = PROOF / ".lake/build/lib/lean" / (module + ".olean")
         target.parent.mkdir(parents=True, exist_ok=True)
-        log = output / ("lean-" + module.replace("/", "-") + ".log")
+        log = output / ("lean-" + (module.rsplit("/", 1)[-1] if module != "ShaderIeee/Model" else "ShaderIeee-Model") + ".log")
         cached = cache.get(module, {})
         if (cached.get("inputs") == dependency_hashes and target.is_file() and
                 cached.get("output_sha256") == sha256(target)):
@@ -173,27 +130,27 @@ def check(args, output):
             raise ModelError(f"IEEE target/proof failed Lean; see {log.name}", "UNPROVED")
         cache[module] = {"inputs": dependency_hashes, "output_sha256": sha256(target)}
         write_json(cache_path, cache)
-    result, verify_seconds = run_lean(["Verify.lean"], PROOF, output / "lean-verify.log", 900)
+    result, verify_seconds = run_lean(["ShaderIeee/Verify.lean"], PROOF, output / "lean-verify.log", 900)
     if result.returncode:
         raise ModelError("Independent IEEE target binding failed; see lean-verify.log", "UNPROVED")
-    axioms = audit_axioms(result.stdout + "\n" + result.stderr)
-    ensure_unchanged(PROOF / "GeneratedModel.lean", summary["generated_sha256"], source_hashes, modules)
+    axioms = audit_axioms(result.stdout + "\n" + result.stderr, "ShaderIeee.Verification.checked")
+    ensure_unchanged(IEEE_DIR / "GeneratedModel.lean", summary["generated_sha256"], source_hashes, modules)
     artifact_paths = {
         "generated_target": output / "GeneratedModel.lean",
         "agent_proof": output / "SubmittedProof.lean",
         "verification": output / "Verify.lean",
-        "semantic_model": PROTOTYPE / "ShaderIeee/Model.lean",
-        "lake_manifest": PROTOTYPE / "lake-manifest.json",
-        "dependency_lock": PROTOTYPE / "dependencies.lock.json",
+        "semantic_model": IEEE_DIR / "Model.lean",
+        "lake_manifest": PROOF / "lake-manifest.json",
+        "dependency_lock": ROOT / "dependencies.lock.json",
         "lean_build_log": output / "lean-SubmittedProof.log",
         "lean_verify_log": output / "lean-verify.log",
     }
     summary.update({
-        "status": "IEEE_PROVED", "theorem": "ShaderFormalize.Verification.checked", "axioms": axioms,
+        "status": "IEEE_PROVED", "theorem": "ShaderIeee.Verification.checked", "axioms": axioms,
         "agent_proof_sha256": hashlib.sha256(proof_bytes).hexdigest(),
-        "semantic_model_sha256": sha256(PROTOTYPE / "ShaderIeee/Model.lean"),
-        "lake_manifest_sha256": sha256(PROTOTYPE / "lake-manifest.json"),
-        "dependency_lock_sha256": sha256(PROTOTYPE / "dependencies.lock.json"),
+        "semantic_model_sha256": sha256(IEEE_DIR / "Model.lean"),
+        "lake_manifest_sha256": sha256(PROOF / "lake-manifest.json"),
+        "dependency_lock_sha256": sha256(ROOT / "dependencies.lock.json"),
         "artifact_sha256": {name: sha256(path) for name, path in artifact_paths.items()},
         "lean_build_seconds": round(build_seconds, 3), "lean_verify_seconds": verify_seconds,
         "lean_version": version.stdout.strip(),
@@ -207,7 +164,7 @@ def parse_arguments():
     parser.add_argument("--original", type=Path, default=ROOT / "examples/ieee/original.hlsl")
     parser.add_argument("--optimized", type=Path, default=ROOT / "examples/ieee/optimized.hlsl")
     parser.add_argument("--constraints", type=Path, default=ROOT / "examples/ieee/constraints.json")
-    parser.add_argument("--agent-proof", type=Path, default=PROOF / "IdentityProof.lean")
+    parser.add_argument("--agent-proof", type=Path, default=PROTOTYPE / "proof/IdentityProof.lean")
     parser.add_argument("--output", type=Path, default=ROOT / "artifacts/ieee-hlsl/current")
     return parser.parse_args()
 

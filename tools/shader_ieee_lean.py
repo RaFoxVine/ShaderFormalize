@@ -159,7 +159,7 @@ def generate_ieee(original, optimized):
     parameters = " ".join(f"(p{item['index']} : {lean_type(item['width'])})" for item in interface)
     names = " ".join(f"p{item['index']}" for item in interface)
     expected = f"def expected : Prop := ∀ {parameters},\n  original {names} = optimized {names}"
-    return ("import ShaderIeee.Model\n\nnamespace ShaderFormalize.Generated\n\n" +
+    return ("import ShaderIeee.Model\n\nnamespace ShaderIeee.Generated\n\n" +
             IeeeEmitter(original).definition("original", parameters) + "\n\n" +
             IeeeEmitter(optimized).definition("optimized", parameters) + "\n\n" + expected +
-            "\n\nend ShaderFormalize.Generated\n")
+            "\n\nend ShaderIeee.Generated\n")

@@ -1,10 +1,10 @@
-import GeneratedModel
+import ShaderIeee.GeneratedModel
 
-namespace ShaderFormalize.AgentProof
+namespace ShaderIeee.AgentProof
 
-theorem equivalent : ShaderFormalize.Generated.expected := by
-  unfold ShaderFormalize.Generated.expected
+theorem equivalent : ShaderIeee.Generated.expected := by
+  unfold ShaderIeee.Generated.expected
   intros
   rfl
 
-end ShaderFormalize.AgentProof
+end ShaderIeee.AgentProof

@@ -5,6 +5,7 @@ from pathlib import Path
 import sys
 
 from shader_ast import ModelError, validate_source
+from lean_environment import validate_lean
 from shader_compute import compute_contract, generate_compute, import_compute
 from shaderformalize import (ROOT, PROOF, audit_axioms, read_json, run_tool, sha256,
                             validate_dxc, workspace_lock, write_json, write_text)
@@ -44,11 +45,7 @@ def prepare(args, output):
 
 def check(args, output):
     summary = prepare(args, output)
-    lake = ROOT / ".tools" / "lean-4.24.0-windows" / "bin" / "lake.exe"
-    lock = read_json(ROOT / "dependencies.lock.json")
-    for name, expected in lock["lean"]["binaries"].items():
-        if not (lake.parent / name).is_file() or sha256(lake.parent / name) != expected:
-            raise ModelError(f"Pinned Lean file missing/changed: {name}", "ENVIRONMENT_ERROR")
+    lake = validate_lean()
     proof_bytes = Path(args.agent_proof).read_bytes()
     write_text(PROOF / "SubmittedProof.lean", proof_bytes.decode("utf-8-sig"))
     write_text(output / "SubmittedProof.lean", proof_bytes.decode("utf-8-sig"))

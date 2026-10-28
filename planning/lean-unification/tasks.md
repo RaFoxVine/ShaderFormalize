@@ -3,7 +3,7 @@
 | 工作 | 状态 | 完成条件 |
 |---|---|---|
 | 统一方案与独立P | Completed | 现有4.35、单workspace/包、隔离模块与共享锁、缓存API迁移已确定 |
-| 源码与配置迁移 | Approved | 唯一writer按plan实施，保持语义和CLI保证 |
+| 源码与配置迁移 | Implementing | 唯一writer已完成主布局与工具迁移，运行4.35 bootstrap/smoke，保持语义和CLI保证 |
 | C盘目录与物理缓存搬迁 | Implementing | 所有者/源码核对、绝对路径和链接检查、搬迁后完整性检查 |
 | 真实验证与独立Q | Pending | 全部单元、83核心、9IEEE、19原型及交错运行/负控 |
 | 删除4.24与发布 | Pending | 验收后删除旧版本/缓存，记录实际空间并提交推送 |

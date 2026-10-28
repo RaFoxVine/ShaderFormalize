@@ -1,114 +1,62 @@
-param([switch]$SkipMathlibCache)
+param([switch]$SkipMathlibCache, [switch]$SkipDownload)
 $ErrorActionPreference = 'Stop'
 $ProgressPreference = 'SilentlyContinue'
-$workspace = Split-Path -Parent $PSScriptRoot
-$lock = Get-Content -LiteralPath (Join-Path $workspace 'dependencies.lock.json') -Raw | ConvertFrom-Json
+. (Join-Path $PSScriptRoot 'environment.ps1')
+$workspace = $leanWorkspace
+$lock = $leanLock
 $downloads = Join-Path $workspace '.cache/downloads'
-New-Item -ItemType Directory -Force -Path $downloads,(Join-Path $workspace '.tools'),(Join-Path $workspace '.cache/mathlib') | Out-Null
+New-Item -ItemType Directory -Force -Path $downloads,(Join-Path $workspace '.tools') | Out-Null
 
 function Get-LockedArchive($dependency, $filename) {
     $archive = Join-Path $downloads $filename
-    if ((Test-Path -LiteralPath $archive) -and ((Get-FileHash -Algorithm SHA256 -LiteralPath $archive).Hash.ToLowerInvariant() -eq $dependency.sha256)) {
-        return $archive
+    if ((Test-Path -LiteralPath $archive) -and ((Get-FileHash -Algorithm SHA256 -LiteralPath $archive).Hash.ToLowerInvariant() -eq $dependency.sha256)) { return $archive }
+    if ($SkipDownload) { throw "Locked archive unavailable: $archive" }
+    if ($dependency.PSObject.Properties.Name -contains 'size') {
+        python (Join-Path $PSScriptRoot 'download_release.py') --url $dependency.url --output $archive --size $dependency.size --sha256 $dependency.sha256 --workers 8 --max-seconds 1800 | Out-Host
+        Assert-LeanExit "Download $filename"
+    } else {
+        & curl.exe -4 --location --fail --silent --show-error --connect-timeout 15 --max-time 1800 --retry 3 --retry-delay 2 --output $archive $dependency.url
+        Assert-LeanExit "Download $filename"
     }
-    Write-Host "Downloading $filename"
-    # Use the same process-local IPv4 transport as the mathlib cache fetcher.
-    # Bound connection waits and whole transfers without changing machine settings.
-    & curl.exe -4 --location --fail --silent --show-error --connect-timeout 15 --max-time 1800 --retry 3 --retry-delay 2 --output $archive $dependency.url
-    if ($LASTEXITCODE -ne 0) { throw "Download failed: $filename (curl exit $LASTEXITCODE)" }
-    if ((Get-FileHash -Algorithm SHA256 -LiteralPath $archive).Hash.ToLowerInvariant() -ne $dependency.sha256) {
-        throw "Checksum mismatch: $filename"
-    }
+    if ((Get-FileHash -Algorithm SHA256 -LiteralPath $archive).Hash.ToLowerInvariant() -ne $dependency.sha256) { throw "Checksum mismatch: $filename" }
     return $archive
 }
 
-$leanBin = Join-Path $workspace '.tools/lean-4.24.0-windows/bin'
 if (-not (Test-Path -LiteralPath (Join-Path $leanBin 'lean.exe'))) {
-    $archive = Get-LockedArchive $lock.lean 'lean-4.24.0-windows.zip'
-    Expand-Archive -LiteralPath $archive -DestinationPath (Join-Path $workspace '.tools') -Force
+    $archive = Get-LockedArchive $lock.lean ('lean-' + $lock.lean.version + '-windows.zip')
+    & tar.exe -xf $archive -C (Join-Path $workspace '.tools')
+    Assert-LeanExit 'Lean archive extraction'
 }
-foreach ($property in $lock.lean.binaries.PSObject.Properties) {
-    if ((Get-FileHash -Algorithm SHA256 -LiteralPath (Join-Path $leanBin $property.Name)).Hash.ToLowerInvariant() -ne $property.Value) {
-        throw "Lean binary changed: $($property.Name)"
-    }
-}
+Assert-LeanToolchain
 $dxcBin = Join-Path $workspace '.tools/dxc/bin/x64'
 if (-not (Test-Path -LiteralPath (Join-Path $dxcBin 'dxc.exe'))) {
     $archive = Get-LockedArchive $lock.dxc 'dxc_2025_07_14.zip'
     Expand-Archive -LiteralPath $archive -DestinationPath (Join-Path $workspace '.tools/dxc') -Force
 }
 foreach ($property in $lock.dxc.binaries.PSObject.Properties) {
-    if ((Get-FileHash -Algorithm SHA256 -LiteralPath (Join-Path $dxcBin $property.Name)).Hash.ToLowerInvariant() -ne $property.Value) {
-        throw "DXC binary changed: $($property.Name)"
-    }
+    if ((Get-FileHash -Algorithm SHA256 -LiteralPath (Join-Path $dxcBin $property.Name)).Hash.ToLowerInvariant() -ne $property.Value) { throw "DXC binary changed: $($property.Name)" }
 }
-
-$leantar = Join-Path $workspace '.cache/mathlib/leantar-0.1.15.exe'
-if (-not (Test-Path -LiteralPath $leantar)) {
-    $archive = Get-LockedArchive $lock.leantar 'leantar-v0.1.15.zip'
-    Expand-Archive -LiteralPath $archive -DestinationPath (Join-Path $workspace '.tools/leantar') -Force
-    Copy-Item -LiteralPath (Join-Path $workspace '.tools/leantar/leantar-v0.1.15-x86_64-pc-windows-msvc/leantar.exe') -Destination $leantar
-}
-if ((Get-FileHash -Algorithm SHA256 -LiteralPath $leantar).Hash.ToLowerInvariant() -ne $lock.leantar.binary_sha256) {
-    throw 'leantar binary changed'
-}
-
-# Only this script/process sees these variables; do not change user/global settings.
-foreach ($name in @('LEAN_PATH','LEAN_SRC_PATH','LEAN_SYSROOT')) {
-    [Environment]::SetEnvironmentVariable($name, $null, 'Process')
-}
-$env:PATH = $leanBin + [IO.Path]::PathSeparator + $env:PATH
-$env:MATHLIB_CACHE_DIR = Join-Path $workspace '.cache/mathlib'
-$env:LAKE_HOME = Join-Path $workspace '.cache/lake'
-$env:ELAN_HOME = Join-Path $workspace '.tools/elan'
-$env:MATHLIB_NO_CACHE_ON_UPDATE = '1'
-$env:CURL_HOME = Join-Path $workspace '.cache/curl'
-New-Item -ItemType Directory -Force -Path $env:CURL_HOME | Out-Null
-# The current host's IPv6 route stalls on GitHub release assets. Keep the
-# transport preference local to this toolchain, with bounded connection waits.
-foreach ($filename in @('.curlrc','_curlrc')) {
-    Set-Content -LiteralPath (Join-Path $env:CURL_HOME $filename) -Value "ipv4`nconnect-timeout = 15`nmax-time = 120" -Encoding ascii
-}
-# Process-local Git transport settings; do not edit machine or repository config.
-$gitConfigCount = 0
-if ($env:GIT_CONFIG_COUNT) { $gitConfigCount = [int]$env:GIT_CONFIG_COUNT }
-foreach ($setting in @(@('http.sslBackend','schannel'), @('http.version','HTTP/1.1'))) {
-    [Environment]::SetEnvironmentVariable("GIT_CONFIG_KEY_$gitConfigCount", $setting[0], 'Process')
-    [Environment]::SetEnvironmentVariable("GIT_CONFIG_VALUE_$gitConfigCount", $setting[1], 'Process')
-    $gitConfigCount++
-}
-$env:GIT_CONFIG_COUNT = [string]$gitConfigCount
+python (Join-Path $PSScriptRoot 'seed_dependencies.py')
+Assert-LeanExit 'Pinned Lake dependency materialization'
 $proof = Join-Path $workspace 'proof'
-$mathlib = Join-Path $proof '.lake/packages/mathlib'
-if (-not (Test-Path -LiteralPath (Join-Path $mathlib '.git'))) {
-    New-Item -ItemType Directory -Force -Path $mathlib | Out-Null
-    git -C $mathlib init --quiet
-    if ($LASTEXITCODE -ne 0) { throw 'git init mathlib failed' }
-    git -C $mathlib remote add origin $lock.mathlib.url
-    if ($LASTEXITCODE -ne 0) { throw 'git remote mathlib failed' }
-}
-$currentRevision = git -C $mathlib rev-parse --verify HEAD 2>$null
-if ($currentRevision -ne $lock.mathlib.revision) {
-    git -C $mathlib fetch --depth 1 origin $lock.mathlib.revision
-    if ($LASTEXITCODE -ne 0) { throw 'mathlib fetch failed' }
-    git -C $mathlib checkout --detach $lock.mathlib.revision
-    if ($LASTEXITCODE -ne 0) { throw 'mathlib checkout failed' }
-}
 Push-Location $proof
 try {
+    Assert-LeanToolchain
     & (Join-Path $leanBin 'lean.exe') --version
-    if ($LASTEXITCODE -ne 0) { throw 'Local Lean cannot run' }
-    python (Join-Path $PSScriptRoot 'seed_dependencies.py')
-    if ($LASTEXITCODE -ne 0) { throw 'Pinned Lake dependency materialization failed' }
+    Assert-LeanExit 'Local Lean'
     if (-not $SkipMathlibCache) {
-        & (Join-Path $leanBin 'lake.exe') --no-cache exe fetchMathlibCache
-        if ($LASTEXITCODE -ne 0) { throw 'mathlib cache download failed' }
+        $targets = @(python (Join-Path $PSScriptRoot 'cache_targets.py'))
+        Assert-LeanExit 'Required Mathlib imports'
+        if ($targets.Count -eq 0) { throw 'No Mathlib cache roots found' }
+        Assert-LeanToolchain
+        & (Join-Path $leanBin 'lake.exe') exe cache get @targets
+        Assert-LeanExit 'Required Mathlib cache'
+        Assert-LeanToolchain
         & (Join-Path $leanBin 'lake.exe') env lean ShaderFormalize/BootstrapSmoke.lean
-        if ($LASTEXITCODE -ne 0) { throw 'Required Lean modules cannot be loaded; bootstrap is incomplete' }
+        Assert-LeanExit 'Required Mathlib import smoke'
+        Assert-LeanToolchain
+        & (Join-Path $leanBin 'lake.exe') build +ShaderIeee.Model:olean +ShaderIeee.Probe:olean
+        Assert-LeanExit 'FloatLib shader model and probe'
     }
 } finally { Pop-Location }
-if ($SkipMathlibCache) {
-    Write-Host 'Local tools and pinned sources ready; mathlib cache was skipped.'
-} else {
-    Write-Host 'Local toolchain ready. Run: python tools/shaderformalize.py check'
-}
+Write-Host 'Shared local Lean toolchain and pinned dependencies ready.'

@@ -2,6 +2,14 @@
 
 本记录供下一轮实现者恢复完整HDRP/Lit Forward工作。普通材质扩展仍在进行；这份记录不代表完整Forward已转换或已证明。
 
+## 2026-10-28 当前接续状态
+
+用户后续已批准并实现独立 IEEE binary32 路线，具体保证见[浮点入口](../../prototypes/ieee/README.md)及[验收证据](../evidence/ieee-hlsl-2026-10-28.json)。不再把“是否允许建立异常值模型”作为等待用户重新决定的阻塞。默认实数入口仍不为普通实数定义底层位编码。
+
+当前缺口是把这条数值路线接到实际官方代码：IEEE入口尚不支持该函数链需要的uint位运算、dot/abs/max等完整组合，更未支持整份Forward的入口、资源和循环。该函数链使用三元运算符，没有一般if；一般if仍是IEEE语言覆盖的缺口。应以官方求交/NaN恢复代码建立下一份具体方案和完整验证案例，保留恢复行为；具体扩展仍需相应切片授权，不借旧调查授权改语义。
+
+下文保留实数最小拒绝、几何反例及当时的恢复条件；末节是IEEE路线建立前的调查决策记录，不是当前待决问题。
+
 ## 当前输入与结果
 
 固定输入为HDRP17.5的Forward配置，来自本机明确选择的Unity6000.5.9工程；完整预处理源码和DXC AST留在ignored `artifacts/forward-analysis/input`，未把Unity源码重新发布。可追溯的宏、版本、产物哈希与入口上界见`../evidence/hdrp-forward-analysis-2026-10-26.json`。DXC已成功解析，分析状态ANALYZED只代表调用结构分析成功。当前数学转换的首个失败仍是sampler1D结构体的DXC隐式赋值方法中嵌套invalid source location的AST格式，不是下述最小例的错误。
@@ -23,7 +31,7 @@ python tools/shaderformalize.py prepare --frontend shared --original real-nan.hl
 
 静态可能路径为Frag→LightLoop→EvaluateBSDF_Env→EvaluateLight_EnvIntersection→IntersectSphereProxy→IsNaN。球形代理先求平方根，再用NaN检查恢复无交点的距离；半径1、起点(2,0,0)、方向(0,1,0)给出判别式-12。因此这里的NaN可能表示几何上的无交点，不能把IsNaN统一改成false，或私自增加判别式非负的输入前提。路径是保守静态可能路径，未证明每个绘制都会执行。
 
-## 下一轮应执行的工作
+## IEEE 路线建立前的调查决策记录
 
 保留核心实数和精确uint模型；先确定一份具有明确数学意义的Forward目标。首选调查固定配置能否排除这条异常恢复路径，并证明排除条件；若不能，则须另行确定如何把这段几何恢复逻辑表达为实数上的分段函数，以及两份输入源码与这个表达之间的关系。不能仅用一个黑箱谓词代替IsNaN便宣称忠实于原HLSL。
 

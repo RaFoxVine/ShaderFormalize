@@ -12,6 +12,7 @@ from contextlib import contextmanager
 
 from shader_model import ModelError, generate_lean, import_shader, constraint_spec, validate_source
 from proof_contract import audit_axioms, verification_module
+from lean_environment import local_environment, lean_bin, validate_lean, toolchain_lock
 
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -60,26 +61,6 @@ def write_text(path, text):
 
 def write_json(path, value):
     write_text(path, json.dumps(value, ensure_ascii=False, indent=2) + "\n")
-
-
-def local_environment():
-    environment = os.environ.copy()
-    for name in ("LEAN_PATH", "LEAN_SRC_PATH", "LEAN_SYSROOT"):
-        environment.pop(name, None)
-    lean_bin = ROOT / ".tools" / "lean-4.24.0-windows" / "bin"
-    environment["PATH"] = str(lean_bin) + os.pathsep + environment.get("PATH", "")
-    environment["MATHLIB_CACHE_DIR"] = str(ROOT / ".cache" / "mathlib")
-    environment["LAKE_HOME"] = str(ROOT / ".cache" / "lake")
-    environment["ELAN_HOME"] = str(ROOT / ".tools" / "elan")
-    environment["MATHLIB_NO_CACHE_ON_UPDATE"] = "1"
-    environment["CURL_HOME"] = str(ROOT / ".cache" / "curl")
-    count = int(environment.get("GIT_CONFIG_COUNT", "0"))
-    for key, value in (("http.sslBackend", "schannel"), ("http.version", "HTTP/1.1")):
-        environment[f"GIT_CONFIG_KEY_{count}"] = key
-        environment[f"GIT_CONFIG_VALUE_{count}"] = value
-        count += 1
-    environment["GIT_CONFIG_COUNT"] = str(count)
-    return environment
 
 
 def run_tool(arguments, cwd, log, timeout=180):
@@ -154,16 +135,9 @@ def prepare(args, output):
 
 def check(args, output):
     summary = prepare(args, output)
-    lake = ROOT / ".tools" / "lean-4.24.0-windows" / "bin" / "lake.exe"
-    if not lake.exists():
-        raise ModelError("Local Lean/Lake missing; run tools/bootstrap.ps1", "ENVIRONMENT_ERROR")
-    lock = read_json(ROOT / "dependencies.lock.json")
-    for name, expected in lock["lean"]["binaries"].items():
-        path = lake.parent / name
-        if not path.is_file() or sha256(path) != expected:
-            raise ModelError(f"Pinned Lean file missing/changed: {name}", "ENVIRONMENT_ERROR")
+    lake = validate_lean()
     version, _ = run_tool([lake.parent / "lean.exe", "--version"], PROOF, output / "lean-version.log")
-    if version.returncode or "version 4.24.0," not in version.stdout:
+    if version.returncode or ("version " + toolchain_lock()["version"] + ",") not in version.stdout:
         raise ModelError("Unexpected local Lean version", "ENVIRONMENT_ERROR")
     proof_bytes = Path(args.agent_proof).read_bytes()
     write_text(PROOF / "SubmittedProof.lean", proof_bytes.decode("utf-8-sig"))

@@ -1,12 +1,14 @@
 {
   "schema": 1,
   "lean": {
-    "version": "4.24.0",
-    "url": "https://github.com/leanprover/lean4/releases/download/v4.24.0/lean-4.24.0-windows.zip",
-    "sha256": "c2fcf1cba1089e526e184de2a6f6763a6e15596a2991f096dfacd4a6e3ce2cdd",
+    "version": "4.35.0",
+    "url": "https://github.com/leanprover/lean4/releases/download/v4.35.0/lean-4.35.0-windows.zip",
+    "size": 902262322,
+    "sha256": "5fc033e93e1a7bc59c5ebf311103d2c9cd18d4b3eddda4ffa3414e8adb0ef79e",
+    "digest_source": "https://github.com/leanprover/lean4/releases/expanded_assets/v4.35.0",
     "binaries": {
-      "lean.exe": "20bc808248e38cf072f84f4eb389f8f98e5925d703bcbfa400d9dd44f310c4db",
-      "lake.exe": "82375bd6d578a680032606c38a313899a99d47ea5fd33fdc9872e1b2e0d9f7b1"
+      "lean.exe": "ec7a472d1c12a09b0c0c718f7427c2be527b3f5f07810fdbe076c2507c7a91ea",
+      "lake.exe": "023feb24d3e7244fe671dba79f1cd1affc6c7a7cacfe497bf3675febb506578c"
     }
   },
   "dxc": {
@@ -21,13 +23,11 @@
   },
   "mathlib": {
     "url": "https://github.com/leanprover-community/mathlib4.git",
-    "revision": "f897ebcf72cd16f89ab4577d0c826cd14afaafc7",
-    "upstream_manifest_sha256": "c37834225d776f57a4e23bb8e48b138825fa6c3d4310394fb6a703a120edcb70"
+    "revision": "56a005855ea17e0b0958f73ec801ae140b0a1679"
   },
-  "leantar": {
-    "binary_sha256": "a623f68963b36b1c33ebe1c4fa0f73f4103f3282b940320a9c1d1b543744c3d2",
-    "url": "https://github.com/digama0/leangz/releases/download/v0.1.15/leantar-v0.1.15-x86_64-pc-windows-msvc.zip",
-    "version": "0.1.15",
-    "sha256": "10848b49fac091bc07bfee0ab426319e121f1103193f499c17bbd4e9ce604614"
+  "floatlib": {
+    "url": "https://github.com/lean-dojo/FloatLib.git",
+    "revision": "8c8871576a941a86e73dcf0882702b823139aa93",
+    "license": "MIT"
   }
 }

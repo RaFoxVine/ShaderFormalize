@@ -1,8 +1,8 @@
-import GeneratedModel
+import ShaderIeee.GeneratedModel
 
-namespace ShaderFormalize.AgentProof
+namespace ShaderIeee.AgentProof
 
 theorem equivalent : True := by
   trivial
 
-end ShaderFormalize.AgentProof
+end ShaderIeee.AgentProof

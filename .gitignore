@@ -11,3 +11,7 @@ prototypes/ieee/proof/SubmittedProof.lean
 local.settings.json
 __pycache__/
 *.pyc
+
+proof/ShaderIeee/GeneratedModel.lean
+proof/ShaderIeee/SubmittedProof.lean
+proof/ShaderIeee/Verify.lean

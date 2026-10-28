@@ -4,21 +4,21 @@ import re
 from shader_ast import ModelError
 
 
-def verification_module():
-    return '''import GeneratedModel
-import SubmittedProof
+def verification_module(generated="GeneratedModel", submitted="SubmittedProof",
+                        namespace="ShaderFormalize"):
+    return f'''import {generated}
+import {submitted}
 
-namespace ShaderFormalize.Verification
-theorem checked : ShaderFormalize.Generated.expected :=
-  ShaderFormalize.AgentProof.equivalent
-end ShaderFormalize.Verification
+namespace {namespace}.Verification
+theorem checked : {namespace}.Generated.expected :=
+  {namespace}.AgentProof.equivalent
+end {namespace}.Verification
 
-#print axioms ShaderFormalize.Verification.checked
+#print axioms {namespace}.Verification.checked
 '''
 
 
-def audit_axioms(text):
-    name = "ShaderFormalize.Verification.checked"
+def audit_axioms(text, name="ShaderFormalize.Verification.checked"):
     found = re.findall(re.escape(name) + r"'? depends on axioms:\s*\[([^]]*)\]", text)
     if len(found) == 1:
         names = []

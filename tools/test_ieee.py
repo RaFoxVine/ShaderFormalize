@@ -2,6 +2,7 @@
 import ctypes
 import json
 from pathlib import Path
+import shutil
 import subprocess
 import tempfile
 import unittest
@@ -9,6 +10,8 @@ from unittest import mock
 
 import ieeeformalize
 import run_ieee_suite
+import run_ieee_probe
+import shaderformalize
 from ieeeformalize import ROOT, workspace_lock
 from shader_ast import ModelError
 from shader_ieee_frontend import import_ieee
@@ -150,42 +153,72 @@ class IeeeInfrastructureTests(unittest.TestCase):
                 ieeeformalize.ensure_unchanged(generated, target_hash, hashes, modules)
             self.assertEqual(caught.exception.status, "UNPROVED")
 
+    def prototype_fixture(self, directory):
+        fixture = Path(directory)
+        (fixture / "tools").mkdir()
+        for source in (ROOT / "tools").glob("*.py"):
+            shutil.copy2(source, fixture / "tools" / source.name)
+        shutil.copy2(ROOT / "dependencies.lock.json", fixture / "dependencies.lock.json")
+        wrapper = fixture / "prototypes/ieee/run.ps1"
+        wrapper.parent.mkdir(parents=True)
+        shutil.copy2(ROOT / "prototypes/ieee/run.ps1", wrapper)
+        binaries = fixture / ieeeformalize.LEAN_BIN.relative_to(ROOT)
+        binaries.mkdir(parents=True)
+        for name in ieeeformalize.LEAN_LOCK:
+            shutil.copy2(ieeeformalize.LEAN_BIN / name, binaries / name)
+        output = fixture / "artifacts/ieee"
+        output.mkdir(parents=True)
+        return fixture, binaries, output, wrapper
+
+    def run_prototype_fixture(self, wrapper):
+        return subprocess.run(["pwsh", "-File", str(wrapper)], capture_output=True, text=True,
+                              encoding="utf-8", errors="replace", timeout=60)
+
     def test_prototype_replaced_binaries_fail_before_invocation(self):
-        output = ROOT / "artifacts/ieee-hlsl/infrastructure"
-        output.mkdir(parents=True, exist_ok=True)
-        report_path = ROOT / "artifacts/ieee/result.json"
-        log_path = ROOT / "artifacts/ieee/probe.log"
-        saved_report = report_path.read_bytes()
-        saved_log = log_path.read_bytes()
-        try:
-            for name in ("lean.exe", "lake.exe"):
+        with tempfile.TemporaryDirectory(dir=ROOT / "artifacts") as directory:
+            fixture, binaries, output, wrapper = self.prototype_fixture(directory)
+            for name in ieeeformalize.LEAN_LOCK:
                 with self.subTest(binary=name):
-                    binary = ieeeformalize.LEAN_BIN / name
-                    backup = binary.with_suffix(".q-backup")
-                    self.assertFalse(backup.exists())
-                    binary.rename(backup)
-                    try:
-                        binary.write_bytes(b"intentionally invalid IEEE toolchain control")
-                        result = subprocess.run(["pwsh", "-File", str(ROOT / "prototypes/ieee/run.ps1")],
-                                                cwd=ROOT, capture_output=True, text=True, encoding="utf-8",
-                                                errors="replace", timeout=60)
-                    finally:
-                        if binary.exists():
-                            binary.unlink()
-                        backup.rename(binary)
-                    self.assertEqual(ieeeformalize.sha256(binary), ieeeformalize.LEAN_LOCK[name])
-                    (output / f"toolchain-{name}.log").write_text(
-                        result.stdout + "\n--- stderr ---\n" + result.stderr, encoding="utf-8")
-                    report = json.loads(report_path.read_text(encoding="utf-8-sig"))
-                    (output / f"toolchain-{name}-result.json").write_text(json.dumps(report, indent=2) + "\n",
-                                                                           encoding="utf-8")
-                    self.assertNotEqual(result.returncode, 0)
+                    (binaries / name).write_bytes(b"intentionally invalid isolated toolchain control")
+                    result = self.run_prototype_fixture(wrapper)
+                    shutil.copy2(ieeeformalize.LEAN_BIN / name, binaries / name)
+                    report = json.loads((output / "result.json").read_text(encoding="utf-8"))
+                    self.assertEqual(result.returncode, 1)
                     self.assertEqual(report["status"], "FAILED")
                     self.assertIn("ENVIRONMENT_ERROR", report["message"])
                     self.assertIn(name, report["message"])
-        finally:
-            report_path.write_bytes(saved_report)
-            log_path.write_bytes(saved_log)
+                    self.assertNotIn("Traceback", result.stderr)
+
+    def test_busy_prototype_with_damaged_tool_preserves_owner_report(self):
+        with tempfile.TemporaryDirectory(dir=ROOT / "artifacts") as directory:
+            fixture, binaries, output, wrapper = self.prototype_fixture(directory)
+            (binaries / "lean.exe").write_bytes(b"damaged isolated tool")
+            report, log = output / "result.json", output / "probe.log"
+            report.write_bytes(b'{"status":"IN_PROGRESS","owner":true}')
+            log.write_bytes(b"active owner log")
+            before = report.read_bytes(), log.read_bytes()
+            with mock.patch.object(shaderformalize, "ROOT", fixture), workspace_lock():
+                result = self.run_prototype_fixture(wrapper)
+            self.assertEqual(result.returncode, 1)
+            self.assertEqual(json.loads(result.stdout)["status"], "INCONCLUSIVE")
+            self.assertEqual((report.read_bytes(), log.read_bytes()), before)
+
+    def test_damaged_prototype_tool_writes_terminal_without_invoking_lean(self):
+        with tempfile.TemporaryDirectory(dir=ROOT / "artifacts") as directory:
+            fixture = Path(directory)
+            output = fixture / "artifacts/ieee"
+            output.mkdir(parents=True)
+            (output / "result.json").write_text('{"status":"EXTERNAL_LIBRARY_PROTOTYPE_PASSED"}', encoding="utf-8")
+            error = ModelError("Pinned Lean file missing/changed: lean.exe", "ENVIRONMENT_ERROR")
+            with mock.patch.object(shaderformalize, "ROOT", fixture), mock.patch.object(
+                    run_ieee_probe, "ROOT", fixture), mock.patch.object(run_ieee_probe, "validate_lean",
+                    side_effect=error), mock.patch.object(run_ieee_probe, "run_lean") as invoked, mock.patch("builtins.print"):
+                result = run_ieee_probe.main()
+            self.assertEqual(result, 1)
+            final = json.loads((output / "result.json").read_text(encoding="utf-8"))
+            self.assertEqual(final["status"], "FAILED")
+            self.assertIn("ENVIRONMENT_ERROR", final["message"])
+            invoked.assert_not_called()
 
     def test_suite_timeout_kills_process_tree(self):
         with tempfile.TemporaryDirectory(dir=ROOT / "artifacts") as directory:

@@ -1,6 +1,7 @@
 """Materialize the committed Lake manifest without fetching unbounded Git history."""
 from concurrent.futures import ThreadPoolExecutor
 import json
+import re
 from pathlib import Path
 import subprocess
 
@@ -25,13 +26,16 @@ def materialize(entry):
         if not (path / ".git").exists():
             git("init", "--quiet")
             git("remote", "add", "origin", entry["url"])
+        dirty = git("status", "--porcelain", "--untracked-files=no")
+        if dirty.stdout.strip():
+            raise RuntimeError(f"Pinned dependency has local changes: {path}")
         head = git("rev-parse", "--verify", "HEAD", check=False)
         if head.returncode or head.stdout.strip() != entry["rev"]:
             git("fetch", "--depth", "1", "origin", entry["rev"])
             git("checkout", "--detach", entry["rev"])
         # Lake's ProofWidgets release target discovers the matching Git tag.
         # A SHA-only shallow fetch does not create it; retain locked tag metadata.
-        if name == "proofwidgets":
+        if name == "proofwidgets" and re.fullmatch(r"v[0-9]+\.[0-9]+\.[0-9]+", entry["inputRev"]):
             tag = entry["inputRev"]
             tagged = git("rev-parse", "--verify", "refs/tags/" + tag + "^{commit}", check=False)
             if tagged.returncode:

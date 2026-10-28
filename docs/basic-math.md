@@ -45,4 +45,4 @@ python tools/shaderformalize.py check --frontend shared --original examples/basi
 
 正常材质包含结构体、限幅 helper、长度/距离、平方根、倒数及衰减计算。改写版展开这些操作；完整目标同时要求实际执行域成立、输出相等。验收另有带保护分支的改写、auto 路径、错误颜色、把受限计算移出分支，以及未使用但反序的 clamp 负例。`math-extensions` 再加入代数展开、floor/ceil/frac量化、smoothstep三个正例，以及错误step边界、零界和反序三个负例。`UNPROVED` 表示当前证明未通过，不代表已经构造形式反证。
 
-实现中的 tools/shader_math.py 统一记录操作形状、域规则和发射/有限求值接口；DXC 继续负责语法、类型和重载解析。新运算复用既有 Lean 模块，无需升级当前 Lean4.24 或核心依赖。
+实现中的 tools/shader_math.py 统一记录操作形状、域规则和发射/有限求值接口；DXC继续负责语法、类型和重载解析。新运算复用实数语义模块；各数值路径统一使用Lean4.35和固定公共依赖。

@@ -30,7 +30,7 @@
 
 ## 本机运行
 
-Windows x64、PowerShell 7、Python 3.9+标准库、Git、curl。本地 Lean4.24/DXC 及锁定 mathlib 安装到仓库内，不依赖 VS Code 的 elan 配置；固定下载地址、版本与哈希在依赖锁中。
+Windows x64、PowerShell 7、Python 3.9+标准库、Git、curl。本地Lean4.35/DXC及锁定mathlib、FloatLib安装到仓库内，各数值路径共用一个proof/工作区，不依赖VS Code的elan配置；固定下载地址、版本与哈希在依赖锁中。
 
 另一台Windows机器从[异地启动指南](docs/windows-setup.md)开始，使用同名工作分支和本地bootstrap；Git不携带本机工具缓存或Unity工程。
 
@@ -148,13 +148,13 @@ shader_control.py拥有条件执行帧、Shader存活状态、分支合并及函
 
 shader_packing.py复用控制流并拥有uint类型/AST规则和载体流检查，shader_packing_lean.py发射精确位操作及转换定义域；Packing.lean复用Lean内置BitVec，保留原有公理白名单。shader_packing_eval.py仅供有限回归，不参与形式证明。
 
-proof/ShaderFormalize/Model.lean和Fragment.lean定义数学语义。dependencies.lock.json固定官方工具与二进制SHA256；proof/lake-manifest.json固定mathlib/传递Git revision，无额外submodule；FetchCache复用锁定mathlib的缓存实现。进程局部配置不修改全局PATH/elan/Git/curl。
+proof/ShaderFormalize/Model.lean和Fragment.lean定义数学语义。dependencies.lock.json固定官方工具与二进制SHA256；唯一proof/lake-manifest.json固定mathlib、FloatLib及传递Git revision，无额外submodule；bootstrap调用锁定mathlib的定向缓存入口，使用Lean自带leantar解包。进程局部配置不修改全局PATH/elan/Git/curl。
 
 .tools/、.cache/、proof/.lake/、artifacts/、生成Lean模块由Git忽略；提交源码/锁/手写证明/模板/必要说明与精简证据。Unity资产由脚本重建，不把Library复制入仓库。实验和完整日志留artifacts便于诊断，正式材料见planning/evidence；用户资料不清理。
 
 ## 可选浮点与同步原型
 
-[浮点原型与受限 HLSL 入口](prototypes/ieee/README.md)固定 FloatLib 与独立 Lean4.35，可运行 binary32 运算、NaN/正负零和位解释检查。`python tools/ieeeformalize.py check` 已将受限普通 HLSL 转成独立 `ieee-1` 模型，按每个源码运算分别最近偶数舍入、保留次正规数，并以完整存储位相等给出 `IEEE_PROVED`；它不宣称 GPU profile 匹配，也不改变核心 Lean4.24 实数 `PROVED` 的含义。
+[浮点原型与受限HLSL入口](prototypes/ieee/README.md)使用固定FloatLib，与核心共用Lean4.35和proof/工作区，可运行binary32运算、NaN/正负零和位解释检查。`python tools/ieeeformalize.py check`将受限普通HLSL转成独立`ieee-1`模型，按每个源码运算分别最近偶数舍入、保留次正规数，并以完整存储位相等给出`IEEE_PROVED`；它不宣称GPU profile匹配，也不改变核心实数`PROVED`的含义。
 
 [同步原型](prototypes/synchronization/README.md)固定本地 VerCors2.4，用实际并行访问和 barrier 权限的正负例验证外部工具可用。[固定两线程 HLSL 同步入口](docs/synchronization-hlsl.md)进一步把真实 DXC typed AST 转成 PVL，正确例、删 barrier 和共享冲突均经过外部验证器实际控制。外部安全结果不冒充 Lean 或数值等价证明。这些可选入口不参与默认核心验收，也不依赖 Unity。
 

@@ -1,12 +1,12 @@
-import GeneratedModel
+import ShaderIeee.GeneratedModel
 
-namespace ShaderFormalize.AgentProof
+namespace ShaderIeee.AgentProof
 
-theorem equivalent : ShaderFormalize.Generated.expected := by
-  unfold ShaderFormalize.Generated.expected
+theorem equivalent : ShaderIeee.Generated.expected := by
+  unfold ShaderIeee.Generated.expected
   intro p
-  unfold ShaderFormalize.Generated.original ShaderFormalize.Generated.optimized
+  unfold ShaderIeee.Generated.original ShaderIeee.Generated.optimized
   funext i
   fin_cases i <;> simp [ShaderIeee.Model.asfloat_asuint]
 
-end ShaderFormalize.AgentProof
+end ShaderIeee.AgentProof
