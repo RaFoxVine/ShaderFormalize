@@ -53,6 +53,87 @@ class IeeeFrontendTests(unittest.TestCase):
         with self.assertRaises(ModelError):
             self.compile_model(source)
 
+    def test_data_examples_and_scalar_rewrites_import(self):
+        for name in ("vector-pack", "vector-ops", "array-hash", "array-vector-loop"):
+            for role in ("original", "optimized", "wrong"):
+                with self.subTest(name=name, role=role):
+                    source = (ROOT / "examples/ieee-data" / (name + "." + role + ".hlsl")).read_text()
+                    model = self.compile_model(source)
+                    self.assertEqual(model["schema"], "ieee-1")
+                    self.assertIn("def expected", generate_ieee(model, model))
+
+    def test_data_partial_initialization_and_swizzle_swap(self):
+        body = "uint4 x; x.xy=asuint(a.xy); if(t>0.0f){x.z=1u;}else{x.z=2u;} x.w=x.x; x.xy=x.yx; return asfloat(x);"
+        self.compile_model(BASE.replace("return a * t;", body))
+        for body in ("uint4 x; x.x=1u; return asfloat(x);",
+                     "uint4 x; if(t>0.0f){x.x=1u;} return asfloat(uint4(x.x,0u,0u,0u));",
+                     "uint4 x=asuint(a); x.xx=uint2(1u,2u); return asfloat(x);",
+                     "a.xy=asfloat(uint2(1u,2u)); return a;"):
+            with self.subTest(body=body):
+                self.assert_rejected(BASE.replace("return a * t;", body))
+
+    def test_data_static_index_source_and_ieee_shift_rules(self):
+        body = "uint x[2]; for(uint i=0u;i<2u;++i){x[i << 32u]=asuint(a.x);} return asfloat(uint4(x[0],x[1],0u,0u));"
+        self.compile_model(BASE.replace("return a * t;", body))
+        rejected = ["uint x[2]={1u,2u}; uint i=0u; return asfloat(uint4(x[i],0u,0u,0u));",
+                    "uint x[2]={1u,2u}; return asfloat(uint4(x[2],0u,0u,0u));",
+                    "uint x[2]; x[0]=1u; return asfloat(uint4(x[1],0u,0u,0u));",
+                    "uint x[2]={1u,2u}; if(t>0.0f){x[2]=1u;} return a;",
+                    "uint x[2]={1u}; return a;"]
+        for body in rejected:
+            with self.subTest(body=body):
+                self.assert_rejected(BASE.replace("return a * t;",body))
+        self.assert_rejected("uint unused(uint i){uint a[2]={1u,2u}; return a[i];}\n"+BASE)
+
+    def test_data_loop_rejections_and_budgets(self):
+        for loop in ("for(uint i=0u;i<65u;++i){}", "for(uint i=0u;i<asuint(t);++i){}",
+                     "for(uint i=0u;i<2u;++i){i=1u;}", "for(uint i=0u;i<2u;++i){break;}",
+                     "for(uint i=0u;i<2u;++i){continue;}", "for(uint i=0u;i<2u;++i){return a;}",
+                     "for(uint i=0u;i<64u;++i){for(uint j=0u;j<64u;++j){}}"):
+            with self.subTest(loop=loop):
+                self.assert_rejected(BASE.replace("return a * t;",loop+"return a;"))
+        self.assert_rejected(BASE.replace("return a * t;", "uint x[1]; for(uint i=0u;i<0u;++i){x[i]=1u;} return asfloat(uint4(x[0],0u,0u,0u));"))
+        self.compile_model(BASE.replace("return a * t;", "for(uint i=0u;i<64u;++i){} return a;"))
+        prefix = "for(uint i=0u;i<63u;++i){for(uint j=0u;j<64u;++j){}} "
+        self.compile_model(BASE.replace("return a * t;", prefix+"for(uint k=0u;k<1u;++k){} return a;"))
+        self.assert_rejected(BASE.replace("return a * t;", prefix+"for(uint k=0u;k<2u;++k){} return a;"))
+
+    def test_data_compound_metadata_and_bitcast_restrictions(self):
+        for op in ("+=", "-=", "*=", "&=", "|=", "^=", "<<=", ">>="):
+            source = BASE.replace("return a * t;", "uint4 x=asuint(a); x "+op+" 1u; return asfloat(x);")
+            self.compile_model(source)
+        for body in ("uint4 x=asuint(a); if(x==0u){return a;} return a;",
+                     "uint4 x=(uint4)a; return asfloat(x);",
+                     "uint4 x=asuint(a); return asfloat(x.xy);",
+                     "uint4 x=asuint(a); x/=2u; return asfloat(x);"):
+            with self.subTest(body=body):
+                self.assert_rejected(BASE.replace("return a * t;",body))
+
+    def test_data_metadata_aliases_are_checked(self):
+        source = BASE.replace("return a * t;", "uint4 x=asuint(a); x+=1u; return asfloat(x);")
+        with tempfile.TemporaryDirectory(dir=ROOT / "artifacts") as directory:
+            path = Path(directory) / "input.hlsl"
+            path.write_text(source)
+            result = subprocess.run([str(self.dxc), "-T", "ps_6_0", "-E", "main", "-HV", "2021", "-ast-dump", str(path)], capture_output=True, text=True, encoding="utf8")
+            self.assertEqual(result.returncode, 0)
+            for field in ("ComputeLHSTy", "ComputeResultTy"):
+                for type_name in ("uint4", "vector<unsigned int, 4>"):
+                    import re
+                    changed = re.sub(r"("+field+r"='[^']+'(?::'[^']+')?)", lambda m: m[0].replace(type_name,"float4"),result.stdout)
+                    if changed != result.stdout:
+                        with self.subTest(field=field,type_name=type_name), self.assertRaises(ModelError):
+                            import_ieee(source,changed)
+
+    def test_data_counter_identity_and_helper_isolation(self):
+        helper = "uint h(uint value){uint x[2]; for(uint i=0u;i<2u;++i){x[i]=value+i;} return x[0]^x[1];}\n"
+        self.compile_model(helper+BASE.replace("return a * t;", "uint2 x; for(uint i=0u;i<2u;++i){x[i]=h(asuint(t));} return asfloat(uint4(x,x));"))
+        for helper in ("uint h(uint i){uint x[2]={1u,2u}; return x[i];}\n",
+                       "uint h(uint i){uint x[2]={1u,2u}; for(uint j=0u;j<0u;++j){x[i]=1u;} return 1u;}\n"):
+            self.assert_rejected(helper+BASE)
+        for declaration in ("struct S{uint a[2];};\n", "cbuffer C:register(b0){uint4 x;};\n"):
+            self.assert_rejected(declaration+BASE)
+        self.assert_rejected("float4 main(uint4 input:COLOR0):SV_Target{return asfloat(input);}")
+
     def test_literal_preserves_exact_decimal_scientific_form(self):
         token = "0.123456789123456789e-7"
         model = self.compile_model(BASE.replace("a * t", "a * " + token))
@@ -90,7 +171,7 @@ class IeeeFrontendTests(unittest.TestCase):
             "uint-division": BASE.replace("return a * t;", "uint x = asuint(t) / 2u; return a * asfloat(x);"),
             "uint-remainder": BASE.replace("return a * t;", "uint x = asuint(t) % 2u; return a * asfloat(x);"),
             "matrix": BASE.replace("return a * t;", "float2x2 m; return a * t;"),
-            "array": BASE.replace("return a * t;", "float x[2]; return a * t;"),
+            "array-dynamic": BASE.replace("return a * t;", "float x[2] = {1.0f, 2.0f}; return a * x[asuint(t)];"),
             "out": "void helper(out float x) { x = 1; }\n" + BASE,
             "default": "float helper(float x = 1) { return x; }\n" + BASE,
             "resource": "Texture2D<float4> image : register(t0);\n" + BASE,

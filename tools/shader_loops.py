@@ -29,10 +29,16 @@ def frame_order(entry):
     return (1, 0) if entry["frame"] == "main" else (0, entry["frame"])
 
 
-class LoopProgram(AggregateProgram):
+class StaticLoopMixin:
     def __init__(self, source, dump):
         self.loop_specs, self.function_loops = {}, {}
         super().__init__(source, dump)
+
+    def loop_constant(self, node):
+        return constant_ast(node, self.source)
+
+    def loop_terminal_effect(self, function):
+        return self.function_effects[function["id"]]["discard"]
 
     def counter_reference(self, node, counter):
         while node.kind == "ParenExpr" or (node.kind == "ImplicitCastExpr" and node.text.endswith("<LValueToRValue>")):
@@ -69,8 +75,8 @@ class LoopProgram(AggregateProgram):
                 or re.search(r" (?:lvalue )?(?:prefix|postfix) '\+\+'$", increment.text) is None):
             raise ModelError("Only unit prefix/postfix uint increment is supported")
         self.counter_reference(increment.children[0], counter)
-        start = constant_ast(counter.children[0], self.source)
-        end = constant_ast(end_node, self.source)
+        start = self.loop_constant(counter.children[0])
+        end = self.loop_constant(end_node)
         if start is None or end is None:
             raise ModelError("For-loop bounds must be statically known pure uint constants")
         count = max(end - start, 0)
@@ -91,7 +97,7 @@ class LoopProgram(AggregateProgram):
                 raise ModelError("Loop bodies cannot return or terminate the Shader")
             if child.kind == "CallExpr":
                 function, _, _ = self.checked_call(child)
-                if function is not None and self.function_effects[function["id"]]["discard"]:
+                if function is not None and self.loop_terminal_effect(function):
                     raise ModelError("Loop helper cannot reach a terminal discard")
             pending.extend(child.children)
         validate_block(statement_block(spec["body"]), result_type, self, effects_allowed)
@@ -137,14 +143,21 @@ class LoopProgram(AggregateProgram):
         self.function_loops[function["id"]] = frame.get("loops", [])
         return result
 
+    def loop_frame_name(self, key):
+        return "main" if self.functions[key] is self.main else self.helper_indices[key]
+
     def model(self):
         model = super().model()
         frames = []
         for key, regions in self.function_loops.items():
             if regions:
-                frame = "main" if self.functions[key] is self.main else self.helper_indices[key]
+                frame = self.loop_frame_name(key)
                 frames.append({"frame": frame, "regions": regions})
         if frames:
             frames.sort(key=frame_order)
             model.update(loop_semantics="exact-static-uint-for-v1", loops=frames)
         return model
+
+
+class LoopProgram(StaticLoopMixin, AggregateProgram):
+    pass

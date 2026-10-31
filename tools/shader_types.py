@@ -34,9 +34,28 @@ def operation(kind, size, arguments):
     return {"kind": kind, "width": size, "arguments": arguments}
 
 
+def lane_count(kind):
+    if isinstance(kind, int) and 1 <= kind <= 4:
+        return kind
+    if kind in ("uint", "uint2", "uint3", "uint4"):
+        return 1 if kind == "uint" else int(kind[-1])
+    raise ModelError(f"Not a numeric shape: {kind}")
+
+
+def scalar_type(kind):
+    lane_count(kind)
+    return 1 if isinstance(kind, int) else "uint"
+
+
+def vector_type(scalar, lanes):
+    if not 1 <= lanes <= 4 or scalar not in (1, "uint"):
+        raise ModelError("Invalid numeric vector shape")
+    return lanes if scalar == 1 else ("uint" if lanes == 1 else f"uint{lanes}")
+
+
 def numeric_type(size):
-    if size == "uint":
-        return "uint"
+    if size in ("uint", "uint2", "uint3", "uint4"):
+        return size
     return "float" if size == 1 else f"float{size}"
 
 

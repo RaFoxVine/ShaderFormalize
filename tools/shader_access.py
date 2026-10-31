@@ -61,7 +61,7 @@ class AccessChecker:
         nodes = node.children[1:]
         parts, outputs = [], []
         for index, argument in enumerate(nodes):
-            mode = "in" if function is None else function["parameters"][index]["mode"]
+            mode = "in" if function is None else function["parameters"][index].get("mode", "in")
             if mode != "in":
                 addresses, (reads, writes) = self.address(self.program.output_argument(argument, function["parameters"][index]), True)
                 if any(overlaps(address, other) for address in addresses for other in outputs):

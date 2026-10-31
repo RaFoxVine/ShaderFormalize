@@ -2,7 +2,8 @@
 import re
 
 from shader_ast import ModelError, literal, quoted
-from shader_addresses import CapturedAddress, describe, index_parts
+from shader_addresses import CapturedAddress, index_parts
+from shader_local_values import LocalValues, rooted
 from shader_aggregate_types import AggregateTypes, packing
 from shader_aggregate_values import components, constant_ast, constant_value, vector
 from shader_copyback import CopybackProgram
@@ -12,19 +13,7 @@ from shader_control_values import zero_value
 from shader_types import component_mask, declaration_name, identifier, initialized, operation, reference, value_type
 
 
-def rooted(node):
-    if node.kind == "DeclRefExpr":
-        return re.search(r"\b(?:ParmVar|Var) 0x[0-9a-fA-F]+ ", node.text) is not None
-    if node.kind in ("ParenExpr", "ImplicitCastExpr", "MemberExpr", "HLSLVectorElementExpr") and len(node.children) == 1:
-        return rooted(node.children[0])
-    if node.kind == "ArraySubscriptExpr" and len(node.children) == 2:
-        return rooted(node.children[0])
-    if node.kind == "CXXOperatorCallExpr" and len(node.children) == 3:
-        return rooted(node.children[1])
-    return False
-
-
-class AggregateProgram(CopybackProgram):
+class AggregateProgram(LocalValues, CopybackProgram):
     type_registry = AggregateTypes
 
     def __init__(self, source, dump):
@@ -34,27 +23,11 @@ class AggregateProgram(CopybackProgram):
     def read_buffer(self, node):
         return buffer_declaration(node, check_numeric=False)
 
-    def address_spec(self, node, writable=False):
-        return describe(node, self, writable)
 
-    def access_address(self, node):
-        if node.kind in ("DeclRefExpr", "MemberExpr", "HLSLVectorElementExpr", "ArraySubscriptExpr", "CXXOperatorCallExpr") and rooted(node):
-            return self.address_spec(node)
-        return None
-
-    def index_operands(self, node):
-        receiver, index, _, _, _ = index_parts(node, self.types)
-        return [receiver, index]
-
-    def address_type(self, node):
-        from shader_validation import validate_expression
-        spec = self.address_spec(node, True)
-        for index in spec.index_nodes():
-            validate_expression(index, self)
-        return spec.kind
-
-    def capture_destination(self, node, symbols):
-        return self.address_spec(node, True).capture(symbols)
+    def capture_index(self, node, index, size, symbols):
+        constant = constant_value(index, self.bindings)
+        checked = self.snapshot(dict(operation("bounded_index", "uint", [index]), size=size), "index.checked")
+        return constant, checked
 
     def index_value(self, node, symbols):
         if self.types.node_type(node) == "literal_int":
@@ -119,15 +92,6 @@ class AggregateProgram(CopybackProgram):
             model.update(uniform_layout=self.uniform_layouts, input_groups=self.input_groups)
         return model
 
-    def select(self, condition, yes, no, name):
-        if (yes is not None and no is not None and
-                (yes["kind"] == "partial_vector" or no["kind"] == "partial_vector")):
-            if value_type(yes) != value_type(no):
-                raise ModelError("Partial vector join type mismatch")
-            parts = [self.select(condition, a, b, name + f".{i}")
-                     for i, (a, b) in enumerate(zip(components(yes, value_type(yes)), components(no, value_type(no))))]
-            return vector(parts)
-        return super().select(condition, yes, no, name)
 
     def validate_statement(self, node, result_type, effects_allowed):
         from shader_validation import validate_expression
@@ -181,18 +145,7 @@ class AggregateProgram(CopybackProgram):
         from shader_validation import validate_expression
         shape = self.types.aggregates.get(kind)
         if shape is not None and shape["kind"] == "array":
-            if node.kind != "InitListExpr" or len(node.children) != shape["length"]:
-                raise ModelError("Arrays require one complete initializer per element")
-            # Pinned DXC marks nested array InitListExpr as void: the checked
-            # parent shape supplies the element type, never a guessed source cast.
-            for child in node.children:
-                if shape["element"] in self.types.aggregates and self.types.aggregates[shape["element"]]["kind"] == "array":
-                    self.validate_initializer(child, shape["element"])
-                else:
-                    validate_expression(child, self)
-                    if self.types.node_type(child) != shape["element"]:
-                        raise ModelError("Array initializer element type mismatch")
-            return
+            return self.validate_array_initializer(node, kind)
         if self.is_matrix(kind):
             sizes = []
             for child in node.children:
@@ -206,12 +159,7 @@ class AggregateProgram(CopybackProgram):
     def initializer(self, node, kind, symbols):
         shape = self.types.aggregates[kind]
         if shape["kind"] == "array":
-            fields = {}
-            for i, child in enumerate(node.children):
-                child_kind = shape["element"]
-                fields[f"e{i}"] = (self.initializer(child, child_kind, symbols)
-                    if child_kind in self.types.aggregates and self.types.aggregates[child_kind]["kind"] == "array"
-                    else self.expression(child, symbols))
+            return self.array_initializer(node, kind, symbols)
         else:
             values = []
             for child in node.children:

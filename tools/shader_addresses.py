@@ -5,7 +5,7 @@ from shader_ast import ModelError, quoted, source_header
 from shader_aggregate_values import components, constant_ast, constant_value, vector
 from shader_frontend import swizzle_indices
 from shader_packing import has_payload
-from shader_types import component_mask, initialized, operation, value_type
+from shader_types import component_mask, initialized, operation, value_type, lane_count, scalar_type, vector_type
 
 
 def index_parts(node, types):
@@ -17,7 +17,7 @@ def index_parts(node, types):
     elif node.kind == "CXXOperatorCallExpr" and len(node.children) == 3:
         callee, receiver, index = node.children
         owner = types.node_type(receiver)
-        if not (isinstance(owner, int) or (owner in types.aggregates and types.aggregates[owner]["kind"] == "matrix")):
+        if not (isinstance(owner, int) or owner in ("uint2", "uint3", "uint4") or (owner in types.aggregates and types.aggregates[owner]["kind"] == "matrix")):
             raise ModelError("Only DXC vector/matrix builtin operator[] is supported")
         if (callee.kind != "ImplicitCastExpr" or not callee.text.endswith("<FunctionToPointerDecay>")
                 or len(callee.children) != 1):
@@ -85,8 +85,7 @@ class AddressSpec:
                 steps.append(step)
                 continue
             index = self.program.index_value(step["node"], symbols)
-            constant = constant_value(index, self.program.bindings)
-            checked = self.program.snapshot(dict(operation("bounded_index", "uint", [index]), size=step["size"]), "index.checked")
+            constant, checked = self.program.capture_index(step["node"], index, step["size"], symbols)
             steps.append(dict(step, value=checked, constant=constant))
         return CapturedAddress(self.program, symbol, steps, self.kind)
 
@@ -116,13 +115,13 @@ def describe(node, program, writable=False):
             {"kind": "index", "owner": owner, "node": index, "size": size, "type": kind}], kind, program, base.identity)
     if node.kind == "HLSLVectorElementExpr" and len(node.children) == 1:
         base = describe(node.children[0], program, writable)
-        if not isinstance(base.kind, int):
+        if not (isinstance(base.kind, int) or base.kind in ("uint2", "uint3", "uint4")):
             raise ModelError("Component address receiver is not a float vector")
-        indices = swizzle_indices(component_mask(node), base.kind)
+        indices = swizzle_indices(component_mask(node), lane_count(base.kind))
         if writable and len(set(indices)) != len(indices):
             raise ModelError("Writable swizzles cannot repeat components")
         kind = types.node_type(node)
-        if kind != len(indices):
+        if kind != vector_type(scalar_type(base.kind), len(indices)):
             raise ModelError("Component address type mismatch")
         return AddressSpec(base.root, base.root_type, base.steps + [
             {"kind": "components", "owner": base.kind, "indices": indices, "type": kind}], kind, program, base.identity)
@@ -141,17 +140,17 @@ class CapturedAddress:
         return dict(operation("compare", "bool", [step["value"], value]), operator="==")
 
     def element(self, value, owner, index):
-        if isinstance(owner, int):
+        if isinstance(owner, int) or owner in ("uint2", "uint3", "uint4"):
             return components(value, owner)[index]
         return value["fields"][self.program.types.element_name(owner, index)]
 
     def replace_element(self, value, owner, index, replacement):
-        if isinstance(owner, int):
+        if isinstance(owner, int) or owner in ("uint2", "uint3", "uint4"):
             if has_payload(replacement):
                 raise ModelError("Bit carriers cannot be vector components")
             values = list(components(value, owner))
             values[index] = replacement
-            return vector(values)
+            return vector(values, owner)
         fields = dict(value["fields"])
         fields[self.program.types.element_name(owner, index)] = replacement
         return dict(value, fields=fields)
@@ -164,9 +163,9 @@ class CapturedAddress:
             return self.read_from(value["fields"][step["name"]], rest)
         if step["kind"] == "components":
             if not rest and value is not None and value["kind"] != "partial_vector":
-                return dict(operation("swizzle", len(step["indices"]), [initialized(value)]), indices=step["indices"])
+                return dict(operation("swizzle", step["type"], [initialized(value)]), indices=step["indices"])
             parts = components(value, step["owner"])
-            return self.read_from(vector([parts[i] for i in step["indices"]]), rest)
+            return self.read_from(vector([parts[i] for i in step["indices"]], step["type"]), rest)
         constant = step["constant"]
         if constant is not None:
             # The captured bounded_index separately proves this fallback unused.
@@ -187,7 +186,7 @@ class CapturedAddress:
             self.ensure_target_initialized(value["fields"][step["name"]], rest)
         elif step["kind"] == "components":
             parts = components(value, step["owner"])
-            self.ensure_target_initialized(vector([parts[i] for i in step["indices"]]), rest)
+            self.ensure_target_initialized(vector([parts[i] for i in step["indices"]], step["type"]), rest)
         else:
             indices = range(step["size"]) if step["constant"] is None else [min(step["constant"], step["size"] - 1)]
             for index in indices:
@@ -205,12 +204,12 @@ class CapturedAddress:
             if has_payload(replacement):
                 raise ModelError("Bit carriers cannot be vector components")
             parts = list(components(value, step["owner"]))
-            selected = vector([parts[i] for i in step["indices"]])
+            selected = vector([parts[i] for i in step["indices"]], step["type"])
             changed = self.write_to(selected, rest, replacement)
-            writes = components(changed, len(step["indices"]))
+            writes = components(changed, step["type"])
             for index, item in zip(step["indices"], writes):
                 parts[index] = item
-            return vector(parts)
+            return vector(parts, step["owner"])
         constant = step["constant"]
         if constant is not None:
             if constant >= step["size"]:

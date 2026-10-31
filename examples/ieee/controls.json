@@ -204,6 +204,66 @@
       "proof": "proof/ShaderIeee/FloatControlProof.lean",
       "expected": "UNPROVED",
       "message": "lean-SubmittedProof.log"
+    },
+    {
+      "name": "data-vector-pack",
+      "original": "examples/ieee-data/vector-pack.original.hlsl",
+      "optimized": "examples/ieee-data/vector-pack.optimized.hlsl",
+      "proof": "proof/ShaderIeee/vector_packProof.lean",
+      "expected": "IEEE_PROVED"
+    },
+    {
+      "name": "data-vector-pack-wrong",
+      "original": "examples/ieee-data/vector-pack.original.hlsl",
+      "optimized": "examples/ieee-data/vector-pack.wrong.hlsl",
+      "proof": "proof/ShaderIeee/vector_packProof.lean",
+      "expected": "UNPROVED",
+      "message": "lean-SubmittedProof.log"
+    },
+    {
+      "name": "data-vector-ops",
+      "original": "examples/ieee-data/vector-ops.original.hlsl",
+      "optimized": "examples/ieee-data/vector-ops.optimized.hlsl",
+      "proof": "proof/ShaderIeee/vector_opsProof.lean",
+      "expected": "IEEE_PROVED"
+    },
+    {
+      "name": "data-vector-ops-wrong",
+      "original": "examples/ieee-data/vector-ops.original.hlsl",
+      "optimized": "examples/ieee-data/vector-ops.wrong.hlsl",
+      "proof": "proof/ShaderIeee/vector_opsProof.lean",
+      "expected": "UNPROVED",
+      "message": "lean-SubmittedProof.log"
+    },
+    {
+      "name": "data-array-hash",
+      "original": "examples/ieee-data/array-hash.original.hlsl",
+      "optimized": "examples/ieee-data/array-hash.optimized.hlsl",
+      "proof": "proof/ShaderIeee/array_hashProof.lean",
+      "expected": "IEEE_PROVED"
+    },
+    {
+      "name": "data-array-hash-wrong",
+      "original": "examples/ieee-data/array-hash.original.hlsl",
+      "optimized": "examples/ieee-data/array-hash.wrong.hlsl",
+      "proof": "proof/ShaderIeee/array_hashProof.lean",
+      "expected": "UNPROVED",
+      "message": "lean-SubmittedProof.log"
+    },
+    {
+      "name": "data-array-vector-loop",
+      "original": "examples/ieee-data/array-vector-loop.original.hlsl",
+      "optimized": "examples/ieee-data/array-vector-loop.optimized.hlsl",
+      "proof": "proof/ShaderIeee/array_vector_loopProof.lean",
+      "expected": "IEEE_PROVED"
+    },
+    {
+      "name": "data-array-vector-loop-wrong",
+      "original": "examples/ieee-data/array-vector-loop.original.hlsl",
+      "optimized": "examples/ieee-data/array-vector-loop.wrong.hlsl",
+      "proof": "proof/ShaderIeee/array_vector_loopProof.lean",
+      "expected": "UNPROVED",
+      "message": "lean-SubmittedProof.log"
     }
   ]
 }

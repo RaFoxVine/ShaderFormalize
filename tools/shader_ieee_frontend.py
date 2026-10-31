@@ -7,7 +7,7 @@ from shader_frontend import Program, callee_reference, swizzle_indices
 from shader_flow import GuardedProgram
 from shader_packing import uint_literal as packing_uint_literal
 from shader_types import (TypeRegistry, component_mask, initialized, numeric_type, operation,
-                          read_path, replace_path, value_type)
+                          read_path, replace_path, value_type, lane_count, scalar_type, vector_type)
 from shader_validation import lvalue_type
 
 
@@ -20,19 +20,29 @@ COMPARISONS = ("<", "<=", ">", ">=", "==", "!=")
 
 
 class IeeeTypeRegistry(TypeRegistry):
-    extra_leaves = ("uint",)
+    extra_leaves = ("uint", "uint2", "uint3", "uint4")
 
     def node_type(self, node):
         types = quoted(node.text)
         name = types[0].removeprefix("const ") if types else None
-        if name in ("uint", "unsigned int"):
+        if name in self.extra_leaves:
+            return name
+        match = re.fullmatch(r"vector<\s*(?:uint|unsigned int)\s*,\s*([1-4])\s*>", name or "")
+        if match:
+            return vector_type("uint", int(match.group(1)))
+        if name == "unsigned int":
             return "uint"
         if name == "literal float" and node.kind == "ConditionalOperator":
             return 1
         return super().node_type(node)
 
     def named_type(self, name):
-        if name in ("uint", "unsigned int"):
+        if name in self.extra_leaves:
+            return name
+        match = re.fullmatch(r"vector<\s*(?:uint|unsigned int)\s*,\s*([1-4])\s*>", name or "")
+        if match:
+            return vector_type("uint", int(match.group(1)))
+        if name == "unsigned int":
             return "uint"
         return super().named_type(name)
 
@@ -94,13 +104,13 @@ class IeeeSemantics:
         return None
 
     def uint_compound_operator(self, node):
-        pattern = (r" lvalue '(\+=|-=|\*=|&=|\|=|\^=|<<=|>>=)'"
-                   r" ComputeLHSTy='(?:uint|unsigned int)'(?::'(?:uint|unsigned int)')?"
-                   r" ComputeResultTy='(?:uint|unsigned int)'(?::'(?:uint|unsigned int)')?$")
-        match = re.search(pattern, node.text)
-        if (match is None or len(node.children) != 2 or self.types.node_type(node) != "uint"
-                or any(self.types.node_type(child) != "uint" for child in node.children)):
-            raise ModelError("Unsupported uint compound assignment or computation type")
+        match = re.search(r" lvalue '(\+=|-=|\*=|&=|\|=|\^=|<<=|>>=)' ComputeLHSTy='([^']+)'(?::'[^']+')? ComputeResultTy='([^']+)'(?::'[^']+')?$", node.text)
+        kind = self.types.node_type(node)
+        if match is None or kind not in self.types.extra_leaves or len(node.children) != 2:
+            raise ModelError("Unsupported uint compound assignment")
+        metadata = node.text[node.text.index(" ComputeLHSTy="):]
+        if any(self.types.named_type(t) != kind for t in re.findall(r"'([^']*)'", metadata)) or any(self.types.node_type(c) != kind for c in node.children):
+            raise ModelError("Uint compound metadata mismatch")
         return UINT_OPERATORS[match.group(1)[:-1]]
 
     def assign_statement(self, node, symbols):
@@ -117,6 +127,8 @@ class IeeeSemantics:
         return True
 
     def zero_value(self, kind):
+        if kind in ("uint2", "uint3", "uint4"):
+            return operation("splat", kind, [self.zero_value("uint")])
         if kind == "uint":
             return {"kind": "uint_literal", "width": "uint", "value": 0}
         if kind == "bool":
@@ -158,11 +170,11 @@ class IeeeSemantics:
                 return
             if cast == "FloatingCast" and kind == 1 and quoted(child.text)[:1] == ["literal float"]:
                 return
-            if cast == "HLSLVectorSplat" and child_type == 1 and isinstance(kind, int):
+            if cast == "HLSLVectorSplat" and child_type == scalar_type(kind):
                 return
             raise ModelError(f"Numeric conversion is outside the IEEE subset: {cast}")
         if node.kind in ("ParenExpr", "CXXFunctionalCastExpr") and len(node.children) == 1:
-            if node.kind == "CXXFunctionalCastExpr" and (not isinstance(kind, int) or not node.text.endswith("<NoOp>")):
+            if node.kind == "CXXFunctionalCastExpr" and (kind not in self.types.extra_leaves and not isinstance(kind, int) or not node.text.endswith("<NoOp>")):
                 raise ModelError("Only component-preserving vector constructors are supported")
             self.validate_ieee_expression(node.children[0])
             if self.types.node_type(node.children[0]) != kind:
@@ -176,21 +188,21 @@ class IeeeSemantics:
             return
         if node.kind == "CXXBoolLiteralExpr" and kind == "bool" and not node.children and node.text.endswith((" true", " false")):
             return
-        if node.kind == "InitListExpr" and isinstance(kind, int) and kind > 1:
+        if node.kind == "InitListExpr" and (isinstance(kind, int) and kind > 1 or kind in ("uint2", "uint3", "uint4")):
             sizes = []
             for child in node.children:
                 self.validate_ieee_expression(child)
                 sizes.append(self.types.node_type(child))
-            if not all(isinstance(size, int) for size in sizes) or sum(sizes) != kind:
+            if not all(scalar_type(size) == scalar_type(kind) for size in sizes) or sum(lane_count(size) for size in sizes) != lane_count(kind):
                 raise ModelError("Constructor component count mismatch")
             return
         if node.kind == "HLSLVectorElementExpr" and len(node.children) == 1:
             self.validate_ieee_expression(node.children[0])
             owner = self.types.node_type(node.children[0])
             mask = component_mask(node)
-            if not isinstance(owner, int) or owner == 1 or len(mask) != kind:
+            if lane_count(owner) == 1 or vector_type(scalar_type(owner), len(mask)) != kind:
                 raise ModelError("Unsupported vector component expression")
-            swizzle_indices(mask, owner)
+            swizzle_indices(mask, lane_count(owner))
             return
         if node.kind == "UnaryOperator" and len(node.children) == 1:
             operator = quoted(node.text)[-1]
@@ -200,7 +212,7 @@ class IeeeSemantics:
                 return
             if operator == "!" and child_type == kind == "bool":
                 return
-            if operator in ("~", "-") and child_type == kind == "uint":
+            if operator in ("~", "-") and child_type == kind and kind in self.types.extra_leaves:
                 return
             raise ModelError(f"Unsupported unary operator/types: {operator}")
         if node.kind == "BinaryOperator" and len(node.children) == 2:
@@ -209,7 +221,7 @@ class IeeeSemantics:
                 self.validate_ieee_expression(child)
             child_types = [self.types.node_type(child) for child in node.children]
             arithmetic = operator in ("+", "-", "*", "/") and isinstance(kind, int) and child_types == [kind, kind]
-            uint_arithmetic = kind == "uint" and child_types == ["uint", "uint"] and operator in UINT_OPERATORS
+            uint_arithmetic = kind in self.types.extra_leaves and child_types == [kind, kind] and operator in UINT_OPERATORS
             comparison = kind == "bool" and child_types in ([1, 1], ["uint", "uint"]) and operator in COMPARISONS
             boolean = kind == "bool" and child_types == ["bool", "bool"] and operator in ("&&", "||", "==", "!=")
             if arithmetic or uint_arithmetic or comparison or boolean:
@@ -238,13 +250,14 @@ class IeeeSemantics:
                 raise ModelError("Function call argument/result type mismatch")
             return function, name, size
         valid = ((name == "sqrt" and isinstance(size, int) and widths == [size]) or
-                 (name == "asfloat" and size == 1 and widths == ["uint"]) or
-                 (name == "asuint" and size == "uint" and widths in ([1], ["uint"])))
+                 (name == "asfloat" and isinstance(size, int) and widths == [vector_type("uint", size)]) or
+                 (name == "asuint" and size in self.types.extra_leaves and widths in ([lane_count(size)], [size])))
         if not valid:
             raise ModelError("Only defined helpers, sqrt, asfloat and scalar asuint are supported")
         expected = numeric_type(size) + "(" + ",".join(numeric_type(width) for width in widths) + ")"
         normalized = signature.replace("unsigned int", "uint").replace(" ", "").replace("vector<float,1>", "float")
-        for width in (2, 3, 4):
+        for width in (1, 2, 3, 4):
+            normalized = normalized.replace(f"vector<uint,{width}>", vector_type("uint", width))
             normalized = normalized.replace(f"vector<float,{width}>", f"float{width}")
         normalized = re.sub(r"\bfloat1\b", "float", normalized)
         if normalized != expected:
@@ -264,7 +277,7 @@ class IeeeSemantics:
             arguments = [self.expression(child, symbols) for child in node.children[1:]]
             if function is not None:
                 return self.invoke(function, arguments)
-            if name == "asuint" and value_type(arguments[0]) == "uint":
+            if name == "asuint" and value_type(arguments[0]) in self.types.extra_leaves:
                 return arguments[0]
             return operation(name, size, arguments)
         if node.kind == "ImplicitCastExpr" and len(node.children) == 1:
@@ -278,8 +291,8 @@ class IeeeSemantics:
                 return child
             if cast == "FloatingCast" and quoted(child_node.text)[:1] == ["literal float"] and kind == 1:
                 return child
-            if cast == "HLSLVectorSplat" and value_type(child) == 1 and isinstance(kind, int):
-                return child if kind == 1 else operation("splat", kind, [child])
+            if cast == "HLSLVectorSplat" and value_type(child) == scalar_type(kind):
+                return child if lane_count(kind) == 1 else operation("splat", kind, [child])
             raise ModelError(f"Unsupported IEEE conversion: {cast}")
         if node.kind in ("ParenExpr", "CXXFunctionalCastExpr") and len(node.children) == 1:
             child = self.expression(node.children[0], symbols)
@@ -292,15 +305,15 @@ class IeeeSemantics:
             return uint_literal(node, self.source)
         if node.kind == "CXXBoolLiteralExpr" and kind == "bool" and not node.children:
             return {"kind": "boolean", "width": "bool", "value": node.text.endswith(" true")}
-        if node.kind == "InitListExpr" and isinstance(kind, int) and kind > 1:
+        if node.kind == "InitListExpr" and (isinstance(kind, int) and kind > 1 or kind in ("uint2", "uint3", "uint4")):
             arguments = [self.expression(child, symbols) for child in node.children]
-            if any(not isinstance(value_type(arg), int) for arg in arguments) or sum(arg["width"] for arg in arguments) != kind:
+            if any(scalar_type(value_type(arg)) != scalar_type(kind) for arg in arguments) or sum(lane_count(arg["width"]) for arg in arguments) != lane_count(kind):
                 raise ModelError("Constructor component count mismatch")
             return operation("construct", kind, arguments)
         if node.kind == "HLSLVectorElementExpr" and len(node.children) == 1:
             child = self.expression(node.children[0], symbols)
-            indices = swizzle_indices(component_mask(node), child["width"])
-            if len(indices) != kind:
+            indices = swizzle_indices(component_mask(node), lane_count(child["width"]))
+            if vector_type(scalar_type(child["width"]), len(indices)) != kind:
                 raise ModelError("Component selection type mismatch")
             return dict(operation("swizzle", kind, [child]), indices=indices)
         if node.kind == "UnaryOperator" and len(node.children) == 1:
@@ -310,13 +323,13 @@ class IeeeSemantics:
                 return operation("negate", kind, [child])
             if operator == "!" and value_type(child) == kind == "bool":
                 return operation("not", kind, [child])
-            if value_type(child) == kind == "uint" and operator in ("~", "-"):
+            if value_type(child) == kind and kind in self.types.extra_leaves and operator in ("~", "-"):
                 return operation("uint_not" if operator == "~" else "uint_negate", kind, [child])
             raise ModelError(f"Unsupported IEEE unary operator: {operator}")
         if node.kind == "BinaryOperator" and len(node.children) == 2:
             operator = quoted(node.text)[-1]
             arguments = [self.expression(child, symbols) for child in node.children]
-            if kind == "uint" and operator in UINT_OPERATORS and all(value_type(arg) == "uint" for arg in arguments):
+            if kind in self.types.extra_leaves and operator in UINT_OPERATORS and all(value_type(arg) == kind for arg in arguments):
                 return operation(UINT_OPERATORS[operator], kind, arguments)
             if operator in ("+", "-", "*", "/") and isinstance(kind, int):
                 if any(value_type(arg) != kind for arg in arguments):
@@ -373,7 +386,16 @@ class IeeeControlProgram(IeeeSemantics, GuardedProgram):
 
 def import_ieee(source, dump):
     validate_source(source)
-    nodes = [parse_tree(dump)]
+    root = parse_tree(dump)
+    nodes = [root]
+    while nodes:
+        node = nodes.pop()
+        names = re.findall(r"'([^']*)'", node.text)[:1]
+        if node.kind in ("ForStmt", "AttributedStmt") or any("[" in n or re.search(r"uint[234]|vector<\s*(?:uint|unsigned int)\s*,\s*[234]", n) for n in names):
+            from shader_ieee_data import IeeeDataProgram
+            return IeeeDataProgram(source, dump).model()
+        nodes.extend(node.children)
+    nodes = [root]
     while nodes:
         node = nodes.pop()
         if node.kind == "IfStmt":

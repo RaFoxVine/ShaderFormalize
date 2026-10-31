@@ -2,6 +2,7 @@
 import re
 
 from shader_ast import ModelError
+from shader_types import lane_count
 
 
 PROFILE = "binary32-rne-preserve-subnormals-separate-ops-v1"
@@ -41,6 +42,8 @@ def lean_type(kind):
         return "Bool"
     if kind == "uint":
         return "UInt32"
+    if kind in ("uint2", "uint3", "uint4"):
+        return f"Fin {lane_count(kind)} → UInt32"
     if kind == 1:
         return "ShaderIeee.Binary32"
     if isinstance(kind, int) and 2 <= kind <= 4:
@@ -72,13 +75,13 @@ class IeeeEmitter:
         if expr["kind"] == "swizzle":
             source = self.components(expr["arguments"][0])
             return [source[index] for index in expr["indices"]]
-        if expr["width"] == 1:
+        if lane_count(expr["width"]) == 1:
             return [self.value(expr)]
-        return [self.element(expr, index) for index in range(expr["width"])]
+        return [self.element(expr, index) for index in range(lane_count(expr["width"]))]
 
     def element(self, expr, index):
         kind = expr["kind"]
-        if expr["width"] == 1:
+        if lane_count(expr["width"]) == 1:
             return self.value(expr)
         if kind in ("parameter", "local"):
             name = ("p" if kind == "parameter" else "l") + str(expr["index"])
@@ -104,7 +107,7 @@ class IeeeEmitter:
             return "true" if expr["value"] else "false"
         if kind in ("construct", "swizzle"):
             components = self.components(expr)
-            return components[0] if width == 1 else vector_literal(components)
+            return components[0] if lane_count(width) == 1 else vector_literal(components)
         arguments = expr.get("arguments", [])
         if kind.startswith("uint_"):
             functions = {
@@ -113,8 +116,11 @@ class IeeeEmitter:
                 "uint_shift_left": "uintShiftLeft", "uint_shift_right": "uintShiftRight",
                 "uint_not": "uintNot", "uint_negate": "uintNegate",
             }
-            if kind not in functions or width != "uint":
+            if kind not in functions or width not in ("uint", "uint2", "uint3", "uint4"):
                 raise ModelError(f"Unknown IEEE integer operation: {kind}")
+            if width != "uint":
+                values = " ".join(self.element(argument, "i") for argument in arguments)
+                return f"(fun i => ShaderIeee.Model.{functions[kind]} {values})"
             values = " ".join(self.value(argument) for argument in arguments)
             return f"(ShaderIeee.Model.{functions[kind]} {values})"
         if kind == "splat":
@@ -155,6 +161,8 @@ class IeeeEmitter:
             condition, yes, no = [self.value(argument) for argument in arguments]
             return f"(if {condition} then {yes} else {no})"
         if kind in ("asfloat", "asuint"):
+            if lane_count(width) > 1:
+                return f"(fun i => ShaderIeee.Model.{kind} {self.element(arguments[0], 'i')})"
             return f"(ShaderIeee.Model.{kind} {self.value(arguments[0])})"
         raise ModelError(f"Unknown IEEE IR operation: {kind}")
 

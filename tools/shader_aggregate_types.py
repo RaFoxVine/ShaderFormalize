@@ -2,6 +2,7 @@
 import re
 
 from shader_ast import ModelError, quoted
+from shader_array_types import FixedArrayTypes
 from shader_copyback import CopybackTypes
 from shader_types import identifier
 
@@ -15,7 +16,7 @@ def clean_type(name):
     return re.sub(r"\s+", " ", re.sub(r"\b(const|row_major|column_major|__restrict)\b", "", name)).strip()
 
 
-class AggregateTypes(CopybackTypes):
+class AggregateTypes(FixedArrayTypes, CopybackTypes):
     def __init__(self, declarations, allow_bool=False):
         self.aggregates = {}
         self.ready_shapes = False
@@ -27,35 +28,10 @@ class AggregateTypes(CopybackTypes):
                     field["packing"] = packing(nodes[field["id"]])
         self.ready_shapes = True
 
-    def register(self, key, shape, fields):
-        if key not in self.aggregates:
-            if len(self.aggregates) >= 256:
-                raise ModelError("More than 256 matrix/array types")
-            self.aggregates[key] = shape
-            self.records[key] = {"node": None, "fields": [
-                {"name": name, "type": kind, "semantic": None, "id": None} for name, kind in fields]}
-            if self.ready_shapes:
-                self.check_shape(key, [])
-        return key
-
     def named_type(self, name):
         name = clean_type(name)
         if "[" in name:
-            base, _, suffix = name.partition("[")
-            suffix = "[" + suffix
-            if not re.fullmatch(r"(?:\[\s*[0-9]+\s*\])+", suffix):
-                raise ModelError("Only fixed array lengths are supported")
-            dimensions = [int(n) for n in re.findall(r"\[\s*([0-9]+)\s*\]", suffix)]
-            if len(dimensions) > 16 or any(not 1 <= n <= 64 for n in dimensions):
-                raise ModelError("Array length/depth exceeds the supported budget")
-            result = self.named_type(base.strip())
-            if result in ("void", "Texture2D", "SamplerState"):
-                raise ModelError("Array element is not an ordinary value")
-            for length in reversed(dimensions):
-                key = f"$array{length}<{result}>"
-                result = self.register(key, {"kind": "array", "length": length, "element": result},
-                                       [(f"e{i}", result) for i in range(length)])
-            return result
+            return self.array_type(name)
         matrix = re.fullmatch(r"float([1-4])x([1-4])|matrix<\s*float\s*,\s*([1-4])\s*,\s*([1-4])\s*>", name)
         if matrix:
             rows, columns = int(matrix.group(1) or matrix.group(3)), int(matrix.group(2) or matrix.group(4))
