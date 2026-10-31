@@ -14,7 +14,7 @@ import run_ieee_probe
 import shaderformalize
 from ieeeformalize import ROOT, workspace_lock
 from shader_ast import ModelError
-from shader_ieee_frontend import import_ieee
+from shader_ieee_frontend import IeeeControlProgram, import_ieee
 from shader_ieee_lean import empty_constraints, scientific_arguments, generate_ieee
 from shaderformalize import validate_dxc
 
@@ -81,14 +81,12 @@ class IeeeFrontendTests(unittest.TestCase):
 
     def test_excluded_syntax_and_effects_rejected(self):
         sources = {
-            "if": BASE.replace("return a * t;", "if (t > 0) { return a; } return a * t;"),
             "loop": BASE.replace("return a * t;", "while (t > 0) { t -= 1; } return a;"),
             "intrinsic": BASE.replace("a * t", "fmod(a, t)"),
             "conversion": BASE.replace("a * t", "a * (float)(int)t"),
             "uint-to-float-cast": BASE.replace("a * t", "a * (float)asuint(t)"),
             "float-to-uint-cast": BASE.replace("a * t", "a * asfloat((uint)t)"),
             "mixed-float-uint-arithmetic": BASE.replace("a * t", "a * (asuint(t) + t)"),
-            "uint-compound-assignment": BASE.replace("return a * t;", "uint x = asuint(t); x += 1u; return a * asfloat(x);"),
             "uint-division": BASE.replace("return a * t;", "uint x = asuint(t) / 2u; return a * asfloat(x);"),
             "uint-remainder": BASE.replace("return a * t;", "uint x = asuint(t) % 2u; return a * asfloat(x);"),
             "matrix": BASE.replace("return a * t;", "float2x2 m; return a * t;"),
@@ -159,6 +157,98 @@ class IeeeFrontendTests(unittest.TestCase):
             self.assertEqual(result.returncode, 0)
             with self.assertRaises(ModelError):
                 import_ieee(source, result.stdout.replace(" 305441741", " 305441742"))
+
+    def test_uint_compound_assignments_in_both_execution_paths(self):
+        operators = {"+=": "uintAdd", "-=": "uintSubtract", "*=": "uintMultiply",
+                     "&=": "uintAnd", "|=": "uintOr", "^=": "uintXor",
+                     "<<=": "uintShiftLeft", ">>=": "uintShiftRight"}
+        for operator, function in operators.items():
+            for branching in (False, True):
+                with self.subTest(operator=operator, branching=branching):
+                    assignment = "x " + operator + " 33u;"
+                    if branching:
+                        assignment = "if (t > 0.0f) { " + assignment + " }"
+                    source = BASE.replace("return a * t;", "uint x = asuint(t); " + assignment +
+                                          " return a * asfloat(x);")
+                    model = self.compile_model(source)
+                    self.assertIn("ShaderIeee.Model." + function, generate_ieee(model, model))
+
+    def test_uint_compound_computation_metadata_is_checked(self):
+        source = BASE.replace("return a * t;", "uint x = asuint(t); x += 1u; return a * asfloat(x);")
+        with tempfile.TemporaryDirectory(dir=ROOT / "artifacts") as directory:
+            path = Path(directory) / "input.hlsl"
+            path.write_bytes(source.encode("utf-8"))
+            result = subprocess.run([str(self.dxc), "-T", "ps_6_0", "-E", "main", "-HV", "2021",
+                                     "-ast-dump", str(path)], capture_output=True, text=True, encoding="utf-8")
+            self.assertEqual(result.returncode, 0)
+            for field in ("ComputeLHSTy", "ComputeResultTy"):
+                with self.subTest(field=field), self.assertRaises(ModelError):
+                    import_ieee(source, result.stdout.replace(field + "='uint'", field + "='float'"))
+
+    def test_control_examples_import_original_and_rewrites(self):
+        for name in ("branch-record", "helper-return", "float-branches"):
+            for role in ("original", "optimized", "wrong"):
+                with self.subTest(name=name, role=role):
+                    source = (ROOT / "examples/ieee-control" / (name + "." + role + ".hlsl")).read_text(encoding="utf-8")
+                    model = self.compile_model(source)
+                    generated = generate_ieee(model, model)
+                    self.assertIn("def expected : Prop :=", generated)
+                    self.assertNotIn("ShaderFormalize", generated)
+
+    def test_control_rejects_partial_initialization_and_readonly_writes(self):
+        bodies = [
+            "uint x; if (t > 0.0f) { x = 1u; } return a * asfloat(x);",
+            "uint x; if (t > 0.0f) { x += 1u; } return a;",
+            "if (t > 0.0f) { a = a * t; } return a;",
+            "if (t > 0.0f) { uint x = 1u; } return a * asfloat(x);",
+            "if (t) { return a; } return a * t;",
+            "if (asuint(t)) { return a; } return a * t;",
+            "if (t > 0.0f) { discard; } return a;",
+        ]
+        for body in bodies:
+            with self.subTest(body=body):
+                self.assert_rejected(BASE.replace("return a * t;", body))
+        prefix = "struct Data { uint word; float value; }; "
+        self.assert_rejected(prefix + BASE.replace("return a * t;", "Data d; "
+                             "if (t > 0.0f) { d.word = 1u; } else { d.value = t; } "
+                             "return a * asfloat(d.word);"))
+
+    def test_uncalled_branch_helpers_are_checked(self):
+        self.compile_model("float unused(float x) { if (x > 0.0f) { return x; } return -x; }\n" + BASE)
+        self.assert_rejected("float unused(float x) { float y; if (x > 0.0f) { y = x; } return y; }\n" + BASE)
+        self.assert_rejected("float unused(float x) { if (x > 0.0f) { return x; } }\n" + BASE)
+
+    def test_guarded_helper_precheck_restores_caller_state(self):
+        source = "float helper(float x) { if (x > 0.0f) { return x; } return -x; }\n" + BASE
+        with tempfile.TemporaryDirectory(dir=ROOT / "artifacts") as directory:
+            path = Path(directory) / "input.hlsl"
+            path.write_bytes(source.encode("utf-8"))
+            result = subprocess.run([str(self.dxc), "-T", "ps_6_0", "-E", "main", "-HV", "2021",
+                                     "-ast-dump", str(path)], capture_output=True, text=True, encoding="utf-8")
+            self.assertEqual(result.returncode, 0)
+            program = IeeeControlProgram(source, result.stdout)
+            names = ("bindings", "events", "effects", "stack", "fragment", "invocations",
+                     "current_guard", "alive", "frame", "branches")
+            before = {name: getattr(program, name) for name in names}
+            program.validate_helper_initialization()
+            for name, value in before.items():
+                self.assertIs(getattr(program, name), value, name)
+
+    def test_branch_and_return_limits(self):
+        for count, accepted in ((32, True), (33, False)):
+            source = BASE.replace("return a * t;", "if (t > 0.0f) {" * count +
+                                  "uint x = 1u;" + "}" * count + "return a;")
+            if accepted:
+                self.compile_model(source)
+            else:
+                self.assert_rejected(source)
+        for count, accepted in ((127, True), (128, False)):
+            branches = " ".join("if (t == " + str(i) + ".0f) { return a; }" for i in range(count))
+            source = BASE.replace("return a * t;", branches + " return a * t;")
+            if accepted:
+                self.compile_model(source)
+            else:
+                self.assert_rejected(source)
 
 
 class IeeeInfrastructureTests(unittest.TestCase):

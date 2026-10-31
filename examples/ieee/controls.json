@@ -159,6 +159,51 @@
       "proof": "prototypes/ieee/proof/RoundtripProof.lean",
       "expected": "UNPROVED",
       "message": "lean-SubmittedProof.log"
+    },
+    {
+      "name": "control-branch-record",
+      "original": "examples/ieee-control/branch-record.original.hlsl",
+      "optimized": "examples/ieee-control/branch-record.optimized.hlsl",
+      "proof": "proof/ShaderIeee/RecordControlProof.lean",
+      "expected": "IEEE_PROVED"
+    },
+    {
+      "name": "control-branch-record-wrong",
+      "original": "examples/ieee-control/branch-record.original.hlsl",
+      "optimized": "examples/ieee-control/branch-record.wrong.hlsl",
+      "proof": "proof/ShaderIeee/RecordControlProof.lean",
+      "expected": "UNPROVED",
+      "message": "lean-SubmittedProof.log"
+    },
+    {
+      "name": "control-helper-return",
+      "original": "examples/ieee-control/helper-return.original.hlsl",
+      "optimized": "examples/ieee-control/helper-return.optimized.hlsl",
+      "proof": "proof/ShaderIeee/ControlProof.lean",
+      "expected": "IEEE_PROVED"
+    },
+    {
+      "name": "control-helper-return-wrong",
+      "original": "examples/ieee-control/helper-return.original.hlsl",
+      "optimized": "examples/ieee-control/helper-return.wrong.hlsl",
+      "proof": "proof/ShaderIeee/ControlProof.lean",
+      "expected": "UNPROVED",
+      "message": "lean-SubmittedProof.log"
+    },
+    {
+      "name": "control-float-branches",
+      "original": "examples/ieee-control/float-branches.original.hlsl",
+      "optimized": "examples/ieee-control/float-branches.optimized.hlsl",
+      "proof": "proof/ShaderIeee/FloatControlProof.lean",
+      "expected": "IEEE_PROVED"
+    },
+    {
+      "name": "control-float-branches-wrong",
+      "original": "examples/ieee-control/float-branches.original.hlsl",
+      "optimized": "examples/ieee-control/float-branches.wrong.hlsl",
+      "proof": "proof/ShaderIeee/FloatControlProof.lean",
+      "expected": "UNPROVED",
+      "message": "lean-SubmittedProof.log"
     }
   ]
 }

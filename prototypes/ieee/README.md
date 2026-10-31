@@ -12,7 +12,7 @@ python tools/run_ieee_suite.py
 
 入口固定调用仓库DXC、Lean4.35/FloatLib，生成文件写入根`proof/ShaderIeee`，与实数及Compute共用`.cache/verification.lock`。提交证明导入`ShaderIeee.GeneratedModel`，提供`ShaderIeee.AgentProof.equivalent : ShaderIeee.Generated.expected`；生成、提交和绑定模块各有独立路径。只接受空schema2约束，输入量化所有binary32存储值；每个源码运算分别舍入，不做隐式FMA，目标是完整存储位结构相等。成功报告的`gpu_profile_matched`始终为`false`。所有helper（包括未调用者）都检查语法和初始化。
 
-标量 uint32 的加减乘、位运算、移位、无符号比较和整数/布尔三元选择已接入同一入口；`asuint/asfloat`直接保留全部32位编码。四字段打包、hash 及位往返的实际 HLSL、命令与范围见[二进制示例说明](../../docs/binary-bits.md)。uint 向量、数值 cast、一般控制流和资源尚未接入这个入口。
+标量 uint32 的加减乘、位运算、移位、无符号比较和整数/布尔三元选择已接入同一入口；`asuint/asfloat`直接保留全部32位编码。四字段打包、hash 及位往返的实际 HLSL、命令与范围见[二进制示例说明](../../docs/binary-bits.md)。[二进制分支说明](../../docs/binary-control.md)介绍纯if/else、提前return和uint复合赋值。uint 向量、数值 cast、循环和资源尚未接入这个入口。
 
 ## 运行库原型
 

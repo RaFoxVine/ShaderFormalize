@@ -30,12 +30,12 @@ python tools/run_ieee_suite.py
 
 每组有独立错误版本。`UNPROVED` 只表示本次提交证明没有通过；具体反例或统计测试不能替代全称证明。
 
-2026-10-31实际验收：312项Python测试、21项IEEE正式控制（9项证明通过、12项未通过对应提交证明）、默认实数入口回切和19项库原型检查均符合预期。原九项IEEE控制保留；六个新正例均检查完整目标绑定和原三公理白名单。[机器证据](../planning/evidence/binary-bits-2026-10-31.json)保存输入、目标、证明和日志摘要，以及负控具体失败原因。
+2026-10-31位运算首批验收：312项Python测试、21项IEEE正式控制（9项证明通过、12项未通过对应提交证明）、默认实数入口回切和19项库原型检查均符合预期。原九项IEEE控制保留；六个新正例均检查完整目标绑定和原三公理白名单。[机器证据](../planning/evidence/binary-bits-2026-10-31.json)保存输入、目标、证明和日志摘要，以及负控具体失败原因。
 
 示例用 float4 承载原始输入/输出存储位，验证的是位字段计算核。它没有定义真实 G-buffer 的资源格式转换、纹理写入或采样行为。
 
 ## 当前范围
 
-复用已有 struct、按值 helper 和 float 向量支持，入口仍为返回 float4 的像素 main。uint 向量、signed int、整数除余、uint 复合赋值、一般 if/循环、资源访问和数值 cast 尚未接入；未支持的写法明确拒绝。当前只接受空 schema2 输入约束。
+复用已有 struct、按值 helper 和 float 向量支持，入口仍为返回 float4 的像素 main。[纯计算分支和局部赋值](binary-control.md)支持if/else、提前返回和八种uint复合赋值。uint 向量、signed int、整数除余、循环、资源访问和数值 cast 尚未接入；未支持的写法明确拒绝。当前只接受空 schema2 输入约束。
 
 所有检查共用仓库内的 Lean4.35、依赖及 workspace 写锁。主实数入口和 Compute 入口保持既有语义；本片完成不代表整体二进制迁移已经闭合。完整迁移目标及后续规格/计算图工作见 [迁移节点](../planning/binary-pipeline/tasks.md)。

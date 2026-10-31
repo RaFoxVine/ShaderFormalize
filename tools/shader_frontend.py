@@ -114,6 +114,11 @@ class Program:
     def assign_statement(self, node, symbols):
         return False
 
+    def zero_value(self, kind):
+        # Initialized internal placeholders, never uninitialized user locals.
+        from shader_control_values import zero_value
+        return zero_value(kind, self.types)
+
     def validate_extension(self, node):
         return False
 
@@ -376,7 +381,6 @@ class Program:
         # Run the same symbolic value rules for uncalled definitions as well.
         # Constant placeholders are initialized typed values; no arithmetic is
         # evaluated here. Discard temporary bindings/effects/domain expressions.
-        from shader_control_values import zero_value
         names = ("bindings", "events", "effects", "stack", "fragment", "invocations")
         if self.control:
             names += ("current_guard", "alive", "frame", "branches")
@@ -390,7 +394,7 @@ class Program:
                 if self.control:
                     from shader_control_values import truth
                     self.current_guard, self.alive, self.frame, self.branches = truth(True), truth(True), None, 0
-                arguments = [zero_value(param["type"], self.types) for param in function["parameters"]]
+                arguments = [self.zero_value(param["type"]) for param in function["parameters"]]
                 self.invoke(function, arguments)
         finally:
             for name, value in saved.items():

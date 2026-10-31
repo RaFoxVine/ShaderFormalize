@@ -2,11 +2,12 @@
 from fractions import Fraction
 import re
 
-from shader_ast import ModelError, literal, quoted, source_header, validate_source
+from shader_ast import ModelError, literal, parse_tree, quoted, source_header, validate_source
 from shader_frontend import Program, callee_reference, swizzle_indices
+from shader_flow import GuardedProgram
 from shader_packing import uint_literal as packing_uint_literal
 from shader_types import (TypeRegistry, component_mask, initialized, numeric_type, operation,
-                          read_path, value_type)
+                          read_path, replace_path, value_type)
 from shader_validation import lvalue_type
 
 
@@ -73,15 +74,58 @@ def choose_value(condition, yes, no):
     return operation("choose", value_type(yes), [condition, yes, no])
 
 
-class IeeeProgram(Program):
+class IeeeSemantics:
     control = True
+    branching = False
     type_registry = IeeeTypeRegistry
 
     def validate_statement(self, node, result_type, effects_allowed):
+        if node.kind == "IfStmt" and self.branching:
+            return None
+        if node.kind == "CompoundAssignOperator" and self.types.node_type(node) == "uint":
+            self.uint_compound_operator(node)
+            if lvalue_type(node.children[0], self) != "uint":
+                raise ModelError("Uint compound assignment requires a uint destination")
+            self.validate_ieee_expression(node.children[1])
+            return False
         if node.kind in ("IfStmt", "ForStmt", "WhileStmt", "DoStmt", "SwitchStmt", "CaseStmt",
                          "DefaultStmt", "BreakStmt", "ContinueStmt", "DiscardStmt"):
             raise ModelError(f"Control flow and effects are outside the IEEE subset: {node.kind}")
         return None
+
+    def uint_compound_operator(self, node):
+        pattern = (r" lvalue '(\+=|-=|\*=|&=|\|=|\^=|<<=|>>=)'"
+                   r" ComputeLHSTy='(?:uint|unsigned int)'(?::'(?:uint|unsigned int)')?"
+                   r" ComputeResultTy='(?:uint|unsigned int)'(?::'(?:uint|unsigned int)')?$")
+        match = re.search(pattern, node.text)
+        if (match is None or len(node.children) != 2 or self.types.node_type(node) != "uint"
+                or any(self.types.node_type(child) != "uint" for child in node.children)):
+            raise ModelError("Unsupported uint compound assignment or computation type")
+        return UINT_OPERATORS[match.group(1)[:-1]]
+
+    def assign_statement(self, node, symbols):
+        if node.kind != "CompoundAssignOperator" or self.types.node_type(node) != "uint":
+            return False
+        operator = self.uint_compound_operator(node)
+        symbol, path, kind = self.lvalue(node.children[0], symbols)
+        if not symbol["writable"]:
+            raise ModelError("Only locals and by-value helper parameters may be assigned")
+        old = initialized(read_path(symbol["value"], path))
+        right = self.expression(node.children[1], symbols)
+        value = self.snapshot(operation(operator, kind, [old, right]), symbol["name"])
+        symbol["value"] = replace_path(symbol["value"], path, value)
+        return True
+
+    def zero_value(self, kind):
+        if kind == "uint":
+            return {"kind": "uint_literal", "width": "uint", "value": 0}
+        if kind == "bool":
+            return {"kind": "boolean", "width": "bool", "value": False}
+        if isinstance(kind, int):
+            scalar = operation("asfloat", 1, [self.zero_value("uint")])
+            return scalar if kind == 1 else operation("splat", kind, [scalar])
+        fields = {field["name"]: self.zero_value(field["type"]) for field in self.types.records[kind]["fields"]}
+        return {"kind": "record", "type": kind, "fields": fields}
 
     def validate_extra_definitions(self):
         if self.resources.layout:
@@ -296,22 +340,6 @@ class IeeeProgram(Program):
             return choose_value(condition, yes, no)
         raise ModelError(f"Unsupported IEEE AST node: {node.kind}")
 
-    def validate_helper_initialization(self):
-        from shader_control_values import zero_value
-        names = ("bindings", "events", "effects", "stack", "fragment", "invocations")
-        saved = {name: getattr(self, name) for name in names}
-        try:
-            for function in self.functions.values():
-                if function is self.main:
-                    continue
-                self.bindings, self.events, self.effects, self.stack = [], [], [], []
-                self.invocations = 0
-                arguments = [zero_value(param["type"], self.types) for param in function["parameters"]]
-                self.invoke(function, arguments)
-        finally:
-            for name, value in saved.items():
-                setattr(self, name, value)
-
     def model(self):
         model = super().model()
         model["schema"] = "ieee-1"
@@ -322,6 +350,33 @@ class IeeeProgram(Program):
         return model
 
 
+class IeeeProgram(IeeeSemantics, Program):
+    def validate_helper_initialization(self):
+        names = ("bindings", "events", "effects", "stack", "fragment", "invocations")
+        saved = {name: getattr(self, name) for name in names}
+        try:
+            for function in self.functions.values():
+                if function is self.main:
+                    continue
+                self.bindings, self.events, self.effects, self.stack = [], [], [], []
+                self.invocations = 0
+                arguments = [self.zero_value(param["type"]) for param in function["parameters"]]
+                self.invoke(function, arguments)
+        finally:
+            for name, value in saved.items():
+                setattr(self, name, value)
+
+
+class IeeeControlProgram(IeeeSemantics, GuardedProgram):
+    branching = True
+
+
 def import_ieee(source, dump):
     validate_source(source)
+    nodes = [parse_tree(dump)]
+    while nodes:
+        node = nodes.pop()
+        if node.kind == "IfStmt":
+            return IeeeControlProgram(source, dump).model()
+        nodes.extend(node.children)
     return IeeeProgram(source, dump).model()

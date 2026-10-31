@@ -1,4 +1,6 @@
-# 二进制首片实施与实测记录
+# 二进制迁移实施与实测记录
+
+## binary-bits-001
 
 基线9b68e9d；规划检查点b7f6762，精确grant提交1e7cfe6，用户回复“按此实施首批”。root为唯一writer，使用D盘主目录和既有本地4.35，不创建C盘worktree、不改依赖或Unity。
 
@@ -13,3 +15,15 @@
 - 正式新负控中，packing-wrong在SubmittedProof留下input.z的bit7目标；hash-wrong在SubmittedProof的rfl达到maximum recursion depth。两者均为UNPROVED且符合控制合同，不能把后者描述为工具已经证明两函数不等价。最终机器证据保存负例真实错误行与日志哈希。
 - 首次直接GitHub fetch及HTTP/1.1重试连接重置；读取系统既有代理后，使用单次git -c http.proxy=http://127.0.0.1:10808成功ls-remote/fetch，远程当时仍9b68e9d，没有改全局Git或系统配置。
 - 功能提交1f7c57a7dd6c1bb220de9c61ed9e1b058f665eb9已非强制push至origin/codex/shader-equivalence-planning；随后ls-remote精确匹配该SHA，工作区干净。收尾仅将本片状态与grant标为Completed并记录交付；其它切片保留原规划状态，未归档整体节点，未开始整体实数/Compute迁移。
+
+## binary-control-002
+
+- 用户明确回复“按此实施”，绑定control-design.md修订1及6f460a4d8dc89e8ba1afa358a321bb0bef8c47d5；grant与Approved状态先提交11f280383aa22fab87711c01ba5b1ef5a80f3e32，再修改产品源。root唯一writer，继续使用D盘主目录和原依赖。
+- 用实际DXC prepare保存全部83核心和21旧IEEE案例的基线与提取后目标/状态；104项完全一致。原始命令及摘要位于artifacts/binary-control/snapshot_models.py、before/result.json、after/result.json；比较为ALL_TARGETS_AND_STATUSES_IDENTICAL，没有用旧83证明结果冒称本片已重跑完整正式验收。
+- 已提取shader_flow.py，real ControlProgram保留表达式/效果；IEEE纯直线和guarded前端共享IeeeSemantics，语句钩子处理八种uint复合赋值。Program后端零值钩子只用于内部占位/返回汇合，局部未初始化值仍为None。
+- 初步IEEE29项单元通过（11.634秒），全Python319项通过（53.678秒）。日志artifacts/binary-control/units-initial.log及units-all-initial.log。
+- 三个新正例初次串行check为session49207：float-branches通过，branch-record留下布尔汇合目标，helper-return在无用simp步骤失败。原始记录artifacts/binary-control/initial-validation.json保留。
+- 第二次session94748：RecordControlProof逐项划分两个bool，branch-record实际IEEE_PROVED；helper-return的自动展开达到200000 heartbeats，float-branches用修订脚本实际IEEE_PROVED。证据positive-repaired各目录保留，未改变生成目标或公理白名单。
+- 用两个由cases/rfl证明的通用返回选择引理避免展开整数表达式，session51513中helper-return实际IEEE_PROVED；该脚本未能完成float-branches的有限向量选择目标。因此浮点例采用其此前实际通过的原脚本，逐字保存为FloatControlProof.lean。positive-current.json核对三份当前HLSL/证明字节均对应实际通过报告；它不将失败运行改写为成功。
+- 完整门禁队列session29447已启动：artifacts/binary-control/run_final.py，串行默认verify_demo.py（83核心及所有Python单元）→IEEE suite27→原型19，进度/心跳artifacts/binary-control/final1/result.json，完整日志final1/{core,ieee,prototype}.log。此队列尚未完成，不能提前报全部通过。
+- 独立Q源码阶段已核对共享骨架、动态分派、IEEE MRO/零值/预检查、metadata/只读/初始化、三组3×3真实HLSL及完整目标，无需修改的源码缺陷；最终Q仍等本轮完整正式证据。
