@@ -6,7 +6,7 @@
 |---|---|---|---|---|
 | 二进制标量位运算接入（binary-bits-001@r1） | Execution Ready，独立实施前审阅通过 | Completed：binary-bits-grant-001 | Completed：312单元、21正式控制、原型19、实数回切及独立Q通过，功能提交1f7c57a已推送并核对 | 无本片遗留；后续迁移见下列切片 |
 | 二进制分支与局部赋值（binary-control-002@r1） | 独立P第1轮通过 | Completed：binary-control-grant-002 | Completed：319全单元/83核心、29IEEE单元/27控制、实数回切、原型19、独立Q第2轮均通过 | 无本片遗留；104旧目标/状态一致，证据见binary-control-2026-10-31.json |
-| Overnight B：binary-data-003@r1 | Execution Ready，data-design.md独立P第1轮通过，A依赖已完成 | Approved：binary-data-grant-003，限定委托内派生 | Approved，grant与本状态先于代码持久化 | 迁移前110目标已实际保存，按方案开始实施 |
+| Overnight B：binary-data-003@r1 | Execution Ready，data-design.md独立P第1轮通过，A依赖已完成 | Approved：binary-data-grant-003，先提交13ea195 | Implementing | 迁移前110目标已实际保存，按方案先向量再数组/循环 |
 | Overnight C：binary-compute-004 | Candidate，compute-uint-design.md草案 | 限定PLAN_AND_CODE委托，见overnight-request-2026-10-31.txt | 已只读调查/拟稿；精确grant前不写代码 | 用B实际接口对齐、独立P、精确grant与验收 |
 | Overnight D：规格与计算图下一批方案 | Candidate，spec-graph-design.md草案 | PLAN_ONLY委托 | 已调查/拟稿，不实施 | 用B/C实际结果对齐；首规格片与符号循环/图发布具体化 |
 | 固定规格与二进制执行的公共接口 | Outlined（二进制后细化） | 目标保留 | 未实施 | 先跑通实际流程再形成P/R细节，保留输入依赖和数组整体误差能力 |

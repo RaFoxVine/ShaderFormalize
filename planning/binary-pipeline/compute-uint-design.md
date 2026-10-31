@@ -1,10 +1,10 @@
 # uint Buffer单pass Compute：binary-compute-004，修订1草案
 
-本片处于Overnight C的PLAN_AND_CODE上限内；具体设计尚待B交付后对齐及独立P，不是现有能力或精确代码grant。范围依据overnight-proposal-2026-10-31.md及该提案的已批准授权包。默认入口、旧Compute schema1/2和既有实数数值含义保持不变。
+本片处于Overnight C的PLAN_AND_CODE上限内；已对齐B实现接口，尚待独立P及B完整验收，不是现有能力或精确代码grant。范围依据overnight-proposal-2026-10-31.md及该提案的已批准授权包。默认入口、旧Compute schema1/2和既有实数数值含义保持不变。
 
 ## 结果与代表用例
 
-提供显式schema3的纯uint单pass Compute入口，两份真实HLSL经同一套uint表达式/分支与内存语义生成Lean目标。结论同时包含全部线程访问合法、不同线程无写写/写读冲突、完整外部最终内存相同；未写地址保留初始内容。它不是整个二进制迁移或多pass交付。
+通过computeformalize的显式`--model uint32-buffer`选择纯uint单pass入口，该入口严格接受schema3。两份真实HLSL经同一套uint表达式/分支与内存语义生成Lean目标。结论同时包含全部线程访问合法、不同线程无写写/写读冲突、完整外部最终内存相同；未写地址保留初始内容。它不是整个二进制迁移或多pass交付。
 
 首例为逐元素uint hash，另一例为四路byte打包、写入再读回并解包。长度在固定launch允许的契约范围内全称量化，包含0、尾线程和全部中间长度；不是只检查几个具体Count。uint加减乘模2^32，位运算、比较、移位低5位均复用ShaderIeee.Model。
 
@@ -24,15 +24,23 @@ capacity允许0..2^32，不强制U≤所有资源容量；每次真实访问的�
 
 Program构造中Resources与function_declaration硬编码需提成默认保持旧行为的make_resources/read_function钩子。新入口自行建立Count/dispatch符号并调用共享invoke，不复制整个Program.__init__。必要main属性读取保持与普通helper解析职责分开。
 
+对齐B实际接口（eae9ff9及Q1修复fcb2cce）后，C直接组合IeeeSemantics与GuardedProgram，显式branching=True并使用UintComputeTypes；不调用会按uint3选择数据前端的import_ieee。普通值/helper仅允许scalar uint/bool，dispatch uint3仅在main参数及按声明identity核验的单个x/y/z访问中识别；拒绝float、struct、普通向量/数组、资源helper与所有循环。共享IEEE已有更多能力，C须在声明/表达式/call入口做一致过滤，而不是让继承隐式扩张范围。
+
+read_buffer发生在types建立前，validate_extra_definitions发生在bindings/guard/frame建立前，只能收集并静态检查；C覆盖IEEE原来的资源拒绝检查。C.model自行建立Count/dispatch并调用共用helper初始化检查和invoke，不能走会删除events/resources并生成pixel输出的IeeeSemantics.model。初始化检查仍使用guarded版本，overlay由有序事件发射至Lean，不另建Python可变内存状态。
+
 Store通过validate_statement/execute_statement接入；读取通过资源表达式/地址扩展接入。每次访问捕获当时guard、物理identity、uint地址和值。相同线程按源码顺序更新overlay，后续Load包括不同声明别名视图都读取此时overlay；最后一次写入决定该线程该地址结果。
 
 纯IEEE解释目前可eager处理&&/||/?:，有资源后必须增加明确的operand-evaluation hook：先捕获左值/条件，&&右侧使用原guard∧左值，||右侧使用原guard∧非左值，三元两臂分别使用条件及其反。try/finally恢复guard，嵌套表达式与helper调用不能泄漏执行条件。旧纯表达式默认行为和目标字节保持；资源未选侧不生成有效访问义务。
 
 新emitter复用IeeeEmitter的uint表达式，仅补count/thread/load叶、有序事件与内存解释和完整目标，不能再写uint运算映射表。
 
+资源Store只接受合法buffer[index]=uintValue，资源复合赋值明确拒绝；普通local赋值仍交共享解释器。捕获完整self.guard()、当时地址与RHS；binding继续采用现有snapshot的binding索引和lN局部名，load使用独立前缀。共享binary_operands/conditional_operands默认保留纯表达式结果，C负责临时guard，不能重写execute/branch/invoke。
+
 ## 内存语义与完整命题
 
-从现有ShaderFormalize.Compute提取不依赖Color数值的泛型memory核心：Memory α、Access、ThreadResult α及store/touched/finish/valid/independent/safe和对应通用定理。旧Compute模块保留原名称的Color特化及包装，原Compute/Texture消费者保持接口和目标可比较。新uint Model特化为UInt32。
+从现有ShaderFormalize.Compute提取不依赖Color数值的泛型memory核心：Memory α、Access、ThreadResult α及store/touched/finish/valid/independent/safe和对应通用定理。操作的α为可推断隐式参数，原显式参数顺序保持。旧Compute保留Memory/ThreadResult的Color类型特化，使用export将Access、操作和定理的原名称直接映射到泛型声明，不增加语义wrapper层。新uint Model特化为UInt32。
+
+固定Lean4.35的BuiltinCommand.elabExport实际使用addAlias，不创建wrapper；这是可行性依据，不冒充已验证编译兼容。旧proof使用simp only [store]、unfold finish、匿名结构构造及.memory/.accesses点语法，均需重新实际编译。泛型core加入旧/新checker的语义依赖与缓存；旧generated文本相同也不能沿用旧olean或成功结果。
 
 每个线程从同一个任意initial memory开始，线程内Store更新overlay，Load读取当前值。safe包含全部实际Load/Store bounds和任意不同线程的WW/WR同址排除。最终finish只在这些安全结论下与执行对应；无写者地址保持initial。非法访问即使总内存函数仍有值，也不能绕过safe。
 
@@ -42,11 +50,17 @@ Store通过validate_statement/execute_statement接入；读取通过资源表达
 
 ## 绑定、错误与集成
 
-computeformalize仅对显式schema3选择新路径；旧schema1/2与默认保持原行为。新路径的最外层覆盖锁获取、prepare/check、timeout及审计，原子写最终result，不能异常后遗留IN_PROGRESS或旧成功。区分INVALID_INPUT、UNSUPPORTED、UNPROVED、ENVIRONMENT_ERROR、INCONCLUSIVE与内部错误；磁盘不可写则明确stderr/nonzero，不能声称已落盘。
+computeformalize新增`--model`，默认legacy；只按argv选择生命周期，不能根据约束自动切换。uint32-buffer路径严格要求schema3，schema1/2为INVALID_INPUT且不回退；legacy遇可识别schema3明确要求新selector。旧schema1/2和无flag的默认行为保持不变。新路径有独立默认样例/输出目录，默认值按所选model确定。
+
+参数能够解析后，新最外层从输出路径准备、约束读取和锁获取起覆盖prepare/check、timeout及审计。同目录临时文件加replace原子写当前IN_PROGRESS及terminal result，不能异常后遗留旧成功。缺约束/坏JSON/坏schema为INVALID_INPUT，锁/timeout为INCONCLUSIVE，固定依赖缺失/损坏为ENVIRONMENT_ERROR，证明失败为UNPROVED；意外内部错误独立报告。argv或输出路径无法解析/目录本身不可写时明确stderr/nonzero并说明无法保存结果，不能声称已落盘。
+
+只保留一套参数定义和prepare/check引擎。backend配置importer、契约、emitter、生成文件位置、语义模块/缓存和证据/保证说明；默认backend保持旧函数调用兼容。legacy生命周期沿用当前策略，uint生命周期负责新完整终态；不复制DXC调用、Lean编译、hash核对和绑定审计。仅靠读取JSON后分流无法处理schema尚不可知的坏文件，因此不采用该路线。
+
+新backend的Model/GeneratedModel/SubmittedProof/Verify位于proof/ShaderComputeUint，目标为ShaderComputeUint.Generated.expected、提交定理为ShaderComputeUint.AgentProof.equivalent，复用proof_contract的namespace参数。现默认library roots包含顶层GeneratedModel/SubmittedProof，因此新候选不能写到legacy顶层位置。新非默认library只列稳定Model；legacy仍用原路径/namespace。prepare(args,output)与check(args,output)的默认调用不要求旧direct caller提供args.model。
 
 绑定实际HLSL/约束快照、DXC AST、IR、生成目标、全部自有语义依赖、提交证明、固定锁和独立Verify。证明结束再次核对源/目标指纹，cache key覆盖新泛型memory及所有传递语义模块。expected使用原三公理白名单；伪造True目标、sorry、额外公理和中途篡改均拒绝。旧schema异常遗留问题记录为后续问题，不顺带扩张本片修改。
 
-预计新增shader_compute_uint.py、shader_compute_uint_lean.py、单元及专用suite、泛型ComputeMemory与uint Model、examples/compute-uint和实际proof；调整Program构造hook、IEEE operand hook/emitter扩展点、Compute特化包装及CLI显式路由。能力说明、coverage、tasks与证据同步。
+预计新增shader_compute_uint.py、shader_compute_uint_lean.py、单元及专用suite、泛型ComputeMemory与uint Model、examples/compute-uint和实际proof；调整Program构造hook、IEEE operand hook/emitter扩展点、Compute类型特化及名称export、CLI显式路由和公共engine。新语义模块可注册非默认Lean library，roots只列稳定Model等模块，不把当前候选/失败SubmittedProof加入默认build；固定依赖版本不变。能力说明、coverage、tasks与证据同步。
 
 ## 真实验收与停止条件
 
@@ -54,6 +68,12 @@ computeformalize仅对显式schema3选择新路径；旧schema1/2与默认保持
 
 错误计算、Store越界、常量地址多线程WW、alias邻元素WR至少各一负控，必须成功导入并编译生成模型后在SubmittedProof实际失败。另测false分支、短路和三元未选侧的越界访问不产生执行义务，活动侧仍须安全。有限见证可辅助定位，不替代全称Lean证明。
 
+短路/三元需至少一个真实安全正例，不能只在已有同一外层guard内重复测试。可令T=128、资源capacity=113、Count上界113，无入口提前return，分别使用i<Count的AND、i≥Count的OR和i<Count的三元读取Source[i]，最后仅在i<Count下Store；这样错误eager访问会使尾线程越界，完整safe证明才有区分力。
+
 单元检查Count边界0/1/组边界/尾部/U、地址0/0xFFFFFFFF和模溢出、移位0/31/32/33/最大uint、容量/identity不一致、extra字段、非法类型、终态覆盖以及目标/语义篡改。负例保留实际失败原因，UNPROVED不冒称已证伪。
 
-B完成后先对齐实际公共接口再做独立P，记录精确grant后实施。新单元与真实正负例初测后独立Q；泛型memory和共享hook变更需比较旧目标并串行运行完整核心、IEEE、原型及新uint Compute控制。没有依赖更新或Unity行为。需要新公理/profile、跨线程通信、弱化安全/完整输出或不可用关键oracle时停止受影响项；普通实现和证明失败自主修复。
+B实现接口静止且初测通过后可进行独立P；只有B完整验收及Q完成、依赖满足，才记录C精确grant并实施。新单元与真实正负例初测后独立Q；泛型memory和共享hook变更需比较旧目标并串行运行完整核心、IEEE、原型及新uint Compute控制。没有依赖更新或Unity行为。需要新公理/profile、跨线程通信、弱化安全/完整输出或不可用关键oracle时停止受影响项；普通实现和证明失败自主修复。
+
+## 规划探针与待核实点
+
+root已使用固定DXC实际编译一份纯uint Compute探针，包含StructuredBuffer/RWStructuredBuffer下标、纯uint helper、guard/短路/三元、RW写后读及numthreads(64,1,1)，exit0；读取节点含const unsigned int，写入/读回为unsigned int，线程属性为64/1/1。源和真实摘要见planning/evidence/binary-compute-plan-2026-10-31.json，原始AST保留artifacts/binary-compute-planning。只验证DXC可解析，不声称C适配器已实现或Lean已验证；B的产品/Lean writer未受此纯DXC探针影响。

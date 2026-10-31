@@ -32,3 +32,14 @@
 - 最终队列session29447实际exit0，开始10:30:09、结束13:28:57（2026-10-31 America/Tijuana）。默认完整核心耗时5959.422秒：319单元及83控制，38 PROVED、43 UNPROVED、2 INVALID_INPUT均符合预期；IEEE suite耗时4693.234秒：29单元、27控制（12 IEEE_PROVED、15 UNPROVED）及实数回切均通过；原型19耗时80.235秒通过。没有复用旧83项证明结果来冒称实际重跑。
 - 最终IEEE中的helper-return正负例使用b6f4fb8修订后的三份HLSL；正例实际IEEE_PROVED。最终专项29单元再次覆盖当前示例，区分先前319全单元运行时的数据版本。builder实际核对139冻结源、全部当前输入/提交证明/生成目标/语义Model及三公理白名单，生成planning/evidence/binary-control-2026-10-31.json，当前状态VALIDATION_PASSED_REVIEW_PENDING。
 - 独立Q第2轮实际PASS、issues=[]，reviewer为/root/binary_control_plan_review。只读核对139冻结源、104旧目标比较、83/27逐案报告、27组当前输入/快照/提交证明和12正例的96个产物哈希；确认三个新负例在SubmittedProof留下真实未解决目标。reviewer明确纠正Q1过早认可操作可观察性的判断：最终b6高位AND掩码2147483647已经实际出现在helper目标并完成全称证明。未运行Lean/Lake/测试或改文件。机器证据据此收为PASSED，002与grant完成；B/C/D不包含在本次验收结论内。
+- A完成证据提交e701125897c16bc051d8f84ca3fbf2789003af86已非强制推送，ls-remote精确匹配，工作区当时干净。随后才派生B具体grant。
+
+## binary-data-003
+
+- 用户限定委托来自“按此范围执行 Overnight”，session shader-binary-data-compute-2026-10-31处于running且seal hash有效；data-design.md修订1经独立P第1轮PASS，实际DXC规划探针可解析，A依赖完成。grant与Approved状态先提交13ea195f25658a9f9d11d073e90a8f56f914f06f，再开始产品修改。
+- 迁移前baseline由实际DXC prepare重新保存83核心和27IEEE共110项，artifacts/binary-data/before/result.json为SNAPSHOT_COMPLETE。脚本snapshot_models.py保存在同目录；没有覆盖A的104项历史比较。A/B源码写入和Lean workspace不并发。
+- 产品writer交由/root/binary_data_plan，root仅维护规划/证据及只读调查。实现检查点eae9ff9已显式提交31个负责文件、未push；root的planning改动保持未提交。初步targeted-05串行通过IEEE36、aggregate25、loops23。formal-01四个新正例均IEEE_PROVED；vector-pack补入uint3位往返后在formal-02正例也通过，以上只是初测而非最终门禁。
+- 初测targeted-02发生作者将完整IEEE单元与正式proof并行导致写锁冲突，失败记录保留，随后所有锁使用者改为串行；targeted-04新增helper-loop测试暴露frame元数据硬依赖real helper_indices，已提为后端loop_frame_name钩子，targeted-05复测通过。这些没有重写成一次无失败运行。
+- 独立Q1源码阶段发现两项P2，root核实并安排作者合同内修复：新data层float_compound忽略计算类型/别名metadata，需统一回IEEE语义校验；vector-pack.optimized仍复用Packet/向量helper及uint3位往返，需换成真正标量参照并重验正负。旧有效float复合赋值原本受支持，不通过删功能解决。当前源码Q尚未通过，完整83/IEEE35/原型19及110 after比较也未执行。
+- Q1修复检查点fcb2cce8cfafa37a2e1d8b37486dc2423a146d4f已显式提交：compound统一由IeeeSemantics核验所有计算类型/别名，vector-pack改为独立scalar参照，原版补uint2/uint3双向位往返。targeted-06串行IEEE37/aggregate25/loops23通过；formal-03修订后pack为IEEE_PROVED，wrong成功生成目标后在SubmittedProof第一lane留下xor1差异。另三正例formal-01通过、三wrong在formal-02均SubmittedProof失败。旧pack记录为修订前历史，不冒称当前源码结果。
+- 作者已明确交回产品与Lean writer，无活跃检查；root接回后才冻结当前源码并启动最终串行队列。Q1后修订尚待最终Q2独立覆盖，当前不能标本片Completed。

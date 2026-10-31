@@ -167,11 +167,13 @@
       "updated_at": "2026-10-31T13:35:35-07:00"
     },
     "B": {
-      "commits": [],
+      "commits": [
+        "fcb2cce8cfafa37a2e1d8b37486dc2423a146d4f"
+      ],
       "grant_reference": "planning/binary-pipeline/execution-authority.md#binary-data-grant-003@r1",
       "result": "IN_PROGRESS",
-      "summary": "Exact binary-data-003 r1 grant derived after A completion and independent P1 PASS; Approved persisted before product edits; baseline110 ready.",
-      "updated_at": "2026-10-31T13:36:55-07:00"
+      "summary": "Implementation checkpoints eae9ff9/fcb2cce; Q1 repairs implemented; targeted37/25/23 and actual4positive/4negative initial checks passed; root took writer and froze sources for final gates.",
+      "updated_at": "2026-10-31T14:21:16-07:00"
     },
     "C": {
       "commits": [],
@@ -192,7 +194,7 @@
   "schema_version": 1,
   "session_id": "shader-binary-data-compute-2026-10-31",
   "status": "running",
-  "updated_at": "2026-10-31T13:36:55-07:00"
+  "updated_at": "2026-10-31T14:21:16-07:00"
 }
 ```
 <!-- SMART_OVERNIGHT_STATE_END -->

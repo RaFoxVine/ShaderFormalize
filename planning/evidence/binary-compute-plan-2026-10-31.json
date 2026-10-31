@@ -1,0 +1,26 @@
+{
+  "kind": "DXC_ONLY_PLANNING_PROBE",
+  "exit_code": 0,
+  "product_code_changed": false,
+  "lean_run": false,
+  "source": "StructuredBuffer<uint> Source : register(t0);\nRWStructuredBuffer<uint> Output : register(u0);\nRWStructuredBuffer<uint> Readback : register(u1);\ncbuffer Parameters : register(b0) { uint Count; };\n\nuint mixWord(uint value) {\n    value ^= value >> 16u;\n    value *= 0x7feb352du;\n    return value ^ (value >> 15u);\n}\n\n[numthreads(64, 1, 1)]\nvoid main(uint3 id : SV_DispatchThreadID) {\n    uint index = id.x;\n    if (index >= Count) return;\n    bool active = index < Count && Source[index] != 0u;\n    uint word = active ? mixWord(Source[index]) : Source[index];\n    Output[index] = word;\n    Readback[index] = Output[index];\n}\n",
+  "source_sha256": "64e586015e657b245d840f3e316394fe1bfeb3edc94a39af8fbe17c88e7f5772",
+  "ast_sha256": "6834f22d1f82cc439528ba1eea653c635dc05c32cd834f6dc166b0a32ac0a837",
+  "index_nodes": [
+    "| |       | `-CXXOperatorCallExpr 0x176f5f71ea0 <col:36, col:48> 'const unsigned int' lvalue",
+    "| |     |   `-CXXOperatorCallExpr 0x176f5f72188 <col:34, col:46> 'const unsigned int' lvalue",
+    "| |       `-CXXOperatorCallExpr 0x176f5f75420 <col:51, col:63> 'const unsigned int' lvalue",
+    "| | |-CXXOperatorCallExpr 0x176f5f75870 <col:5, col:17> 'unsigned int' lvalue",
+    "|   |-CXXOperatorCallExpr 0x176f5f75a10 <col:5, col:19> 'unsigned int' lvalue",
+    "|     `-CXXOperatorCallExpr 0x176f5f75b48 <col:23, col:35> 'unsigned int' lvalue"
+  ],
+  "thread_attributes": [
+    "|-HLSLNumThreadsAttr 0x176f5f716d0 <line:12:2, col:21> 64 1 1"
+  ],
+  "date": "2026-10-31",
+  "dxc_binaries": {
+    "dxcompiler.dll": "5888d3e590f5bfd8743484e7f31313996734adec5741506271a5c6368cbe8ba9",
+    "dxc.exe": "ce11bb02f6027055e0b9f8c062d13b14f373c876a16557a4fa744314117d31e7",
+    "dxil.dll": "0cf5fa4b90f74550166108b3870c883f4a85243976b246b1da3ea90ad5b92015"
+  }
+}
