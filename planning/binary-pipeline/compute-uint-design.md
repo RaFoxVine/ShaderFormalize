@@ -1,4 +1,4 @@
-# uint Buffer单pass Compute：binary-compute-004，修订1草案
+# uint Buffer单pass Compute：binary-compute-004，修订2
 
 本片处于Overnight C的PLAN_AND_CODE上限内；已对齐B实现接口，尚待独立P及B完整验收，不是现有能力或精确代码grant。范围依据overnight-proposal-2026-10-31.md及该提案的已批准授权包。默认入口、旧Compute schema1/2和既有实数数值含义保持不变。
 
@@ -52,11 +52,15 @@ Store通过validate_statement/execute_statement接入；读取通过资源表达
 
 computeformalize新增`--model`，默认legacy；只按argv选择生命周期，不能根据约束自动切换。uint32-buffer路径严格要求schema3，schema1/2为INVALID_INPUT且不回退；legacy遇可识别schema3明确要求新selector。旧schema1/2和无flag的默认行为保持不变。新路径有独立默认样例/输出目录，默认值按所选model确定。
 
-参数能够解析后，新最外层从输出路径准备、约束读取和锁获取起覆盖prepare/check、timeout及审计。同目录临时文件加replace原子写当前IN_PROGRESS及terminal result，不能异常后遗留旧成功。缺约束/坏JSON/坏schema为INVALID_INPUT，锁/timeout为INCONCLUSIVE，固定依赖缺失/损坏为ENVIRONMENT_ERROR，证明失败为UNPROVED；意外内部错误独立报告。argv或输出路径无法解析/目录本身不可写时明确stderr/nonzero并说明无法保存结果，不能声称已落盘。
+新路径把--output视为产物容器，每次调用以独占创建的新run_id子目录拥有自己的全部输入快照、模型、证明副本、日志及result.json。目录创建成功即取得该run的写入权；同一容器下其它调用使用不同目录，共享workspace仍只允许一个执行writer。stdout返回本次run_id和准确result_path，退出状态取自本次上下文；runner只按该身份读取结果。容器中已有result.json或旧run的PROVED属于历史/legacy，不参与本次判定，也不被新调用覆盖。新路径不维护有竞争的共享latest结果文件。
+
+参数能够解析、产物位置可用后，先在本次新目录原子写IN_PROGRESS，再获取workspace锁；此后读取约束/工具并运行公共engine。锁冲突优先返回本次独立INCONCLUSIVE，即使约束或工具也有错误，也不继续读入或写入别人的产物。锁空闲后的坏约束/JSON/schema为INVALID_INPUT，固定依赖缺失/损坏为ENVIRONMENT_ERROR，timeout为INCONCLUSIVE，证明/审计失败为UNPROVED；意外内部错误独立报告。最外层对可捕获失败写本次terminal，包括中断处理，原子replace只操作自己目录。报告写入失败、argv/输出位置无法解析或目录不可写时明确stderr/nonzero，不声称已保存。
+
+两个uint调用使用相同--output时，运行者的源/目标/日志/状态保持不变，拒绝者拥有另一run的terminal，运行者结束后自己的完整结果仍可读取。不同容器争用workspace也各有独立结果；已有旧成功时，新失败调用使用新身份和failure结果，不能读取旧成功充当当前结论。即使legacy调用使用同一容器，新路径也只写自己的子目录，不接管或改写legacy根报告。这一结果API仅用于显式uint模型，旧schema1/2的报告位置和异常策略保持原样。
 
 只保留一套参数定义和prepare/check引擎。backend配置importer、契约、emitter、生成文件位置、语义模块/缓存和证据/保证说明；默认backend保持旧函数调用兼容。legacy生命周期沿用当前策略，uint生命周期负责新完整终态；不复制DXC调用、Lean编译、hash核对和绑定审计。仅靠读取JSON后分流无法处理schema尚不可知的坏文件，因此不采用该路线。
 
-新backend的Model/GeneratedModel/SubmittedProof/Verify位于proof/ShaderComputeUint，目标为ShaderComputeUint.Generated.expected、提交定理为ShaderComputeUint.AgentProof.equivalent，复用proof_contract的namespace参数。现默认library roots包含顶层GeneratedModel/SubmittedProof，因此新候选不能写到legacy顶层位置。新非默认library只列稳定Model；legacy仍用原路径/namespace。prepare(args,output)与check(args,output)的默认调用不要求旧direct caller提供args.model。
+新backend的Model/GeneratedModel/SubmittedProof/Verify位于proof/ShaderComputeUint，目标为ShaderComputeUint.Generated.expected、提交定理为ShaderComputeUint.AgentProof.equivalent，复用proof_contract的namespace参数。现默认library roots包含顶层GeneratedModel/SubmittedProof，因此新候选不能写到legacy顶层位置。新非默认library只列稳定Model，.gitignore列出三个动态候选文件；legacy仍用原路径/namespace。prepare(args,output)与check(args,output)的默认调用不要求旧direct caller提供args.model；uint生命周期传给公共engine的output是本次拥有的run目录。
 
 绑定实际HLSL/约束快照、DXC AST、IR、生成目标、全部自有语义依赖、提交证明、固定锁和独立Verify。证明结束再次核对源/目标指纹，cache key覆盖新泛型memory及所有传递语义模块。expected使用原三公理白名单；伪造True目标、sorry、额外公理和中途篡改均拒绝。旧schema异常遗留问题记录为后续问题，不顺带扩张本片修改。
 
@@ -70,10 +74,12 @@ computeformalize新增`--model`，默认legacy；只按argv选择生命周期，
 
 短路/三元需至少一个真实安全正例，不能只在已有同一外层guard内重复测试。可令T=128、资源capacity=113、Count上界113，无入口提前return，分别使用i<Count的AND、i≥Count的OR和i<Count的三元读取Source[i]，最后仅在i<Count下Store；这样错误eager访问会使尾线程越界，完整safe证明才有区分力。
 
-单元检查Count边界0/1/组边界/尾部/U、地址0/0xFFFFFFFF和模溢出、移位0/31/32/33/最大uint、容量/identity不一致、extra字段、非法类型、终态覆盖以及目标/语义篡改。负例保留实际失败原因，UNPROVED不冒称已证伪。
+单元检查Count边界0/1/组边界/尾部/U、地址0/0xFFFFFFFF和模溢出、移位0/31/32/33/最大uint、容量/identity不一致、extra字段、非法类型、终态覆盖以及目标/语义篡改。结果归属回归覆盖同容器并发、不同容器争用workspace、已有旧PROVED、busy同时伴随坏约束/坏工具、运行者最终结果完整保留，以及新runner拒绝run_id/result_path不匹配的旧结果。负例保留实际失败原因，UNPROVED不冒称已证伪。
 
 B实现接口静止且初测通过后可进行独立P；只有B完整验收及Q完成、依赖满足，才记录C精确grant并实施。新单元与真实正负例初测后独立Q；泛型memory和共享hook变更需比较旧目标并串行运行完整核心、IEEE、原型及新uint Compute控制。没有依赖更新或Unity行为。需要新公理/profile、跨线程通信、弱化安全/完整输出或不可用关键oracle时停止受影响项；普通实现和证明失败自主修复。
 
 ## 规划探针与待核实点
 
 root已使用固定DXC实际编译一份纯uint Compute探针，包含StructuredBuffer/RWStructuredBuffer下标、纯uint helper、guard/短路/三元、RW写后读及numthreads(64,1,1)，exit0；读取节点含const unsigned int，写入/读回为unsigned int，线程属性为64/1/1。源和真实摘要见planning/evidence/binary-compute-plan-2026-10-31.json，原始AST保留artifacts/binary-compute-planning。只验证DXC可解析，不声称C适配器已实现或Lean已验证；B的产品/Lean writer未受此纯DXC探针影响。
+
+独立P第1轮由/root/binary_compute_plan_review只读检查，发现1项P1：共享输出目录的owner保护与完整terminal没有可执行归属政策。root在修订2选择每调用独占run目录、stdout绑定本次结果路径的方案；其它主要共享前端/内存/engine路线未发现需用户新决定的漂移。修订2仍待独立P复核，不是代码grant。
