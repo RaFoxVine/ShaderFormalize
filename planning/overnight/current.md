@@ -179,8 +179,8 @@
       "commits": [],
       "grant_reference": "",
       "result": "IN_PROGRESS",
-      "summary": "compute-uint-design draft written; align with actual B then independent P before code.",
-      "updated_at": "2026-10-31T12:37:47-07:00"
+      "summary": "compute-uint-design r2 independent P round2 PASS; output ownership resolved by unique run directories; awaiting B full gates/Q before derived code grant.",
+      "updated_at": "2026-10-31T14:37:46-07:00"
     },
     "D": {
       "commits": [],
@@ -194,7 +194,7 @@
   "schema_version": 1,
   "session_id": "shader-binary-data-compute-2026-10-31",
   "status": "running",
-  "updated_at": "2026-10-31T14:21:16-07:00"
+  "updated_at": "2026-10-31T14:37:46-07:00"
 }
 ```
 <!-- SMART_OVERNIGHT_STATE_END -->

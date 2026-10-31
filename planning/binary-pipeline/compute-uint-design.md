@@ -1,6 +1,6 @@
 # uint Buffer单pass Compute：binary-compute-004，修订2
 
-本片处于Overnight C的PLAN_AND_CODE上限内；已对齐B实现接口，尚待独立P及B完整验收，不是现有能力或精确代码grant。范围依据overnight-proposal-2026-10-31.md及该提案的已批准授权包。默认入口、旧Compute schema1/2和既有实数数值含义保持不变。
+本片处于Overnight C的PLAN_AND_CODE上限内；已对齐B实现接口，修订2独立P第2轮通过，尚待B完整验收及Q完成后派生精确代码grant。它不是现有能力。范围依据overnight-proposal-2026-10-31.md及该提案的已批准授权包。默认入口、旧Compute schema1/2和既有实数数值含义保持不变。
 
 ## 结果与代表用例
 
@@ -82,4 +82,6 @@ B实现接口静止且初测通过后可进行独立P；只有B完整验收及Q�
 
 root已使用固定DXC实际编译一份纯uint Compute探针，包含StructuredBuffer/RWStructuredBuffer下标、纯uint helper、guard/短路/三元、RW写后读及numthreads(64,1,1)，exit0；读取节点含const unsigned int，写入/读回为unsigned int，线程属性为64/1/1。源和真实摘要见planning/evidence/binary-compute-plan-2026-10-31.json，原始AST保留artifacts/binary-compute-planning。只验证DXC可解析，不声称C适配器已实现或Lean已验证；B的产品/Lean writer未受此纯DXC探针影响。
 
-独立P第1轮由/root/binary_compute_plan_review只读检查，发现1项P1：共享输出目录的owner保护与完整terminal没有可执行归属政策。root在修订2选择每调用独占run目录、stdout绑定本次结果路径的方案；其它主要共享前端/内存/engine路线未发现需用户新决定的漂移。修订2仍待独立P复核，不是代码grant。
+独立P第1轮由/root/binary_compute_plan_review只读检查，发现1项P1：共享输出目录的owner保护与完整terminal没有可执行归属政策。root在修订2选择每调用独占run目录、stdout绑定本次结果路径的方案；其它主要共享前端/内存/engine路线未发现需用户新决定的漂移。
+
+独立P第2轮实际PASS，复核检查点58658d9813e54b95ba2d12d69beac46ab1be4b42，P1已关闭、无遗留设计阻塞。reviewer确认旧成功通过本次身份/路径验证排除，拒绝者与owner各有独立terminal及完整产物，旧schema行为保持；仅只读检查，没有运行Lean/Lake/测试或写文件。B完整验收与最终Q仍是派生C grant的前置条件。
