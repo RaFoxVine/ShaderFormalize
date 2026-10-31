@@ -2,6 +2,8 @@
 
 将两份 HLSL 经 DXC 已定类型的语法树转成理想实数与整数位字段模型，提供 agent 编写、迭代并独立检查 Lean 等价证明的本地环境。核心依赖固定版本 DXC、Lean 和 mathlib，安装、转换、证明和默认验收均不依赖 Unity。它不是任意 Shader 的自动等价判定器。
 
+当前环境已统一为仓库内 Lean4.35、一个 `proof/` 工作区及一套固定依赖。迁移验收306项单元、83项核心控制（38 PROVED、43 UNPROVED、2 INVALID_INPUT）、9项IEEE控制和19项库原型检查均符合预期；83项核心由77项经哈希核对的保留结果加6项实际重跑组成，失败史未改写。独立E盘副本完成bootstrap及实数→IEEE→实数交错证明，复用了固定上游缓存。独立Q已通过；旧安装和副本的删除被平台审批拦截，待手动清理，不影响统一环境运行。[本轮机器证据与审阅/清理状态](planning/evidence/lean-unification-2026-10-31.json)，[迁移执行记录](planning/lean-unification/implementation-evidence.md)。
+
 语言覆盖以[官方目录](planning/coverage-expansion/coverage.csv)逐项推进。[基础数学运算](docs/basic-math.md)已接入现有实数模型，包括 min/max/abs/clamp、除法、sqrt/rcp/rsqrt、length/distance、floor/ceil/frac/step/smoothstep/cross/reflect，按实际执行条件证明受限域。[并行扩展范围](planning/coverage-expansion/parallel-plan.md)另包含独立浮点库接入及 Compute/同步工作；各方向当前进度见[任务状态](planning/coverage-expansion/tasks.md)。
 
 [实验性 Compute 入口](docs/compute.md)已支持一维 StructuredBuffer 及二维 Texture2D 两输入两输出、物理资源别名、同线程有序读写、纯 helper 和精确整数坐标；完整 Lean 目标同时检查数学定义域、访问范围、跨线程冲突和最终内存相等。使用 `python tools/computeformalize.py check`，或 `pwsh -File tools/run_demo.ps1 -Example compute`。这条路径仍使用理想实数，尚未接入纹理格式转换、共享内存或原子操作。

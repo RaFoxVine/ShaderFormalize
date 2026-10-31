@@ -37,3 +37,17 @@ Codex archive_worktree拒绝basic-math，实际错误为Another active task stil
 - 第一轮仅更新条件别名并补true_and仍失败；探针artifacts/lean-unification-if-probe.{lean,log}确认普通最小ite_true示例可过，而实际目标的Classical.propDecidable内部仍保留原helper。实际根因收敛为证明展开/实例参数规范化兼容，不能只归因于重命名。writer在显式展开helper的dsimp中启用instances，必要旧别名换当前同义名，未改定义/目标/前提。MathAlgebraProof直接Lean编译实际exit0（285.141秒）；限定重跑session11502，日志artifacts/lean-unification-math-extensions-compat-final.log，15单元和algebra完整PROVED已过，余下控制尚未结束。第一次修复失败另存artifacts/lean-unification-repair1-failure。
 - 兼容修复当前仅12份手写证明、21行替换；已先核对模型、生成器、constraints及控制预期未变化。其余正式控制仍要由最终完整回归验证，不能由直接证明编译或源码审阅替代。
 - 修复限定门禁session11502已exit0：15单元（11.832秒）与6项控制均符合预期，algebra/quantize/smooth为PROVED，wrong-boundary/zero-domain/reverse-domain为UNPROVED；三正例均真实绑定和三公理审计通过，负例均真实SubmittedProof未闭合而非环境或超时错误。writer已交接源码静止且无owned进程。最终完整门禁将使用单独final日志，不覆盖首次失败史。
+
+## 最终验收恢复（2026-10-31接续）
+
+- e7afac4最终完整核心验收实际通过306单元，随后79控制符合预期；第80项aggregate-field因Lean4.35的norm_num已完成目标，旧手写证明多余exact报No goals to be solved而中断。原始FAILED摘要和日志保留，未伪造为一次无中断通过。
+- aggregate_controls一次返回六项，故失败摘要只存77项已完成控制；前两项aggregate虽在日志通过，续跑仍重做全部六项。唯一追加源码修复为AggregateFieldProof删除冗余exact，不改变目标、模型、输入或约束。官方aggregate验收25单元、4正2负六控制全部通过。
+- 核对e7afac4快照的143份产品源，仅上述证明一行变化；所有其它tracked文件在核对时未变，77个保留报告SHA及其Shader输入SHA均一致。artifacts/lean-unification/core-resumed-result.json记录306单元与77保留+6实际重跑，83唯一控制为38 PROVED/43 UNPROVED/2 INVALID_INPUT。artifacts/acceptance/result.json保留最后一次完整执行的FAILED事实。
+- 最终IEEE验收由root单独启动python tools/run_ieee_suite.py，日志artifacts/lean-unification-full-ieee-final.log；16项IEEE单元通过，正式九控制及后接核心证明仍在运行。没有并行Lean writer。独立最终Q已交另一agent核对真实源码/结果复用/E盘复现，完整结论等待本轮IEEE终态。
+- 最新只读检查中下载ZIP分片目录已不存在；未把该删除归为agent操作。C盘仍有basic-math junction、ieee-prototype名称标记、compute-texture/ShaderFormalize/.git元数据，已给用户完整路径并建议当前聊天退出后处理占用目录。此前自动审批拒绝删除的动作没有换方式重试。旧4.24和备份仍等待最终Q后清理。
+- td doc-pending实际返回no _TreeDiveCode/ found；当前项目继续沿用已存在planning节点，不自行初始化新Project，不借用其它项目Comprehensive。
+
+- 最终IEEE session70034实际exit0：16单元、3 IEEE_PROVED/6 UNPROVED与后接默认核心PROVED全部符合预期；19项库原型先前在本轮统一环境实跑通过。精简证据planning/evidence/lean-unification-2026-10-31.json已生成，独立Q最终核对进行中。GitHub前两次fetch连接重置后已恢复，最新fetch成功、远端无新增提交；尚未push。
+
+- 最终独立Q为INDEPENDENT_Q_PASSED，无阻塞；reviewer独立核对306单元、83核心续跑、IEEE九控制/核心回切、19原型、E复现、10材料SHA和143产品SHA。原Q文件artifacts/lean-unification/final-q.json，SHA256=b90d1916a1ead8699a2e28841ea05866b47fd209350fdb49ece97107f90fed9d；精简证据保存其结论及已审快照SHA，后续只追加实际清理/发布事实。
+- 通过Q后root尝试按七个精确绝对路径清理旧4.24、迁移备份、旧Fresh Checkout、旧leantar/IEEE缓存/workspace配置以及E验证副本；命令含路径边界、祖先和子树reparse检查，但在执行前被平台自动审批拒绝，错误只有blocked by policy。七处均仍存在，合计约16GiB逻辑文件大小（准确字节值见精简证据），没有改用其它方法重试。当前任务不是物理清理完成；完整手动清单在tasks.md，已通知用户可操作。C盘之前三处残留同样等待用户，不触及其它项目。
