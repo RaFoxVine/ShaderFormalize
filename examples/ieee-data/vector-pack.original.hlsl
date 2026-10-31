@@ -8,7 +8,7 @@ uint2 arrange(uint2 v, uint z) {
 float4 main(float4 input : COLOR0) : SV_Target {
     uint4 x = asuint(input);
     Packet p;
-    p.pair = uint2(x.x, x.y);
+    p.pair = asuint(asfloat(uint2(x.x, x.y)));
     p.triple = asuint(asfloat(uint3(p.pair, x.z)));
     Packet q = p;
     uint2 r = arrange(q.triple.xy, x.w);

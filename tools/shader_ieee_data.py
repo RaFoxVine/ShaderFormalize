@@ -168,17 +168,11 @@ class IeeeLocalValues(LocalValues):
             if self.types.node_type(node) != kind or self.types.node_type(node.children[1]) != kind:
                 raise ModelError("Assignment type mismatch")
             if node.kind == "CompoundAssignOperator":
-                self.uint_compound_operator(node) if kind in self.types.extra_leaves else self.float_compound(node, kind)
+                self.numeric_compound_operator(node)
             elif quoted(node.text)[-1] != "=":
                 raise ModelError("Only assignment statements are supported")
             return False
         return super().validate_statement(node, result_type, effects_allowed)
-
-    def float_compound(self, node, kind):
-        match = re.search(r" lvalue '(\+=|-=|\*=)' ComputeLHSTy=", node.text)
-        if not isinstance(kind, int) or match is None:
-            raise ModelError("Unsupported float compound")
-        return {"+=": "add", "-=": "subtract", "*=": "multiply"}[match.group(1)]
 
     def assign_statement(self, node, symbols):
         if node.kind not in ("BinaryOperator", "CompoundAssignOperator"):
@@ -186,7 +180,7 @@ class IeeeLocalValues(LocalValues):
         destination = self.capture_destination(node.children[0], symbols)
         value = self.expression(node.children[1], symbols)
         if node.kind == "CompoundAssignOperator":
-            op = self.uint_compound_operator(node) if destination.kind in self.types.extra_leaves else self.float_compound(node, destination.kind)
+            op = self.numeric_compound_operator(node)
             value = operation(op, destination.kind, [destination.read(), value])
         destination.write(self.snapshot(initialized(value), destination.name()))
         return True

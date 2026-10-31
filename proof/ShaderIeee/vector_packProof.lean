@@ -4,5 +4,5 @@ namespace ShaderIeee.AgentProof
   unfold ShaderIeee.Generated.expected
   intro input
   funext i
-  fin_cases i <;> simp [Generated.original, Generated.optimized]
+  fin_cases i <;> simp [Generated.original, Generated.optimized, Model.asuint_asfloat]
 end ShaderIeee.AgentProof

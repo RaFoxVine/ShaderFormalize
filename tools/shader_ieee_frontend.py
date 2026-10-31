@@ -92,10 +92,11 @@ class IeeeSemantics:
     def validate_statement(self, node, result_type, effects_allowed):
         if node.kind == "IfStmt" and self.branching:
             return None
-        if node.kind == "CompoundAssignOperator" and self.types.node_type(node) == "uint":
-            self.uint_compound_operator(node)
-            if lvalue_type(node.children[0], self) != "uint":
-                raise ModelError("Uint compound assignment requires a uint destination")
+        if node.kind == "CompoundAssignOperator" and (self.types.node_type(node) == "uint" or isinstance(self.types.node_type(node), int)):
+            kind = self.types.node_type(node)
+            self.numeric_compound_operator(node)
+            if lvalue_type(node.children[0], self) != kind:
+                raise ModelError("Compound assignment destination type mismatch")
             self.validate_ieee_expression(node.children[1])
             return False
         if node.kind in ("IfStmt", "ForStmt", "WhileStmt", "DoStmt", "SwitchStmt", "CaseStmt",
@@ -103,26 +104,45 @@ class IeeeSemantics:
             raise ModelError(f"Control flow and effects are outside the IEEE subset: {node.kind}")
         return None
 
-    def uint_compound_operator(self, node):
-        match = re.search(r" lvalue '(\+=|-=|\*=|&=|\|=|\^=|<<=|>>=)' ComputeLHSTy='([^']+)'(?::'[^']+')? ComputeResultTy='([^']+)'(?::'[^']+')?$", node.text)
+    def checked_compound(self, node, operators, integer):
+        match = re.search(r" lvalue '([^']+)' ComputeLHSTy='([^']+)'(?::'[^']+')? ComputeResultTy='([^']+)'(?::'[^']+')?$", node.text)
         kind = self.types.node_type(node)
-        if match is None or kind not in self.types.extra_leaves or len(node.children) != 2:
-            raise ModelError("Unsupported uint compound assignment")
+        allowed = kind in self.types.extra_leaves if integer else isinstance(kind, int)
+        if match is None or not allowed or match.group(1) not in operators or len(node.children) != 2:
+            raise ModelError("Unsupported compound assignment")
         metadata = node.text[node.text.index(" ComputeLHSTy="):]
-        if any(self.types.named_type(t) != kind for t in re.findall(r"'([^']*)'", metadata)) or any(self.types.node_type(c) != kind for c in node.children):
-            raise ModelError("Uint compound metadata mismatch")
-        return UINT_OPERATORS[match.group(1)[:-1]]
+        def canonical(name):
+            name = re.sub(r"vector<\s*float\s*,\s*([1-4])\s*>", r"float\1", name)
+            return self.types.named_type(name)
+        if any(canonical(t) != kind for t in re.findall(r"'([^']*)'", metadata)) or any(self.types.node_type(c) != kind for c in node.children):
+            raise ModelError("Compound computation metadata/type mismatch")
+        return operators[match.group(1)]
+
+    def uint_compound_operator(self, node):
+        return self.checked_compound(node, {op+"=": name for op,name in UINT_OPERATORS.items()}, True)
+
+    def float_compound_operator(self, node):
+        return self.checked_compound(node, {"+=": "add", "-=": "subtract", "*=": "multiply"}, False)
+
+    def numeric_compound_operator(self, node):
+        if self.types.node_type(node) in self.types.extra_leaves:
+            return self.uint_compound_operator(node)
+        return self.float_compound_operator(node)
 
     def assign_statement(self, node, symbols):
-        if node.kind != "CompoundAssignOperator" or self.types.node_type(node) != "uint":
+        if node.kind != "CompoundAssignOperator":
             return False
-        operator = self.uint_compound_operator(node)
+        kind = self.types.node_type(node)
+        if kind != "uint" and not isinstance(kind, int):
+            return False
+        operator = self.numeric_compound_operator(node)
         symbol, path, kind = self.lvalue(node.children[0], symbols)
         if not symbol["writable"]:
             raise ModelError("Only locals and by-value helper parameters may be assigned")
         old = initialized(read_path(symbol["value"], path))
         right = self.expression(node.children[1], symbols)
-        value = self.snapshot(operation(operator, kind, [old, right]), symbol["name"])
+        name = symbol["name"] if kind == "uint" else ".".join([symbol["name"]] + path)
+        value = self.snapshot(operation(operator, kind, [old, right]), name)
         symbol["value"] = replace_path(symbol["value"], path, value)
         return True
 

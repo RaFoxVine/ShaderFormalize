@@ -134,6 +134,31 @@ class IeeeFrontendTests(unittest.TestCase):
             self.assert_rejected(declaration+BASE)
         self.assert_rejected("float4 main(uint4 input:COLOR0):SV_Target{return asfloat(input);}")
 
+    def test_data_float_compound_metadata_is_shared_and_checked(self):
+        import re
+        for spelling, value in (("float", "t"), ("float4", "a")):
+            for op in ("+=", "-=", "*="):
+                source = BASE.replace("return a * t;", "uint2 marker=asuint(a.xy); "+spelling+" x="+value+"; x "+op+" "+value+"; return "+("a*x" if spelling=="float" else "x")+";")
+                model = self.compile_model(source)
+                self.assertIn("guard", model["bindings"][0])
+                with tempfile.TemporaryDirectory(dir=ROOT / "artifacts") as directory:
+                    path=Path(directory)/"input.hlsl";path.write_text(source)
+                    result=subprocess.run([str(self.dxc),"-T","ps_6_0","-E","main","-HV","2021","-ast-dump",str(path)],capture_output=True,text=True,encoding="utf8")
+                    self.assertEqual(result.returncode,0)
+                    for field in ("ComputeLHSTy","ComputeResultTy"):
+                        pattern=field+r"=('[^']+'(?::'[^']+')?)"
+                        for wrong in ("uint", "float3"):
+                            changed=re.sub(pattern,lambda m:field+"='"+wrong+"'",result.stdout)
+                            with self.subTest(spelling=spelling,op=op,field=field,wrong=wrong), self.assertRaises(ModelError):
+                                import_ieee(source,changed)
+                        changed=re.sub(pattern,lambda m:field+"="+m[1].split(":")[0]+":'vector<float, 3>'",result.stdout)
+                        with self.subTest(spelling=spelling,op=op,field=field,alias=True), self.assertRaises(ModelError):
+                            import_ieee(source,changed)
+                        if spelling == "float4":
+                            changed=re.sub(pattern,lambda m:field+"='float3':'vector<float, 4>'",result.stdout)
+                            with self.assertRaises(ModelError):
+                                import_ieee(source,changed)
+
     def test_literal_preserves_exact_decimal_scientific_form(self):
         token = "0.123456789123456789e-7"
         model = self.compile_model(BASE.replace("a * t", "a * " + token))

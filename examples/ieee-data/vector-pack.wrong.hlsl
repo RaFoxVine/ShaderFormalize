@@ -1,17 +1,14 @@
-struct Packet { uint2 pair; uint3 triple; };
-uint2 arrange(uint2 v, uint z) {
-    uint2 r;
-    if (z < 0x80000000u) { r.x = v.y; } else { r.x = v.x; }
-    r.y = v.x ^ z;
-    return r;
+uint first(uint left, uint right, uint selector) {
+    uint result;
+    if (selector < 0x80000000u) { result = right; } else { result = left; }
+    return result;
 }
 float4 main(float4 input : COLOR0) : SV_Target {
-    uint4 x = asuint(input);
-    Packet p;
-    p.pair = uint2(x.x, x.y);
-    p.triple = asuint(asfloat(uint3(p.pair, x.z)));
-    Packet q = p;
-    uint2 r = arrange(q.triple.xy, x.w);
-    uint4 y = uint4(r.x + 3u, r.y + 3u, x.w + 3u, q.triple.z + 3u);
-    return asfloat(uint4(1u,0u,0u,0u) ^ y);
+    uint a = asuint(input.x);
+    uint b = asuint(input.y);
+    uint c = asuint(input.z);
+    uint d = asuint(input.w);
+    uint r0 = first(a, b, d);
+    uint r1 = a ^ d;
+    return float4(asfloat((r0 + 3u) ^ 1u), asfloat(r1 + 3u), asfloat(d + 3u), asfloat(c + 3u));
 }
