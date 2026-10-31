@@ -1,5 +1,20 @@
 # 当前执行授权
 
+## binary-control-grant-002
+
+- status: active
+- source: direct_user
+- node_frame: delta.md与control-design.md修订1，检查点6f460a4d8dc89e8ba1afa358a321bb0bef8c47d5
+- target_slices: binary-control-002@r1（二进制分支与局部赋值）
+- authorization_message_exact: 按此实施
+- unique_referent_evidence: 用户回复唯一待批异步问题，明确列出纯if/else、嵌套分支、main/helper提前return、struct汇合及八种uint复合赋值、公共分支骨架、三组HLSL及完整旧核心/IEEE验收。
+- allowed_actions: 方案内共享骨架与IEEE源码、测试/实际DXC及Lean验证、兼容检查、文档和证据、独立Q、提交；沿用既有非强制push授权。
+- exclusions: 切换默认执行语义、循环/资源/Compute功能扩张、数值cast、依赖或全局环境更新、Unity/C++、整体节点归档。
+- stop_conditions: 新profile/IR、公理或弱化目标/审计，无法保持旧效果/返回语义，或须扩张未批准能力；旧目标差异先诊断说明，不能静默降低兼容保证。
+- acceptance_boundary: 完整门禁、旧目标比较及独立Q后交付，仅完成本片。
+- delegated_session: none
+- recorded_at_local_date: 2026-10-31 America/Tijuana
+
 ## binary-bits-grant-001
 
 - status: completed
