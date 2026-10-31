@@ -11,4 +11,5 @@
 - 对基线9b68e9d的122个受保护实数/Compute、公共工具、证明和依赖配置路径执行git diff --quiet，均未改变；完整当前源SHA256保存在artifacts/binary-pipeline/protected-sources.json。没有用此指纹核对冒称本批重跑旧83项长门禁。
 - 独立实施审阅Q最终通过，无阻塞、issues=[]。reviewer为/root/binary_pipeline_frame_review，只读独立核对21正式报告与全部当前HLSL/SubmittedProof快照、9正例目标/Model/验证日志/源指纹、10个validated_sources和122保护路径，并实际执行对基线git diff --quiet；确认完整目标、原三公理、312/22单元、原型19和实数回切证据一致，没有运行Lean或修改文件。收尾仅更新状态和交付记录。
 - 正式新负控中，packing-wrong在SubmittedProof留下input.z的bit7目标；hash-wrong在SubmittedProof的rfl达到maximum recursion depth。两者均为UNPROVED且符合控制合同，不能把后者描述为工具已经证明两函数不等价。最终机器证据保存负例真实错误行与日志哈希。
-- 首次直接GitHub fetch及HTTP/1.1重试连接重置；读取系统既有代理后，使用单次git -c http.proxy=http://127.0.0.1:10808成功ls-remote/fetch，远程仍9b68e9d，没有改全局Git或系统配置。最终推送仍待回归和Q完成。
+- 首次直接GitHub fetch及HTTP/1.1重试连接重置；读取系统既有代理后，使用单次git -c http.proxy=http://127.0.0.1:10808成功ls-remote/fetch，远程当时仍9b68e9d，没有改全局Git或系统配置。
+- 功能提交1f7c57a7dd6c1bb220de9c61ed9e1b058f665eb9已非强制push至origin/codex/shader-equivalence-planning；随后ls-remote精确匹配该SHA，工作区干净。收尾仅将本片状态与grant标为Completed并记录交付；其它切片保留原规划状态，未归档整体节点，未开始整体实数/Compute迁移。

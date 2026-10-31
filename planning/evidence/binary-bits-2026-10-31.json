@@ -1452,5 +1452,15 @@
     "status": "PASSED",
     "controls": 21,
     "scope": "Current HLSL/proof bytes match each check snapshot; positive reports match target/model/dependency hashes"
+  },
+  "delivery": {
+    "slice_status": "COMPLETED",
+    "whole_binary_migration_complete": false,
+    "implementation_commit": "1f7c57a7dd6c1bb220de9c61ed9e1b058f665eb9",
+    "remote": "https://github.com/RaFoxVine/ShaderFormalize.git",
+    "branch": "codex/shader-equivalence-planning",
+    "implementation_push_verified_by": "git ls-remote exact SHA match after non-force push",
+    "verified_at": "2026-10-31T08:39:34.400095-07:00",
+    "closing_changes": "Only completion state, grant and delivery records follow the implementation commit"
   }
 }

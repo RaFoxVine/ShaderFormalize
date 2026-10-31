@@ -2,7 +2,7 @@
 
 ## binary-bits-grant-001
 
-- status: active
+- status: completed
 - source: direct_user
 - node_frame: delta.md与design.md修订1，检查点b7f6762734fed1dda4e0102a45f15ff22b5d5cd2
 - target_slices: binary-bits-001@r1（二进制标量位运算接入）
@@ -15,3 +15,4 @@
 - acceptance_boundary: 实测与独立实施审阅、真实证据后报告；未执行其它切片，不归档整个节点。
 - delegated_session: none
 - recorded_at_local: 2026-10-31T07:16:56.942500-07:00
+- completion_evidence: planning/evidence/binary-bits-2026-10-31.json；全门禁及独立Q通过，功能提交1f7c57a7dd6c1bb220de9c61ed9e1b058f665eb9已非强制推送并核对远程精确SHA。只完成本首片，不授权或归档其余迁移切片。
