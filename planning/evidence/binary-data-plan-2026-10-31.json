@@ -1,0 +1,36 @@
+{
+  "dxc": "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\.tools\\dxc\\bin\\x64\\dxc.exe",
+  "results": [
+    {
+      "probe": "vector",
+      "exit_code": 0,
+      "source_sha256": "6a073857bc3961578e076349be17f37d7127158ea6487d95835807b8d9286bfc",
+      "ast_sha256": "b578e56d05f6dcc8af3aebc507cb3cac3a1421b8b3199467aca39ae892b55e86",
+      "compounds": [
+        "|   |-CompoundAssignOperator 0x15df35c1cf8 <line:6:5, col:13> 'uint4':'vector<unsigned int, 4>' lvalue '+=' ComputeLHSTy='uint4':'vector<unsigned int, 4>' ComputeResultTy='uint4':'vector<unsigned int, 4>'",
+        "|   |-CompoundAssignOperator 0x15df35c1e90 <line:7:5, col:33> 'uint4':'vector<unsigned int, 4>' lvalue '-=' ComputeLHSTy='uint4':'vector<unsigned int, 4>' ComputeResultTy='uint4':'vector<unsigned int, 4>'",
+        "|   |-CompoundAssignOperator 0x15df35c1f98 <line:8:5, col:13> 'uint4':'vector<unsigned int, 4>' lvalue '*=' ComputeLHSTy='uint4':'vector<unsigned int, 4>' ComputeResultTy='uint4':'vector<unsigned int, 4>'",
+        "|   |-CompoundAssignOperator 0x15df35c2098 <line:9:5, col:13> 'uint4':'vector<unsigned int, 4>' lvalue '&=' ComputeLHSTy='uint4':'vector<unsigned int, 4>' ComputeResultTy='uint4':'vector<unsigned int, 4>'",
+        "|   |-CompoundAssignOperator 0x15df35cc0b8 <line:10:5, col:33> 'uint4':'vector<unsigned int, 4>' lvalue '|=' ComputeLHSTy='uint4':'vector<unsigned int, 4>' ComputeResultTy='uint4':'vector<unsigned int, 4>'",
+        "|   |-CompoundAssignOperator 0x15df35cc158 <line:11:5, col:13> 'uint4':'vector<unsigned int, 4>' lvalue '^=' ComputeLHSTy='uint4':'vector<unsigned int, 4>' ComputeResultTy='uint4':'vector<unsigned int, 4>'",
+        "|   |-CompoundAssignOperator 0x15df35cc2f0 <line:12:5, col:37> 'uint4':'vector<unsigned int, 4>' lvalue '<<=' ComputeLHSTy='uint4':'vector<unsigned int, 4>' ComputeResultTy='uint4':'vector<unsigned int, 4>'",
+        "|   |-CompoundAssignOperator 0x15df35cc3f8 <line:13:5, col:14> 'uint4':'vector<unsigned int, 4>' lvalue '>>=' ComputeLHSTy='uint4':'vector<unsigned int, 4>' ComputeResultTy='uint4':'vector<unsigned int, 4>'"
+      ],
+      "loops": 0,
+      "source": "uint4 transform(uint4 x) {\n    uint2 low = x.yx;\n    uint3 triple = uint3(low, x.z);\n    uint4 word = uint4(triple, x.w);\n    word.xy = word.yx;\n    word += 1u;\n    word -= uint4(2u, 3u, 4u, 5u);\n    word *= 7u;\n    word &= 0x7fffffffu;\n    word |= uint4(1u, 2u, 4u, 8u);\n    word ^= x;\n    word <<= uint4(0u, 31u, 32u, 63u);\n    word >>= 1u;\n    return ~word;\n}\nfloat4 main(float4 input : COLOR0) : SV_Target {\n    return asfloat(transform(asuint(input)));\n}\n"
+    },
+    {
+      "probe": "array",
+      "exit_code": 0,
+      "source_sha256": "5e1f899ce9c461f5d0d43d4cb38f734b47e375667a2dc4a310561c0827452514",
+      "ast_sha256": "3d9746e2b5db8dc543b2716b8b602489255ac1cc4e8678ba7f2a7534064ce994",
+      "compounds": [],
+      "loops": 1,
+      "source": "float4 main(float4 input : COLOR0) : SV_Target {\n    uint4 words = asuint(input);\n    uint values[4] = {words.x, words.y, words.z, words.w};\n    uint result[4];\n    [unroll] for (uint i = 0u; i < 4u; ++i) {\n        result[i] = values[i] ^ (1u << (i + 32u));\n    }\n    return asfloat(uint4(result[0], result[1], result[2], result[3]));\n}\n"
+    }
+  ],
+  "kind": "DXC_ONLY_PLANNING_PROBES",
+  "date": "2026-10-31",
+  "product_code_changed": false,
+  "lean_run": false
+}

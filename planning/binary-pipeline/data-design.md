@@ -60,3 +60,5 @@ IeeeEmitter增加`Fin n → UInt32`，逐lane调用现有uint与bitcast标量Mod
 ## 独立P记录
 
 2026-10-31，/root/binary_data_plan_review第1轮PASS，无阻断或需要用户新决定的事项。reviewer独立对照上限、方案和实际types/address/aggregate/loop/flow/IEEE emitter，只读检查，未修改文件或运行Lean/Lake/测试。它确认typed形状、共用提取及后端边界可实施，特别要求实施/Q核验分量初始化汇合、counter身份跨作用域/helper恢复和旧real地址安全/目标兼容；这些已在本修订合同内。PASS不代表A已经通过，不能绕过A依赖或精确grant。
+
+另有root实际DXC规划探针：uint2/3/4构造、八种vector复合赋值、同lane bitcast，以及局部数组/规范unroll for均exit0。DXC结果/计算类型含uint4及vector<unsigned int, 4>的对应别名；静态检查必须核对canonical类型，而非只匹配字面uint。源、摘要与真实metadata保存在planning/evidence/binary-data-plan-2026-10-31.json，原始AST在artifacts/binary-data-planning。这仅验证DXC可解析，不冒充IEEE支持或Lean证明。
