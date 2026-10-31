@@ -26,17 +26,7 @@ P由任务发起者固定，逻辑上可为空域；不额外强制所有自定�
 
 ### 首规格片待对齐的具体合同
 
-推荐首片使用一个候选入口，不把同一候选复制成pair以迁就现有接口。任务文件固定Compute约束、规格模块与声明以及允许写入区域；候选文件和提交证明作为独立参数。具体CLI及公共engine接点在C交付后对应其真实接口，不另写DXC、语句解释或Lean检查循环。
-
-Lean输入为Count : UInt32及initial : Memory UInt32，输出为最终Memory UInt32。资源identity、capacity、固定launch及Count范围来自任务约束，形成Domain；任务模块提供相同ABI下的P/R。首批固定Source和Output两个不同identity、容量113、T=128、0≤Count≤113。frame仅允许Output的[0,Count)改变，Source、Output尾部及其它identity/地址保持initial，不能由候选扩大允许写入集合。首精确任务的P要求有效Source元素不超过255，R为清除最低位的数学公式；可让候选在大于255时返回其它值，以实际检验输入前提的适用范围。误差任务P为True，R保留上述输入依赖的整体误差预算，误差使用Nat.dist而不是UInt32回绕减法。
-
-对满足Domain与P的每个输入，完整expected直接组合C的safe、固定frame及R(input,finish(...))。C的无循环受支持程序生成有限总定义，正常完成可由这一构造保证；首片不先增加通用故障Outcome或终止证明器。符号循环/图扩展必须在自己的合同中补齐相应完成性要求。
-
-任务发布时生成包含manifest及规格传递依赖的固定task_id，检查调用必须提供发起者确认的expected task_id，结果同时记录实际task_id。只在执行开始冻结任意可变task文件不足以保证仍在验证原任务。候选、proof及其生成模块不参与规格定义，规格依赖不能导入它们；固定依赖、ABI、允许写区域和P/R的准确字节参与task_id、缓存键及结束核对。此机制建立可核对的任务身份，不承担鉴别提交者角色或签名授权系统的职责。
-
-单候选backend复用C的importer、每次调用独占产物目录、内存发射器和独立Verify，仅目标生成从pair等价改为固定任务规格。单候选数量与目标由公共engine接口明确表达，不保留一份第二套prepare/check。候选或proof更改任务文件应被身份绑定拒绝；错误结果和破坏frame必须成功导入后在真实完整命题失败；spec内部sorry/额外公理仍由最终定理审计拒绝。两个满足同一误差预算的候选不能自动获得精确等价结论。
-
-以上是PLAN_ONLY的具体化建议。C真实接口、文件归属、task_id规范及目标构造需在首片最终设计中冻结并完成独立P，本段不构成Execution Ready或代码grant。
+具体候选设计由[单候选规格首片](spec-single-design.md)拥有：固定Count/初始内存ABI、Source/Output及可写prefix，显式单候选入口，任务发布/expected task_id、真实Lean依赖闭包与完整safe/frame/R目标，复用C的执行器和检查生命周期。该文件具体拟定manifest/lock与失败政策，仍待C真实接口对齐和最终独立P，没有代码grant。整体图与符号循环规划继续由本文件拥有，避免维护两套首片接口说明。
 
 ## 图是明确的调度输入
 
