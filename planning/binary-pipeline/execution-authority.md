@@ -10,7 +10,7 @@
 
 ## binary-control-grant-002
 
-- status: active
+- status: completed
 - source: direct_user
 - node_frame: delta.md与control-design.md修订1，检查点6f460a4d8dc89e8ba1afa358a321bb0bef8c47d5
 - target_slices: binary-control-002@r1（二进制分支与局部赋值）
@@ -22,6 +22,7 @@
 - acceptance_boundary: 完整门禁、旧目标比较及独立Q后交付，仅完成本片。
 - delegated_session: none
 - recorded_at_local_date: 2026-10-31 America/Tijuana
+- completion_evidence: planning/evidence/binary-control-2026-10-31.json；319全单元/83核心、29IEEE单元/27控制、实数回切及原型19全部实际通过，独立Q第2轮PASS、issues=[]。功能检查点64a6d7e及b6f4fb8已推送；仅完成本片，Overnight其它项目继续按限定委托推进。
 
 ## binary-bits-grant-001
 

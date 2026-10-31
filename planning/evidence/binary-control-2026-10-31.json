@@ -1,0 +1,2944 @@
+{
+  "schema": 1,
+  "date": "2026-10-31",
+  "recorded_at": "2026-10-31T13:29:10.830646-07:00",
+  "status": "PASSED",
+  "slice": "binary-control-002@r1",
+  "plan_checkpoint": "6f460a4d8dc89e8ba1afa358a321bb0bef8c47d5",
+  "grant_commit": "11f280383aa22fab87711c01ba5b1ef5a80f3e32",
+  "source_checkpoint": "64a6d7e13896b6d8bee656a7570410f47786c8e3",
+  "profile": "binary32-rne-preserve-subnormals-separate-ops-v1",
+  "gpu_profile_matched": false,
+  "scope": "Pure IEEE branches, early returns, struct/local joins and scalar uint compounds using shared flow",
+  "validation": {
+    "status": "PASSED",
+    "started_at": "2026-10-31T10:30:09.332715-07:00",
+    "steps": [
+      {
+        "name": "core",
+        "command": [
+          "D:\\1ProgramDownloaded\\Python3.9\\python.exe",
+          "tools/verify_demo.py"
+        ],
+        "exit_code": 0,
+        "seconds": 5959.422
+      },
+      {
+        "name": "ieee",
+        "command": [
+          "D:\\1ProgramDownloaded\\Python3.9\\python.exe",
+          "tools/run_ieee_suite.py"
+        ],
+        "exit_code": 0,
+        "seconds": 4693.234
+      },
+      {
+        "name": "prototype",
+        "command": [
+          "E:/1Download/PowerShell-7/7/pwsh.exe",
+          "-NoProfile",
+          "-File",
+          "prototypes/ieee/run.ps1"
+        ],
+        "exit_code": 0,
+        "seconds": 80.235
+      }
+    ],
+    "heartbeat": "2026-10-31T13:28:57.206722-07:00"
+  },
+  "core": {
+    "status": "PASSED",
+    "python_tests": 319,
+    "formal_controls": 83,
+    "counts": {
+      "PROVED": 38,
+      "UNPROVED": 43,
+      "INVALID_INPUT": 2
+    },
+    "report_sha256": "417803d7823c05eece9b23d9dfb9f67f5665c128edb8efba010afb146e96b6e6",
+    "controls": [
+      {
+        "case": "basic-math-optimized",
+        "expected": "PROVED",
+        "actual": "PROVED",
+        "report_sha256": "575de489ddfd91f8d3192e88e10ec50d21fc9fabb4e3c5ae41e38ad8a8d6cdc8",
+        "generated_sha256": "01ed65250705d20475e3a30226d7f8211d6689ae8eacfb6701ea726b8f3dd10e",
+        "agent_proof_sha256": "1a42053cff210629363cf1a095b717394391f6f6756891853943da3ef126eb32",
+        "current_proof_bytes_match": "proof/BasicMathProof.lean",
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      },
+      {
+        "case": "basic-math-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+        "message": "Agent proof did not check against the generated Shader model; see lean-build.log",
+        "error_lines": [
+          "error: SubmittedProof.lean:6:59: unsolved goals",
+          "error: build failed"
+        ]
+      },
+      {
+        "case": "basic-math-domain-original",
+        "expected": "PROVED",
+        "actual": "PROVED",
+        "report_sha256": "f5cbba1adb8f8bc105e194555b14ab172d122fb480e4964bb9e9c35aff46416e",
+        "generated_sha256": "05164e0dd754db496dc570a9823e1bc32c60f22d5df8843e6391d56410ad2687",
+        "agent_proof_sha256": "fd3e10a56f78dc2083e819724faf99f6f93cdbaa84bd6b0813ac412ec4606ebc",
+        "current_proof_bytes_match": "proof/BasicMathDomainProof.lean",
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      },
+      {
+        "case": "basic-math-domain-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+        "message": "Agent proof did not check against the generated Shader model; see lean-build.log",
+        "error_lines": [
+          "error: SubmittedProof.lean:4:59: unsolved goals",
+          "error: build failed"
+        ]
+      },
+      {
+        "case": "basic-math-auto",
+        "expected": "PROVED",
+        "actual": "PROVED",
+        "report_sha256": "5f7f3c295530c5e577be749d36e501c21ce2c0d16e8a5ddeed19ec8b2e1463d3",
+        "generated_sha256": "596520166b15e2b9753ed31b202f0c8b81e74a78b157391fd899e7589c3cbda6",
+        "agent_proof_sha256": "a53edc1f8427004484e35f827a14a329a558f2890a725d0a9e5d3077623561b2",
+        "current_proof_bytes_match": "proof/BasicMathAutoProof.lean",
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      },
+      {
+        "case": "basic-math-unused-clamp-domain",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+        "message": "Agent proof did not check against the generated Shader model; see lean-build.log",
+        "error_lines": [
+          "error: SubmittedProof.lean:4:59: unsolved goals",
+          "error: build failed"
+        ]
+      },
+      {
+        "case": "math-extensions-algebra",
+        "expected": "PROVED",
+        "actual": "PROVED",
+        "report_sha256": "fe0ee9ee32fce76187c9e5676bf7a53faee027706907ca5be287f9845c654988",
+        "generated_sha256": "79efb3c9c203439a9e6d246e825ad71b60b41e70c1b9e7df70ce6d4e0ee78602",
+        "agent_proof_sha256": "57c2fd7324d572043643a7c935dfd72c41fcbb8889529a4cdb182cc2a59eacaa",
+        "current_proof_bytes_match": "proof/MathAlgebraProof.lean",
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      },
+      {
+        "case": "math-extensions-quantize",
+        "expected": "PROVED",
+        "actual": "PROVED",
+        "report_sha256": "b5351d15dd7ff64819c652c620e5512add3eb89dbb1962b36226811e78bebb17",
+        "generated_sha256": "42d67273d91b66580ca8781f32efaaa1adf3b3b45b7c2fcab8d426ce03cb8547",
+        "agent_proof_sha256": "8bd9d7fc5cfae536a140b6dc4fcf534568d51b4f8bc32c61c97de60321fb6029",
+        "current_proof_bytes_match": "proof/MathQuantizeProof.lean",
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      },
+      {
+        "case": "math-extensions-smooth",
+        "expected": "PROVED",
+        "actual": "PROVED",
+        "report_sha256": "62b3b154acac663c2855a57a59d6e7abe19bae83ee884d2b3cffd31662855841",
+        "generated_sha256": "087e917b6e341c3009b0d66e767fefb1367f99ebb8e7e06ae29ef0b43791a605",
+        "agent_proof_sha256": "b0d2e15b94fa7e6b69140f838879c0e541a25f6d9175f3658c9ccacdcb3e7038",
+        "current_proof_bytes_match": "proof/MathSmoothProof.lean",
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      },
+      {
+        "case": "math-extensions-wrong-boundary",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+        "message": "Agent proof did not check against the generated Shader model; see lean-build.log",
+        "error_lines": [
+          "error: SubmittedProof.lean:4:59: unsolved goals",
+          "error: build failed"
+        ]
+      },
+      {
+        "case": "math-extensions-zero-domain",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+        "message": "Agent proof did not check against the generated Shader model; see lean-build.log",
+        "error_lines": [
+          "error: SubmittedProof.lean:4:59: unsolved goals",
+          "error: build failed"
+        ]
+      },
+      {
+        "case": "math-extensions-reverse-domain",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+        "message": "Agent proof did not check against the generated Shader model; see lean-build.log",
+        "error_lines": [
+          "error: SubmittedProof.lean:4:59: unsolved goals",
+          "error: build failed"
+        ]
+      },
+      {
+        "case": "compute-postprocess",
+        "expected": "PROVED",
+        "actual": "PROVED",
+        "report_sha256": "c3995d29862209583545700bfc34d8951831046a918fdba7fe386695f0f44a2d",
+        "generated_sha256": "f3ea7def8f749c8f324915212303b7a34db0ec9544db13653de7fcac31bdef39",
+        "agent_proof_sha256": "484b252857af6db038bcad7dabc47517313f6ef489cfa2bdddf32d413b7f2581",
+        "current_proof_bytes_match": "proof/ComputePostProof.lean",
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      },
+      {
+        "case": "compute-same-thread-alias",
+        "expected": "PROVED",
+        "actual": "PROVED",
+        "report_sha256": "3c8a729df8b0c41b551685f863c02b259dc84cc46700609446f193bdfed5d69b",
+        "generated_sha256": "d7754d2435258a3e0cabe8f592b7aec414f029e50e60638e828ae9091cb26e73",
+        "agent_proof_sha256": "f190774db6e1d77392700e87ba2c48989842757c72bd81992fd1fd608f3b562d",
+        "current_proof_bytes_match": "proof/ComputeAliasProof.lean",
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      },
+      {
+        "case": "compute-wrong-output",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "8f1f069bf45754f7897aa62c1af69d74c4c03531f666cec3eaf74098a50892f1",
+        "message": "Compute target/proof failed Lean; see lean-SubmittedProof.log",
+        "error_lines": []
+      },
+      {
+        "case": "compute-out-of-bounds",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "8f1f069bf45754f7897aa62c1af69d74c4c03531f666cec3eaf74098a50892f1",
+        "message": "Compute target/proof failed Lean; see lean-SubmittedProof.log",
+        "error_lines": []
+      },
+      {
+        "case": "compute-write-write-conflict",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "8f1f069bf45754f7897aa62c1af69d74c4c03531f666cec3eaf74098a50892f1",
+        "message": "Compute target/proof failed Lean; see lean-SubmittedProof.log",
+        "error_lines": []
+      },
+      {
+        "case": "compute-alias-write-read-conflict",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "8f1f069bf45754f7897aa62c1af69d74c4c03531f666cec3eaf74098a50892f1",
+        "message": "Compute target/proof failed Lean; see lean-SubmittedProof.log",
+        "error_lines": []
+      },
+      {
+        "case": "compute-texture-tonemap",
+        "expected": "PROVED",
+        "actual": "PROVED",
+        "report_sha256": "f1c448d14ed382c5042b5606a11b1610dd96da815dceefd5aca8e85f2fe9a72b",
+        "generated_sha256": "08c6d1ac25f9ec0488caede071d4cf8588a032419f40de75ddadecab42a52db1",
+        "agent_proof_sha256": "65aa687f71b8ab88f3f208d9be5043a124a0dfd6676cb345e5ed4249dbe70e90",
+        "current_proof_bytes_match": "proof/ComputeTexturePostProof.lean",
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      },
+      {
+        "case": "compute-texture-alias",
+        "expected": "PROVED",
+        "actual": "PROVED",
+        "report_sha256": "cbb4665cec0c7d42ca69c8428f7c0addf9d9d7ffa613157ac94163ff00ca6306",
+        "generated_sha256": "b8dd46927aaa829783e5627b8d781b7dd6b1168e7ad487124c1d7837b3d22506",
+        "agent_proof_sha256": "8deff6499f7b181c880d9c29e28299ac61eecc5a87043fc67c1b61bba1f782e9",
+        "current_proof_bytes_match": "proof/ComputeTextureAliasProof.lean",
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      },
+      {
+        "case": "compute-texture-oob-zero",
+        "expected": "PROVED",
+        "actual": "PROVED",
+        "report_sha256": "19cfb4f1c4cee3313ea76f710d3e8a9b50adfcc177998fc0f04afb9b5abe69fb",
+        "generated_sha256": "7c6978bb2757c5bdb8199f159dc25c975bc3511403a1428e5062d396119c52c9",
+        "agent_proof_sha256": "5c25822e00c86b18c02785a7facf57d18131d29c5843cffe45a26aa87d7c9ebc",
+        "current_proof_bytes_match": "proof/ComputeTextureOobProof.lean",
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      },
+      {
+        "case": "compute-texture-wrong-output",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "8f1f069bf45754f7897aa62c1af69d74c4c03531f666cec3eaf74098a50892f1",
+        "message": "Compute target/proof failed Lean; see lean-SubmittedProof.log",
+        "error_lines": []
+      },
+      {
+        "case": "compute-texture-out-of-bounds-store",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "8f1f069bf45754f7897aa62c1af69d74c4c03531f666cec3eaf74098a50892f1",
+        "message": "Compute target/proof failed Lean; see lean-SubmittedProof.log",
+        "error_lines": []
+      },
+      {
+        "case": "compute-texture-write-write",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "8f1f069bf45754f7897aa62c1af69d74c4c03531f666cec3eaf74098a50892f1",
+        "message": "Compute target/proof failed Lean; see lean-SubmittedProof.log",
+        "error_lines": []
+      },
+      {
+        "case": "compute-texture-alias-write-read",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "8f1f069bf45754f7897aa62c1af69d74c4c03531f666cec3eaf74098a50892f1",
+        "message": "Compute target/proof failed Lean; see lean-SubmittedProof.log",
+        "error_lines": []
+      },
+      {
+        "case": "compute-texture-zero-denominator",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "8f1f069bf45754f7897aa62c1af69d74c4c03531f666cec3eaf74098a50892f1",
+        "message": "Compute target/proof failed Lean; see lean-SubmittedProof.log",
+        "error_lines": []
+      },
+      {
+        "case": "complete-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+        "message": "Agent proof did not check against the generated Shader model; see lean-build.log",
+        "error_lines": [
+          "error: SubmittedProof.lean:5:59: unsolved goals",
+          "error: build failed"
+        ]
+      },
+      {
+        "case": "complete-positive",
+        "expected": "PROVED",
+        "actual": "PROVED",
+        "report_sha256": "d3e11051c97aba27b8a383d51693fe51d21b15d62e604a9f390103b68c20df55",
+        "generated_sha256": "d001b2ddec401a73440cc3650011ec26489ca2fb051f2682cf3b30de9fe79ba2",
+        "agent_proof_sha256": "5c1d0cdc696f48b1cfcdb70fce9c4b693914d993200df743517a0e4b8cd3de03",
+        "current_proof_bytes_match": "proof/CompleteMaterialProof.lean",
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      },
+      {
+        "case": "loop-domain-zero",
+        "expected": "PROVED",
+        "actual": "PROVED",
+        "report_sha256": "ac7cf10f2ccb4990a4068079aca0d0c906c07a450700fd1ba35f696dc39c60ee",
+        "generated_sha256": "de542f70062efc40dfda0fbf57bd6ac1d0b92b8c3810c973502ae60051a4f884",
+        "agent_proof_sha256": "4c5aa018ac2f77b7b43c0e034670eb378426f01f6e817ad3ff07e618908c0b77",
+        "current_proof_bytes_match": "proof/LoopDomainProof.lean",
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      },
+      {
+        "case": "loop-domain-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+        "message": "Agent proof did not check against the generated Shader model; see lean-build.log",
+        "error_lines": [
+          "error: SubmittedProof.lean:9:4: Type mismatch",
+          "error: SubmittedProof.lean:10:4: Type mismatch",
+          "error: SubmittedProof.lean:13:4: No goals to be solved",
+          "error: build failed"
+        ]
+      },
+      {
+        "case": "wrong-expression",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+        "message": "Agent proof did not check against the generated Shader model; see lean-build.log",
+        "error_lines": [
+          "error: SubmittedProof.lean:9:2: 'change' tactic failed, pattern",
+          "error: build failed"
+        ]
+      },
+      {
+        "case": "missing-range-premise",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+        "message": "Agent proof did not check against the generated Shader model; see lean-build.log",
+        "error_lines": [
+          "error: SubmittedProof.lean:10:32: Application type mismatch: The argument",
+          "error: SubmittedProof.lean:6:59: unsolved goals",
+          "error: build failed"
+        ]
+      },
+      {
+        "case": "custom-axiom",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "fdf3f607fbe79a07d52ebf035889d7b525790ef6fb0a6a1a28bf8efc55abbc08",
+        "message": "Proof depends on unapproved axioms: ['propext', 'Classical.choice', 'Quot.sound', 'ShaderFormalize.AgentProof.lie']",
+        "error_lines": []
+      },
+      {
+        "case": "sorry-proof",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "4c90a3601d1c004f652b8f446a9e59a359a5c8de28e239d278caa6dba02ce66a",
+        "message": "Proof depends on unapproved axioms: ['propext', 'sorryAx', 'Classical.choice', 'Quot.sound']",
+        "error_lines": []
+      },
+      {
+        "case": "forged-target",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "aabd872ae0d308a6298919eb3ab5d1f975f48874beb548bc7615478b1ca09a29",
+        "message": "The independent target-binding module failed",
+        "error_lines": []
+      },
+      {
+        "case": "positive",
+        "expected": "PROVED",
+        "actual": "PROVED",
+        "report_sha256": "28e8f4c1450e87518b766411d8063cf8fd31e2aff6d852eaf5029e44ccabf43b",
+        "generated_sha256": "6faeecdaaa6762950e7ccb870118ff5f251e267650587cd59a01dc20a7a633d9",
+        "agent_proof_sha256": "af907b2a6a3baab2f8b13985de886070ceaa5aa2db1308617facc594542466a8",
+        "current_proof_bytes_match": "proof/AgentProof.lean",
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      },
+      {
+        "case": "unlit-missing-domain",
+        "expected": "INVALID_INPUT",
+        "actual": "INVALID_INPUT",
+        "report_sha256": "bed1d7a4dde6b0c2b8fc188633b72ac62d73ce9f82e03fa7fb4dd5eda683daac",
+        "message": "normalize requires an explicit matching nonzero_vectors premise",
+        "error_lines": []
+      },
+      {
+        "case": "unlit-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+        "message": "Agent proof did not check against the generated Shader model; see lean-build.log",
+        "error_lines": [
+          "error: SubmittedProof.lean:7:59: unsolved goals",
+          "error: build failed"
+        ]
+      },
+      {
+        "case": "unlit-positive",
+        "expected": "PROVED",
+        "actual": "PROVED",
+        "report_sha256": "3fa648b0334811cf13df8a89b8e6ef394516452a50ecd89918014428cb5ab485",
+        "generated_sha256": "b6eb2fdaac6b423c622a42d5cfc96bcbe24104b41d730c3bf60cc86d66d4409c",
+        "agent_proof_sha256": "bfb0e583b8b54223e5c56d67c1d9e081e1b0d49a196f5e61df62ad38133e1487",
+        "current_proof_bytes_match": "proof/UnlitProof.lean",
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      },
+      {
+        "case": "structured-missing-domain",
+        "expected": "INVALID_INPUT",
+        "actual": "INVALID_INPUT",
+        "report_sha256": "bed1d7a4dde6b0c2b8fc188633b72ac62d73ce9f82e03fa7fb4dd5eda683daac",
+        "message": "normalize requires an explicit matching nonzero_vectors premise",
+        "error_lines": []
+      },
+      {
+        "case": "structured-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+        "message": "Agent proof did not check against the generated Shader model; see lean-build.log",
+        "error_lines": [
+          "error: SubmittedProof.lean:7:59: unsolved goals",
+          "error: build failed"
+        ]
+      },
+      {
+        "case": "structured-positive",
+        "expected": "PROVED",
+        "actual": "PROVED",
+        "report_sha256": "0ad5199d851207e294fe1476af088874ddbb43e6b1d0b3380aa84324bf610cee",
+        "generated_sha256": "3337fbdf763872249564fb972f56c9ebb1596c0f80f82e33fba0b68d3c0d2dd0",
+        "agent_proof_sha256": "bfb0e583b8b54223e5c56d67c1d9e081e1b0d49a196f5e61df62ad38133e1487",
+        "current_proof_bytes_match": "proof/UnlitProof.lean",
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      },
+      {
+        "case": "textured-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+        "message": "Agent proof did not check against the generated Shader model; see lean-build.log",
+        "error_lines": [
+          "error: SubmittedProof.lean:12:2: Tactic `apply` failed: could not unify the conclusion of `@funext`",
+          "error: build failed"
+        ]
+      },
+      {
+        "case": "textured-wrong-uv",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+        "message": "Agent proof did not check against the generated Shader model; see lean-build.log",
+        "error_lines": [
+          "error: SubmittedProof.lean:12:2: Tactic `apply` failed: could not unify the conclusion of `@funext`",
+          "error: build failed"
+        ]
+      },
+      {
+        "case": "textured-wrong-derivative",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+        "message": "Agent proof did not check against the generated Shader model; see lean-build.log",
+        "error_lines": [
+          "error: SubmittedProof.lean:7:59: unsolved goals",
+          "error: build failed"
+        ]
+      },
+      {
+        "case": "textured-wrong-lod",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+        "message": "Agent proof did not check against the generated Shader model; see lean-build.log",
+        "error_lines": [
+          "error: SubmittedProof.lean:7:59: unsolved goals",
+          "error: build failed"
+        ]
+      },
+      {
+        "case": "textured-wrong-sampler",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+        "message": "Agent proof did not check against the generated Shader model; see lean-build.log",
+        "error_lines": [
+          "error: SubmittedProof.lean:12:2: Tactic `apply` failed: could not unify the conclusion of `@funext`",
+          "error: build failed"
+        ]
+      },
+      {
+        "case": "textured-positive",
+        "expected": "PROVED",
+        "actual": "PROVED",
+        "report_sha256": "e8ec1056efeb8761c6c6ed25813e60992df222bf050cfea845d2afb9eedd33cb",
+        "generated_sha256": "154796db151cef5fd85efa6fbf569f4d1dc6deb5f4f9038e56bd207376e040b8",
+        "agent_proof_sha256": "9bc224cce89c955f816e709e026a759e765abf83e3a70e8f14a823032a29556b",
+        "current_proof_bytes_match": "proof/TexturedProof.lean",
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      },
+      {
+        "case": "control-alias",
+        "expected": "PROVED",
+        "actual": "PROVED",
+        "report_sha256": "9eb3fe2506f04ad9f270cfa7d38fd14ef4c2c76a7339bf8fe62f589c0724713a",
+        "generated_sha256": "e35a7c2a94dcf858b41b3fdb109c89ea196e602fefd006f24ebad2cb6065ee1b",
+        "agent_proof_sha256": "3b1706be9993b6b14ec8346a5968165ba8f2a764ada052d1f657717df1983fbd",
+        "current_proof_bytes_match": "proof/ControlAliasProof.lean",
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      },
+      {
+        "case": "control-else",
+        "expected": "PROVED",
+        "actual": "PROVED",
+        "report_sha256": "1265663161475c8e653d5c45860b1ac78faa7f300983d18e8e527d247ea2cddd",
+        "generated_sha256": "8fed3d134598b4928f52109bcb15b69468769e45d7432eb521873aad0d451023",
+        "agent_proof_sha256": "edfb8f2037bdf5a81ff54af10fbbc9d35ba58aa6ebea3073b63b7904160d3ab9",
+        "current_proof_bytes_match": "proof/ControlElseProof.lean",
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      },
+      {
+        "case": "control-return",
+        "expected": "PROVED",
+        "actual": "PROVED",
+        "report_sha256": "9495535175b0720632db1e06711e892ba69db10d0b724d94f5f5db7a31d58f96",
+        "generated_sha256": "9b05824ef730907fbac4450639220eadda9909ea5279228aea9ac87fc3ad744c",
+        "agent_proof_sha256": "596ed71d47792f98ffd1f2a49bf8ef809db9541ba894f8c4e0b08247e974834a",
+        "current_proof_bytes_match": "proof/ControlReturnProof.lean",
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      },
+      {
+        "case": "control-domain-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+        "message": "Agent proof did not check against the generated Shader model; see lean-build.log",
+        "error_lines": [
+          "error: SubmittedProof.lean:9:2: unsolved goals",
+          "error: build failed"
+        ]
+      },
+      {
+        "case": "control-domain",
+        "expected": "PROVED",
+        "actual": "PROVED",
+        "report_sha256": "f10cfd08a03e6f715e4d51718af4e8b983c50ea1a5faa4657d22b8fd186347fd",
+        "generated_sha256": "ba9f29eb55a145fec9eefa51a2b714fb4068621e6efb3202dde6267f7af2523a",
+        "agent_proof_sha256": "4f9041dada0d32307b583f757b83022a428ce8119b907b466c1475903d9d5ed3",
+        "current_proof_bytes_match": "proof/ControlDomainProof.lean",
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      },
+      {
+        "case": "control-mixed",
+        "expected": "PROVED",
+        "actual": "PROVED",
+        "report_sha256": "c9ffc654d81e5ce5ee9a9b95939202e4b4ca5a00e36b188661aeb173effb113a",
+        "generated_sha256": "518250c2c7f7eb9bbaab95de97312b293a2810169014ed0c57d65fac27f3f85d",
+        "agent_proof_sha256": "25634870716a58cdbbe992db04771bdb3c541ac664ed6926fa499e352a919f02",
+        "current_proof_bytes_match": "proof/ControlMixedProof.lean",
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      },
+      {
+        "case": "control-helper-field",
+        "expected": "PROVED",
+        "actual": "PROVED",
+        "report_sha256": "dbe89cf7f6eaf4c3de9765ebac18f1f9d7075c7a12e1dff78601126288089396",
+        "generated_sha256": "5a377c8fb14ca5b9310927752b1f684a92742ebf2c0b90d5684b9bee09c369e4",
+        "agent_proof_sha256": "3aa66e9bad1e57e1542db673576c5b86d883ef6082fc1514a318a674e56ac73e",
+        "current_proof_bytes_match": "proof/ControlHelperFieldProof.lean",
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      },
+      {
+        "case": "control-helper-domain-original",
+        "expected": "PROVED",
+        "actual": "PROVED",
+        "report_sha256": "80a4cd866fe8750b0cefdc5e5c8f3799f6f5fbad757b0386879d0f4ce685c887",
+        "generated_sha256": "e0e7274f15272e7220c86cca369d0a0683d3f6db5487f59043d5f3ef2a1fb731",
+        "agent_proof_sha256": "2671800a7cb082655a2e21c3cdce3c7f5f16ad5e41cb33c0e94356df874a224f",
+        "current_proof_bytes_match": "proof/ControlHelperDomainProof.lean",
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      },
+      {
+        "case": "control-helper-domain-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+        "message": "Agent proof did not check against the generated Shader model; see lean-build.log",
+        "error_lines": [
+          "error: SubmittedProof.lean:5:59: unsolved goals",
+          "error: build failed"
+        ]
+      },
+      {
+        "case": "branched-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+        "message": "Agent proof did not check against the generated Shader model; see lean-build.log",
+        "error_lines": [
+          "error: SubmittedProof.lean:27:12: Tactic `apply` failed: could not unify the conclusion of `@funext`",
+          "error: SubmittedProof.lean:27:12: Tactic `apply` failed: could not unify the conclusion of `@funext`",
+          "error: SubmittedProof.lean:27:12: Tactic `apply` failed: could not unify the conclusion of `@funext`",
+          "error: SubmittedProof.lean:27:12: Tactic `apply` failed: could not unify the conclusion of `@funext`",
+          "error: SubmittedProof.lean:27:12: Tactic `apply` failed: could not unify the conclusion of `@funext`",
+          "error: SubmittedProof.lean:27:12: Tactic `apply` failed: could not unify the conclusion of `@funext`",
+          "error: SubmittedProof.lean:27:12: Tactic `apply` failed: could not unify the conclusion of `@funext`",
+          "error: SubmittedProof.lean:27:12: Tactic `apply` failed: could not unify the conclusion of `@funext`"
+        ]
+      },
+      {
+        "case": "branched-wrong-cutoff",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+        "message": "Agent proof did not check against the generated Shader model; see lean-build.log",
+        "error_lines": [
+          "error: SubmittedProof.lean:27:12: Tactic `apply` failed: could not unify the conclusion of `@funext`",
+          "error: SubmittedProof.lean:27:12: Tactic `apply` failed: could not unify the conclusion of `@funext`",
+          "error: SubmittedProof.lean:27:12: Tactic `apply` failed: could not unify the conclusion of `@funext`",
+          "error: SubmittedProof.lean:27:12: Tactic `apply` failed: could not unify the conclusion of `@funext`",
+          "error: SubmittedProof.lean:27:12: Tactic `apply` failed: could not unify the conclusion of `@funext`",
+          "error: SubmittedProof.lean:27:12: Tactic `apply` failed: could not unify the conclusion of `@funext`",
+          "error: SubmittedProof.lean:27:12: Tactic `apply` failed: could not unify the conclusion of `@funext`",
+          "error: SubmittedProof.lean:27:12: Tactic `apply` failed: could not unify the conclusion of `@funext`"
+        ]
+      },
+      {
+        "case": "branched-positive",
+        "expected": "PROVED",
+        "actual": "PROVED",
+        "report_sha256": "6ba077d65bc9591808d636f44d081bdb437c56cfd773e8cfaa0cef6df9aeb382",
+        "generated_sha256": "b694898bb802f23072de74127b53f7e3074f051b29bcea683391da9e29d3fa73",
+        "agent_proof_sha256": "4a62da4962ea3fefb0e1a10b72388242f199cdf6055d1b90502d3ff946e16425",
+        "current_proof_bytes_match": "proof/BranchedProof.lean",
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      },
+      {
+        "case": "packed-wrong-field",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+        "message": "Agent proof did not check against the generated Shader model; see lean-build.log",
+        "error_lines": [
+          "error: SubmittedProof.lean:30:6: Type mismatch",
+          "error: SubmittedProof.lean:32:6: Type mismatch",
+          "error: build failed"
+        ]
+      },
+      {
+        "case": "packed-domain-safe",
+        "expected": "PROVED",
+        "actual": "PROVED",
+        "report_sha256": "84beccfa909c963ec71e5f261eefb2b84fe0bdb37f6ccc9f5fd1ca7d19d1be3e",
+        "generated_sha256": "afec2287d4a2d9b9b8ee65c7bd0a88fe83637a7f6bded134d760434a33e11d09",
+        "agent_proof_sha256": "47aa5763e5a11ae38d52033b981ffd0bb674ac0c95564e54d11f84f6d44aa8de",
+        "current_proof_bytes_match": "proof/PackingDomainProof.lean",
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      },
+      {
+        "case": "packed-domain-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+        "message": "Agent proof did not check against the generated Shader model; see lean-build.log",
+        "error_lines": [
+          "error: SubmittedProof.lean:5:59: unsolved goals",
+          "error: build failed"
+        ]
+      },
+      {
+        "case": "packed-shift-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+        "message": "Agent proof did not check against the generated Shader model; see lean-build.log",
+        "error_lines": [
+          "error: SubmittedProof.lean:5:59: unsolved goals",
+          "error: build failed"
+        ]
+      },
+      {
+        "case": "packed-positive",
+        "expected": "PROVED",
+        "actual": "PROVED",
+        "report_sha256": "3129ad7f85b744f95c94f74240e54c4f00fb371dbfafbdf54c0c7912821e55d2",
+        "generated_sha256": "104acefe228169bf7e7d805e5c8b71552a79dd8d2a174fec66df1d1e913cbbf9",
+        "agent_proof_sha256": "23f6f7c83b3fb47984fbb8d59d72a30b568c0040f98defd092da34c1b84b3d6e",
+        "current_proof_bytes_match": "proof/PackedProof.lean",
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      },
+      {
+        "case": "shared-structured-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+        "message": "Agent proof did not check against the generated Shader model; see lean-build.log",
+        "error_lines": [
+          "error: SubmittedProof.lean:19:2: unsolved goals",
+          "error: build failed"
+        ]
+      },
+      {
+        "case": "shared-structured-positive",
+        "expected": "PROVED",
+        "actual": "PROVED",
+        "report_sha256": "d492103751f876f2e4695358168e427bfc5c0ddf07e2492d64c5a02e6afef424",
+        "generated_sha256": "10c3d5329f77695c6d2ba7a98beec46e66764dac28f0e7ce5b2d4a072150e75d",
+        "agent_proof_sha256": "a41641447f9c8e72ee296a74cbe81ba3625b0d3959ddb8eee9a93fbd316f04af",
+        "current_proof_bytes_match": "proof/SharedStructuredProof.lean",
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      },
+      {
+        "case": "shared-helper-field",
+        "expected": "PROVED",
+        "actual": "PROVED",
+        "report_sha256": "4a915c6f585722306c2502dcc5256b25e99d260a04b77275ac9f72a67f2113a4",
+        "generated_sha256": "10dc640c54184789a75ecefdefe8bb00305407597187589f67e84568d9964b4c",
+        "agent_proof_sha256": "b45c5c11ea64e05a32068b6f50a8499284d4da089494c38c63c2a4e00e4644de",
+        "current_proof_bytes_match": "proof/SharedHelperFieldProof.lean",
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      },
+      {
+        "case": "shared-helper-domain-original",
+        "expected": "PROVED",
+        "actual": "PROVED",
+        "report_sha256": "38b30b5d003d86a4fc8e9e3f69b69fddeb6cbdc2f6ac210a36af9fd0f9826bd7",
+        "generated_sha256": "f260a58b5df7ee85c9efc6b5a41966584b7c28819c4ea450dbc3b575f60e3624",
+        "agent_proof_sha256": "ea82bd01da782234ca0b405e5ae6a80e72d6d14bbd8b2646985df23c5023cf62",
+        "current_proof_bytes_match": "proof/SharedHelperDomainProof.lean",
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      },
+      {
+        "case": "shared-helper-domain-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+        "message": "Agent proof did not check against the generated Shader model; see lean-build.log",
+        "error_lines": [
+          "error: SubmittedProof.lean:4:59: unsolved goals",
+          "error: build failed"
+        ]
+      },
+      {
+        "case": "shared-helper-domain-ignored",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+        "message": "Agent proof did not check against the generated Shader model; see lean-build.log",
+        "error_lines": [
+          "error: SubmittedProof.lean:4:59: unsolved goals",
+          "error: build failed"
+        ]
+      },
+      {
+        "case": "copyback-structured-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+        "message": "Agent proof did not check against the generated Shader model; see lean-build.log",
+        "error_lines": [
+          "error: SubmittedProof.lean:20:2: unsolved goals",
+          "error: build failed"
+        ]
+      },
+      {
+        "case": "copyback-structured-positive",
+        "expected": "PROVED",
+        "actual": "PROVED",
+        "report_sha256": "2b6e10b3d4635207ecdcab4ca59ff921b512bd73b504f1916996827e75e4b88d",
+        "generated_sha256": "909947eda2af4c6a9d626f8be9ba5097098087179ccf1f8e9d060ee4d08b7472",
+        "agent_proof_sha256": "fa480b6870f0eb313e58ca61c0e127f57f41e0efb1ff4250874d18ec8d5cee6d",
+        "current_proof_bytes_match": "proof/CopybackStructuredProof.lean",
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      },
+      {
+        "case": "copyback-field",
+        "expected": "PROVED",
+        "actual": "PROVED",
+        "report_sha256": "9e5aceb57e9b7ecba700e0e4f84c0b3dfa2360676af5299926a4fab6e19122da",
+        "generated_sha256": "704fda325c99f43637bb475e6d199ca7d24eec608a3fc63df67c2988750f7cdd",
+        "agent_proof_sha256": "6d9e5bbfd159a147bf9444992942cc6edc15ba63199f068bedd827a7fb1caa6c",
+        "current_proof_bytes_match": "proof/CopybackFieldProof.lean",
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      },
+      {
+        "case": "copyback-clip",
+        "expected": "PROVED",
+        "actual": "PROVED",
+        "report_sha256": "91621506f7661eb6a55b5fbf40d5e013ee4759516a7112081d2ced1727872c5f",
+        "generated_sha256": "bed5f78602fdfbb84a2adacd4f14862262d7d163e86a454af105b3a856d70ae7",
+        "agent_proof_sha256": "ec69c0256c73e30ea4b381dc85b4bddd68f9b2de688536ebb4178d7156e60341",
+        "current_proof_bytes_match": "proof/CopybackClipProof.lean",
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      },
+      {
+        "case": "copyback-default-domain-original",
+        "expected": "PROVED",
+        "actual": "PROVED",
+        "report_sha256": "b1611ead017d35f8d08a8f45b950485391f8d5a1ebd78bc40677fc14a177f7ab",
+        "generated_sha256": "f8f29cad0132da1e4ec0cae4a3640d9d79bd5e635e96e386e496df44ee06bfb8",
+        "agent_proof_sha256": "ea82bd01da782234ca0b405e5ae6a80e72d6d14bbd8b2646985df23c5023cf62",
+        "current_proof_bytes_match": "proof/SharedHelperDomainProof.lean",
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      },
+      {
+        "case": "copyback-default-domain-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+        "message": "Agent proof did not check against the generated Shader model; see lean-build.log",
+        "error_lines": [
+          "error: SubmittedProof.lean:4:59: unsolved goals",
+          "error: build failed"
+        ]
+      },
+      {
+        "case": "aggregate-material-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+        "message": "Agent proof did not check against the generated Shader model; see lean-build.log",
+        "error_lines": [
+          "error: SubmittedProof.lean:17:2: unsolved goals",
+          "error: build failed"
+        ]
+      },
+      {
+        "case": "aggregate-material-positive",
+        "expected": "PROVED",
+        "actual": "PROVED",
+        "report_sha256": "400562c647088b6e92f0f6760e291cd377264e82025f0b51047adcc543e43987",
+        "generated_sha256": "71d12a0c94d92b258190df515436f21df7cf11b9b938acf9624ad35735671471",
+        "agent_proof_sha256": "fade4e4d4893f0304877f85298109dec5ddcd377b871a563876fd4b196ddff56",
+        "current_proof_bytes_match": "proof/AggregateMaterialProof.lean",
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      },
+      {
+        "case": "aggregate-field",
+        "expected": "PROVED",
+        "actual": "PROVED",
+        "report_sha256": "1f11dd2c2fe391f4be594cf11508970fc915c7e26057498c367459d7d3d4e2ef",
+        "generated_sha256": "3f6128dda055ebb9bec859063d3f31ca29266cd7ff0049546818e50bc95c3fc1",
+        "agent_proof_sha256": "e30826f94eb5adb9a9aecbbe736f90687b2145e287183bc76d1c68a71dd77201",
+        "current_proof_bytes_match": "proof/AggregateFieldProof.lean",
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      },
+      {
+        "case": "aggregate-index-safe",
+        "expected": "PROVED",
+        "actual": "PROVED",
+        "report_sha256": "d49e2c0f3bac3b1320c58bc363f2be963d58dfe2c7c990f7186fb49e170cdfd1",
+        "generated_sha256": "11743e3f4c42de3a6e9d676ef98a287a01873eb66712c5ec1b797c34b73ff966",
+        "agent_proof_sha256": "61397386646c8d5eeb31c01b112b40e7b0a0006de66585828c0cd8cfec3eed5e",
+        "current_proof_bytes_match": "proof/AggregateDomainProof.lean",
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      },
+      {
+        "case": "aggregate-index-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "d1c57a27778870d948450a4fb2553aa68c1bfca706afbf7950972b49a8c44321",
+        "message": "Agent proof did not check against the generated Shader model; see lean-build.log",
+        "error_lines": [
+          "error: SubmittedProof.lean:3:59: unsolved goals",
+          "error: build failed"
+        ]
+      },
+      {
+        "case": "aggregate-index-inactive",
+        "expected": "PROVED",
+        "actual": "PROVED",
+        "report_sha256": "26920aba726dbbb365ee49c901bdf2f8814d2862317bd34c8dafc34022134cb4",
+        "generated_sha256": "23220d071e6c2f2a19355bcfb37c0d935bc8702e22ef1e085925c2f64674466a",
+        "agent_proof_sha256": "61397386646c8d5eeb31c01b112b40e7b0a0006de66585828c0cd8cfec3eed5e",
+        "current_proof_bytes_match": "proof/AggregateDomainProof.lean",
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      }
+    ]
+  },
+  "ieee": {
+    "status": "IEEE_SUITE_PASSED",
+    "unit_tests": 29,
+    "formal_controls": 27,
+    "counts": {
+      "IEEE_PROVED": 12,
+      "UNPROVED": 15
+    },
+    "report_sha256": "9deeb531fc8c909d1d84ee3944fbf46a0483c2c59e44549b18c910d364b6e5a4",
+    "controls": [
+      {
+        "case": "struct-helper-cbuffer",
+        "expected": "IEEE_PROVED",
+        "actual": "IEEE_PROVED",
+        "report_sha256": "fc0165efa64b6de3cd14f67b3439d7f89fde879f040e98f11c9f5fc3f512b2a2",
+        "sources": {
+          "original": {
+            "path": "examples/ieee/original.hlsl",
+            "sha256": "20e596c14f79d403d82281c5f8d2ff85bff8ef3defa6b88e186b1d6bd017176e"
+          },
+          "optimized": {
+            "path": "examples/ieee/optimized.hlsl",
+            "sha256": "f4038615fdd816b6f9b416a7123e1a633fd96bbdc92de38ff60b4d0732206e63"
+          },
+          "proof": {
+            "path": "prototypes/ieee/proof/IdentityProof.lean",
+            "sha256": "5a3b1a63d98919005f5b1fe4f1498a3e232091b19abc87827815972b9f543804"
+          }
+        },
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "artifact_sha256": {
+          "generated_target": "74e234717f8ded787af69e2758b2d0eb63b24f21e42a31030796a95fcbece6fc",
+          "agent_proof": "5a3b1a63d98919005f5b1fe4f1498a3e232091b19abc87827815972b9f543804",
+          "verification": "55439fb114ddc8ed14072dfcec44c1bf3f274a3d0dd1ebfe38a22a1ec8174f76",
+          "semantic_model": "229f298986a144be3e5cdfb1ec959ddb05ca59e0015c3f3cc5ee87d4b8c29cb4",
+          "lake_manifest": "2361539daebd83c20a8fda2474732916f9056b1dc9c8a5fcc951a1583f05009c",
+          "dependency_lock": "a78c5779fc41273bcbc89d76f1495b5b83f33a28d6759297892c443bf87c8179",
+          "lean_build_log": "d8760763be63067f00789fcf42648cb7e89259b37690e733415676ec0b8b6596",
+          "lean_verify_log": "5c87444665af700c504109cdb73d18640f1f97557ca1381f5c38fd19003c2978"
+        },
+        "generated_sha256": "74e234717f8ded787af69e2758b2d0eb63b24f21e42a31030796a95fcbece6fc"
+      },
+      {
+        "case": "ordered-arithmetic-sqrt",
+        "expected": "IEEE_PROVED",
+        "actual": "IEEE_PROVED",
+        "report_sha256": "499e17d934475f96ae24386d05bd4b98553cb8e2620e14f7857c897cff1311c7",
+        "sources": {
+          "original": {
+            "path": "examples/ieee/arithmetic-original.hlsl",
+            "sha256": "73ce544614eed9e7e485a370220235c978d1f11cf7ac0afc4ad4a310750aeab8"
+          },
+          "optimized": {
+            "path": "examples/ieee/arithmetic-optimized.hlsl",
+            "sha256": "9ac30b96f5905ffb087f0973f36ffae991673952810ebddf0c8751e03234ab8c"
+          },
+          "proof": {
+            "path": "prototypes/ieee/proof/IdentityProof.lean",
+            "sha256": "5a3b1a63d98919005f5b1fe4f1498a3e232091b19abc87827815972b9f543804"
+          }
+        },
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "artifact_sha256": {
+          "generated_target": "80d65b85358c55c09e75da2c14ea8720e30bf2c04303e5a19894b5b9ad64bb4c",
+          "agent_proof": "5a3b1a63d98919005f5b1fe4f1498a3e232091b19abc87827815972b9f543804",
+          "verification": "55439fb114ddc8ed14072dfcec44c1bf3f274a3d0dd1ebfe38a22a1ec8174f76",
+          "semantic_model": "229f298986a144be3e5cdfb1ec959ddb05ca59e0015c3f3cc5ee87d4b8c29cb4",
+          "lake_manifest": "2361539daebd83c20a8fda2474732916f9056b1dc9c8a5fcc951a1583f05009c",
+          "dependency_lock": "a78c5779fc41273bcbc89d76f1495b5b83f33a28d6759297892c443bf87c8179",
+          "lean_build_log": "d8760763be63067f00789fcf42648cb7e89259b37690e733415676ec0b8b6596",
+          "lean_verify_log": "5c87444665af700c504109cdb73d18640f1f97557ca1381f5c38fd19003c2978"
+        },
+        "generated_sha256": "80d65b85358c55c09e75da2c14ea8720e30bf2c04303e5a19894b5b9ad64bb4c"
+      },
+      {
+        "case": "stored-bit-roundtrip",
+        "expected": "IEEE_PROVED",
+        "actual": "IEEE_PROVED",
+        "report_sha256": "13c41a70859b7505e2bf4cde2b87d3ea514b61daa249f53679ad596c16eaa08a",
+        "sources": {
+          "original": {
+            "path": "examples/ieee/bits-original.hlsl",
+            "sha256": "d642483e539b8ad6caa82ac3a342dbb8bd5150e6319f13ee3d6ab0c80e0b5b79"
+          },
+          "optimized": {
+            "path": "examples/ieee/bits-optimized.hlsl",
+            "sha256": "7433433b197f9dc4d5f97d12c3f5c3b7021c7a73cc03581f6fd53e31281c174c"
+          },
+          "proof": {
+            "path": "prototypes/ieee/proof/RoundtripProof.lean",
+            "sha256": "1cba6f2327fa2d24ee3d0362e6a85ff8e8c21bd0d8391e876d1d29119961e2d3"
+          }
+        },
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "artifact_sha256": {
+          "generated_target": "ca4fbbe9992ff94780d7c565ba6dabe7521a8d1737130335ba23f2f4b99c7762",
+          "agent_proof": "1cba6f2327fa2d24ee3d0362e6a85ff8e8c21bd0d8391e876d1d29119961e2d3",
+          "verification": "55439fb114ddc8ed14072dfcec44c1bf3f274a3d0dd1ebfe38a22a1ec8174f76",
+          "semantic_model": "229f298986a144be3e5cdfb1ec959ddb05ca59e0015c3f3cc5ee87d4b8c29cb4",
+          "lake_manifest": "2361539daebd83c20a8fda2474732916f9056b1dc9c8a5fcc951a1583f05009c",
+          "dependency_lock": "a78c5779fc41273bcbc89d76f1495b5b83f33a28d6759297892c443bf87c8179",
+          "lean_build_log": "d8760763be63067f00789fcf42648cb7e89259b37690e733415676ec0b8b6596",
+          "lean_verify_log": "5c87444665af700c504109cdb73d18640f1f97557ca1381f5c38fd19003c2978"
+        },
+        "generated_sha256": "ca4fbbe9992ff94780d7c565ba6dabe7521a8d1737130335ba23f2f4b99c7762"
+      },
+      {
+        "case": "reassociation-zero-one",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "2fb7dbcf5825f87045fe8854d7b318285fe5cd2123e60e183bcf5fad43bed8a2",
+        "sources": {
+          "original": {
+            "path": "examples/ieee/reassociated-original.hlsl",
+            "sha256": "b50ba24a12e22e136c3ab7fae31b479e909031795064f3d41e4f8bde4ef31127"
+          },
+          "optimized": {
+            "path": "examples/ieee/reassociated-optimized.hlsl",
+            "sha256": "1f439541e6470ef064fbaddeb1961a2534b2fdcd9e0893bf9dc40dd4a56f49bd"
+          },
+          "proof": {
+            "path": "prototypes/ieee/proof/IdentityProof.lean",
+            "sha256": "5a3b1a63d98919005f5b1fe4f1498a3e232091b19abc87827815972b9f543804"
+          }
+        },
+        "message": "IEEE target/proof failed Lean; see lean-SubmittedProof.log",
+        "error_lines": [
+          "ShaderIeee/SubmittedProof.lean:8:2: error: Tactic `rfl` failed: The left-hand side"
+        ]
+      },
+      {
+        "case": "signed-zero-merge",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "2fb7dbcf5825f87045fe8854d7b318285fe5cd2123e60e183bcf5fad43bed8a2",
+        "sources": {
+          "original": {
+            "path": "examples/ieee/zeros-original.hlsl",
+            "sha256": "2e5d30360725b5ddc74954679cba3b59c7a167f9fd773ae28a3a0f5022b52f3c"
+          },
+          "optimized": {
+            "path": "examples/ieee/zeros-optimized.hlsl",
+            "sha256": "2c8a6135e32134c1bb3d8b5e6eb207c48194428a0f1cac6f107d1ea0ca3fa368"
+          },
+          "proof": {
+            "path": "prototypes/ieee/proof/IdentityProof.lean",
+            "sha256": "5a3b1a63d98919005f5b1fe4f1498a3e232091b19abc87827815972b9f543804"
+          }
+        },
+        "message": "IEEE target/proof failed Lean; see lean-SubmittedProof.log",
+        "error_lines": [
+          "ShaderIeee/SubmittedProof.lean:8:2: error: Tactic `rfl` failed: The left-hand side"
+        ]
+      },
+      {
+        "case": "nan-self-compare-true",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "2fb7dbcf5825f87045fe8854d7b318285fe5cd2123e60e183bcf5fad43bed8a2",
+        "sources": {
+          "original": {
+            "path": "examples/ieee/nan-original.hlsl",
+            "sha256": "9dec902b8d95a670da77c5ae4c55fede6f1a3f6e2564950ad62eabf7906601d0"
+          },
+          "optimized": {
+            "path": "examples/ieee/nan-optimized.hlsl",
+            "sha256": "b670552a138b798ab7b2b7991122f5738561fd3f682cde22a2a0774becf91692"
+          },
+          "proof": {
+            "path": "prototypes/ieee/proof/IdentityProof.lean",
+            "sha256": "5a3b1a63d98919005f5b1fe4f1498a3e232091b19abc87827815972b9f543804"
+          }
+        },
+        "message": "IEEE target/proof failed Lean; see lean-SubmittedProof.log",
+        "error_lines": [
+          "ShaderIeee/SubmittedProof.lean:8:2: error: Tactic `rfl` failed: The left-hand side"
+        ]
+      },
+      {
+        "case": "sorry-rejected",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "3a280ac2460019225caa577f0af53fc67101acd14e6200b6290c0f57d0fb2c89",
+        "sources": {
+          "original": {
+            "path": "examples/ieee/original.hlsl",
+            "sha256": "20e596c14f79d403d82281c5f8d2ff85bff8ef3defa6b88e186b1d6bd017176e"
+          },
+          "optimized": {
+            "path": "examples/ieee/optimized.hlsl",
+            "sha256": "f4038615fdd816b6f9b416a7123e1a633fd96bbdc92de38ff60b4d0732206e63"
+          },
+          "proof": {
+            "path": "prototypes/ieee/proof/SorryProof.lean",
+            "sha256": "d6142448aa2b97459a475ff704b377f0675ecb2c9085e28b2dc8248b3dd4580a"
+          }
+        },
+        "message": "Proof depends on unapproved axioms: ['propext', 'sorryAx', 'Classical.choice', 'Quot.sound']",
+        "error_lines": []
+      },
+      {
+        "case": "extra-axiom-rejected",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "936be28eb5199303585708d7d43d37ca9a9f1a9fdc24875331fec54f135dd892",
+        "sources": {
+          "original": {
+            "path": "examples/ieee/original.hlsl",
+            "sha256": "20e596c14f79d403d82281c5f8d2ff85bff8ef3defa6b88e186b1d6bd017176e"
+          },
+          "optimized": {
+            "path": "examples/ieee/optimized.hlsl",
+            "sha256": "f4038615fdd816b6f9b416a7123e1a633fd96bbdc92de38ff60b4d0732206e63"
+          },
+          "proof": {
+            "path": "prototypes/ieee/proof/ExtraAxiomProof.lean",
+            "sha256": "e46e2bd45c1c0fc1b999a8eecc38c9593282e086e54209c24661ce0e0441f3f7"
+          }
+        },
+        "message": "Proof depends on unapproved axioms: ['propext', 'Classical.choice', 'Quot.sound', 'ShaderIeee.AgentProof.unapproved']",
+        "error_lines": []
+      },
+      {
+        "case": "forged-target-rejected",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "8aaf2a1c050e5e54eb5059e198162cbe30c4111b25ae012eebb6ccf9b2c9b0de",
+        "sources": {
+          "original": {
+            "path": "examples/ieee/original.hlsl",
+            "sha256": "20e596c14f79d403d82281c5f8d2ff85bff8ef3defa6b88e186b1d6bd017176e"
+          },
+          "optimized": {
+            "path": "examples/ieee/optimized.hlsl",
+            "sha256": "f4038615fdd816b6f9b416a7123e1a633fd96bbdc92de38ff60b4d0732206e63"
+          },
+          "proof": {
+            "path": "prototypes/ieee/proof/ForgedProof.lean",
+            "sha256": "f77baf41ea7c02c560c6e3044d8b9ca1d3f2aafa579017d6026dd49ddbfcc811"
+          }
+        },
+        "message": "Independent IEEE target binding failed; see lean-verify.log",
+        "error_lines": []
+      },
+      {
+        "case": "binary-packing",
+        "expected": "IEEE_PROVED",
+        "actual": "IEEE_PROVED",
+        "report_sha256": "f1f6b7eea92b3747ce5b59f677543c8de8dd6e6403cd12f53cbe756eecfe04bb",
+        "sources": {
+          "original": {
+            "path": "examples/ieee-bits/packing.original.hlsl",
+            "sha256": "457feff0392f2ca0dc24bf51ce988e88c5d079b90050c7490e4dcef1c070af8f"
+          },
+          "optimized": {
+            "path": "examples/ieee-bits/packing.optimized.hlsl",
+            "sha256": "3fc453193f9997c5b15c6146100779eea5988659d5ec36e1607284feaefde224"
+          },
+          "proof": {
+            "path": "proof/ShaderIeee/BitsProof.lean",
+            "sha256": "aa1bb270d06bf53d20dcced96571f80c5fab93dee75325f0ffca2c5866279a42"
+          }
+        },
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "artifact_sha256": {
+          "generated_target": "96eb7bc58d460003a9a0018fe4ddf9b01bc971838bdcaff9c278a40e521e03ea",
+          "agent_proof": "aa1bb270d06bf53d20dcced96571f80c5fab93dee75325f0ffca2c5866279a42",
+          "verification": "55439fb114ddc8ed14072dfcec44c1bf3f274a3d0dd1ebfe38a22a1ec8174f76",
+          "semantic_model": "229f298986a144be3e5cdfb1ec959ddb05ca59e0015c3f3cc5ee87d4b8c29cb4",
+          "lake_manifest": "2361539daebd83c20a8fda2474732916f9056b1dc9c8a5fcc951a1583f05009c",
+          "dependency_lock": "a78c5779fc41273bcbc89d76f1495b5b83f33a28d6759297892c443bf87c8179",
+          "lean_build_log": "63183e58e24b2caa12a652b85c46ada3eee9d68f0337b46a9eaae64ff9c2eff4",
+          "lean_verify_log": "5c87444665af700c504109cdb73d18640f1f97557ca1381f5c38fd19003c2978"
+        },
+        "generated_sha256": "96eb7bc58d460003a9a0018fe4ddf9b01bc971838bdcaff9c278a40e521e03ea"
+      },
+      {
+        "case": "binary-packing-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "2fb7dbcf5825f87045fe8854d7b318285fe5cd2123e60e183bcf5fad43bed8a2",
+        "sources": {
+          "original": {
+            "path": "examples/ieee-bits/packing.original.hlsl",
+            "sha256": "457feff0392f2ca0dc24bf51ce988e88c5d079b90050c7490e4dcef1c070af8f"
+          },
+          "optimized": {
+            "path": "examples/ieee-bits/packing.wrong.hlsl",
+            "sha256": "eb291b338a1da13928cd905cc7cbde3c76e510dc61773024db8fa301663680b4"
+          },
+          "proof": {
+            "path": "proof/ShaderIeee/BitsProof.lean",
+            "sha256": "aa1bb270d06bf53d20dcced96571f80c5fab93dee75325f0ffca2c5866279a42"
+          }
+        },
+        "message": "IEEE target/proof failed Lean; see lean-SubmittedProof.log",
+        "error_lines": [
+          "ShaderIeee/SubmittedProof.lean:11:54: error: unsolved goals"
+        ]
+      },
+      {
+        "case": "binary-hash",
+        "expected": "IEEE_PROVED",
+        "actual": "IEEE_PROVED",
+        "report_sha256": "234aec9db1e1e54e289698a7213ae52a712b845ef0fe5331e6ec514f100d819e",
+        "sources": {
+          "original": {
+            "path": "examples/ieee-bits/hash.original.hlsl",
+            "sha256": "522485273cf4acdfe91c5ffcce2d9af405d0ccf3b2d3a94cc03d6f98c20b7ed2"
+          },
+          "optimized": {
+            "path": "examples/ieee-bits/hash.optimized.hlsl",
+            "sha256": "7a53bf2491930cc7c54b957adacf2c37b16a32fc3372d3c7eef6d5725c61c4aa"
+          },
+          "proof": {
+            "path": "prototypes/ieee/proof/IdentityProof.lean",
+            "sha256": "5a3b1a63d98919005f5b1fe4f1498a3e232091b19abc87827815972b9f543804"
+          }
+        },
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "artifact_sha256": {
+          "generated_target": "b407b0f0cd7cb774dd8bd03dc1389f21dec669e114358dc75449d0fcc46d2216",
+          "agent_proof": "5a3b1a63d98919005f5b1fe4f1498a3e232091b19abc87827815972b9f543804",
+          "verification": "55439fb114ddc8ed14072dfcec44c1bf3f274a3d0dd1ebfe38a22a1ec8174f76",
+          "semantic_model": "229f298986a144be3e5cdfb1ec959ddb05ca59e0015c3f3cc5ee87d4b8c29cb4",
+          "lake_manifest": "2361539daebd83c20a8fda2474732916f9056b1dc9c8a5fcc951a1583f05009c",
+          "dependency_lock": "a78c5779fc41273bcbc89d76f1495b5b83f33a28d6759297892c443bf87c8179",
+          "lean_build_log": "d8760763be63067f00789fcf42648cb7e89259b37690e733415676ec0b8b6596",
+          "lean_verify_log": "5c87444665af700c504109cdb73d18640f1f97557ca1381f5c38fd19003c2978"
+        },
+        "generated_sha256": "b407b0f0cd7cb774dd8bd03dc1389f21dec669e114358dc75449d0fcc46d2216"
+      },
+      {
+        "case": "binary-hash-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "2fb7dbcf5825f87045fe8854d7b318285fe5cd2123e60e183bcf5fad43bed8a2",
+        "sources": {
+          "original": {
+            "path": "examples/ieee-bits/hash.original.hlsl",
+            "sha256": "522485273cf4acdfe91c5ffcce2d9af405d0ccf3b2d3a94cc03d6f98c20b7ed2"
+          },
+          "optimized": {
+            "path": "examples/ieee-bits/hash.wrong.hlsl",
+            "sha256": "d623642ffc9773af244a5698722c4ade57062d235ffc6361bad320502b33d015"
+          },
+          "proof": {
+            "path": "prototypes/ieee/proof/IdentityProof.lean",
+            "sha256": "5a3b1a63d98919005f5b1fe4f1498a3e232091b19abc87827815972b9f543804"
+          }
+        },
+        "message": "IEEE target/proof failed Lean; see lean-SubmittedProof.log",
+        "error_lines": [
+          "ShaderIeee/SubmittedProof.lean:8:2: error: maximum recursion depth has been reached"
+        ]
+      },
+      {
+        "case": "binary-shift",
+        "expected": "IEEE_PROVED",
+        "actual": "IEEE_PROVED",
+        "report_sha256": "6430c9813a5d1b45905b734992a63ce16dbdf35a3b54289999e0a594a8f6a19a",
+        "sources": {
+          "original": {
+            "path": "examples/ieee-bits/shift.original.hlsl",
+            "sha256": "34b650084eee50ebc7314d8666bdc1aec7a75b94d6281a18f7f82b8e92936828"
+          },
+          "optimized": {
+            "path": "examples/ieee-bits/shift.optimized.hlsl",
+            "sha256": "ec312ce4b87ef7449f5620a8a44e5b042ca7768f7d6d7a84f83052bcfe82109c"
+          },
+          "proof": {
+            "path": "proof/ShaderIeee/ShiftProof.lean",
+            "sha256": "2dee729ed237e8940aefe25e6fc77bc1e0364d0c11a7f39646dda7b12c40ceed"
+          }
+        },
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "artifact_sha256": {
+          "generated_target": "b4f89d27a701a94ca0324221813dc7c6aa5e545dea360949df0852562eef5a6d",
+          "agent_proof": "2dee729ed237e8940aefe25e6fc77bc1e0364d0c11a7f39646dda7b12c40ceed",
+          "verification": "55439fb114ddc8ed14072dfcec44c1bf3f274a3d0dd1ebfe38a22a1ec8174f76",
+          "semantic_model": "229f298986a144be3e5cdfb1ec959ddb05ca59e0015c3f3cc5ee87d4b8c29cb4",
+          "lake_manifest": "2361539daebd83c20a8fda2474732916f9056b1dc9c8a5fcc951a1583f05009c",
+          "dependency_lock": "a78c5779fc41273bcbc89d76f1495b5b83f33a28d6759297892c443bf87c8179",
+          "lean_build_log": "d8760763be63067f00789fcf42648cb7e89259b37690e733415676ec0b8b6596",
+          "lean_verify_log": "5c87444665af700c504109cdb73d18640f1f97557ca1381f5c38fd19003c2978"
+        },
+        "generated_sha256": "b4f89d27a701a94ca0324221813dc7c6aa5e545dea360949df0852562eef5a6d"
+      },
+      {
+        "case": "binary-shift-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "2fb7dbcf5825f87045fe8854d7b318285fe5cd2123e60e183bcf5fad43bed8a2",
+        "sources": {
+          "original": {
+            "path": "examples/ieee-bits/shift.original.hlsl",
+            "sha256": "34b650084eee50ebc7314d8666bdc1aec7a75b94d6281a18f7f82b8e92936828"
+          },
+          "optimized": {
+            "path": "examples/ieee-bits/shift.wrong.hlsl",
+            "sha256": "3f42d5ec8fb448c9a90ec495d9b51b7ed42681ad0b1064f0a7cd493c1db46bba"
+          },
+          "proof": {
+            "path": "proof/ShaderIeee/ShiftProof.lean",
+            "sha256": "2dee729ed237e8940aefe25e6fc77bc1e0364d0c11a7f39646dda7b12c40ceed"
+          }
+        },
+        "message": "IEEE target/proof failed Lean; see lean-SubmittedProof.log",
+        "error_lines": [
+          "ShaderIeee/SubmittedProof.lean:17:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern",
+          "ShaderIeee/SubmittedProof.lean:17:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern"
+        ]
+      },
+      {
+        "case": "binary-wrap",
+        "expected": "IEEE_PROVED",
+        "actual": "IEEE_PROVED",
+        "report_sha256": "031a76f28e5a19312a239f942f850a86f4adb939f9b0f64a0bb2df2e7b5a0ec9",
+        "sources": {
+          "original": {
+            "path": "examples/ieee-bits/wrap.original.hlsl",
+            "sha256": "087f2a2a9e936f83df5f95e3d65988e55c0f9fdaeaae3fb95dc251cd9fdae547"
+          },
+          "optimized": {
+            "path": "examples/ieee-bits/wrap.optimized.hlsl",
+            "sha256": "abfa43ee10809431cb1c5f4de2068fd2777cecb6f9044d21c42f752379e82b7c"
+          },
+          "proof": {
+            "path": "proof/ShaderIeee/WrapProof.lean",
+            "sha256": "6e573f99c4ca404f5fe6f4687578c1ea16652d1d812f70dacea386ca224daf51"
+          }
+        },
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "artifact_sha256": {
+          "generated_target": "684e5800fad10ffb7a6929f31ca6a41bada72da4a4dc00adb6002662cee9d170",
+          "agent_proof": "6e573f99c4ca404f5fe6f4687578c1ea16652d1d812f70dacea386ca224daf51",
+          "verification": "55439fb114ddc8ed14072dfcec44c1bf3f274a3d0dd1ebfe38a22a1ec8174f76",
+          "semantic_model": "229f298986a144be3e5cdfb1ec959ddb05ca59e0015c3f3cc5ee87d4b8c29cb4",
+          "lake_manifest": "2361539daebd83c20a8fda2474732916f9056b1dc9c8a5fcc951a1583f05009c",
+          "dependency_lock": "a78c5779fc41273bcbc89d76f1495b5b83f33a28d6759297892c443bf87c8179",
+          "lean_build_log": "ec04e389519812ddb5cb12eec995dfacc327ff690738353432804b473e7214ec",
+          "lean_verify_log": "5c87444665af700c504109cdb73d18640f1f97557ca1381f5c38fd19003c2978"
+        },
+        "generated_sha256": "684e5800fad10ffb7a6929f31ca6a41bada72da4a4dc00adb6002662cee9d170"
+      },
+      {
+        "case": "binary-wrap-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "2fb7dbcf5825f87045fe8854d7b318285fe5cd2123e60e183bcf5fad43bed8a2",
+        "sources": {
+          "original": {
+            "path": "examples/ieee-bits/wrap.original.hlsl",
+            "sha256": "087f2a2a9e936f83df5f95e3d65988e55c0f9fdaeaae3fb95dc251cd9fdae547"
+          },
+          "optimized": {
+            "path": "examples/ieee-bits/wrap.wrong.hlsl",
+            "sha256": "1116e2a5cd250077332b74ae3e00cf9c2594425929d911bab2cbf78bb9fc5bc4"
+          },
+          "proof": {
+            "path": "proof/ShaderIeee/WrapProof.lean",
+            "sha256": "6e573f99c4ca404f5fe6f4687578c1ea16652d1d812f70dacea386ca224daf51"
+          }
+        },
+        "message": "IEEE target/proof failed Lean; see lean-SubmittedProof.log",
+        "error_lines": [
+          "ShaderIeee/SubmittedProof.lean:27:2: error: unsolved goals",
+          "ShaderIeee/SubmittedProof.lean:28:2: error: unsolved goals",
+          "ShaderIeee/SubmittedProof.lean:30:2: error: unsolved goals",
+          "ShaderIeee/SubmittedProof.lean:32:2: error: unsolved goals"
+        ]
+      },
+      {
+        "case": "binary-unsigned",
+        "expected": "IEEE_PROVED",
+        "actual": "IEEE_PROVED",
+        "report_sha256": "480b62f312ae04dd387bfdf8bf8375fe424b3e8df272336cc90c3c0f7f295269",
+        "sources": {
+          "original": {
+            "path": "examples/ieee-bits/unsigned.original.hlsl",
+            "sha256": "706cc0efd630ad2105ad7d9bc10c2418ec0c3439fe0a0c077e7ed50cf9499cc3"
+          },
+          "optimized": {
+            "path": "examples/ieee-bits/unsigned.optimized.hlsl",
+            "sha256": "ec1003437f6aed2200bdabdc6262aadea024809124d0245a1760f446928a0748"
+          },
+          "proof": {
+            "path": "prototypes/ieee/proof/RoundtripProof.lean",
+            "sha256": "1cba6f2327fa2d24ee3d0362e6a85ff8e8c21bd0d8391e876d1d29119961e2d3"
+          }
+        },
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "artifact_sha256": {
+          "generated_target": "84b89f50ac9e68ae96767561f13dada0231e2df0a09104e90a33d08e0b250b65",
+          "agent_proof": "1cba6f2327fa2d24ee3d0362e6a85ff8e8c21bd0d8391e876d1d29119961e2d3",
+          "verification": "55439fb114ddc8ed14072dfcec44c1bf3f274a3d0dd1ebfe38a22a1ec8174f76",
+          "semantic_model": "229f298986a144be3e5cdfb1ec959ddb05ca59e0015c3f3cc5ee87d4b8c29cb4",
+          "lake_manifest": "2361539daebd83c20a8fda2474732916f9056b1dc9c8a5fcc951a1583f05009c",
+          "dependency_lock": "a78c5779fc41273bcbc89d76f1495b5b83f33a28d6759297892c443bf87c8179",
+          "lean_build_log": "a11f76eb9badb5997e8b62789bbeee6be7b8e724ea23ace8921deadaf837fce8",
+          "lean_verify_log": "5c87444665af700c504109cdb73d18640f1f97557ca1381f5c38fd19003c2978"
+        },
+        "generated_sha256": "84b89f50ac9e68ae96767561f13dada0231e2df0a09104e90a33d08e0b250b65"
+      },
+      {
+        "case": "binary-unsigned-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "2fb7dbcf5825f87045fe8854d7b318285fe5cd2123e60e183bcf5fad43bed8a2",
+        "sources": {
+          "original": {
+            "path": "examples/ieee-bits/unsigned.original.hlsl",
+            "sha256": "706cc0efd630ad2105ad7d9bc10c2418ec0c3439fe0a0c077e7ed50cf9499cc3"
+          },
+          "optimized": {
+            "path": "examples/ieee-bits/unsigned.wrong.hlsl",
+            "sha256": "3c031c4cc7a4da4ba4cabf18b9d60304765226318e7b7c0d68a8fa1f8f19d787"
+          },
+          "proof": {
+            "path": "prototypes/ieee/proof/RoundtripProof.lean",
+            "sha256": "1cba6f2327fa2d24ee3d0362e6a85ff8e8c21bd0d8391e876d1d29119961e2d3"
+          }
+        },
+        "message": "IEEE target/proof failed Lean; see lean-SubmittedProof.log",
+        "error_lines": [
+          "ShaderIeee/SubmittedProof.lean:5:54: error: unsolved goals"
+        ]
+      },
+      {
+        "case": "binary-roundtrip",
+        "expected": "IEEE_PROVED",
+        "actual": "IEEE_PROVED",
+        "report_sha256": "8d96192846d3e0638e9e59fd6b1792866a54990262d4399febd26e07b164cccd",
+        "sources": {
+          "original": {
+            "path": "examples/ieee-bits/roundtrip.original.hlsl",
+            "sha256": "a19ef327779cba93af8d7258dc48db0dcd98316722a18d3a877f43420310cc9d"
+          },
+          "optimized": {
+            "path": "examples/ieee-bits/roundtrip.optimized.hlsl",
+            "sha256": "d06bf4d292cfd7e014877ea4167034a1918235cea71e9c39b3ee54a4284380f3"
+          },
+          "proof": {
+            "path": "prototypes/ieee/proof/RoundtripProof.lean",
+            "sha256": "1cba6f2327fa2d24ee3d0362e6a85ff8e8c21bd0d8391e876d1d29119961e2d3"
+          }
+        },
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "artifact_sha256": {
+          "generated_target": "4a8a1c0dfc675983eaabb4484c3197da00b15759eb064c90b99352e8820f1a77",
+          "agent_proof": "1cba6f2327fa2d24ee3d0362e6a85ff8e8c21bd0d8391e876d1d29119961e2d3",
+          "verification": "55439fb114ddc8ed14072dfcec44c1bf3f274a3d0dd1ebfe38a22a1ec8174f76",
+          "semantic_model": "229f298986a144be3e5cdfb1ec959ddb05ca59e0015c3f3cc5ee87d4b8c29cb4",
+          "lake_manifest": "2361539daebd83c20a8fda2474732916f9056b1dc9c8a5fcc951a1583f05009c",
+          "dependency_lock": "a78c5779fc41273bcbc89d76f1495b5b83f33a28d6759297892c443bf87c8179",
+          "lean_build_log": "d8760763be63067f00789fcf42648cb7e89259b37690e733415676ec0b8b6596",
+          "lean_verify_log": "5c87444665af700c504109cdb73d18640f1f97557ca1381f5c38fd19003c2978"
+        },
+        "generated_sha256": "4a8a1c0dfc675983eaabb4484c3197da00b15759eb064c90b99352e8820f1a77"
+      },
+      {
+        "case": "binary-roundtrip-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "2fb7dbcf5825f87045fe8854d7b318285fe5cd2123e60e183bcf5fad43bed8a2",
+        "sources": {
+          "original": {
+            "path": "examples/ieee-bits/roundtrip.original.hlsl",
+            "sha256": "a19ef327779cba93af8d7258dc48db0dcd98316722a18d3a877f43420310cc9d"
+          },
+          "optimized": {
+            "path": "examples/ieee-bits/roundtrip.wrong.hlsl",
+            "sha256": "d2ca80697ac55155f5120805d82128d64e0a49c9a5bcb9690d338fc4a5cbac32"
+          },
+          "proof": {
+            "path": "prototypes/ieee/proof/RoundtripProof.lean",
+            "sha256": "1cba6f2327fa2d24ee3d0362e6a85ff8e8c21bd0d8391e876d1d29119961e2d3"
+          }
+        },
+        "message": "IEEE target/proof failed Lean; see lean-SubmittedProof.log",
+        "error_lines": [
+          "ShaderIeee/SubmittedProof.lean:5:54: error: unsolved goals"
+        ]
+      },
+      {
+        "case": "control-branch-record",
+        "expected": "IEEE_PROVED",
+        "actual": "IEEE_PROVED",
+        "report_sha256": "f89fb23e6402c9c095e61f389c87016f840997bc36495667d705140bad3cbef3",
+        "sources": {
+          "original": {
+            "path": "examples/ieee-control/branch-record.original.hlsl",
+            "sha256": "95d2eddaf01486e6bd3178f8eb4fcf904d52c333504601423b672c9d6ad0f745"
+          },
+          "optimized": {
+            "path": "examples/ieee-control/branch-record.optimized.hlsl",
+            "sha256": "27c2641760dcd71742cf185bf3847e81af0118d50ef31ed043cf2475968a380c"
+          },
+          "proof": {
+            "path": "proof/ShaderIeee/RecordControlProof.lean",
+            "sha256": "e5a9e979f00994e6a86a3964142a7e0ce904d31160a5f91cfff81f3936a13bd1"
+          }
+        },
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "artifact_sha256": {
+          "generated_target": "03ab2dd5945c95659883fff395d830c7e349f2f7d6074a21a9c40e2739b8d454",
+          "agent_proof": "e5a9e979f00994e6a86a3964142a7e0ce904d31160a5f91cfff81f3936a13bd1",
+          "verification": "55439fb114ddc8ed14072dfcec44c1bf3f274a3d0dd1ebfe38a22a1ec8174f76",
+          "semantic_model": "229f298986a144be3e5cdfb1ec959ddb05ca59e0015c3f3cc5ee87d4b8c29cb4",
+          "lake_manifest": "2361539daebd83c20a8fda2474732916f9056b1dc9c8a5fcc951a1583f05009c",
+          "dependency_lock": "a78c5779fc41273bcbc89d76f1495b5b83f33a28d6759297892c443bf87c8179",
+          "lean_build_log": "d8760763be63067f00789fcf42648cb7e89259b37690e733415676ec0b8b6596",
+          "lean_verify_log": "5c87444665af700c504109cdb73d18640f1f97557ca1381f5c38fd19003c2978"
+        },
+        "generated_sha256": "03ab2dd5945c95659883fff395d830c7e349f2f7d6074a21a9c40e2739b8d454"
+      },
+      {
+        "case": "control-branch-record-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "2fb7dbcf5825f87045fe8854d7b318285fe5cd2123e60e183bcf5fad43bed8a2",
+        "sources": {
+          "original": {
+            "path": "examples/ieee-control/branch-record.original.hlsl",
+            "sha256": "95d2eddaf01486e6bd3178f8eb4fcf904d52c333504601423b672c9d6ad0f745"
+          },
+          "optimized": {
+            "path": "examples/ieee-control/branch-record.wrong.hlsl",
+            "sha256": "3ae71cce9e2d2bc9cc45e6b4a83d72aebf27265664f07931d24c4d9a9b4dff8b"
+          },
+          "proof": {
+            "path": "proof/ShaderIeee/RecordControlProof.lean",
+            "sha256": "e5a9e979f00994e6a86a3964142a7e0ce904d31160a5f91cfff81f3936a13bd1"
+          }
+        },
+        "message": "IEEE target/proof failed Lean; see lean-SubmittedProof.log",
+        "error_lines": [
+          "ShaderIeee/SubmittedProof.lean:5:54: error: unsolved goals"
+        ]
+      },
+      {
+        "case": "control-helper-return",
+        "expected": "IEEE_PROVED",
+        "actual": "IEEE_PROVED",
+        "report_sha256": "b70251707fb3ca64bb2574ffb58a04d52a26cb6411dc3116ef91f6cc84036b8c",
+        "sources": {
+          "original": {
+            "path": "examples/ieee-control/helper-return.original.hlsl",
+            "sha256": "6302f8806c66bd37979902a0613273956d3b522828f1c7ba9b40df7457b69bd9"
+          },
+          "optimized": {
+            "path": "examples/ieee-control/helper-return.optimized.hlsl",
+            "sha256": "7220407e058c84dbf74612f83aeed350401177d60a013dafbb6a9a023c4f3603"
+          },
+          "proof": {
+            "path": "proof/ShaderIeee/ControlProof.lean",
+            "sha256": "3277d61a0c7e004438583979f246195c3a222210f4275237b854878f054ed5c4"
+          }
+        },
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "artifact_sha256": {
+          "generated_target": "bb30c8ec802b9b116ddbe38e8e2934285412fd18457d9a116816462fdac3cd43",
+          "agent_proof": "3277d61a0c7e004438583979f246195c3a222210f4275237b854878f054ed5c4",
+          "verification": "55439fb114ddc8ed14072dfcec44c1bf3f274a3d0dd1ebfe38a22a1ec8174f76",
+          "semantic_model": "229f298986a144be3e5cdfb1ec959ddb05ca59e0015c3f3cc5ee87d4b8c29cb4",
+          "lake_manifest": "2361539daebd83c20a8fda2474732916f9056b1dc9c8a5fcc951a1583f05009c",
+          "dependency_lock": "a78c5779fc41273bcbc89d76f1495b5b83f33a28d6759297892c443bf87c8179",
+          "lean_build_log": "97dc4895bd52c861d3a14508f6f7f50a1c2d56b59955514d12c2acc0a5a8ce1c",
+          "lean_verify_log": "5c87444665af700c504109cdb73d18640f1f97557ca1381f5c38fd19003c2978"
+        },
+        "generated_sha256": "bb30c8ec802b9b116ddbe38e8e2934285412fd18457d9a116816462fdac3cd43"
+      },
+      {
+        "case": "control-helper-return-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "2fb7dbcf5825f87045fe8854d7b318285fe5cd2123e60e183bcf5fad43bed8a2",
+        "sources": {
+          "original": {
+            "path": "examples/ieee-control/helper-return.original.hlsl",
+            "sha256": "6302f8806c66bd37979902a0613273956d3b522828f1c7ba9b40df7457b69bd9"
+          },
+          "optimized": {
+            "path": "examples/ieee-control/helper-return.wrong.hlsl",
+            "sha256": "9b65f16f7248eaa65946f2f96a26ae024a7df182b559765d0f4bd8a7cbdabf77"
+          },
+          "proof": {
+            "path": "proof/ShaderIeee/ControlProof.lean",
+            "sha256": "3277d61a0c7e004438583979f246195c3a222210f4275237b854878f054ed5c4"
+          }
+        },
+        "message": "IEEE target/proof failed Lean; see lean-SubmittedProof.log",
+        "error_lines": [
+          "ShaderIeee/SubmittedProof.lean:15:54: error: unsolved goals"
+        ]
+      },
+      {
+        "case": "control-float-branches",
+        "expected": "IEEE_PROVED",
+        "actual": "IEEE_PROVED",
+        "report_sha256": "9b5c5f032e882330c625122286954d39b66e172170763defca1881a11a521256",
+        "sources": {
+          "original": {
+            "path": "examples/ieee-control/float-branches.original.hlsl",
+            "sha256": "f67331c03c9dd46ef95a494653b439b4337ba14075d228bff602d55b5135572c"
+          },
+          "optimized": {
+            "path": "examples/ieee-control/float-branches.optimized.hlsl",
+            "sha256": "811ce4879891c78a66715e6f21743e728b6f79ef5c2de58a5046d29fef0e330f"
+          },
+          "proof": {
+            "path": "proof/ShaderIeee/FloatControlProof.lean",
+            "sha256": "f244e3e2392e5204f06f8579f4cdd65f2e356ecf8308388969674384813c6dcf"
+          }
+        },
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "artifact_sha256": {
+          "generated_target": "f408ee177ba60c194995caf00a582e7ca0085d05339b640d0cd807689b0ff1c9",
+          "agent_proof": "f244e3e2392e5204f06f8579f4cdd65f2e356ecf8308388969674384813c6dcf",
+          "verification": "55439fb114ddc8ed14072dfcec44c1bf3f274a3d0dd1ebfe38a22a1ec8174f76",
+          "semantic_model": "229f298986a144be3e5cdfb1ec959ddb05ca59e0015c3f3cc5ee87d4b8c29cb4",
+          "lake_manifest": "2361539daebd83c20a8fda2474732916f9056b1dc9c8a5fcc951a1583f05009c",
+          "dependency_lock": "a78c5779fc41273bcbc89d76f1495b5b83f33a28d6759297892c443bf87c8179",
+          "lean_build_log": "d8760763be63067f00789fcf42648cb7e89259b37690e733415676ec0b8b6596",
+          "lean_verify_log": "5c87444665af700c504109cdb73d18640f1f97557ca1381f5c38fd19003c2978"
+        },
+        "generated_sha256": "f408ee177ba60c194995caf00a582e7ca0085d05339b640d0cd807689b0ff1c9"
+      },
+      {
+        "case": "control-float-branches-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "report_sha256": "2fb7dbcf5825f87045fe8854d7b318285fe5cd2123e60e183bcf5fad43bed8a2",
+        "sources": {
+          "original": {
+            "path": "examples/ieee-control/float-branches.original.hlsl",
+            "sha256": "f67331c03c9dd46ef95a494653b439b4337ba14075d228bff602d55b5135572c"
+          },
+          "optimized": {
+            "path": "examples/ieee-control/float-branches.wrong.hlsl",
+            "sha256": "ed010a3c63f63fb60f1d762ea22d90fec3432d5cf18a8f44d884ee68b96a2bac"
+          },
+          "proof": {
+            "path": "proof/ShaderIeee/FloatControlProof.lean",
+            "sha256": "f244e3e2392e5204f06f8579f4cdd65f2e356ecf8308388969674384813c6dcf"
+          }
+        },
+        "message": "IEEE target/proof failed Lean; see lean-SubmittedProof.log",
+        "error_lines": [
+          "ShaderIeee/SubmittedProof.lean:5:54: error: unsolved goals"
+        ]
+      }
+    ]
+  },
+  "legacy_real_switchback": "PROVED",
+  "prototype": {
+    "schema": 1,
+    "status": "EXTERNAL_LIBRARY_PROTOTYPE_PASSED",
+    "exit_code": 0,
+    "command": "lake env lean --run ShaderIeee/Probe.lean",
+    "lean_version": "Lean (version 4.35.0, x86_64-w64-windows-gnu, commit eb6cafb7290e8bd5f2937522d8d804f58f02bafc, Release)",
+    "shader_cli_ieee_integrated": true,
+    "checks_passed": 19,
+    "main_sha256": "3e24b5e2f17d13add84e49980e13621400157b35d6959fff2804a889afc40196",
+    "lake_manifest_sha256": "2361539daebd83c20a8fda2474732916f9056b1dc9c8a5fcc951a1583f05009c",
+    "dependency_lock_sha256": "a78c5779fc41273bcbc89d76f1495b5b83f33a28d6759297892c443bf87c8179",
+    "log_sha256": "392c312603395c5949142c9ca7757bfcf2003ae92e5f9d71f54488d77d011747",
+    "interpretation": "FloatLib binary32 reference operations, nearest ties-to-even; GPU profile not matched"
+  },
+  "target_compatibility": {
+    "status": "ALL_TARGETS_AND_STATUSES_IDENTICAL",
+    "core_cases": 83,
+    "ieee_cases": 21,
+    "cases": [
+      {
+        "case": "basic-math-optimized",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "01ed65250705d20475e3a30226d7f8211d6689ae8eacfb6701ea726b8f3dd10e"
+      },
+      {
+        "case": "basic-math-wrong",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "53647fea4dc31ab002caec21dbb882367d575525ee4fcb7991fe6486244126ed"
+      },
+      {
+        "case": "basic-math-domain-original",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "05164e0dd754db496dc570a9823e1bc32c60f22d5df8843e6391d56410ad2687"
+      },
+      {
+        "case": "basic-math-domain-wrong",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "859bbe1a1e57081d1d18178c8b6f9c63f3f41263ff7e7abd95238f10a8c64cda"
+      },
+      {
+        "case": "basic-math-auto",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "596520166b15e2b9753ed31b202f0c8b81e74a78b157391fd899e7589c3cbda6"
+      },
+      {
+        "case": "basic-math-unused-clamp-domain",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "d2c891653b877f7a49638fa1c6187cb9d53a1099a4bc72b07162dcd8d0e80d25"
+      },
+      {
+        "case": "math-extensions-algebra",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "79efb3c9c203439a9e6d246e825ad71b60b41e70c1b9e7df70ce6d4e0ee78602"
+      },
+      {
+        "case": "math-extensions-quantize",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "42d67273d91b66580ca8781f32efaaa1adf3b3b45b7c2fcab8d426ce03cb8547"
+      },
+      {
+        "case": "math-extensions-smooth",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "087e917b6e341c3009b0d66e767fefb1367f99ebb8e7e06ae29ef0b43791a605"
+      },
+      {
+        "case": "math-extensions-wrong-boundary",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "87c4f4abb5aa57a0b7c62d3c248e94458f8d0ee7982669c47bc74dfa30cb3b50"
+      },
+      {
+        "case": "math-extensions-zero-domain",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "1938724f5776c6022e334f2c65776a118c48a219ebf12d25754dec251aefcc8a"
+      },
+      {
+        "case": "math-extensions-reverse-domain",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "d76896c9d8917cc60d3db4b3bbdc680b5d47f084dbecd89495f4ab579cd76efd"
+      },
+      {
+        "case": "compute-postprocess",
+        "driver": "computeformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "f3ea7def8f749c8f324915212303b7a34db0ec9544db13653de7fcac31bdef39"
+      },
+      {
+        "case": "compute-same-thread-alias",
+        "driver": "computeformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "d7754d2435258a3e0cabe8f592b7aec414f029e50e60638e828ae9091cb26e73"
+      },
+      {
+        "case": "compute-wrong-output",
+        "driver": "computeformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "ea03c53a69b406abe3f31819575cc4692517d6eb88dc1a5cbdca035f2f010843"
+      },
+      {
+        "case": "compute-out-of-bounds",
+        "driver": "computeformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "6ca453a2ca0e6b49a572c6ec9c07862f4b02cec1ef1fec700ce61bbdd569e612"
+      },
+      {
+        "case": "compute-write-write-conflict",
+        "driver": "computeformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "960551a12c23b6f1a2b224489abe9627b40634c741a158e746e3f1335488d001"
+      },
+      {
+        "case": "compute-alias-write-read-conflict",
+        "driver": "computeformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "864332165cb280a47de1bb041b1b90b95d488a95fb5d049bf47b28c4ad65fcac"
+      },
+      {
+        "case": "compute-texture-tonemap",
+        "driver": "computeformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "08c6d1ac25f9ec0488caede071d4cf8588a032419f40de75ddadecab42a52db1"
+      },
+      {
+        "case": "compute-texture-alias",
+        "driver": "computeformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "b8dd46927aaa829783e5627b8d781b7dd6b1168e7ad487124c1d7837b3d22506"
+      },
+      {
+        "case": "compute-texture-oob-zero",
+        "driver": "computeformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "7c6978bb2757c5bdb8199f159dc25c975bc3511403a1428e5062d396119c52c9"
+      },
+      {
+        "case": "compute-texture-wrong-output",
+        "driver": "computeformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "5bb542f10ace441bccfb3e471d4cf89a92024d9414fbe4a981bc994a550af685"
+      },
+      {
+        "case": "compute-texture-out-of-bounds-store",
+        "driver": "computeformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "ec40111af4db0eae07d84e05742e2c70bb86f9e16aed974e5c70232b159ec088"
+      },
+      {
+        "case": "compute-texture-write-write",
+        "driver": "computeformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "3e09fdb376b0acf861e4416a79bee1cf5066451e068e262a7784f707f372ce13"
+      },
+      {
+        "case": "compute-texture-alias-write-read",
+        "driver": "computeformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "d9fd1c0af0922e4a5414888d33699150ac81b71f201b06c49487d20ed3df4e25"
+      },
+      {
+        "case": "compute-texture-zero-denominator",
+        "driver": "computeformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "9c70dedf356360891bfbb8cd6258484553323e76fff458f4f1c20ff9e0c22d12"
+      },
+      {
+        "case": "complete-wrong",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "0674de44ed1a0318be3744fdadd214d7754fb57087264eafc7e68e041b89d6f8"
+      },
+      {
+        "case": "complete-positive",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "d001b2ddec401a73440cc3650011ec26489ca2fb051f2682cf3b30de9fe79ba2"
+      },
+      {
+        "case": "loop-domain-zero",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "de542f70062efc40dfda0fbf57bd6ac1d0b92b8c3810c973502ae60051a4f884"
+      },
+      {
+        "case": "loop-domain-wrong",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "d9dd44a84462d10270288b1082e45729e8ce9c127398f8dd3d53cdc4b5fab712"
+      },
+      {
+        "case": "wrong-expression",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "19068c54390391f6133b6944ee15a94b53247c8b84318dfdc7c7620e39a22a51"
+      },
+      {
+        "case": "missing-range-premise",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "15016267294efee0a0798642097a6e0f3dfa95a1be246cb607dfa48dddc90fd0"
+      },
+      {
+        "case": "custom-axiom",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "6faeecdaaa6762950e7ccb870118ff5f251e267650587cd59a01dc20a7a633d9"
+      },
+      {
+        "case": "sorry-proof",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "6faeecdaaa6762950e7ccb870118ff5f251e267650587cd59a01dc20a7a633d9"
+      },
+      {
+        "case": "forged-target",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "6faeecdaaa6762950e7ccb870118ff5f251e267650587cd59a01dc20a7a633d9"
+      },
+      {
+        "case": "positive",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "6faeecdaaa6762950e7ccb870118ff5f251e267650587cd59a01dc20a7a633d9"
+      },
+      {
+        "case": "unlit-missing-domain",
+        "driver": "shaderformalize",
+        "exit_code": 1,
+        "status": "INVALID_INPUT",
+        "generated_sha256": null
+      },
+      {
+        "case": "unlit-wrong",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "54974398cec51dd75b2f0d1e1db37d15c2e8657a6e57cbf593fd669a0583794f"
+      },
+      {
+        "case": "unlit-positive",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "b6eb2fdaac6b423c622a42d5cfc96bcbe24104b41d730c3bf60cc86d66d4409c"
+      },
+      {
+        "case": "structured-missing-domain",
+        "driver": "shaderformalize",
+        "exit_code": 1,
+        "status": "INVALID_INPUT",
+        "generated_sha256": null
+      },
+      {
+        "case": "structured-wrong",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "ce3e6b36a8e34aec7c71ece20967a7d845808aefbf6cb2f85d8d4504e95b546d"
+      },
+      {
+        "case": "structured-positive",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "3337fbdf763872249564fb972f56c9ebb1596c0f80f82e33fba0b68d3c0d2dd0"
+      },
+      {
+        "case": "textured-wrong",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "f8cb47eb4ab067096077cfa63be121a3ac296713a8a7c140e0e23772b51be3e6"
+      },
+      {
+        "case": "textured-wrong-uv",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "f39bbdc0ca3b8fad027ede63336f056dacc9d33ccf96e308f064ca383a69419a"
+      },
+      {
+        "case": "textured-wrong-derivative",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "5eced28683fa692b5b96bbb8a79a83681877fea5060b89d4e34cb08f5eb827d6"
+      },
+      {
+        "case": "textured-wrong-lod",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "a5317dcd24f867fd15620577ad5e9cb45408ddf6029b744e54b4513df0a0bf9e"
+      },
+      {
+        "case": "textured-wrong-sampler",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "eb1a380f29733577f4d47aa274361c2b58cb4afea5167f7b24257ff3801564a1"
+      },
+      {
+        "case": "textured-positive",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "154796db151cef5fd85efa6fbf569f4d1dc6deb5f4f9038e56bd207376e040b8"
+      },
+      {
+        "case": "control-alias",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "e35a7c2a94dcf858b41b3fdb109c89ea196e602fefd006f24ebad2cb6065ee1b"
+      },
+      {
+        "case": "control-else",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "8fed3d134598b4928f52109bcb15b69468769e45d7432eb521873aad0d451023"
+      },
+      {
+        "case": "control-return",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "9b05824ef730907fbac4450639220eadda9909ea5279228aea9ac87fc3ad744c"
+      },
+      {
+        "case": "control-domain-wrong",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "52deb122fbcfa3980a54547da189b5894bd50df86c3708beb763204af3714385"
+      },
+      {
+        "case": "control-domain",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "ba9f29eb55a145fec9eefa51a2b714fb4068621e6efb3202dde6267f7af2523a"
+      },
+      {
+        "case": "control-mixed",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "518250c2c7f7eb9bbaab95de97312b293a2810169014ed0c57d65fac27f3f85d"
+      },
+      {
+        "case": "control-helper-field",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "5a377c8fb14ca5b9310927752b1f684a92742ebf2c0b90d5684b9bee09c369e4"
+      },
+      {
+        "case": "control-helper-domain-original",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "e0e7274f15272e7220c86cca369d0a0683d3f6db5487f59043d5f3ef2a1fb731"
+      },
+      {
+        "case": "control-helper-domain-wrong",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "cddb2a59525e920ffe5b2d18b9ad7da0c7da0e1521f52c14b3284389d2f78fe2"
+      },
+      {
+        "case": "branched-wrong",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "c2b1304bcf883ee94c69fbe64c7bfcc756be41eae128ba49a1ae4677720ecd01"
+      },
+      {
+        "case": "branched-wrong-cutoff",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "02679b509e409bb44ab6fb247d56d62d8abad0c24915b54946af0bde4f6a1201"
+      },
+      {
+        "case": "branched-positive",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "b694898bb802f23072de74127b53f7e3074f051b29bcea683391da9e29d3fa73"
+      },
+      {
+        "case": "packed-wrong-field",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "8e79a8c4c5f6af8cf5a4a96bb7b41d3bb2e5f55f41cb32d46d7cd241e4fe1b43"
+      },
+      {
+        "case": "packed-domain-safe",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "afec2287d4a2d9b9b8ee65c7bd0a88fe83637a7f6bded134d760434a33e11d09"
+      },
+      {
+        "case": "packed-domain-wrong",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "515462a987d36b215f90f7e87c57b472ca684372afa0fa9f5964689ece399f0c"
+      },
+      {
+        "case": "packed-shift-wrong",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "a7b9d1ee7a8ed20c225e0f7bdc0cd0b72bda1d9247733c52665f7f15ff5a92da"
+      },
+      {
+        "case": "packed-positive",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "104acefe228169bf7e7d805e5c8b71552a79dd8d2a174fec66df1d1e913cbbf9"
+      },
+      {
+        "case": "shared-structured-wrong",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "bc4441eb7325409dea2f4cef89a8eba506faf73ad91b2edb93b3d1ccddb300d3"
+      },
+      {
+        "case": "shared-structured-positive",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "10c3d5329f77695c6d2ba7a98beec46e66764dac28f0e7ce5b2d4a072150e75d"
+      },
+      {
+        "case": "shared-helper-field",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "10dc640c54184789a75ecefdefe8bb00305407597187589f67e84568d9964b4c"
+      },
+      {
+        "case": "shared-helper-domain-original",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "f260a58b5df7ee85c9efc6b5a41966584b7c28819c4ea450dbc3b575f60e3624"
+      },
+      {
+        "case": "shared-helper-domain-wrong",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "7cbf45bbed65cd6471b49dbd45b8554aad9b5542b83dcb6342e3422104e9349f"
+      },
+      {
+        "case": "shared-helper-domain-ignored",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "1369245453b3e7b8251609c90da0146258795705c6b1b8d6ffa641fc605b305a"
+      },
+      {
+        "case": "copyback-structured-wrong",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "fec234d2943f0d855c3e61916c060421287c24842d899b6889845b3fbd418fd4"
+      },
+      {
+        "case": "copyback-structured-positive",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "909947eda2af4c6a9d626f8be9ba5097098087179ccf1f8e9d060ee4d08b7472"
+      },
+      {
+        "case": "copyback-field",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "704fda325c99f43637bb475e6d199ca7d24eec608a3fc63df67c2988750f7cdd"
+      },
+      {
+        "case": "copyback-clip",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "bed5f78602fdfbb84a2adacd4f14862262d7d163e86a454af105b3a856d70ae7"
+      },
+      {
+        "case": "copyback-default-domain-original",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "f8f29cad0132da1e4ec0cae4a3640d9d79bd5e635e96e386e496df44ee06bfb8"
+      },
+      {
+        "case": "copyback-default-domain-wrong",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "e03f05259c4900b292f530a3bd43b665e648d8af8cab65938218bd29c61eb3d4"
+      },
+      {
+        "case": "aggregate-material-wrong",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "de5ba7a289794f1df8f64738433c9ee387aab3ba5308356b51e23aada7e61983"
+      },
+      {
+        "case": "aggregate-material-positive",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "71d12a0c94d92b258190df515436f21df7cf11b9b938acf9624ad35735671471"
+      },
+      {
+        "case": "aggregate-field",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "3f6128dda055ebb9bec859063d3f31ca29266cd7ff0049546818e50bc95c3fc1"
+      },
+      {
+        "case": "aggregate-index-safe",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "11743e3f4c42de3a6e9d676ef98a287a01873eb66712c5ec1b797c34b73ff966"
+      },
+      {
+        "case": "aggregate-index-wrong",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "ceb23d7e781b83f5709786748fe4ab116f190448c3670f0dd4b697920e3906e7"
+      },
+      {
+        "case": "aggregate-index-inactive",
+        "driver": "shaderformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "23220d071e6c2f2a19355bcfb37c0d935bc8702e22ef1e085925c2f64674466a"
+      },
+      {
+        "case": "ieee-struct-helper-cbuffer",
+        "driver": "ieeeformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "74e234717f8ded787af69e2758b2d0eb63b24f21e42a31030796a95fcbece6fc"
+      },
+      {
+        "case": "ieee-ordered-arithmetic-sqrt",
+        "driver": "ieeeformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "80d65b85358c55c09e75da2c14ea8720e30bf2c04303e5a19894b5b9ad64bb4c"
+      },
+      {
+        "case": "ieee-stored-bit-roundtrip",
+        "driver": "ieeeformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "ca4fbbe9992ff94780d7c565ba6dabe7521a8d1737130335ba23f2f4b99c7762"
+      },
+      {
+        "case": "ieee-reassociation-zero-one",
+        "driver": "ieeeformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "b856c6e3224cd014797d7574b742d4de657be74ec2786acdd1eca753221b43bb"
+      },
+      {
+        "case": "ieee-signed-zero-merge",
+        "driver": "ieeeformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "b7fa0c1aa01c812951ede54b2f835092f9600c5202c4661ac46907533e39fe8c"
+      },
+      {
+        "case": "ieee-nan-self-compare-true",
+        "driver": "ieeeformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "793fb5c9083b6498440d6b2cac8e824d5a70a0f6344ddafc35e1c4c66e9c1b2b"
+      },
+      {
+        "case": "ieee-sorry-rejected",
+        "driver": "ieeeformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "74e234717f8ded787af69e2758b2d0eb63b24f21e42a31030796a95fcbece6fc"
+      },
+      {
+        "case": "ieee-extra-axiom-rejected",
+        "driver": "ieeeformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "74e234717f8ded787af69e2758b2d0eb63b24f21e42a31030796a95fcbece6fc"
+      },
+      {
+        "case": "ieee-forged-target-rejected",
+        "driver": "ieeeformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "74e234717f8ded787af69e2758b2d0eb63b24f21e42a31030796a95fcbece6fc"
+      },
+      {
+        "case": "ieee-binary-packing",
+        "driver": "ieeeformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "96eb7bc58d460003a9a0018fe4ddf9b01bc971838bdcaff9c278a40e521e03ea"
+      },
+      {
+        "case": "ieee-binary-packing-wrong",
+        "driver": "ieeeformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "2bd6a43c693416dd400fa3e545fd516a48536e13227c0897a0b1e637f39f19c5"
+      },
+      {
+        "case": "ieee-binary-hash",
+        "driver": "ieeeformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "b407b0f0cd7cb774dd8bd03dc1389f21dec669e114358dc75449d0fcc46d2216"
+      },
+      {
+        "case": "ieee-binary-hash-wrong",
+        "driver": "ieeeformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "7277251fb509505ad8805ba71d60cbd8d1a198baabe4a1bf8392d12c338b647f"
+      },
+      {
+        "case": "ieee-binary-shift",
+        "driver": "ieeeformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "b4f89d27a701a94ca0324221813dc7c6aa5e545dea360949df0852562eef5a6d"
+      },
+      {
+        "case": "ieee-binary-shift-wrong",
+        "driver": "ieeeformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "f8fe15a2708f504e1159502e51e091cb7594a2d89016428d63d39baaa6f43b40"
+      },
+      {
+        "case": "ieee-binary-wrap",
+        "driver": "ieeeformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "684e5800fad10ffb7a6929f31ca6a41bada72da4a4dc00adb6002662cee9d170"
+      },
+      {
+        "case": "ieee-binary-wrap-wrong",
+        "driver": "ieeeformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "8843dc39ee153d733a379978c029d7577335fc0f24afaa9a7e174acb97d01a44"
+      },
+      {
+        "case": "ieee-binary-unsigned",
+        "driver": "ieeeformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "84b89f50ac9e68ae96767561f13dada0231e2df0a09104e90a33d08e0b250b65"
+      },
+      {
+        "case": "ieee-binary-unsigned-wrong",
+        "driver": "ieeeformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "98e6aba94c4470a2ee239975ace707d15939e82d988d1150d5edca6859b838d2"
+      },
+      {
+        "case": "ieee-binary-roundtrip",
+        "driver": "ieeeformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "4a8a1c0dfc675983eaabb4484c3197da00b15759eb064c90b99352e8820f1a77"
+      },
+      {
+        "case": "ieee-binary-roundtrip-wrong",
+        "driver": "ieeeformalize",
+        "exit_code": 0,
+        "status": "PREPARED",
+        "generated_sha256": "86ec78690025bf51a2bb33e3be507e80305a4813253297da27be36feadc838e4"
+      }
+    ],
+    "before_sha256": "a3d23adde807306d47b24db2441384591108e1c1d0d913805d537909c72e3012",
+    "after_sha256": "218f71d7828b37adf3d3d0146f1dd50cb8f875ec72a26b867fe386184bad9a2f"
+  },
+  "validated_sources": {
+    "dependencies.lock.json": "a78c5779fc41273bcbc89d76f1495b5b83f33a28d6759297892c443bf87c8179",
+    "proof/AgentProof.lean": "af907b2a6a3baab2f8b13985de886070ceaa5aa2db1308617facc594542466a8",
+    "proof/AggregateDomainProof.lean": "61397386646c8d5eeb31c01b112b40e7b0a0006de66585828c0cd8cfec3eed5e",
+    "proof/AggregateFieldProof.lean": "e30826f94eb5adb9a9aecbbe736f90687b2145e287183bc76d1c68a71dd77201",
+    "proof/AggregateMaterialProof.lean": "fade4e4d4893f0304877f85298109dec5ddcd377b871a563876fd4b196ddff56",
+    "proof/BasicMathAutoProof.lean": "a53edc1f8427004484e35f827a14a329a558f2890a725d0a9e5d3077623561b2",
+    "proof/BasicMathDomainProof.lean": "fd3e10a56f78dc2083e819724faf99f6f93cdbaa84bd6b0813ac412ec4606ebc",
+    "proof/BasicMathProof.lean": "1a42053cff210629363cf1a095b717394391f6f6756891853943da3ef126eb32",
+    "proof/BranchedProof.lean": "4a62da4962ea3fefb0e1a10b72388242f199cdf6055d1b90502d3ff946e16425",
+    "proof/CompleteMaterialProof.lean": "5c1d0cdc696f48b1cfcdb70fce9c4b693914d993200df743517a0e4b8cd3de03",
+    "proof/ComputeAliasProof.lean": "f190774db6e1d77392700e87ba2c48989842757c72bd81992fd1fd608f3b562d",
+    "proof/ComputePostProof.lean": "484b252857af6db038bcad7dabc47517313f6ef489cfa2bdddf32d413b7f2581",
+    "proof/ComputeTextureAliasProof.lean": "8deff6499f7b181c880d9c29e28299ac61eecc5a87043fc67c1b61bba1f782e9",
+    "proof/ComputeTextureOobProof.lean": "5c25822e00c86b18c02785a7facf57d18131d29c5843cffe45a26aa87d7c9ebc",
+    "proof/ComputeTexturePostProof.lean": "65aa687f71b8ab88f3f208d9be5043a124a0dfd6676cb345e5ed4249dbe70e90",
+    "proof/ControlAliasProof.lean": "3b1706be9993b6b14ec8346a5968165ba8f2a764ada052d1f657717df1983fbd",
+    "proof/ControlDomainProof.lean": "4f9041dada0d32307b583f757b83022a428ce8119b907b466c1475903d9d5ed3",
+    "proof/ControlElseProof.lean": "edfb8f2037bdf5a81ff54af10fbbc9d35ba58aa6ebea3073b63b7904160d3ab9",
+    "proof/ControlHelperDomainProof.lean": "2671800a7cb082655a2e21c3cdce3c7f5f16ad5e41cb33c0e94356df874a224f",
+    "proof/ControlHelperFieldProof.lean": "3aa66e9bad1e57e1542db673576c5b86d883ef6082fc1514a318a674e56ac73e",
+    "proof/ControlMixedProof.lean": "25634870716a58cdbbe992db04771bdb3c541ac664ed6926fa499e352a919f02",
+    "proof/ControlReturnProof.lean": "596ed71d47792f98ffd1f2a49bf8ef809db9541ba894f8c4e0b08247e974834a",
+    "proof/CopybackClipProof.lean": "ec69c0256c73e30ea4b381dc85b4bddd68f9b2de688536ebb4178d7156e60341",
+    "proof/CopybackDomainProof.lean": "ea82bd01da782234ca0b405e5ae6a80e72d6d14bbd8b2646985df23c5023cf62",
+    "proof/CopybackFieldProof.lean": "6d9e5bbfd159a147bf9444992942cc6edc15ba63199f068bedd827a7fb1caa6c",
+    "proof/CopybackStructuredProof.lean": "fa480b6870f0eb313e58ca61c0e127f57f41e0efb1ff4250874d18ec8d5cee6d",
+    "proof/LoopDomainProof.lean": "4c5aa018ac2f77b7b43c0e034670eb378426f01f6e817ad3ff07e618908c0b77",
+    "proof/MathAlgebraProof.lean": "57c2fd7324d572043643a7c935dfd72c41fcbb8889529a4cdb182cc2a59eacaa",
+    "proof/MathQuantizeProof.lean": "8bd9d7fc5cfae536a140b6dc4fcf534568d51b4f8bc32c61c97de60321fb6029",
+    "proof/MathSmoothProof.lean": "b0d2e15b94fa7e6b69140f838879c0e541a25f6d9175f3658c9ccacdcb3e7038",
+    "proof/PackedProof.lean": "23f6f7c83b3fb47984fbb8d59d72a30b568c0040f98defd092da34c1b84b3d6e",
+    "proof/PackingDomainProof.lean": "47aa5763e5a11ae38d52033b981ffd0bb674ac0c95564e54d11f84f6d44aa8de",
+    "proof/ShaderFormalize/BootstrapSmoke.lean": "88f77d8883a35ee60fd474527e2edbd945bb2c0d580b567027b60d1d5e870121",
+    "proof/ShaderFormalize/Compute.lean": "00d4ffd9a7b943fd7e33919b22371f576b01b3e16c318bd0bef2e61e793e2190",
+    "proof/ShaderFormalize/ComputeTexture.lean": "fb44e5eb15521b8823fb84b6c32b82dbcbe4a67a1d61846d386ebac8da74bc9d",
+    "proof/ShaderFormalize/Control.lean": "1bdb1e21015cd10e05593ec42bf1c8c6d522ed9d9ffb2ac6f33f8bda4f90b44b",
+    "proof/ShaderFormalize/Fragment.lean": "c7a4195c9b5b84ce39a959e1fff8870ccb4a6f9e302bda8aa957302bf1ea069a",
+    "proof/ShaderFormalize/Model.lean": "5a3af29b09a4696a1632b0e30595d5465d9486cd71d604bdb1fbcea512133d4e",
+    "proof/ShaderFormalize/Packing.lean": "b7a28c0eeb178976e7060e1053bd45926eccf6e395d6087b3851632ef841f350",
+    "proof/ShaderIeee/BitsProof.lean": "aa1bb270d06bf53d20dcced96571f80c5fab93dee75325f0ffca2c5866279a42",
+    "proof/ShaderIeee/ControlProof.lean": "3277d61a0c7e004438583979f246195c3a222210f4275237b854878f054ed5c4",
+    "proof/ShaderIeee/FloatControlProof.lean": "f244e3e2392e5204f06f8579f4cdd65f2e356ecf8308388969674384813c6dcf",
+    "proof/ShaderIeee/Model.lean": "229f298986a144be3e5cdfb1ec959ddb05ca59e0015c3f3cc5ee87d4b8c29cb4",
+    "proof/ShaderIeee/Probe.lean": "3e24b5e2f17d13add84e49980e13621400157b35d6959fff2804a889afc40196",
+    "proof/ShaderIeee/RecordControlProof.lean": "e5a9e979f00994e6a86a3964142a7e0ce904d31160a5f91cfff81f3936a13bd1",
+    "proof/ShaderIeee/ShiftProof.lean": "2dee729ed237e8940aefe25e6fc77bc1e0364d0c11a7f39646dda7b12c40ceed",
+    "proof/ShaderIeee/WrapProof.lean": "6e573f99c4ca404f5fe6f4687578c1ea16652d1d812f70dacea386ca224daf51",
+    "proof/SharedHelperDomainProof.lean": "ea82bd01da782234ca0b405e5ae6a80e72d6d14bbd8b2646985df23c5023cf62",
+    "proof/SharedHelperFieldProof.lean": "b45c5c11ea64e05a32068b6f50a8499284d4da089494c38c63c2a4e00e4644de",
+    "proof/SharedStructuredProof.lean": "a41641447f9c8e72ee296a74cbe81ba3625b0d3959ddb8eee9a93fbd316f04af",
+    "proof/StructuredProof.lean": "bfb0e583b8b54223e5c56d67c1d9e081e1b0d49a196f5e61df62ad38133e1487",
+    "proof/TexturedProof.lean": "9bc224cce89c955f816e709e026a759e765abf83e3a70e8f14a823032a29556b",
+    "proof/UnlitProof.lean": "bfb0e583b8b54223e5c56d67c1d9e081e1b0d49a196f5e61df62ad38133e1487",
+    "proof/lake-manifest.json": "2361539daebd83c20a8fda2474732916f9056b1dc9c8a5fcc951a1583f05009c",
+    "proof/lakefile.lean": "b423395ef31289ae6470ccc1476fc61e9f786815ec062dec71c3a160eadc0586",
+    "proof/lean-toolchain": "27e73059e3a4d568450f74e39c2f79676c4f8d41373fff15170690f124e3bacd",
+    "prototypes/ieee/proof/ExtraAxiomProof.lean": "e46e2bd45c1c0fc1b999a8eecc38c9593282e086e54209c24661ce0e0441f3f7",
+    "prototypes/ieee/proof/ForgedProof.lean": "f77baf41ea7c02c560c6e3044d8b9ca1d3f2aafa579017d6026dd49ddbfcc811",
+    "prototypes/ieee/proof/IdentityProof.lean": "5a3b1a63d98919005f5b1fe4f1498a3e232091b19abc87827815972b9f543804",
+    "prototypes/ieee/proof/RoundtripProof.lean": "1cba6f2327fa2d24ee3d0362e6a85ff8e8c21bd0d8391e876d1d29119961e2d3",
+    "prototypes/ieee/proof/SorryProof.lean": "d6142448aa2b97459a475ff704b377f0675ecb2c9085e28b2dc8248b3dd4580a",
+    "tools/analyze_shader.py": "59d4d00785b30f77a193672ae507ec233b6fb74bccd253d655f8c684c7f8c993",
+    "tools/bootstrap.ps1": "c91b6942b515a40095897262696812c053de50b1c3685ad4413bfec033b2f6b9",
+    "tools/cache_targets.py": "9ae7f72aefdcf1c8fcbe4492278c2410115edb0192225e3a1695cf8e3c8d6d97",
+    "tools/computeformalize.py": "4f2bc2d43050eb1c604e14e2169131f1e35a4a7664bf2c0a8dda351f22a6c5ed",
+    "tools/download_release.py": "4d12da52a50fd07d638dfb5cc411f4f2a01391d76c839ba06186d9d8866d2c31",
+    "tools/dxc_ast_index.py": "a65f87aabfc62bfd1e8dd2989a6d32254c64127cd23b5ed4b8a8682a9766fda0",
+    "tools/environment.ps1": "f393516200fbe0ff10c5292b91883470e4766c69f3ada5ab6e9da2ffca4f9bdb",
+    "tools/ieeeformalize.py": "972696a67441d203311c6cfce7fff14034cb9ee0f5f27dc40ac85c844244b646",
+    "tools/inventory_hdrp.py": "c58139c192cecf71b4ec2ebeb560a0cd74c4b64c4dfff0c9cea7d873180f60de",
+    "tools/lean_environment.py": "e4b18a2720bb7e56efacb316d1dc9184455fea75a5edd0e40f43cdc2eb114502",
+    "tools/proof_contract.py": "6060520c440647c05fe248ba865e8d6970ee8dd91413a147e30504fec2e8c6ce",
+    "tools/run_compute_suite.py": "4d84b5282dc6d29f6ec9b3daedb6b2f1c8a1f628316e4cf79030c426590bc858",
+    "tools/run_demo.ps1": "2b1d8794c8b518bac555a79dea6ac315f3bca1fc7d4db2f8af1c64e6c9a22852",
+    "tools/run_ieee_probe.py": "22a3e19389a558a31a6a5b99303bf5822fc700943a38109b6bf9271aee875f5d",
+    "tools/run_ieee_suite.py": "235d04a838d3d67cbe06ea0d694f7e5bd6c261056ef7333698afd75673e2c504",
+    "tools/run_sync_suite.py": "154cec03ab43c7c4570e087d87a2cbc5f454010e0e6db12a1b3134a7dfbe7c3d",
+    "tools/run_unity.py": "6bbb21288c03ea240c221927ce6883ac3f873dd64cb8e164f278cdb13f574985",
+    "tools/run_unity_suite.ps1": "8a1e6c3df88690b1c1cf78826aac0bfab807005c736454b0e0d38e52b7fda723",
+    "tools/seed_dependencies.py": "36dbc9b476f8944568ad8e8344b8aa6ecaea2c50b40423e6bab90370da40a91b",
+    "tools/shader_access.py": "d22ad3e260e9c62c85593eb328359421684a08962a39ee257002b28f3b70a9b2",
+    "tools/shader_addresses.py": "ea21e5e7af4ce3b20a12ff8acf1161d2ee3b4679af2e8cd1c2d7422b854c3a30",
+    "tools/shader_aggregate.py": "30a92b2277582496b71c97efc15db279f1015ba3b6807496bbc167419b4d8181",
+    "tools/shader_aggregate_metadata.py": "973c6981c3fead2bb5b5ca74d530d40412e913dbb3f8f662907600e76ca523f1",
+    "tools/shader_aggregate_types.py": "7efe9536a257091651202bc61352a2c289a03facc0f961a291fbefa43bf50406",
+    "tools/shader_aggregate_values.py": "7e75d66016e8d5461d09535b0f5c45f37243d06d278709f6a67c6ebb57e231d1",
+    "tools/shader_ast.py": "4f369885048951a027834ffae295d1e50744d41f1a3d4dbb0d8ac8dba6f26d8d",
+    "tools/shader_boolean.py": "11cb4ae5b82f6054cb0f2e5f2e65dddc49ac5267157c6a055552e22f2387ec18",
+    "tools/shader_compute.py": "ed2fb903fa3ba75c8826b7b08c9b9d97670a8ed267949168bf05d8b628ba6d8c",
+    "tools/shader_compute_math.py": "7fad3e8a92841586f320cc28f122b5adbb2753f471cb3d9c04328d29b8fb9bbc",
+    "tools/shader_compute_texture.py": "906d4f7a7f66ee5aa313f386b727cce40d41d66c2cb2c0b7d2c86bd3327e4261",
+    "tools/shader_control.py": "a6652fe04415a7b3576b5772db24f45aa3bf74cdee46b6234fabba32d776599c",
+    "tools/shader_control_eval.py": "13f5d2c5c82063a73150b0ed503a8b25aea4180a01dbcdc9c4327175a0846052",
+    "tools/shader_control_lean.py": "acf54553fe2d68d06a735563f2481810cee234aedb8d57c5c53687d9f18cf086",
+    "tools/shader_control_values.py": "5172f501d5dec5590a32c874706fe6381080cb3f26782ccf2e179bb7fee4c15f",
+    "tools/shader_copyback.py": "9e7af61e321bc16124742be7874c18ac5463de1b782dd02c187b3520ccc7d1d9",
+    "tools/shader_effects.py": "2c9eb1c0681285a8ec8001d52e65879974b7ddf094bcf34e6db222f1ce0bbe2f",
+    "tools/shader_eval.py": "85b92ee0c691b5d612c601dc726700e0dddbe8729f0c3bbe4f400f4e8c5bf63b",
+    "tools/shader_flow.py": "5c5a8a9c87888ddfdbe7549f5109d7f7496d632fac2f07b4196d8f81fcae4a6d",
+    "tools/shader_fragment.py": "2a348d951af36bbb794cefd8e55b6d60ee0365f67156a15cc3178b50f49fc4c5",
+    "tools/shader_fragment_eval.py": "260c92a88e03382aeb199ae613f1b2f6974c8d5cf9440e82406e8eb949c7aab8",
+    "tools/shader_frontend.py": "b0c02e09a143b81447a65cb57ad174ea4b1f4ce2704aeba82b149d48f781031a",
+    "tools/shader_ieee_frontend.py": "db2325332707b56ae3b0ce06aabdf30ce32fa56b7eff93a0c492f0f4eb920b9d",
+    "tools/shader_ieee_lean.py": "a624ef92101bef0c21257e8ed73a1fa2a75d16d34520802edfd2c4701652c1a6",
+    "tools/shader_lean.py": "04398a37afe5bf02baae3e13ffbec9ea983acf7d6c8af801be5e0ae72fbec63f",
+    "tools/shader_loop_metadata.py": "1a040c91c18e4ea3eb3ae460df7538d2286206dbbd33c437664e81040c1443d9",
+    "tools/shader_loops.py": "a87cc4a286eb8b508c25236bd1fa89edb40ab0c777447216cdc63d70f07b4746",
+    "tools/shader_math.py": "f7218dff89174bf7a7754b7a77c1c06c20d3cfbc8c38544b1b63b393df5ba2ba",
+    "tools/shader_model.py": "26ab13684bd54c4fcd59891721ccba20bef52da7d54c0d00180c41ca48b97ccc",
+    "tools/shader_packing.py": "fbb9726d1027cecdc30f71be45f33af559bfd9c1f6fbb09218560dc261f2a23b",
+    "tools/shader_packing_eval.py": "f9083a2040d0c230d7af7cb1b66cc048d6f8a5521541f691744b9de91f281915",
+    "tools/shader_packing_lean.py": "c23f044f82482ede07994ff6e495a22c34262f381a4e58753903a6b6f8daf356",
+    "tools/shader_shared.py": "d4e24c1e6b4b5e508c4084f631c4542102ad1e2ebe810385e83aa77dab69ccba",
+    "tools/shader_shared_eval.py": "7f77f0c97c8c277958fc315b3a8fe666d0b502aa7fc79a2ca3b6ae97636d8a06",
+    "tools/shader_shared_lean.py": "3fd8452f6fb4ff6578efa3a651eaed9f1585be8323aa6e232bf3d517d77cf7be",
+    "tools/shader_sync.py": "2d9d52feff79f8ccd5de8942a4634a2af486fdea98bb61b9cefad1b260f8816a",
+    "tools/shader_types.py": "efee0e5f755ce022034a7e143492fefb07cc0ec607c4a4920e72eddb7c30d361",
+    "tools/shader_validation.py": "8116367656732068a701fc9433bdcd2d47f645c7f47cda043108ffc206f8c10a",
+    "tools/shaderformalize.py": "b9ac11ffa0b732a55b915f1c8bd3a074c34cea9d7035b9754828d2f486e64a85",
+    "tools/syncformalize.py": "b8a65a4696f5d5dd16b80a9c1e87c96dfa89ec271c69a0d65ac9f148db81519c",
+    "tools/test_aggregate.py": "cc926db2d5f051b90e8f7b115fd0acd998fb838ecc2f6244c7ed16894d6cebb7",
+    "tools/test_ast_index.py": "755c0f431141e8fedde6ab27e11672cd3ab88552660a4a708bff7ee0c59b2839",
+    "tools/test_basic_math.py": "4965d8ab6944bb8dcdca6fcf0cacce8ec30d6a306fbc7623bc276ca0c4ac1d9a",
+    "tools/test_boolean.py": "09836732038797be7c862a37c3b08951a88571644ae8b09a234439b13c08bc6d",
+    "tools/test_compute.py": "21c6e875dba9fa82d634fa4e205a2273f848e86da58f95c461395c258554363d",
+    "tools/test_control.py": "20855ab2c6789574905d4d2c3c08efc6961d576a0fd53bbf84d6cacf86237643",
+    "tools/test_copyback.py": "344abc8baf1922951bebe62bdf9940543995ca0b98472a176520edcc122c0591",
+    "tools/test_fragment.py": "4dd059d9ecfdbdc2e49e1d139fb09a585ea45ce94266c6bf6df5024e061715d8",
+    "tools/test_ieee.py": "ac52286f5dba78790f5a28c14eb4822972a9992e9afed1c9178529de796760d5",
+    "tools/test_loops.py": "2a6ffb69b3bed3a53dffa27c280deff9bcbd7765e8060fc6b77ecc6cfbc374ee",
+    "tools/test_math_extensions.py": "417dc1559f69a6c2df7fce43d679dec8bca6d2296bf92b5838f19a1c76110922",
+    "tools/test_packing.py": "ac666957f0ed83c3d33d8d16f798f8bc5c9d68338dc5a747a4e8e81b25a710f6",
+    "tools/test_portability.py": "28aae7d28d18c13a54962a16cdd7a2f07dc39f71f05aace37c0e02a504724ebc",
+    "tools/test_shaderformalize.py": "f66b09d95453e8514cf8faf388ad447ba9ec4456cc848002cacba04b3419930c",
+    "tools/test_shared.py": "53b3db67ae8218565010bb4fd53d312ed5b291766cf8861004afd8ff09d2222b",
+    "tools/test_structured.py": "89f18804b4209e8ace186b543a02dea159a3e3de2d81118c4834ed15f81190c9",
+    "tools/test_sync.py": "7709886e60e5ba332ec658fb07ea8756eaa9430191a194c1ddeb33d752cd63f9",
+    "tools/test_unlit.py": "a7daeef26df2b5d9222a6facf85bf7a7148d27275ab120fcb40d81e179773761",
+    "tools/verify_demo.py": "46ee2cdead90e552363ce9c8e355537bd00b095c2f9dfb50b4f2519936d87506"
+  },
+  "initial_proof_attempts": {
+    "initial": [
+      {
+        "step": "all-units",
+        "exit_code": 0
+      },
+      {
+        "step": "branch-record",
+        "exit_code": 1,
+        "status": "UNPROVED"
+      },
+      {
+        "step": "helper-return",
+        "exit_code": 1,
+        "status": "UNPROVED"
+      },
+      {
+        "step": "float-branches",
+        "exit_code": 0,
+        "status": "IEEE_PROVED"
+      }
+    ],
+    "repaired": [
+      {
+        "case": "branch-record",
+        "status": "IEEE_PROVED",
+        "exit_code": 0
+      },
+      {
+        "case": "helper-return",
+        "status": "UNPROVED",
+        "exit_code": 1
+      },
+      {
+        "case": "float-branches",
+        "status": "IEEE_PROVED",
+        "exit_code": 0
+      }
+    ],
+    "return_lemmas": [
+      {
+        "case": "helper-return",
+        "status": "IEEE_PROVED",
+        "exit_code": 0
+      },
+      {
+        "case": "float-branches",
+        "status": "UNPROVED",
+        "exit_code": 1
+      }
+    ],
+    "verified_checkpoint_proofs": [
+      {
+        "case": "branch-record",
+        "status": "IEEE_PROVED",
+        "proof": "RecordControlProof.lean",
+        "report": "artifacts\\binary-control\\positive-repaired\\branch-record\\result.json",
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "proof_sha256": "e5a9e979f00994e6a86a3964142a7e0ce904d31160a5f91cfff81f3936a13bd1"
+      },
+      {
+        "case": "helper-return",
+        "status": "IEEE_PROVED",
+        "proof": "ControlProof.lean",
+        "report": "artifacts\\binary-control\\return-lemmas\\helper-return\\result.json",
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "proof_sha256": "3277d61a0c7e004438583979f246195c3a222210f4275237b854878f054ed5c4"
+      },
+      {
+        "case": "float-branches",
+        "status": "IEEE_PROVED",
+        "proof": "FloatControlProof.lean",
+        "report": "artifacts\\binary-control\\positive-repaired\\float-branches\\result.json",
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "proof_sha256": "f244e3e2392e5204f06f8579f4cdd65f2e356ecf8308388969674384813c6dcf"
+      }
+    ],
+    "history": "Initial tactic failures retained; float proof preserves the successful script bytes; proof repairs did not weaken goals or axioms. The separate helper fixture revision is recorded and rechecked by the final IEEE gate."
+  },
+  "fixture_revision": {
+    "reason": "Clear high bit and set low bit separately; previous AND clearing bit 0 was canceled by OR setting bit 0",
+    "shared_source_changed": false,
+    "changed_data": [
+      "examples/ieee-control/helper-return.original.hlsl",
+      "examples/ieee-control/helper-return.optimized.hlsl",
+      "examples/ieee-control/helper-return.wrong.hlsl"
+    ],
+    "core_unit_phase_used_previous_fixture": true,
+    "affected_method_rechecked": true,
+    "final_ieee_suite_will_check_current_fixture": true,
+    "commit": "b6f4fb8a2046b76ca4d0dba8f2068ff20349c80c"
+  },
+  "compound_observability": {
+    "status": "EIGHT_OPERATIONS_OBSERVABLE",
+    "interpretation": "Finite uint32 reference diagnostic; not a replacement for actual HLSL Lean equivalence proofs",
+    "witnesses": {
+      "+=": {
+        "word": 1313236434,
+        "key": 1039127503,
+        "output_bits": 1313236434,
+        "without_operation_bits": 1
+      },
+      "-=": {
+        "word": 1313236434,
+        "key": 1039127503,
+        "output_bits": 1313236434,
+        "without_operation_bits": 2
+      },
+      "^=": {
+        "word": 1313236434,
+        "key": 1039127503,
+        "output_bits": 1313236434,
+        "without_operation_bits": 1
+      },
+      "<<=": {
+        "word": 1313236434,
+        "key": 1039127503,
+        "output_bits": 1313236434,
+        "without_operation_bits": 1
+      },
+      ">>=": {
+        "word": 1313236434,
+        "key": 1039127503,
+        "output_bits": 1313236434,
+        "without_operation_bits": 405700608
+      },
+      "*=": {
+        "word": 3280523643,
+        "key": 3151788527,
+        "output_bits": 127259,
+        "without_operation_bits": 45133
+      },
+      "|=": {
+        "word": 2201250728,
+        "key": 175528083,
+        "output_bits": 197394432,
+        "without_operation_bits": 197427200
+      },
+      "&=": {
+        "word": 2520360757,
+        "key": 140175558,
+        "output_bits": 39439975,
+        "without_operation_bits": 39702119
+      }
+    }
+  },
+  "affected_fixture_unit_recheck": {
+    "tests": 1,
+    "passed": true,
+    "log_sha256": "ac71d1bad950acff859a25dd09dc608db3ad0aa46567567e64052e2e245b4dc9",
+    "final_coverage": "Current fixture checked again by final IEEE 29-unit gate and actual HLSL proof"
+  },
+  "independent_Q": {
+    "status": "PASS",
+    "round": 2,
+    "reviewer": "/root/binary_control_plan_review",
+    "issues": [],
+    "read_only": true,
+    "checks": {
+      "frozen_sources": 139,
+      "compatible_targets": 104,
+      "core_reports": 83,
+      "ieee_reports": 27,
+      "positive_artifact_hashes": 96
+    },
+    "fixture_correction": "Q1 observability conclusion was premature; final Q2 checked the revised AND mask 2147483647 in the actual helper target and current full proof."
+  },
+  "limits": [
+    "Reference profile not matched to a GPU",
+    "DXC and translator remain trusted",
+    "No loops/resources/Compute extension or default real execution migration",
+    "No implicit numeric-to-bool or numeric float/uint casts",
+    "UNPROVED records submitted-proof failure, including resource limits, not automatic inequivalence"
+  ]
+}

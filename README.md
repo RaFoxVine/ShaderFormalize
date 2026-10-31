@@ -8,7 +8,7 @@
 
 [二进制分支与局部赋值](docs/binary-control.md)进一步支持纯if/else、嵌套分支、main/helper提前返回、struct字段汇合及八种uint复合赋值。公共分支骨架由实数和IEEE前端共用，数值与效果含义由各自后端拥有；输入条件仍使用明确的标量bool，未开放循环和资源。
 
-二进制位运算首批验收：312项Python测试、21项IEEE正负控制（9 IEEE_PROVED、12 UNPROVED）、默认实数入口回切及19项库原型检查均符合预期。包含六组真实HLSL的打包、hash、移位、回绕、无符号选择及位往返；负例记录各自实际证明失败原因，UNPROVED不等于已证明不等价。[机器证据与独立审阅状态](planning/evidence/binary-bits-2026-10-31.json)。
+2026-10-31分支批次完整验收：319项Python测试、83项核心控制（38 PROVED、43 UNPROVED、2 INVALID_INPUT）、29项IEEE专项单元、27项IEEE正负控制（12 IEEE_PROVED、15 UNPROVED）、默认实数入口回切及19项库原型检查均符合预期，独立Q通过。本轮83项核心全部实际重跑；三个新增分支正例通过完整输出位证明，错误改写记录实际证明失败原因，UNPROVED不等于已证明不等价。[机器证据与独立审阅状态](planning/evidence/binary-control-2026-10-31.json)；[位运算首批证据](planning/evidence/binary-bits-2026-10-31.json)。
 
 语言覆盖以[官方目录](planning/coverage-expansion/coverage.csv)逐项推进。[基础数学运算](docs/basic-math.md)已接入现有实数模型，包括 min/max/abs/clamp、除法、sqrt/rcp/rsqrt、length/distance、floor/ceil/frac/step/smoothstep/cross/reflect，按实际执行条件证明受限域。[并行扩展范围](planning/coverage-expansion/parallel-plan.md)另包含独立浮点库接入及 Compute/同步工作；各方向当前进度见[任务状态](planning/coverage-expansion/tasks.md)。
 

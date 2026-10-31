@@ -29,3 +29,6 @@
 - 独立Q源码阶段已核对共享骨架、动态分派、IEEE MRO/零值/预检查、metadata/只读/初始化、三组3×3真实HLSL及完整目标，无需修改的源码缺陷；最终Q仍等本轮完整正式证据。
 - 实现检查点64a6d7e13896b6d8bee656a7570410f47786c8e3已推送，状态仍Implementing。核心完整门禁先运行319单元（49.655秒），然后运行83控制；139个编译器/证明/配置源的冻结指纹保存于frozen-sources.json。
 - 复查发现helper-return的AND清bit0随后被OR设bit0抵消；改为AND清bit31、OR设bit0，三份示例同时修订。有限uint32参考计算为八种操作各找到一个省略该操作会改变输出的见证，保留compound-observability.json；这不是替代HLSL全称证明。影响的示例导入单项实际复测通过（0.462秒），未改共享源或核心83的输入。此前helper正例只适用于修订前数据；最终IEEE29单元/27控制将验证当前修订，记录fixture-revision.json明确区分这次修订与核心全单元运行时间。
+- 最终队列session29447实际exit0，开始10:30:09、结束13:28:57（2026-10-31 America/Tijuana）。默认完整核心耗时5959.422秒：319单元及83控制，38 PROVED、43 UNPROVED、2 INVALID_INPUT均符合预期；IEEE suite耗时4693.234秒：29单元、27控制（12 IEEE_PROVED、15 UNPROVED）及实数回切均通过；原型19耗时80.235秒通过。没有复用旧83项证明结果来冒称实际重跑。
+- 最终IEEE中的helper-return正负例使用b6f4fb8修订后的三份HLSL；正例实际IEEE_PROVED。最终专项29单元再次覆盖当前示例，区分先前319全单元运行时的数据版本。builder实际核对139冻结源、全部当前输入/提交证明/生成目标/语义Model及三公理白名单，生成planning/evidence/binary-control-2026-10-31.json，当前状态VALIDATION_PASSED_REVIEW_PENDING。
+- 独立Q第2轮实际PASS、issues=[]，reviewer为/root/binary_control_plan_review。只读核对139冻结源、104旧目标比较、83/27逐案报告、27组当前输入/快照/提交证明和12正例的96个产物哈希；确认三个新负例在SubmittedProof留下真实未解决目标。reviewer明确纠正Q1过早认可操作可观察性的判断：最终b6高位AND掩码2147483647已经实际出现在helper目标并完成全称证明。未运行Lean/Lake/测试或改文件。机器证据据此收为PASSED，002与grant完成；B/C/D不包含在本次验收结论内。

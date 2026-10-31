@@ -158,11 +158,13 @@
   ],
   "progress": {
     "A": {
-      "commits": [],
+      "commits": [
+        "b6f4fb8a2046b76ca4d0dba8f2068ff20349c80c"
+      ],
       "grant_reference": "planning/binary-pipeline/execution-authority.md#binary-control-grant-002@r1",
-      "result": "IN_PROGRESS",
-      "summary": "Core 319 units and 83 controls passed; IEEE27 and prototype19 still running; final independent Q pending.",
-      "updated_at": "2026-10-31T12:24:27-07:00"
+      "result": "DONE",
+      "summary": "Final gates and independent Q round2 PASS; core319/83, IEEE29/27 plus real switchback, prototype19; persistent evidence PASSED. Only control-002 completed.",
+      "updated_at": "2026-10-31T13:35:35-07:00"
     },
     "B": {
       "commits": [],
@@ -190,7 +192,7 @@
   "schema_version": 1,
   "session_id": "shader-binary-data-compute-2026-10-31",
   "status": "running",
-  "updated_at": "2026-10-31T12:37:48-07:00"
+  "updated_at": "2026-10-31T13:35:35-07:00"
 }
 ```
 <!-- SMART_OVERNIGHT_STATE_END -->
