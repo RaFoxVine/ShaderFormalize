@@ -1,0 +1,55 @@
+[
+  {
+    "id": "A",
+    "target": "ShaderFormalize/binary-pipeline/binary-control-002@r1",
+    "goal": "完成当前分支批次的完整回归、独立Q、证据、提交推送",
+    "ceiling": "PLAN_AND_CODE",
+    "grant_source": "direct_user",
+    "grant_reference": "planning/binary-pipeline/execution-authority.md#binary-control-grant-002@r1",
+    "allowed_actions": ["scope-preserving repair", "actual validation", "independent Q", "documentation", "commit", "non-force push"],
+    "exclusions": ["scope outside control-design.md r1", "dependency/global changes", "force push", "merge", "Node archive"],
+    "dependencies": [],
+    "stop_conditions": ["unavailable critical oracle", "new profile/axiom or weakened target", "third formal review remainder"],
+    "authorization_message_exact": "按此实施",
+    "unique_referent_evidence": "既有唯一分支实施问题的直接批准，grant提交11f2803先于产品修改；新Overnight答复要求继续收尾。"
+  },
+  {
+    "id": "B",
+    "target": "ShaderFormalize/binary-pipeline/binary-data",
+    "goal": "按提案实现uint2/3/4数据操作、局部定长数组与常量次数规范for，真实HLSL完整位证明及正负回归",
+    "ceiling": "PLAN_AND_CODE",
+    "grant_source": "delegated_session",
+    "allowed_actions": ["read-only parallel investigation", "concrete design", "independent P/Q", "derive exact grant", "code", "actual validation", "documentation", "commit", "non-force push"],
+    "exclusions": ["dynamic/symbolic loops", "break/continue or loop return", "resources", "matrices", "new numeric casts/bool vectors", "dependency/global changes", "C-drive worktrees", "Unity/C++", "default entry switch", "force push", "merge", "Node archive"],
+    "dependencies": ["A"],
+    "stop_conditions": ["proposal ceiling exceeded", "new profile/axiom or weakened target", "unavailable critical oracle", "third formal review remainder"],
+    "authorization_message_exact": "按此范围执行 Overnight",
+    "unique_referent_evidence": "唯一异步问题明确A/B/C/D和B/C自主持有细化实施权限；提案SHA256及完整问题见overnight-request-2026-10-31.txt。"
+  },
+  {
+    "id": "C",
+    "target": "ShaderFormalize/binary-pipeline/binary-compute",
+    "goal": "按提案打通一维uint Buffer单pass Compute，实际HLSL完整输出/边界/无冲突证明及错误计算/越界/竞争负控",
+    "ceiling": "PLAN_AND_CODE",
+    "grant_source": "delegated_session",
+    "allowed_actions": ["read-only parallel investigation", "concrete design", "independent P/Q", "derive exact grant", "code", "actual validation", "documentation", "commit", "non-force push"],
+    "exclusions": ["float resources/numeric casts", "texture filtering", "groupshared/barrier/atomics", "interthread communication", "multipass execution", "dependency/global changes", "C-drive worktrees", "Unity/C++", "default entry switch", "force push", "merge", "Node archive"],
+    "dependencies": ["A", "B"],
+    "stop_conditions": ["proposal ceiling exceeded", "new profile/axiom or weakened target", "unavailable critical oracle", "third formal review remainder"],
+    "authorization_message_exact": "按此范围执行 Overnight",
+    "unique_referent_evidence": "唯一异步问题及提案明确纯uint单pass与安全边界，委托具体设计、独立审阅后实施；不授权同步或多pass代码。"
+  },
+  {
+    "id": "D",
+    "target": "ShaderFormalize/binary-pipeline/spec-and-graph-plan",
+    "goal": "以B/C真实结果细化自定义Lean规格接口和多pass uint32前缀和计算图，形成可实施方案",
+    "ceiling": "PLAN_ONLY",
+    "grant_source": "delegated_session",
+    "allowed_actions": ["investigation", "design", "independent review", "documentation", "commit", "non-force push"],
+    "exclusions": ["product code", "dependency/global changes", "Unity/C++ host analysis", "default entry switch", "force push", "merge", "Node archive"],
+    "dependencies": [],
+    "stop_conditions": ["needs a new product decision outside proposal", "critical unknown not resolvable by investigation"],
+    "authorization_message_exact": "按此范围执行 Overnight",
+    "unique_referent_evidence": "唯一异步问题明确D只细化方案；不把方向同意冒充实现授权。"
+  }
+]

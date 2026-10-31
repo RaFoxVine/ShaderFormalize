@@ -1,5 +1,13 @@
 # 当前执行授权
 
+## shader-binary-data-compute-2026-10-31 限定委托
+
+- source: direct_user delegation，精确回答“按此范围执行 Overnight”。
+- envelope: overnight-proposal-2026-10-31.md，SHA256为3511fdce37d81babb7dbe671577540cad3ac9127482c2794b5e18114160be19e；完整问题、范围与项目清单见overnight-request-2026-10-31.txt和overnight-items-2026-10-31.json。
+- A沿用binary-control-grant-002；B/C是PLAN_AND_CODE上限，每个具体切片完成独立P、记录精确grant与Approved状态后才修改代码。D仅PLAN_ONLY。
+- session: planning/overnight/current.md，由Smart脚本维护；沿用已有planning项目根，不创建新Project。
+- 共用checkout保持一个产品/Lean workspace writer；允许并行只读调查和独立审阅。依赖、全局配置、默认入口、Unity/C++、合并及节点归档不在委托内；非强制push沿用既有授权。
+
 ## binary-control-grant-002
 
 - status: active
