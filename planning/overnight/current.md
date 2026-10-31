@@ -186,15 +186,15 @@
       "commits": [],
       "grant_reference": "",
       "result": "IN_PROGRESS",
-      "summary": "spec-graph-design draft written; PLAN_ONLY; actual B/C interface alignment remains.",
-      "updated_at": "2026-10-31T12:37:48-07:00"
+      "summary": "Read-only draft review found no spec/scan mathematical blocker; clarified fixed P trust boundary; specified ABI/frame, single-candidate and expected task identity direction. PLAN_ONLY; final C interface alignment and Execution Ready P remain.",
+      "updated_at": "2026-10-31T15:59:09-07:00"
     }
   },
   "request_text": "用户询问：接下来我们开始Overnight，哪些是你认为可以这次一并搞定的内容？\n\n唯一待批问题：是否按这份范围执行 Overnight：A 完成当前批次验收；B 实现二进制 uint 向量、局部定长数组与固定次数循环；C 打通仅 uint Buffer 的单 pass Compute，验证完整输出及内存安全；D 只细化自定义规格和多 pass 方案？B/C 由我在此范围内完成具体设计、独立审阅后实施，不再逐批等你确认；保持现有依赖和默认入口，完成后提交推送。具体边界已写入 planning/binary-pipeline/overnight-proposal-2026-10-31.md。\n\n用户精确回答：按此范围执行 Overnight\n\n提案SHA256：3511fdce37d81babb7dbe671577540cad3ac9127482c2794b5e18114160be19e\n会话标识：shader-binary-data-compute-2026-10-31\n范围所有者：planning/binary-pipeline；沿用planning作为已有Smart兼容项目根，不创建新Project。\nA沿用现有binary-control-grant-002；B/C取得限定委托，逐个完成独立P与精确grant后才写产品代码；D只规划。既有非强制push授权继续有效。",
   "schema_version": 1,
   "session_id": "shader-binary-data-compute-2026-10-31",
   "status": "running",
-  "updated_at": "2026-10-31T14:37:46-07:00"
+  "updated_at": "2026-10-31T15:59:09-07:00"
 }
 ```
 <!-- SMART_OVERNIGHT_STATE_END -->
