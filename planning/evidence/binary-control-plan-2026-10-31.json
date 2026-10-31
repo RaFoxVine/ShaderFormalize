@@ -1,0 +1,43 @@
+{
+  "status": "DXC_PARSED_IEEE_SUBSET_REJECTED",
+  "dxc_exit_code": 0,
+  "source_sha256": "51aa05f750f7552d9d1625ad84929aea50582d0c06d2c1c5c1bb99f7c0229e48",
+  "ast_sha256": "1e6b52a4731c4a7f587ede27a668699f9fd35cd650c9e404280b48ebc49c11f0",
+  "existing_ieee": {
+    "status": "UNSUPPORTED",
+    "message": "Control flow and effects are outside the IEEE subset: IfStmt"
+  },
+  "relevant_nodes": [
+    "|   |-IfStmt 0x21fea80e518 <line:5:5, line:6:33>",
+    "|   | | `-CompoundAssignOperator 0x21fea80e418 <col:31, col:39> 'uint':'unsigned int' lvalue '+=' ComputeLHSTy='uint':'unsigned int' ComputeResultTy='uint':'unsigned int'",
+    "|   |   `-CompoundAssignOperator 0x21fea80e4c0 <col:12, col:20> 'uint':'unsigned int' lvalue '^=' ComputeLHSTy='uint':'unsigned int' ComputeResultTy='uint':'unsigned int'",
+    "|   |-IfStmt 0x21fea80e8e0 <line:7:5, col:80>",
+    "|   | | `-ReturnStmt 0x21fea80e898 <col:65, col:72>",
+    "|   `-ReturnStmt 0x21fea80eb28 <line:10:5, col:12>",
+    "| |-IfStmt 0x21fea822528 <line:14:5, col:89>",
+    "| | | `-ReturnStmt 0x21fea8224f0 <col:31, col:86>",
+    "| `-ReturnStmt 0x21fea822ac0 <line:15:5, col:68>"
+  ],
+  "schema": 1,
+  "date": "2026-10-31",
+  "slice": "binary-control-002@r1",
+  "base_commit": "d0da6ea06029d92ac754f4d186841d53b8f3addf",
+  "dxc_version": "v1.8.2505.1",
+  "input_source": "struct Packet { uint word; float value; };\nPacket SelectWord(float4 input) {\n    Packet result;\n    uint word = asuint(input.x);\n    if (word < 0x80000000u) { word += 7u; }\n    else { word ^= 0x85EBCA6Bu; }\n    if (word == 0u) { result.word = 1u; result.value = input.y; return result; }\n    result.word = word;\n    result.value = input.z;\n    return result;\n}\nfloat4 main(float4 input : COLOR0) : SV_Target {\n    Packet selected = SelectWord(input);\n    if (input.w != input.w) { return float4(selected.value, input.y, input.z, input.w); }\n    return float4(asfloat(selected.word), input.y, input.z, input.w);\n}\n",
+  "purpose": "Planning probe only; DXC parsing and existing subset rejection, no product implementation or Lean proof",
+  "independent_P": {
+    "status": "PASS",
+    "round": 1,
+    "reviewer": "/root/binary_control_plan_review",
+    "method": "Independent read-only plan, source, consumers, runner and actual DXC probe review; no Lean run or file edits",
+    "blocking_issues": [],
+    "implementation_risks_covered_by_plan": [
+      "control=True alone does not imply guarded runtime state; preserve old and new helper prechecks",
+      "Backend zero construction covers recursive shapes, helper placeholders and return merge only; locals remain uninitialized",
+      "Preserve super calls and shared/copyback/loop dynamic dispatch",
+      "Promote newly supported syntax to positive controls while retaining neighboring unsupported cases"
+    ]
+  },
+  "product_code_changed": false,
+  "implementation_authority": "PENDING_USER_APPROVAL"
+}
