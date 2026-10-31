@@ -3,7 +3,7 @@ uint MixWord(uint word, uint key) {
     word += key;
     word -= 3u;
     word *= 0x85EBCA6Bu;
-    word &= 0xFFFFFFFEu;
+    word &= 0x7FFFFFFFu;
     word |= 1u;
     word ^= word >> 13u;
     word <<= key;

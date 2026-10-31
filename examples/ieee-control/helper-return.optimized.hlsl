@@ -2,7 +2,7 @@ uint MixWord(uint word, uint key) {
     uint mixed = word + key;
     mixed = mixed - 3u;
     mixed = mixed * 0x85EBCA6Bu;
-    mixed = mixed & 0xFFFFFFFEu;
+    mixed = mixed & 0x7FFFFFFFu;
     mixed = mixed | 1u;
     mixed = mixed ^ (mixed >> 13u);
     mixed = mixed << key;

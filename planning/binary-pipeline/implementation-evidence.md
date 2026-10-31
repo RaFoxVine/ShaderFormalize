@@ -24,6 +24,8 @@
 - 初步IEEE29项单元通过（11.634秒），全Python319项通过（53.678秒）。日志artifacts/binary-control/units-initial.log及units-all-initial.log。
 - 三个新正例初次串行check为session49207：float-branches通过，branch-record留下布尔汇合目标，helper-return在无用simp步骤失败。原始记录artifacts/binary-control/initial-validation.json保留。
 - 第二次session94748：RecordControlProof逐项划分两个bool，branch-record实际IEEE_PROVED；helper-return的自动展开达到200000 heartbeats，float-branches用修订脚本实际IEEE_PROVED。证据positive-repaired各目录保留，未改变生成目标或公理白名单。
-- 用两个由cases/rfl证明的通用返回选择引理避免展开整数表达式，session51513中helper-return实际IEEE_PROVED；该脚本未能完成float-branches的有限向量选择目标。因此浮点例采用其此前实际通过的原脚本，逐字保存为FloatControlProof.lean。positive-current.json核对三份当前HLSL/证明字节均对应实际通过报告；它不将失败运行改写为成功。
+- 用两个由cases/rfl证明的通用返回选择引理避免展开整数表达式，session51513中helper-return实际IEEE_PROVED；该脚本未能完成float-branches的有限向量选择目标。因此浮点例采用其此前实际通过的原脚本，逐字保存为FloatControlProof.lean。positive-checkpoint.json保存实现检查点三份HLSL/证明与实际通过报告的对应；它不将失败运行改写为成功，也不替代后续修订示例的复验。
 - 完整门禁队列session29447已启动：artifacts/binary-control/run_final.py，串行默认verify_demo.py（83核心及所有Python单元）→IEEE suite27→原型19，进度/心跳artifacts/binary-control/final1/result.json，完整日志final1/{core,ieee,prototype}.log。此队列尚未完成，不能提前报全部通过。
 - 独立Q源码阶段已核对共享骨架、动态分派、IEEE MRO/零值/预检查、metadata/只读/初始化、三组3×3真实HLSL及完整目标，无需修改的源码缺陷；最终Q仍等本轮完整正式证据。
+- 实现检查点64a6d7e13896b6d8bee656a7570410f47786c8e3已推送，状态仍Implementing。核心完整门禁先运行319单元（49.655秒），然后运行83控制；139个编译器/证明/配置源的冻结指纹保存于frozen-sources.json。
+- 复查发现helper-return的AND清bit0随后被OR设bit0抵消；改为AND清bit31、OR设bit0，三份示例同时修订。有限uint32参考计算为八种操作各找到一个省略该操作会改变输出的见证，保留compound-observability.json；这不是替代HLSL全称证明。影响的示例导入单项实际复测通过（0.462秒），未改共享源或核心83的输入。此前helper正例只适用于修订前数据；最终IEEE29单元/27控制将验证当前修订，记录fixture-revision.json明确区分这次修订与核心全单元运行时间。
