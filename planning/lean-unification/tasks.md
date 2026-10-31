@@ -7,7 +7,7 @@
 | C盘实际worktree移除 | Completed（少量元数据待手动删除） | 三份实际Git worktree已移除，源码快照保存；仅D主目录注册；残留链接/标记/当前聊天元数据删除遭自动审批拒绝 |
 | 真实验证与独立Q | Verified | 306单元；77哈希核验保留+6实际重跑共83核心控制；IEEE16单元/九控制/核心回切、19原型；E独立bootstrap/交错证明；最终独立Q通过 |
 | 删除旧4.24及临时副本 | Blocked（待用户手动操作） | 下列七目标的删除命令在执行前被平台拒绝：blocked by policy；七目标均未删除，没有换方式重试 |
-| 提交推送 | Pending | 本轮验证与Q已完成；当前由root提交并非强制推送，实际完成情况记执行记录 |
+| 提交推送 | Completed | 已验证源码6d25493已非强制推送到origin/codex/shader-equivalence-planning；ls-remote确认远端精确SHA，工作目录干净；本段为发布状态补记 |
 | 回到原始目标的成果与下一步 | Completed（规划调查） | 已有HLSL→Lean证明闭环；正式Vertex/完整HDRP/IEEE语言覆盖仍有缺口；下一步优先官方求交/NaN恢复函数链，本次未实施新能力 |
 
 ## 可手动删除的旧环境与临时副本

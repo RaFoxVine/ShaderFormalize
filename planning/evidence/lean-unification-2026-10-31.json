@@ -905,5 +905,13 @@
   ],
   "verified_product_delta": [
     "proof/AggregateFieldProof.lean: remove redundant exact after norm_num closes the goal"
-  ]
+  ],
+  "publication": {
+    "verified_product_commit": "6d25493f7e717da73808c60c80cfa4026e3c30c9",
+    "remote": "origin",
+    "branch": "codex/shader-equivalence-planning",
+    "non_force_push_exit_code": 0,
+    "ls_remote_confirmed_exact_product_commit": true,
+    "note": "This publication record is a subsequent documentation-only commit; the reviewed product sources are unchanged. Physical cleanup remains pending manual action."
+  }
 }

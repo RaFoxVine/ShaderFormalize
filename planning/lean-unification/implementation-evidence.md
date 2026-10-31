@@ -51,3 +51,5 @@ Codex archive_worktree拒绝basic-math，实际错误为Another active task stil
 
 - 最终独立Q为INDEPENDENT_Q_PASSED，无阻塞；reviewer独立核对306单元、83核心续跑、IEEE九控制/核心回切、19原型、E复现、10材料SHA和143产品SHA。原Q文件artifacts/lean-unification/final-q.json，SHA256=b90d1916a1ead8699a2e28841ea05866b47fd209350fdb49ece97107f90fed9d；精简证据保存其结论及已审快照SHA，后续只追加实际清理/发布事实。
 - 通过Q后root尝试按七个精确绝对路径清理旧4.24、迁移备份、旧Fresh Checkout、旧leantar/IEEE缓存/workspace配置以及E验证副本；命令含路径边界、祖先和子树reparse检查，但在执行前被平台自动审批拒绝，错误只有blocked by policy。七处均仍存在，合计约16GiB逻辑文件大小（准确字节值见精简证据），没有改用其它方法重试。当前任务不是物理清理完成；完整手动清单在tasks.md，已通知用户可操作。C盘之前三处残留同样等待用户，不触及其它项目。
+
+- 已验证产品与精简证据提交6d25493f7e717da73808c60c80cfa4026e3c30c9，非强制git push origin HEAD:refs/heads/codex/shader-equivalence-planning实际exit0；随后git ls-remote确认远端精确同SHA，git status干净、git worktree list仅D主目录。后续此段发布记录提交只改文档，不改变已审产品或重跑未变证明。物理旧环境清理仍由用户手动完成，不因push成功改记Completed。
