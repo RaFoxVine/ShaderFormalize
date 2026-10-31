@@ -106,6 +106,17 @@ class IeeeEmitter:
             components = self.components(expr)
             return components[0] if width == 1 else vector_literal(components)
         arguments = expr.get("arguments", [])
+        if kind.startswith("uint_"):
+            functions = {
+                "uint_add": "uintAdd", "uint_subtract": "uintSubtract", "uint_multiply": "uintMultiply",
+                "uint_and": "uintAnd", "uint_or": "uintOr", "uint_xor": "uintXor",
+                "uint_shift_left": "uintShiftLeft", "uint_shift_right": "uintShiftRight",
+                "uint_not": "uintNot", "uint_negate": "uintNegate",
+            }
+            if kind not in functions or width != "uint":
+                raise ModelError(f"Unknown IEEE integer operation: {kind}")
+            values = " ".join(self.value(argument) for argument in arguments)
+            return f"(ShaderIeee.Model.{functions[kind]} {values})"
         if kind == "splat":
             return f"(fun _ => {self.value(arguments[0])})"
         if kind in ("add", "subtract", "multiply", "divide"):
@@ -129,6 +140,12 @@ class IeeeEmitter:
             if arguments[0]["width"] == "bool":
                 symbol = "==" if expr["operator"] == "==" else "!="
                 return f"({self.value(arguments[0])} {symbol} {self.value(arguments[1])})"
+            if arguments[0]["width"] == "uint":
+                values = [self.value(argument) for argument in arguments]
+                symbol = expr["operator"]
+                if symbol in ("==", "!="):
+                    return f"({values[0]} {symbol} {values[1]})"
+                return f"(decide ({values[0]} {symbol} {values[1]}))"
             return f"(ShaderIeee.Model.{function} {self.value(arguments[0])} {self.value(arguments[1])})"
         if kind in ("and", "or", "not"):
             symbol = {"and": "&&", "or": "||", "not": "!"}[kind]

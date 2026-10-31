@@ -1,8 +1,12 @@
 # ShaderFormalize
 
-将两份 HLSL 经 DXC 已定类型的语法树转成理想实数与整数位字段模型，提供 agent 编写、迭代并独立检查 Lean 等价证明的本地环境。核心依赖固定版本 DXC、Lean 和 mathlib，安装、转换、证明和默认验收均不依赖 Unity。它不是任意 Shader 的自动等价判定器。
+将两份 HLSL 经 DXC 已定类型的语法树转成 Lean 模型，提供 agent 编写、迭代并独立检查等价证明的本地环境。默认入口使用理想实数；独立二进制入口使用 FloatLib binary32 和 UInt32。核心依赖固定版本 DXC、Lean 和 mathlib，安装、转换、证明和默认验收均不依赖 Unity。它不是任意 Shader 的自动等价判定器。
 
-当前环境已统一为仓库内 Lean4.35、一个 `proof/` 工作区及一套固定依赖。迁移验收306项单元、83项核心控制（38 PROVED、43 UNPROVED、2 INVALID_INPUT）、9项IEEE控制和19项库原型检查均符合预期；83项核心由77项经哈希核对的保留结果加6项实际重跑组成，失败史未改写。独立E盘副本完成bootstrap及实数→IEEE→实数交错证明，复用了固定上游缓存。独立Q已通过；旧安装和副本的删除被平台审批拦截，待手动清理，不影响统一环境运行。[本轮机器证据与审阅/清理状态](planning/evidence/lean-unification-2026-10-31.json)，[迁移执行记录](planning/lean-unification/implementation-evidence.md)。
+当前环境统一为仓库内 Lean4.35、一个 `proof/` 工作区及一套固定依赖。环境迁移验收306项单元、83项核心控制（38 PROVED、43 UNPROVED、2 INVALID_INPUT）、9项IEEE控制和19项库原型检查均符合预期；83项核心由77项经哈希核对的保留结果加6项实际重跑组成。独立E盘副本完成bootstrap及实数→IEEE→实数交错证明，复用了固定上游缓存。独立Q已通过；用户完成手动清理后，旧版本和临时副本目录已核对移除。[环境迁移机器证据](planning/evidence/lean-unification-2026-10-31.json)，[迁移执行记录](planning/lean-unification/implementation-evidence.md)。
+
+[二进制位字段与 hash 入口](docs/binary-bits.md)支持标量 uint32 环运算、位运算、低5位移位、无符号比较和三元选择，并能经 struct/helper 原样保存 float/uint 的32位编码。它比较完整输出存储位，包括 NaN payload 和正负零；固定参考 profile 尚未关联具体 GPU。默认实数入口及 Compute 的整体二进制迁移仍待后续完成，当前切片状态见[迁移任务](planning/binary-pipeline/tasks.md)。
+
+二进制位运算首批验收：312项Python测试、21项IEEE正负控制（9 IEEE_PROVED、12 UNPROVED）、默认实数入口回切及19项库原型检查均符合预期。包含六组真实HLSL的打包、hash、移位、回绕、无符号选择及位往返；负例记录各自实际证明失败原因，UNPROVED不等于已证明不等价。[机器证据与独立审阅状态](planning/evidence/binary-bits-2026-10-31.json)。
 
 语言覆盖以[官方目录](planning/coverage-expansion/coverage.csv)逐项推进。[基础数学运算](docs/basic-math.md)已接入现有实数模型，包括 min/max/abs/clamp、除法、sqrt/rcp/rsqrt、length/distance、floor/ceil/frac/step/smoothstep/cross/reflect，按实际执行条件证明受限域。[并行扩展范围](planning/coverage-expansion/parallel-plan.md)另包含独立浮点库接入及 Compute/同步工作；各方向当前进度见[任务状态](planning/coverage-expansion/tasks.md)。
 

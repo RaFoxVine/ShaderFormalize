@@ -15,7 +15,7 @@ import shaderformalize
 from ieeeformalize import ROOT, workspace_lock
 from shader_ast import ModelError
 from shader_ieee_frontend import import_ieee
-from shader_ieee_lean import empty_constraints, scientific_arguments
+from shader_ieee_lean import empty_constraints, scientific_arguments, generate_ieee
 from shaderformalize import validate_dxc
 
 
@@ -85,8 +85,12 @@ class IeeeFrontendTests(unittest.TestCase):
             "loop": BASE.replace("return a * t;", "while (t > 0) { t -= 1; } return a;"),
             "intrinsic": BASE.replace("a * t", "fmod(a, t)"),
             "conversion": BASE.replace("a * t", "a * (float)(int)t"),
-            "uint-arithmetic": BASE.replace("return a * t;", "uint x = asuint(t); x += 1u; return a * asfloat(x);"),
-            "uint-shift": BASE.replace("return a * t;", "uint x = asuint(t) << 1u; return a * asfloat(x);"),
+            "uint-to-float-cast": BASE.replace("a * t", "a * (float)asuint(t)"),
+            "float-to-uint-cast": BASE.replace("a * t", "a * asfloat((uint)t)"),
+            "mixed-float-uint-arithmetic": BASE.replace("a * t", "a * (asuint(t) + t)"),
+            "uint-compound-assignment": BASE.replace("return a * t;", "uint x = asuint(t); x += 1u; return a * asfloat(x);"),
+            "uint-division": BASE.replace("return a * t;", "uint x = asuint(t) / 2u; return a * asfloat(x);"),
+            "uint-remainder": BASE.replace("return a * t;", "uint x = asuint(t) % 2u; return a * asfloat(x);"),
             "matrix": BASE.replace("return a * t;", "float2x2 m; return a * t;"),
             "array": BASE.replace("return a * t;", "float x[2]; return a * t;"),
             "out": "void helper(out float x) { x = 1; }\n" + BASE,
@@ -101,6 +105,60 @@ class IeeeFrontendTests(unittest.TestCase):
         model = self.compile_model(BASE)
         self.assertEqual(model["schema"], "ieee-1")
         self.assertEqual(model["profile"], "binary32-rne-preserve-subnormals-separate-ops-v1")
+
+    def test_uint_operators_compile_to_integer_semantics(self):
+        operators = {"+": "uintAdd", "-": "uintSubtract", "*": "uintMultiply",
+                     "&": "uintAnd", "|": "uintOr", "^": "uintXor",
+                     "<<": "uintShiftLeft", ">>": "uintShiftRight"}
+        for operator, function in operators.items():
+            with self.subTest(operator=operator):
+                source = BASE.replace("a * t", "a * asfloat(asuint(t) " + operator + " 0xFFFFFFFFu)")
+                model = self.compile_model(source)
+                generated = generate_ieee(model, model)
+                self.assertIn("ShaderIeee.Model." + function, generated)
+                self.assertIn("(4294967295 : UInt32)", generated)
+
+    def test_uint_comparisons_do_not_use_float_comparisons(self):
+        for operator in ("<", "<=", ">", ">=", "==", "!="):
+            with self.subTest(operator=operator):
+                value = "asuint(t) " + operator + " 0x80000000u ? 0xFFFFFFFFu : 0u"
+                model = self.compile_model(BASE.replace("a * t", "a * asfloat(" + value + ")"))
+                generated = generate_ieee(model, model)
+                self.assertIn("(2147483648 : UInt32)", generated)
+                self.assertNotIn("ShaderIeee.Model.compare", generated)
+                self.assertIn("if ", generated)
+
+    def test_float_comparison_keeps_ieee_semantics(self):
+        model = self.compile_model(BASE.replace("a * t", "a * (t == t ? t : 0.0f)"))
+        self.assertIn("ShaderIeee.Model.compareEqual", generate_ieee(model, model))
+
+    def test_uint_unary_and_boolean_selection(self):
+        source = BASE.replace("return a * t;", "uint x = asuint(t); bool b = x == 0u ? true : false; "
+                              "uint y = b ? ~x : -x; return a * asfloat(y);")
+        model = self.compile_model(source)
+        generated = generate_ieee(model, model)
+        self.assertIn("ShaderIeee.Model.uintNot", generated)
+        self.assertIn("ShaderIeee.Model.uintNegate", generated)
+
+    def test_bit_values_cross_helpers_and_struct_fields(self):
+        helper = "struct Bits { uint word; float payload; }; "
+        helper += "Bits save(uint x) { Bits b; b.word = asuint(x); b.payload = asfloat(x); return b; } "
+        source = helper + BASE.replace("return a * t;", "Bits b = save(asuint(t)); "
+                                      "return a * asfloat(b.word ^ asuint(b.payload));")
+        model = self.compile_model(source)
+        generated = generate_ieee(model, model)
+        self.assertIn("ShaderIeee.Model.uintXor", generated)
+
+    def test_uint_hex_literal_value_is_checked_against_dxc(self):
+        source = BASE.replace("a * t", "a * asfloat(0x1234ABCDu)")
+        with tempfile.TemporaryDirectory(dir=ROOT / "artifacts") as directory:
+            path = Path(directory) / "input.hlsl"
+            path.write_text(source, encoding="utf-8")
+            result = subprocess.run([str(self.dxc), "-T", "ps_6_0", "-E", "main", "-HV", "2021",
+                                     "-ast-dump", str(path)], capture_output=True, text=True, encoding="utf-8")
+            self.assertEqual(result.returncode, 0)
+            with self.assertRaises(ModelError):
+                import_ieee(source, result.stdout.replace(" 305441741", " 305441742"))
 
 
 class IeeeInfrastructureTests(unittest.TestCase):

@@ -4,9 +4,18 @@ import re
 
 from shader_ast import ModelError, literal, quoted, source_header, validate_source
 from shader_frontend import Program, callee_reference, swizzle_indices
+from shader_packing import uint_literal as packing_uint_literal
 from shader_types import (TypeRegistry, component_mask, initialized, numeric_type, operation,
                           read_path, value_type)
 from shader_validation import lvalue_type
+
+
+UINT_OPERATORS = {
+    "+": "uint_add", "-": "uint_subtract", "*": "uint_multiply",
+    "&": "uint_and", "|": "uint_or", "^": "uint_xor",
+    "<<": "uint_shift_left", ">>": "uint_shift_right",
+}
+COMPARISONS = ("<", "<=", ">", ">=", "==", "!=")
 
 
 class IeeeTypeRegistry(TypeRegistry):
@@ -49,14 +58,8 @@ def float_literal(node, source):
 
 
 def uint_literal(node, source):
-    token = source_token(node, source, unsigned=True)
-    digits = token.rstrip("uU")
-    if len(digits) > 1 and digits.startswith("0"):
-        raise ModelError("Octal/leading-zero uint literals are unsupported")
-    value = int(digits)
-    if value > 0xffffffff:
-        raise ModelError("Uint literal exceeds 32 bits")
-    return {"kind": "uint_literal", "width": "uint", "value": value}
+    # Shared token reader also checks DXC's value, including hexadecimal input.
+    return packing_uint_literal(node, source)
 
 
 def choose_value(condition, yes, no):
@@ -67,8 +70,6 @@ def choose_value(condition, yes, no):
         for name in yes["fields"]:
             fields[name] = choose_value(condition, yes["fields"][name], no["fields"][name])
         return dict(yes, fields=fields)
-    if value_type(yes) in ("uint", "bool"):
-        raise ModelError("Conditional selection is limited to float values and records")
     return operation("choose", value_type(yes), [condition, yes, no])
 
 
@@ -155,6 +156,8 @@ class IeeeProgram(Program):
                 return
             if operator == "!" and child_type == kind == "bool":
                 return
+            if operator in ("~", "-") and child_type == kind == "uint":
+                return
             raise ModelError(f"Unsupported unary operator/types: {operator}")
         if node.kind == "BinaryOperator" and len(node.children) == 2:
             operator = quoted(node.text)[-1]
@@ -162,9 +165,10 @@ class IeeeProgram(Program):
                 self.validate_ieee_expression(child)
             child_types = [self.types.node_type(child) for child in node.children]
             arithmetic = operator in ("+", "-", "*", "/") and isinstance(kind, int) and child_types == [kind, kind]
-            comparison = kind == "bool" and child_types == [1, 1] and operator in ("<", "<=", ">", ">=", "==", "!=")
+            uint_arithmetic = kind == "uint" and child_types == ["uint", "uint"] and operator in UINT_OPERATORS
+            comparison = kind == "bool" and child_types in ([1, 1], ["uint", "uint"]) and operator in COMPARISONS
             boolean = kind == "bool" and child_types == ["bool", "bool"] and operator in ("&&", "||", "==", "!=")
-            if arithmetic or comparison or boolean:
+            if arithmetic or uint_arithmetic or comparison or boolean:
                 return
             raise ModelError(f"Unsupported binary operator/types: {operator}")
         if node.kind == "ConditionalOperator" and len(node.children) == 3:
@@ -173,8 +177,8 @@ class IeeeProgram(Program):
                 self.validate_ieee_expression(child)
             if self.types.node_type(condition) != "bool" or self.types.node_type(yes) != kind or self.types.node_type(no) != kind:
                 raise ModelError("Conditional condition/arm type mismatch")
-            if kind in ("uint", "bool", "void"):
-                raise ModelError("Conditional selection is limited to float values and records")
+            if kind == "void":
+                raise ModelError("Conditional selection cannot produce void")
             return
         raise ModelError(f"Unsupported IEEE expression: {node.kind}")
 
@@ -191,7 +195,7 @@ class IeeeProgram(Program):
             return function, name, size
         valid = ((name == "sqrt" and isinstance(size, int) and widths == [size]) or
                  (name == "asfloat" and size == 1 and widths == ["uint"]) or
-                 (name == "asuint" and size == "uint" and widths == [1]))
+                 (name == "asuint" and size == "uint" and widths in ([1], ["uint"])))
         if not valid:
             raise ModelError("Only defined helpers, sqrt, asfloat and scalar asuint are supported")
         expected = numeric_type(size) + "(" + ",".join(numeric_type(width) for width in widths) + ")"
@@ -216,6 +220,8 @@ class IeeeProgram(Program):
             arguments = [self.expression(child, symbols) for child in node.children[1:]]
             if function is not None:
                 return self.invoke(function, arguments)
+            if name == "asuint" and value_type(arguments[0]) == "uint":
+                return arguments[0]
             return operation(name, size, arguments)
         if node.kind == "ImplicitCastExpr" and len(node.children) == 1:
             match = re.search(r"<([A-Za-z]+)>$", node.text)
@@ -260,17 +266,21 @@ class IeeeProgram(Program):
                 return operation("negate", kind, [child])
             if operator == "!" and value_type(child) == kind == "bool":
                 return operation("not", kind, [child])
+            if value_type(child) == kind == "uint" and operator in ("~", "-"):
+                return operation("uint_not" if operator == "~" else "uint_negate", kind, [child])
             raise ModelError(f"Unsupported IEEE unary operator: {operator}")
         if node.kind == "BinaryOperator" and len(node.children) == 2:
             operator = quoted(node.text)[-1]
             arguments = [self.expression(child, symbols) for child in node.children]
+            if kind == "uint" and operator in UINT_OPERATORS and all(value_type(arg) == "uint" for arg in arguments):
+                return operation(UINT_OPERATORS[operator], kind, arguments)
             if operator in ("+", "-", "*", "/") and isinstance(kind, int):
                 if any(value_type(arg) != kind for arg in arguments):
                     raise ModelError("Arithmetic operand type mismatch")
                 name = {"+": "add", "-": "subtract", "*": "multiply", "/": "divide"}[operator]
                 return operation(name, kind, arguments)
-            if kind == "bool" and ((arguments[0]["width"] == arguments[1]["width"] == 1 and
-                                    operator in ("<", "<=", ">", ">=", "==", "!=")) or
+            if kind == "bool" and ((arguments[0]["width"] == arguments[1]["width"] and
+                                    arguments[0]["width"] in (1, "uint") and operator in COMPARISONS) or
                                    (arguments[0]["width"] == arguments[1]["width"] == "bool" and
                                     operator in ("&&", "||", "==", "!="))):
                 name = {"&&": "and", "||": "or"}.get(operator, "compare")

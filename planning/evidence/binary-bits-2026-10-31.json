@@ -1,0 +1,1456 @@
+{
+  "schema": 1,
+  "date": "2026-10-31",
+  "recorded_at": "2026-10-31T08:34:30.259036-07:00",
+  "status": "VALIDATION_AND_REVIEW_PASSED",
+  "slice": "binary-bits-001@r1",
+  "scope": "Scalar UInt32 modular/bit operations inside the existing binary32 HLSL entry; full stored-bit equality",
+  "base_commit": "9b68e9d10dffb39ae046d0e38c6b17fff908360e",
+  "plan_checkpoint": "b7f6762734fed1dda4e0102a45f15ff22b5d5cd2",
+  "grant_commit": "1e7cfe6",
+  "grant": "planning/binary-pipeline/execution-authority.md#binary-bits-grant-001",
+  "profile": "binary32-rne-preserve-subnormals-separate-ops-v1",
+  "gpu_profile_matched": false,
+  "validation": {
+    "status": "PASSED",
+    "steps": [
+      {
+        "name": "all-units",
+        "command": [
+          "D:\\1ProgramDownloaded\\Python3.9\\python.exe",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tools",
+          "-p",
+          "test_*.py"
+        ],
+        "exit_code": 0,
+        "seconds": 63.312
+      },
+      {
+        "name": "ieee-suite",
+        "command": [
+          "D:\\1ProgramDownloaded\\Python3.9\\python.exe",
+          "tools/run_ieee_suite.py"
+        ],
+        "exit_code": 0,
+        "seconds": 2465.953
+      },
+      {
+        "name": "ieee-prototype",
+        "command": [
+          "E:/1Download/PowerShell-7/7/pwsh.exe",
+          "-NoProfile",
+          "-File",
+          "prototypes/ieee/run.ps1"
+        ],
+        "exit_code": 0,
+        "seconds": 31.656
+      }
+    ]
+  },
+  "python": {
+    "tests": 312,
+    "exit_code": 0,
+    "log_sha256": "b70d2cdc2aab5f489fa6ac2d94c1a266cca3913e1da9232961c8fcf88dfa2971"
+  },
+  "ieee_suite": {
+    "status": "IEEE_SUITE_PASSED",
+    "unit_tests": 22,
+    "formal_controls": 21,
+    "counts": {
+      "IEEE_PROVED": 9,
+      "UNPROVED": 12
+    },
+    "report_sha256": "1ca3da8f867391cbbcae91ff5c620f17b0e2d0400155db13e9c3b42fae4bd0a0",
+    "controls": [
+      {
+        "case": "struct-helper-cbuffer",
+        "expected": "IEEE_PROVED",
+        "actual": "IEEE_PROVED",
+        "matches": true,
+        "report": "artifacts/ieee-hlsl/acceptance/struct-helper-cbuffer/proof/result.json",
+        "report_sha256": "194dd96996c0c6f3070f19b67933d62027b4e40ef6a726e0e3d919b72f7af01a",
+        "sources": {
+          "original": {
+            "path": "examples/ieee/original.hlsl",
+            "sha256": "20e596c14f79d403d82281c5f8d2ff85bff8ef3defa6b88e186b1d6bd017176e"
+          },
+          "optimized": {
+            "path": "examples/ieee/optimized.hlsl",
+            "sha256": "f4038615fdd816b6f9b416a7123e1a633fd96bbdc92de38ff60b4d0732206e63"
+          },
+          "proof": {
+            "path": "prototypes/ieee/proof/IdentityProof.lean",
+            "sha256": "5a3b1a63d98919005f5b1fe4f1498a3e232091b19abc87827815972b9f543804"
+          }
+        },
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "artifacts": {
+          "generated_target": "74e234717f8ded787af69e2758b2d0eb63b24f21e42a31030796a95fcbece6fc",
+          "agent_proof": "5a3b1a63d98919005f5b1fe4f1498a3e232091b19abc87827815972b9f543804",
+          "verification": "55439fb114ddc8ed14072dfcec44c1bf3f274a3d0dd1ebfe38a22a1ec8174f76",
+          "semantic_model": "229f298986a144be3e5cdfb1ec959ddb05ca59e0015c3f3cc5ee87d4b8c29cb4",
+          "lake_manifest": "2361539daebd83c20a8fda2474732916f9056b1dc9c8a5fcc951a1583f05009c",
+          "dependency_lock": "a78c5779fc41273bcbc89d76f1495b5b83f33a28d6759297892c443bf87c8179",
+          "lean_build_log": "d8760763be63067f00789fcf42648cb7e89259b37690e733415676ec0b8b6596",
+          "lean_verify_log": "5c87444665af700c504109cdb73d18640f1f97557ca1381f5c38fd19003c2978"
+        },
+        "inputs": [
+          {
+            "role": "original",
+            "sha256": "20e596c14f79d403d82281c5f8d2ff85bff8ef3defa6b88e186b1d6bd017176e",
+            "ast_sha256": "2541af5fffb570f3777cd53103ac6fbb852ef64bea3cae1503af1a912dc3e0e7",
+            "ir_sha256": "20a61c8614faa9710691d0b75d152e254cb1b2a504e9e2244a135fa92afbca2a"
+          },
+          {
+            "role": "optimized",
+            "sha256": "f4038615fdd816b6f9b416a7123e1a633fd96bbdc92de38ff60b4d0732206e63",
+            "ast_sha256": "2018b938ecbf287c703aacae09e66f53fa8ba934795ec4761e7ad467c66d4b28",
+            "ir_sha256": "c0df4d710b090a0e0758318ca3c43d917abf6e14c615c65ddd643042d14533b2"
+          }
+        ]
+      },
+      {
+        "case": "ordered-arithmetic-sqrt",
+        "expected": "IEEE_PROVED",
+        "actual": "IEEE_PROVED",
+        "matches": true,
+        "report": "artifacts/ieee-hlsl/acceptance/ordered-arithmetic-sqrt/proof/result.json",
+        "report_sha256": "ab60e0fe9360405fb6349f6fd9161d9adc4f6b4a4f8208a1ad3c06d66361588f",
+        "sources": {
+          "original": {
+            "path": "examples/ieee/arithmetic-original.hlsl",
+            "sha256": "73ce544614eed9e7e485a370220235c978d1f11cf7ac0afc4ad4a310750aeab8"
+          },
+          "optimized": {
+            "path": "examples/ieee/arithmetic-optimized.hlsl",
+            "sha256": "9ac30b96f5905ffb087f0973f36ffae991673952810ebddf0c8751e03234ab8c"
+          },
+          "proof": {
+            "path": "prototypes/ieee/proof/IdentityProof.lean",
+            "sha256": "5a3b1a63d98919005f5b1fe4f1498a3e232091b19abc87827815972b9f543804"
+          }
+        },
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "artifacts": {
+          "generated_target": "80d65b85358c55c09e75da2c14ea8720e30bf2c04303e5a19894b5b9ad64bb4c",
+          "agent_proof": "5a3b1a63d98919005f5b1fe4f1498a3e232091b19abc87827815972b9f543804",
+          "verification": "55439fb114ddc8ed14072dfcec44c1bf3f274a3d0dd1ebfe38a22a1ec8174f76",
+          "semantic_model": "229f298986a144be3e5cdfb1ec959ddb05ca59e0015c3f3cc5ee87d4b8c29cb4",
+          "lake_manifest": "2361539daebd83c20a8fda2474732916f9056b1dc9c8a5fcc951a1583f05009c",
+          "dependency_lock": "a78c5779fc41273bcbc89d76f1495b5b83f33a28d6759297892c443bf87c8179",
+          "lean_build_log": "d8760763be63067f00789fcf42648cb7e89259b37690e733415676ec0b8b6596",
+          "lean_verify_log": "5c87444665af700c504109cdb73d18640f1f97557ca1381f5c38fd19003c2978"
+        },
+        "inputs": [
+          {
+            "role": "original",
+            "sha256": "73ce544614eed9e7e485a370220235c978d1f11cf7ac0afc4ad4a310750aeab8",
+            "ast_sha256": "181894f5073ca357392af70a78e1f2d8e39acb1ff638c5de0f2366257c288306",
+            "ir_sha256": "bf3ef4a59900919dde85809daeb4f51235baf3a094316624bc75fea952dbf8d6"
+          },
+          {
+            "role": "optimized",
+            "sha256": "9ac30b96f5905ffb087f0973f36ffae991673952810ebddf0c8751e03234ab8c",
+            "ast_sha256": "198ca8e5cfa3302966285c93e2730ffd8d30bf242aadf6f9126dfdbe1a2c424b",
+            "ir_sha256": "2bb918b444418bf521483e7e6f9282b4fc0b8b7fa8e9d2204cb6e8595e5f24d0"
+          }
+        ]
+      },
+      {
+        "case": "stored-bit-roundtrip",
+        "expected": "IEEE_PROVED",
+        "actual": "IEEE_PROVED",
+        "matches": true,
+        "report": "artifacts/ieee-hlsl/acceptance/stored-bit-roundtrip/proof/result.json",
+        "report_sha256": "b023de36d6b0b1cfc40e1811686bcd98d15bc94a07076fccff024ba5f1610030",
+        "sources": {
+          "original": {
+            "path": "examples/ieee/bits-original.hlsl",
+            "sha256": "d642483e539b8ad6caa82ac3a342dbb8bd5150e6319f13ee3d6ab0c80e0b5b79"
+          },
+          "optimized": {
+            "path": "examples/ieee/bits-optimized.hlsl",
+            "sha256": "7433433b197f9dc4d5f97d12c3f5c3b7021c7a73cc03581f6fd53e31281c174c"
+          },
+          "proof": {
+            "path": "prototypes/ieee/proof/RoundtripProof.lean",
+            "sha256": "1cba6f2327fa2d24ee3d0362e6a85ff8e8c21bd0d8391e876d1d29119961e2d3"
+          }
+        },
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "artifacts": {
+          "generated_target": "ca4fbbe9992ff94780d7c565ba6dabe7521a8d1737130335ba23f2f4b99c7762",
+          "agent_proof": "1cba6f2327fa2d24ee3d0362e6a85ff8e8c21bd0d8391e876d1d29119961e2d3",
+          "verification": "55439fb114ddc8ed14072dfcec44c1bf3f274a3d0dd1ebfe38a22a1ec8174f76",
+          "semantic_model": "229f298986a144be3e5cdfb1ec959ddb05ca59e0015c3f3cc5ee87d4b8c29cb4",
+          "lake_manifest": "2361539daebd83c20a8fda2474732916f9056b1dc9c8a5fcc951a1583f05009c",
+          "dependency_lock": "a78c5779fc41273bcbc89d76f1495b5b83f33a28d6759297892c443bf87c8179",
+          "lean_build_log": "d8760763be63067f00789fcf42648cb7e89259b37690e733415676ec0b8b6596",
+          "lean_verify_log": "5c87444665af700c504109cdb73d18640f1f97557ca1381f5c38fd19003c2978"
+        },
+        "inputs": [
+          {
+            "role": "original",
+            "sha256": "d642483e539b8ad6caa82ac3a342dbb8bd5150e6319f13ee3d6ab0c80e0b5b79",
+            "ast_sha256": "9467b40f6f5e55f71e401488b0ce676d9cdf13e60105d45735d7e719d2eff570",
+            "ir_sha256": "0c377b010792bcbe69f373773bdd0b130ae51dd8fd14db9fb9ca1717a0045a38"
+          },
+          {
+            "role": "optimized",
+            "sha256": "7433433b197f9dc4d5f97d12c3f5c3b7021c7a73cc03581f6fd53e31281c174c",
+            "ast_sha256": "2236776f655ef9e0e07c32dae70b1adc5580d9e2318fc9b69ba130a40ce6d6c3",
+            "ir_sha256": "741d3eae6480996e3ed64b0db894d04574b53ca1064c6280252b469f05a4de75"
+          }
+        ]
+      },
+      {
+        "case": "reassociation-zero-one",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "matches": true,
+        "report": "artifacts/ieee-hlsl/acceptance/reassociation-zero-one/proof/result.json",
+        "report_sha256": "2fb7dbcf5825f87045fe8854d7b318285fe5cd2123e60e183bcf5fad43bed8a2",
+        "sources": {
+          "original": {
+            "path": "examples/ieee/reassociated-original.hlsl",
+            "sha256": "b50ba24a12e22e136c3ab7fae31b479e909031795064f3d41e4f8bde4ef31127"
+          },
+          "optimized": {
+            "path": "examples/ieee/reassociated-optimized.hlsl",
+            "sha256": "1f439541e6470ef064fbaddeb1961a2534b2fdcd9e0893bf9dc40dd4a56f49bd"
+          },
+          "proof": {
+            "path": "prototypes/ieee/proof/IdentityProof.lean",
+            "sha256": "5a3b1a63d98919005f5b1fe4f1498a3e232091b19abc87827815972b9f543804"
+          }
+        },
+        "message": "IEEE target/proof failed Lean; see lean-SubmittedProof.log",
+        "submitted_proof_log_sha256": "cd0ad0e2244e7757a1a4c8753e17e4aaa6bcd2986cafd6e7cf60abb0cb51e37d",
+        "submitted_proof_error_lines": [
+          "ShaderIeee/SubmittedProof.lean:8:2: error: Tactic `rfl` failed: The left-hand side"
+        ]
+      },
+      {
+        "case": "signed-zero-merge",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "matches": true,
+        "report": "artifacts/ieee-hlsl/acceptance/signed-zero-merge/proof/result.json",
+        "report_sha256": "2fb7dbcf5825f87045fe8854d7b318285fe5cd2123e60e183bcf5fad43bed8a2",
+        "sources": {
+          "original": {
+            "path": "examples/ieee/zeros-original.hlsl",
+            "sha256": "2e5d30360725b5ddc74954679cba3b59c7a167f9fd773ae28a3a0f5022b52f3c"
+          },
+          "optimized": {
+            "path": "examples/ieee/zeros-optimized.hlsl",
+            "sha256": "2c8a6135e32134c1bb3d8b5e6eb207c48194428a0f1cac6f107d1ea0ca3fa368"
+          },
+          "proof": {
+            "path": "prototypes/ieee/proof/IdentityProof.lean",
+            "sha256": "5a3b1a63d98919005f5b1fe4f1498a3e232091b19abc87827815972b9f543804"
+          }
+        },
+        "message": "IEEE target/proof failed Lean; see lean-SubmittedProof.log",
+        "submitted_proof_log_sha256": "904ae555900dac13be13c2144593ad28ee91c4ea41105cf3a0bc747f3cf3e9f5",
+        "submitted_proof_error_lines": [
+          "ShaderIeee/SubmittedProof.lean:8:2: error: Tactic `rfl` failed: The left-hand side"
+        ]
+      },
+      {
+        "case": "nan-self-compare-true",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "matches": true,
+        "report": "artifacts/ieee-hlsl/acceptance/nan-self-compare-true/proof/result.json",
+        "report_sha256": "2fb7dbcf5825f87045fe8854d7b318285fe5cd2123e60e183bcf5fad43bed8a2",
+        "sources": {
+          "original": {
+            "path": "examples/ieee/nan-original.hlsl",
+            "sha256": "9dec902b8d95a670da77c5ae4c55fede6f1a3f6e2564950ad62eabf7906601d0"
+          },
+          "optimized": {
+            "path": "examples/ieee/nan-optimized.hlsl",
+            "sha256": "b670552a138b798ab7b2b7991122f5738561fd3f682cde22a2a0774becf91692"
+          },
+          "proof": {
+            "path": "prototypes/ieee/proof/IdentityProof.lean",
+            "sha256": "5a3b1a63d98919005f5b1fe4f1498a3e232091b19abc87827815972b9f543804"
+          }
+        },
+        "message": "IEEE target/proof failed Lean; see lean-SubmittedProof.log",
+        "submitted_proof_log_sha256": "904ae555900dac13be13c2144593ad28ee91c4ea41105cf3a0bc747f3cf3e9f5",
+        "submitted_proof_error_lines": [
+          "ShaderIeee/SubmittedProof.lean:8:2: error: Tactic `rfl` failed: The left-hand side"
+        ]
+      },
+      {
+        "case": "sorry-rejected",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "matches": true,
+        "report": "artifacts/ieee-hlsl/acceptance/sorry-rejected/proof/result.json",
+        "report_sha256": "3a280ac2460019225caa577f0af53fc67101acd14e6200b6290c0f57d0fb2c89",
+        "sources": {
+          "original": {
+            "path": "examples/ieee/original.hlsl",
+            "sha256": "20e596c14f79d403d82281c5f8d2ff85bff8ef3defa6b88e186b1d6bd017176e"
+          },
+          "optimized": {
+            "path": "examples/ieee/optimized.hlsl",
+            "sha256": "f4038615fdd816b6f9b416a7123e1a633fd96bbdc92de38ff60b4d0732206e63"
+          },
+          "proof": {
+            "path": "prototypes/ieee/proof/SorryProof.lean",
+            "sha256": "d6142448aa2b97459a475ff704b377f0675ecb2c9085e28b2dc8248b3dd4580a"
+          }
+        },
+        "message": "Proof depends on unapproved axioms: ['propext', 'sorryAx', 'Classical.choice', 'Quot.sound']",
+        "submitted_proof_log_sha256": "f3a07ac83d80e18b8461654660de9faa4bd1907569092cbd3abb3b01cf0e488b",
+        "submitted_proof_error_lines": []
+      },
+      {
+        "case": "extra-axiom-rejected",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "matches": true,
+        "report": "artifacts/ieee-hlsl/acceptance/extra-axiom-rejected/proof/result.json",
+        "report_sha256": "936be28eb5199303585708d7d43d37ca9a9f1a9fdc24875331fec54f135dd892",
+        "sources": {
+          "original": {
+            "path": "examples/ieee/original.hlsl",
+            "sha256": "20e596c14f79d403d82281c5f8d2ff85bff8ef3defa6b88e186b1d6bd017176e"
+          },
+          "optimized": {
+            "path": "examples/ieee/optimized.hlsl",
+            "sha256": "f4038615fdd816b6f9b416a7123e1a633fd96bbdc92de38ff60b4d0732206e63"
+          },
+          "proof": {
+            "path": "prototypes/ieee/proof/ExtraAxiomProof.lean",
+            "sha256": "e46e2bd45c1c0fc1b999a8eecc38c9593282e086e54209c24661ce0e0441f3f7"
+          }
+        },
+        "message": "Proof depends on unapproved axioms: ['propext', 'Classical.choice', 'Quot.sound', 'ShaderIeee.AgentProof.unapproved']",
+        "submitted_proof_log_sha256": "d8760763be63067f00789fcf42648cb7e89259b37690e733415676ec0b8b6596",
+        "submitted_proof_error_lines": []
+      },
+      {
+        "case": "forged-target-rejected",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "matches": true,
+        "report": "artifacts/ieee-hlsl/acceptance/forged-target-rejected/proof/result.json",
+        "report_sha256": "8aaf2a1c050e5e54eb5059e198162cbe30c4111b25ae012eebb6ccf9b2c9b0de",
+        "sources": {
+          "original": {
+            "path": "examples/ieee/original.hlsl",
+            "sha256": "20e596c14f79d403d82281c5f8d2ff85bff8ef3defa6b88e186b1d6bd017176e"
+          },
+          "optimized": {
+            "path": "examples/ieee/optimized.hlsl",
+            "sha256": "f4038615fdd816b6f9b416a7123e1a633fd96bbdc92de38ff60b4d0732206e63"
+          },
+          "proof": {
+            "path": "prototypes/ieee/proof/ForgedProof.lean",
+            "sha256": "f77baf41ea7c02c560c6e3044d8b9ca1d3f2aafa579017d6026dd49ddbfcc811"
+          }
+        },
+        "message": "Independent IEEE target binding failed; see lean-verify.log",
+        "submitted_proof_log_sha256": "d8760763be63067f00789fcf42648cb7e89259b37690e733415676ec0b8b6596",
+        "submitted_proof_error_lines": []
+      },
+      {
+        "case": "binary-packing",
+        "expected": "IEEE_PROVED",
+        "actual": "IEEE_PROVED",
+        "matches": true,
+        "report": "artifacts/ieee-hlsl/acceptance/binary-packing/proof/result.json",
+        "report_sha256": "bc1cc0b50bf22b8e0a226d084cf32b095c631e647c00db23777dbca6df6fb7dd",
+        "sources": {
+          "original": {
+            "path": "examples/ieee-bits/packing.original.hlsl",
+            "sha256": "457feff0392f2ca0dc24bf51ce988e88c5d079b90050c7490e4dcef1c070af8f"
+          },
+          "optimized": {
+            "path": "examples/ieee-bits/packing.optimized.hlsl",
+            "sha256": "3fc453193f9997c5b15c6146100779eea5988659d5ec36e1607284feaefde224"
+          },
+          "proof": {
+            "path": "proof/ShaderIeee/BitsProof.lean",
+            "sha256": "aa1bb270d06bf53d20dcced96571f80c5fab93dee75325f0ffca2c5866279a42"
+          }
+        },
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "artifacts": {
+          "generated_target": "96eb7bc58d460003a9a0018fe4ddf9b01bc971838bdcaff9c278a40e521e03ea",
+          "agent_proof": "aa1bb270d06bf53d20dcced96571f80c5fab93dee75325f0ffca2c5866279a42",
+          "verification": "55439fb114ddc8ed14072dfcec44c1bf3f274a3d0dd1ebfe38a22a1ec8174f76",
+          "semantic_model": "229f298986a144be3e5cdfb1ec959ddb05ca59e0015c3f3cc5ee87d4b8c29cb4",
+          "lake_manifest": "2361539daebd83c20a8fda2474732916f9056b1dc9c8a5fcc951a1583f05009c",
+          "dependency_lock": "a78c5779fc41273bcbc89d76f1495b5b83f33a28d6759297892c443bf87c8179",
+          "lean_build_log": "63183e58e24b2caa12a652b85c46ada3eee9d68f0337b46a9eaae64ff9c2eff4",
+          "lean_verify_log": "5c87444665af700c504109cdb73d18640f1f97557ca1381f5c38fd19003c2978"
+        },
+        "inputs": [
+          {
+            "role": "original",
+            "sha256": "457feff0392f2ca0dc24bf51ce988e88c5d079b90050c7490e4dcef1c070af8f",
+            "ast_sha256": "a887340bc4ce3335bda8efda90d0405bcbfcbbe200b68a92cf46a8faa2071ee0",
+            "ir_sha256": "4b5d0d01183c320991ce6d2571776370a206878c739c6f83e1a764ed9c5d893f"
+          },
+          {
+            "role": "optimized",
+            "sha256": "3fc453193f9997c5b15c6146100779eea5988659d5ec36e1607284feaefde224",
+            "ast_sha256": "704b2d130518f9f08a77083b157e049ff1488e7e6eb0e8f18ecdb7dbfcc7abe9",
+            "ir_sha256": "be93999a500aa6d9f65297be1c10362760cf0966add3492e6598e4435820fffb"
+          }
+        ]
+      },
+      {
+        "case": "binary-packing-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "matches": true,
+        "report": "artifacts/ieee-hlsl/acceptance/binary-packing-wrong/proof/result.json",
+        "report_sha256": "2fb7dbcf5825f87045fe8854d7b318285fe5cd2123e60e183bcf5fad43bed8a2",
+        "sources": {
+          "original": {
+            "path": "examples/ieee-bits/packing.original.hlsl",
+            "sha256": "457feff0392f2ca0dc24bf51ce988e88c5d079b90050c7490e4dcef1c070af8f"
+          },
+          "optimized": {
+            "path": "examples/ieee-bits/packing.wrong.hlsl",
+            "sha256": "eb291b338a1da13928cd905cc7cbde3c76e510dc61773024db8fa301663680b4"
+          },
+          "proof": {
+            "path": "proof/ShaderIeee/BitsProof.lean",
+            "sha256": "aa1bb270d06bf53d20dcced96571f80c5fab93dee75325f0ffca2c5866279a42"
+          }
+        },
+        "message": "IEEE target/proof failed Lean; see lean-SubmittedProof.log",
+        "submitted_proof_log_sha256": "6fc6cd1e43bfedf2c17b0b14737bc6f3d1a890cac7fef288e334de59a332ca88",
+        "submitted_proof_error_lines": [
+          "ShaderIeee/SubmittedProof.lean:11:54: error: unsolved goals"
+        ]
+      },
+      {
+        "case": "binary-hash",
+        "expected": "IEEE_PROVED",
+        "actual": "IEEE_PROVED",
+        "matches": true,
+        "report": "artifacts/ieee-hlsl/acceptance/binary-hash/proof/result.json",
+        "report_sha256": "488c77686b74faf3a630da11fdd9ae5db5565a4f9b46623a27259e5128a94c8c",
+        "sources": {
+          "original": {
+            "path": "examples/ieee-bits/hash.original.hlsl",
+            "sha256": "522485273cf4acdfe91c5ffcce2d9af405d0ccf3b2d3a94cc03d6f98c20b7ed2"
+          },
+          "optimized": {
+            "path": "examples/ieee-bits/hash.optimized.hlsl",
+            "sha256": "7a53bf2491930cc7c54b957adacf2c37b16a32fc3372d3c7eef6d5725c61c4aa"
+          },
+          "proof": {
+            "path": "prototypes/ieee/proof/IdentityProof.lean",
+            "sha256": "5a3b1a63d98919005f5b1fe4f1498a3e232091b19abc87827815972b9f543804"
+          }
+        },
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "artifacts": {
+          "generated_target": "b407b0f0cd7cb774dd8bd03dc1389f21dec669e114358dc75449d0fcc46d2216",
+          "agent_proof": "5a3b1a63d98919005f5b1fe4f1498a3e232091b19abc87827815972b9f543804",
+          "verification": "55439fb114ddc8ed14072dfcec44c1bf3f274a3d0dd1ebfe38a22a1ec8174f76",
+          "semantic_model": "229f298986a144be3e5cdfb1ec959ddb05ca59e0015c3f3cc5ee87d4b8c29cb4",
+          "lake_manifest": "2361539daebd83c20a8fda2474732916f9056b1dc9c8a5fcc951a1583f05009c",
+          "dependency_lock": "a78c5779fc41273bcbc89d76f1495b5b83f33a28d6759297892c443bf87c8179",
+          "lean_build_log": "d8760763be63067f00789fcf42648cb7e89259b37690e733415676ec0b8b6596",
+          "lean_verify_log": "5c87444665af700c504109cdb73d18640f1f97557ca1381f5c38fd19003c2978"
+        },
+        "inputs": [
+          {
+            "role": "original",
+            "sha256": "522485273cf4acdfe91c5ffcce2d9af405d0ccf3b2d3a94cc03d6f98c20b7ed2",
+            "ast_sha256": "12445f398081e3dbe69f095c076845b64d53b4a6137ccab4df076e0ae23f6dd2",
+            "ir_sha256": "63739be4f2214f438800bf9029c135a22699dfd57fb8ee0f149b7b6035221f78"
+          },
+          {
+            "role": "optimized",
+            "sha256": "7a53bf2491930cc7c54b957adacf2c37b16a32fc3372d3c7eef6d5725c61c4aa",
+            "ast_sha256": "6a645e957ca1b0c8dfa93db8c373214dd6c5aa0e6381a34a8afb18f7637064d5",
+            "ir_sha256": "1f26515b729edaae8f37e4955ad5fe6bceedba465a26097d2e4f78ffa78b1fab"
+          }
+        ]
+      },
+      {
+        "case": "binary-hash-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "matches": true,
+        "report": "artifacts/ieee-hlsl/acceptance/binary-hash-wrong/proof/result.json",
+        "report_sha256": "2fb7dbcf5825f87045fe8854d7b318285fe5cd2123e60e183bcf5fad43bed8a2",
+        "sources": {
+          "original": {
+            "path": "examples/ieee-bits/hash.original.hlsl",
+            "sha256": "522485273cf4acdfe91c5ffcce2d9af405d0ccf3b2d3a94cc03d6f98c20b7ed2"
+          },
+          "optimized": {
+            "path": "examples/ieee-bits/hash.wrong.hlsl",
+            "sha256": "d623642ffc9773af244a5698722c4ade57062d235ffc6361bad320502b33d015"
+          },
+          "proof": {
+            "path": "prototypes/ieee/proof/IdentityProof.lean",
+            "sha256": "5a3b1a63d98919005f5b1fe4f1498a3e232091b19abc87827815972b9f543804"
+          }
+        },
+        "message": "IEEE target/proof failed Lean; see lean-SubmittedProof.log",
+        "submitted_proof_log_sha256": "a56234e7415fbcb28c07f541abc7472ca3b47cabc72744dc57da2905fd57e37e",
+        "submitted_proof_error_lines": [
+          "ShaderIeee/SubmittedProof.lean:8:2: error: maximum recursion depth has been reached"
+        ]
+      },
+      {
+        "case": "binary-shift",
+        "expected": "IEEE_PROVED",
+        "actual": "IEEE_PROVED",
+        "matches": true,
+        "report": "artifacts/ieee-hlsl/acceptance/binary-shift/proof/result.json",
+        "report_sha256": "268fa95c3af745be251756ad1dad0b06e5c5de27b4ae363496120a9cca06f6cb",
+        "sources": {
+          "original": {
+            "path": "examples/ieee-bits/shift.original.hlsl",
+            "sha256": "34b650084eee50ebc7314d8666bdc1aec7a75b94d6281a18f7f82b8e92936828"
+          },
+          "optimized": {
+            "path": "examples/ieee-bits/shift.optimized.hlsl",
+            "sha256": "ec312ce4b87ef7449f5620a8a44e5b042ca7768f7d6d7a84f83052bcfe82109c"
+          },
+          "proof": {
+            "path": "proof/ShaderIeee/ShiftProof.lean",
+            "sha256": "2dee729ed237e8940aefe25e6fc77bc1e0364d0c11a7f39646dda7b12c40ceed"
+          }
+        },
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "artifacts": {
+          "generated_target": "b4f89d27a701a94ca0324221813dc7c6aa5e545dea360949df0852562eef5a6d",
+          "agent_proof": "2dee729ed237e8940aefe25e6fc77bc1e0364d0c11a7f39646dda7b12c40ceed",
+          "verification": "55439fb114ddc8ed14072dfcec44c1bf3f274a3d0dd1ebfe38a22a1ec8174f76",
+          "semantic_model": "229f298986a144be3e5cdfb1ec959ddb05ca59e0015c3f3cc5ee87d4b8c29cb4",
+          "lake_manifest": "2361539daebd83c20a8fda2474732916f9056b1dc9c8a5fcc951a1583f05009c",
+          "dependency_lock": "a78c5779fc41273bcbc89d76f1495b5b83f33a28d6759297892c443bf87c8179",
+          "lean_build_log": "d8760763be63067f00789fcf42648cb7e89259b37690e733415676ec0b8b6596",
+          "lean_verify_log": "5c87444665af700c504109cdb73d18640f1f97557ca1381f5c38fd19003c2978"
+        },
+        "inputs": [
+          {
+            "role": "original",
+            "sha256": "34b650084eee50ebc7314d8666bdc1aec7a75b94d6281a18f7f82b8e92936828",
+            "ast_sha256": "2d797375302b3e00d54e9bf081f8db81b88b4896622e639abf599a01308eabf6",
+            "ir_sha256": "c72492e7f95d001d6e55d0220e4f075c64372508f365c8025a71b58a47d00810"
+          },
+          {
+            "role": "optimized",
+            "sha256": "ec312ce4b87ef7449f5620a8a44e5b042ca7768f7d6d7a84f83052bcfe82109c",
+            "ast_sha256": "78ada3e5223a5f359c3642a92619969836a70986c831c8e14003df2cd6a1c038",
+            "ir_sha256": "a669bbc3a764dde0f544385ad72e848eb732ad7c6dab4b69d72871ae20cb8e40"
+          }
+        ]
+      },
+      {
+        "case": "binary-shift-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "matches": true,
+        "report": "artifacts/ieee-hlsl/acceptance/binary-shift-wrong/proof/result.json",
+        "report_sha256": "2fb7dbcf5825f87045fe8854d7b318285fe5cd2123e60e183bcf5fad43bed8a2",
+        "sources": {
+          "original": {
+            "path": "examples/ieee-bits/shift.original.hlsl",
+            "sha256": "34b650084eee50ebc7314d8666bdc1aec7a75b94d6281a18f7f82b8e92936828"
+          },
+          "optimized": {
+            "path": "examples/ieee-bits/shift.wrong.hlsl",
+            "sha256": "3f42d5ec8fb448c9a90ec495d9b51b7ed42681ad0b1064f0a7cd493c1db46bba"
+          },
+          "proof": {
+            "path": "proof/ShaderIeee/ShiftProof.lean",
+            "sha256": "2dee729ed237e8940aefe25e6fc77bc1e0364d0c11a7f39646dda7b12c40ceed"
+          }
+        },
+        "message": "IEEE target/proof failed Lean; see lean-SubmittedProof.log",
+        "submitted_proof_log_sha256": "4ae52447b86f4b2f455b1c9b7d840487660019933de0b62e73ce71b1dd87ec36",
+        "submitted_proof_error_lines": [
+          "ShaderIeee/SubmittedProof.lean:17:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern",
+          "ShaderIeee/SubmittedProof.lean:17:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern"
+        ]
+      },
+      {
+        "case": "binary-wrap",
+        "expected": "IEEE_PROVED",
+        "actual": "IEEE_PROVED",
+        "matches": true,
+        "report": "artifacts/ieee-hlsl/acceptance/binary-wrap/proof/result.json",
+        "report_sha256": "8e34f540f3d6ed43bfca876ecee5b8e0832280e034da731a6e22cba2601bb818",
+        "sources": {
+          "original": {
+            "path": "examples/ieee-bits/wrap.original.hlsl",
+            "sha256": "087f2a2a9e936f83df5f95e3d65988e55c0f9fdaeaae3fb95dc251cd9fdae547"
+          },
+          "optimized": {
+            "path": "examples/ieee-bits/wrap.optimized.hlsl",
+            "sha256": "abfa43ee10809431cb1c5f4de2068fd2777cecb6f9044d21c42f752379e82b7c"
+          },
+          "proof": {
+            "path": "proof/ShaderIeee/WrapProof.lean",
+            "sha256": "6e573f99c4ca404f5fe6f4687578c1ea16652d1d812f70dacea386ca224daf51"
+          }
+        },
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "artifacts": {
+          "generated_target": "684e5800fad10ffb7a6929f31ca6a41bada72da4a4dc00adb6002662cee9d170",
+          "agent_proof": "6e573f99c4ca404f5fe6f4687578c1ea16652d1d812f70dacea386ca224daf51",
+          "verification": "55439fb114ddc8ed14072dfcec44c1bf3f274a3d0dd1ebfe38a22a1ec8174f76",
+          "semantic_model": "229f298986a144be3e5cdfb1ec959ddb05ca59e0015c3f3cc5ee87d4b8c29cb4",
+          "lake_manifest": "2361539daebd83c20a8fda2474732916f9056b1dc9c8a5fcc951a1583f05009c",
+          "dependency_lock": "a78c5779fc41273bcbc89d76f1495b5b83f33a28d6759297892c443bf87c8179",
+          "lean_build_log": "ec04e389519812ddb5cb12eec995dfacc327ff690738353432804b473e7214ec",
+          "lean_verify_log": "5c87444665af700c504109cdb73d18640f1f97557ca1381f5c38fd19003c2978"
+        },
+        "inputs": [
+          {
+            "role": "original",
+            "sha256": "087f2a2a9e936f83df5f95e3d65988e55c0f9fdaeaae3fb95dc251cd9fdae547",
+            "ast_sha256": "29a2a65f3965a8f7e40a010949a43592a03db78dc53f5bad675b7b42b1d657dc",
+            "ir_sha256": "d8b2b535623763db800dfd437cadf92922645b9ba6c295b36b3cde573eaaaef0"
+          },
+          {
+            "role": "optimized",
+            "sha256": "abfa43ee10809431cb1c5f4de2068fd2777cecb6f9044d21c42f752379e82b7c",
+            "ast_sha256": "22b8bdfd75eb4645409119ae859478b8b7c376838d4c4556a23bcf1d70dafec7",
+            "ir_sha256": "29ccd9f4df5738b22bc8cb1a33ab1471e2779db922a7e412e96a5e0f316ff858"
+          }
+        ]
+      },
+      {
+        "case": "binary-wrap-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "matches": true,
+        "report": "artifacts/ieee-hlsl/acceptance/binary-wrap-wrong/proof/result.json",
+        "report_sha256": "2fb7dbcf5825f87045fe8854d7b318285fe5cd2123e60e183bcf5fad43bed8a2",
+        "sources": {
+          "original": {
+            "path": "examples/ieee-bits/wrap.original.hlsl",
+            "sha256": "087f2a2a9e936f83df5f95e3d65988e55c0f9fdaeaae3fb95dc251cd9fdae547"
+          },
+          "optimized": {
+            "path": "examples/ieee-bits/wrap.wrong.hlsl",
+            "sha256": "1116e2a5cd250077332b74ae3e00cf9c2594425929d911bab2cbf78bb9fc5bc4"
+          },
+          "proof": {
+            "path": "proof/ShaderIeee/WrapProof.lean",
+            "sha256": "6e573f99c4ca404f5fe6f4687578c1ea16652d1d812f70dacea386ca224daf51"
+          }
+        },
+        "message": "IEEE target/proof failed Lean; see lean-SubmittedProof.log",
+        "submitted_proof_log_sha256": "3f98e1be37a3390557f84d187676a2bf1146ba51a5df20b93723dfe94b4854f4",
+        "submitted_proof_error_lines": [
+          "ShaderIeee/SubmittedProof.lean:27:2: error: unsolved goals",
+          "ShaderIeee/SubmittedProof.lean:28:2: error: unsolved goals",
+          "ShaderIeee/SubmittedProof.lean:30:2: error: unsolved goals",
+          "ShaderIeee/SubmittedProof.lean:32:2: error: unsolved goals"
+        ]
+      },
+      {
+        "case": "binary-unsigned",
+        "expected": "IEEE_PROVED",
+        "actual": "IEEE_PROVED",
+        "matches": true,
+        "report": "artifacts/ieee-hlsl/acceptance/binary-unsigned/proof/result.json",
+        "report_sha256": "b0ea0d7358400953f1d6822f115c07d8faf766d6df65f2501ee0906ec5c4095a",
+        "sources": {
+          "original": {
+            "path": "examples/ieee-bits/unsigned.original.hlsl",
+            "sha256": "706cc0efd630ad2105ad7d9bc10c2418ec0c3439fe0a0c077e7ed50cf9499cc3"
+          },
+          "optimized": {
+            "path": "examples/ieee-bits/unsigned.optimized.hlsl",
+            "sha256": "ec1003437f6aed2200bdabdc6262aadea024809124d0245a1760f446928a0748"
+          },
+          "proof": {
+            "path": "prototypes/ieee/proof/RoundtripProof.lean",
+            "sha256": "1cba6f2327fa2d24ee3d0362e6a85ff8e8c21bd0d8391e876d1d29119961e2d3"
+          }
+        },
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "artifacts": {
+          "generated_target": "84b89f50ac9e68ae96767561f13dada0231e2df0a09104e90a33d08e0b250b65",
+          "agent_proof": "1cba6f2327fa2d24ee3d0362e6a85ff8e8c21bd0d8391e876d1d29119961e2d3",
+          "verification": "55439fb114ddc8ed14072dfcec44c1bf3f274a3d0dd1ebfe38a22a1ec8174f76",
+          "semantic_model": "229f298986a144be3e5cdfb1ec959ddb05ca59e0015c3f3cc5ee87d4b8c29cb4",
+          "lake_manifest": "2361539daebd83c20a8fda2474732916f9056b1dc9c8a5fcc951a1583f05009c",
+          "dependency_lock": "a78c5779fc41273bcbc89d76f1495b5b83f33a28d6759297892c443bf87c8179",
+          "lean_build_log": "a11f76eb9badb5997e8b62789bbeee6be7b8e724ea23ace8921deadaf837fce8",
+          "lean_verify_log": "5c87444665af700c504109cdb73d18640f1f97557ca1381f5c38fd19003c2978"
+        },
+        "inputs": [
+          {
+            "role": "original",
+            "sha256": "706cc0efd630ad2105ad7d9bc10c2418ec0c3439fe0a0c077e7ed50cf9499cc3",
+            "ast_sha256": "ff43d634064b2bd6bd5c2d80fb13fb4a753a7ba407fc252bf626db67a2ae5155",
+            "ir_sha256": "c7564a753b2a1d49cb3d3ce7576d8b53a28a0aacc59c77519ac6bfaffaf944a6"
+          },
+          {
+            "role": "optimized",
+            "sha256": "ec1003437f6aed2200bdabdc6262aadea024809124d0245a1760f446928a0748",
+            "ast_sha256": "3be762c24e2338cb893229b21a22d5a55f3852f0dcdabe0df2190be9e96a5e05",
+            "ir_sha256": "3e5aeac42f65bc99ec35dba5ee33ffd099c9047ba95161f148fe46bfb4910318"
+          }
+        ]
+      },
+      {
+        "case": "binary-unsigned-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "matches": true,
+        "report": "artifacts/ieee-hlsl/acceptance/binary-unsigned-wrong/proof/result.json",
+        "report_sha256": "2fb7dbcf5825f87045fe8854d7b318285fe5cd2123e60e183bcf5fad43bed8a2",
+        "sources": {
+          "original": {
+            "path": "examples/ieee-bits/unsigned.original.hlsl",
+            "sha256": "706cc0efd630ad2105ad7d9bc10c2418ec0c3439fe0a0c077e7ed50cf9499cc3"
+          },
+          "optimized": {
+            "path": "examples/ieee-bits/unsigned.wrong.hlsl",
+            "sha256": "3c031c4cc7a4da4ba4cabf18b9d60304765226318e7b7c0d68a8fa1f8f19d787"
+          },
+          "proof": {
+            "path": "prototypes/ieee/proof/RoundtripProof.lean",
+            "sha256": "1cba6f2327fa2d24ee3d0362e6a85ff8e8c21bd0d8391e876d1d29119961e2d3"
+          }
+        },
+        "message": "IEEE target/proof failed Lean; see lean-SubmittedProof.log",
+        "submitted_proof_log_sha256": "75bde5c35a4a32e461179b4156620438b49369c2acc864ab4805094daf89678f",
+        "submitted_proof_error_lines": [
+          "ShaderIeee/SubmittedProof.lean:5:54: error: unsolved goals"
+        ]
+      },
+      {
+        "case": "binary-roundtrip",
+        "expected": "IEEE_PROVED",
+        "actual": "IEEE_PROVED",
+        "matches": true,
+        "report": "artifacts/ieee-hlsl/acceptance/binary-roundtrip/proof/result.json",
+        "report_sha256": "dab549db3dbba4ae3a01347e59aa279446e12375b0130a8c9ea235eca8e2e395",
+        "sources": {
+          "original": {
+            "path": "examples/ieee-bits/roundtrip.original.hlsl",
+            "sha256": "a19ef327779cba93af8d7258dc48db0dcd98316722a18d3a877f43420310cc9d"
+          },
+          "optimized": {
+            "path": "examples/ieee-bits/roundtrip.optimized.hlsl",
+            "sha256": "d06bf4d292cfd7e014877ea4167034a1918235cea71e9c39b3ee54a4284380f3"
+          },
+          "proof": {
+            "path": "prototypes/ieee/proof/RoundtripProof.lean",
+            "sha256": "1cba6f2327fa2d24ee3d0362e6a85ff8e8c21bd0d8391e876d1d29119961e2d3"
+          }
+        },
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "artifacts": {
+          "generated_target": "4a8a1c0dfc675983eaabb4484c3197da00b15759eb064c90b99352e8820f1a77",
+          "agent_proof": "1cba6f2327fa2d24ee3d0362e6a85ff8e8c21bd0d8391e876d1d29119961e2d3",
+          "verification": "55439fb114ddc8ed14072dfcec44c1bf3f274a3d0dd1ebfe38a22a1ec8174f76",
+          "semantic_model": "229f298986a144be3e5cdfb1ec959ddb05ca59e0015c3f3cc5ee87d4b8c29cb4",
+          "lake_manifest": "2361539daebd83c20a8fda2474732916f9056b1dc9c8a5fcc951a1583f05009c",
+          "dependency_lock": "a78c5779fc41273bcbc89d76f1495b5b83f33a28d6759297892c443bf87c8179",
+          "lean_build_log": "d8760763be63067f00789fcf42648cb7e89259b37690e733415676ec0b8b6596",
+          "lean_verify_log": "5c87444665af700c504109cdb73d18640f1f97557ca1381f5c38fd19003c2978"
+        },
+        "inputs": [
+          {
+            "role": "original",
+            "sha256": "a19ef327779cba93af8d7258dc48db0dcd98316722a18d3a877f43420310cc9d",
+            "ast_sha256": "5c363d6ad9c7b3a7003f21f6c63cc8e6f24aedfc030f30f11b8a019817e1ddd0",
+            "ir_sha256": "77921f105e2001d7da3927d05d7db261f7d0970a6a5e93508bea111d91d3a990"
+          },
+          {
+            "role": "optimized",
+            "sha256": "d06bf4d292cfd7e014877ea4167034a1918235cea71e9c39b3ee54a4284380f3",
+            "ast_sha256": "825f3d03b8f8af76b6adc0105403a1b65822200dcc68425ec5fbf41946d769a4",
+            "ir_sha256": "1367e3eb13c96bd23e81554cc4950ca589e682b6fcda81eb0b7dc25118376db2"
+          }
+        ]
+      },
+      {
+        "case": "binary-roundtrip-wrong",
+        "expected": "UNPROVED",
+        "actual": "UNPROVED",
+        "matches": true,
+        "report": "artifacts/ieee-hlsl/acceptance/binary-roundtrip-wrong/proof/result.json",
+        "report_sha256": "2fb7dbcf5825f87045fe8854d7b318285fe5cd2123e60e183bcf5fad43bed8a2",
+        "sources": {
+          "original": {
+            "path": "examples/ieee-bits/roundtrip.original.hlsl",
+            "sha256": "a19ef327779cba93af8d7258dc48db0dcd98316722a18d3a877f43420310cc9d"
+          },
+          "optimized": {
+            "path": "examples/ieee-bits/roundtrip.wrong.hlsl",
+            "sha256": "d2ca80697ac55155f5120805d82128d64e0a49c9a5bcb9690d338fc4a5cbac32"
+          },
+          "proof": {
+            "path": "prototypes/ieee/proof/RoundtripProof.lean",
+            "sha256": "1cba6f2327fa2d24ee3d0362e6a85ff8e8c21bd0d8391e876d1d29119961e2d3"
+          }
+        },
+        "message": "IEEE target/proof failed Lean; see lean-SubmittedProof.log",
+        "submitted_proof_log_sha256": "99d73cf704092cc8ec564a53d031940287e5d90007ff22ab399a0621423dd922",
+        "submitted_proof_error_lines": [
+          "ShaderIeee/SubmittedProof.lean:5:54: error: unsolved goals"
+        ]
+      }
+    ]
+  },
+  "legacy_real_switchback": {
+    "status": "PROVED",
+    "theorem": "ShaderFormalize.Verification.checked",
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ]
+  },
+  "prototype": {
+    "schema": 1,
+    "status": "EXTERNAL_LIBRARY_PROTOTYPE_PASSED",
+    "exit_code": 0,
+    "command": "lake env lean --run ShaderIeee/Probe.lean",
+    "lean_version": "Lean (version 4.35.0, x86_64-w64-windows-gnu, commit eb6cafb7290e8bd5f2937522d8d804f58f02bafc, Release)",
+    "shader_cli_ieee_integrated": true,
+    "checks_passed": 19,
+    "main_sha256": "3e24b5e2f17d13add84e49980e13621400157b35d6959fff2804a889afc40196",
+    "lake_manifest_sha256": "2361539daebd83c20a8fda2474732916f9056b1dc9c8a5fcc951a1583f05009c",
+    "dependency_lock_sha256": "a78c5779fc41273bcbc89d76f1495b5b83f33a28d6759297892c443bf87c8179",
+    "log_sha256": "392c312603395c5949142c9ca7757bfcf2003ae92e5f9d71f54488d77d011747",
+    "interpretation": "FloatLib binary32 reference operations, nearest ties-to-even; GPU profile not matched"
+  },
+  "dxc_shift_probe": {
+    "status": "COMPILED",
+    "source_sha256": "eefa019a285c4461ec245e5568397e63a14a1cc6f92c6c657807799e9908092f",
+    "command": [
+      "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\.tools\\dxc\\bin\\x64\\dxc.exe",
+      "-T",
+      "ps_6_0",
+      "-E",
+      "main",
+      "-HV",
+      "2021",
+      "-Od",
+      "-Fc",
+      "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\artifacts\\binary-pipeline\\shift-probe\\output.ll",
+      "-Fo",
+      "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\artifacts\\binary-pipeline\\shift-probe\\output.dxil",
+      "D:\\2FileBuildWorkPlace\\Formalize\\ShaderFormalize\\artifacts\\binary-pipeline\\shift-probe\\input.hlsl"
+    ],
+    "relevant_dxil": [
+      "%9 = and i32 %7, 31",
+      "%10 = shl i32 %5, %9",
+      "%12 = and i32 %7, 31",
+      "%13 = lshr i32 %5, %12"
+    ],
+    "dxil_sha256": "08d76ec1721a268827f3af004fa36f3e50e3367c5fc0e7634ccd343595b4e902",
+    "note": "Compiler semantic investigation, not a proof of all shaders."
+  },
+  "kernel_boundary_assertions": {
+    "count": 13,
+    "source": "proof/ShaderIeee/WrapProof.lean",
+    "checked_by": "kernel decide; compiled with the full wrap theorem"
+  },
+  "rejected_initial_proof": {
+    "schema": "ieee-hlsl-1",
+    "status": "UNPROVED",
+    "message": "Proof depends on unapproved axioms: ['propext', 'Classical.choice', 'Quot.sound', 'ShaderIeee.AgentProof.equivalent._native.bv_decide.ax_1_12', 'ShaderIeee.AgentProof.equivalent._native.bv_decide.ax_1_17', 'ShaderIeee.AgentProof.equivalent._native.bv_decide.ax_1_22', 'ShaderIeee.AgentProof.equivalent._native.bv_decide.ax_1_7']",
+    "profile": "binary32-rne-preserve-subnormals-separate-ops-v1",
+    "gpu_profile_matched": false
+  },
+  "corrected_packing": {
+    "status": "IEEE_PROVED",
+    "method": "UInt32/BitVec extensional bit lemmas; existing axiom allowlist unchanged"
+  },
+  "protected_sources": {
+    "status": "UNCHANGED",
+    "base_commit": "9b68e9d10dffb39ae046d0e38c6b17fff908360e",
+    "tracked_files_checked": 122,
+    "comparison": "git diff --quiet baseline -- exact protected paths; Git handles checkout line endings",
+    "files": [
+      {
+        "path": "dependencies.lock.json",
+        "sha256": "a78c5779fc41273bcbc89d76f1495b5b83f33a28d6759297892c443bf87c8179"
+      },
+      {
+        "path": "proof/AgentProof.lean",
+        "sha256": "af907b2a6a3baab2f8b13985de886070ceaa5aa2db1308617facc594542466a8"
+      },
+      {
+        "path": "proof/AggregateDomainProof.lean",
+        "sha256": "61397386646c8d5eeb31c01b112b40e7b0a0006de66585828c0cd8cfec3eed5e"
+      },
+      {
+        "path": "proof/AggregateFieldProof.lean",
+        "sha256": "e30826f94eb5adb9a9aecbbe736f90687b2145e287183bc76d1c68a71dd77201"
+      },
+      {
+        "path": "proof/AggregateMaterialProof.lean",
+        "sha256": "fade4e4d4893f0304877f85298109dec5ddcd377b871a563876fd4b196ddff56"
+      },
+      {
+        "path": "proof/BasicMathAutoProof.lean",
+        "sha256": "a53edc1f8427004484e35f827a14a329a558f2890a725d0a9e5d3077623561b2"
+      },
+      {
+        "path": "proof/BasicMathDomainProof.lean",
+        "sha256": "fd3e10a56f78dc2083e819724faf99f6f93cdbaa84bd6b0813ac412ec4606ebc"
+      },
+      {
+        "path": "proof/BasicMathProof.lean",
+        "sha256": "1a42053cff210629363cf1a095b717394391f6f6756891853943da3ef126eb32"
+      },
+      {
+        "path": "proof/BranchedProof.lean",
+        "sha256": "4a62da4962ea3fefb0e1a10b72388242f199cdf6055d1b90502d3ff946e16425"
+      },
+      {
+        "path": "proof/CompleteMaterialProof.lean",
+        "sha256": "5c1d0cdc696f48b1cfcdb70fce9c4b693914d993200df743517a0e4b8cd3de03"
+      },
+      {
+        "path": "proof/ComputeAliasProof.lean",
+        "sha256": "f190774db6e1d77392700e87ba2c48989842757c72bd81992fd1fd608f3b562d"
+      },
+      {
+        "path": "proof/ComputePostProof.lean",
+        "sha256": "484b252857af6db038bcad7dabc47517313f6ef489cfa2bdddf32d413b7f2581"
+      },
+      {
+        "path": "proof/ComputeTextureAliasProof.lean",
+        "sha256": "8deff6499f7b181c880d9c29e28299ac61eecc5a87043fc67c1b61bba1f782e9"
+      },
+      {
+        "path": "proof/ComputeTextureOobProof.lean",
+        "sha256": "5c25822e00c86b18c02785a7facf57d18131d29c5843cffe45a26aa87d7c9ebc"
+      },
+      {
+        "path": "proof/ComputeTexturePostProof.lean",
+        "sha256": "65aa687f71b8ab88f3f208d9be5043a124a0dfd6676cb345e5ed4249dbe70e90"
+      },
+      {
+        "path": "proof/ControlAliasProof.lean",
+        "sha256": "3b1706be9993b6b14ec8346a5968165ba8f2a764ada052d1f657717df1983fbd"
+      },
+      {
+        "path": "proof/ControlDomainProof.lean",
+        "sha256": "4f9041dada0d32307b583f757b83022a428ce8119b907b466c1475903d9d5ed3"
+      },
+      {
+        "path": "proof/ControlElseProof.lean",
+        "sha256": "edfb8f2037bdf5a81ff54af10fbbc9d35ba58aa6ebea3073b63b7904160d3ab9"
+      },
+      {
+        "path": "proof/ControlHelperDomainProof.lean",
+        "sha256": "2671800a7cb082655a2e21c3cdce3c7f5f16ad5e41cb33c0e94356df874a224f"
+      },
+      {
+        "path": "proof/ControlHelperFieldProof.lean",
+        "sha256": "3aa66e9bad1e57e1542db673576c5b86d883ef6082fc1514a318a674e56ac73e"
+      },
+      {
+        "path": "proof/ControlMixedProof.lean",
+        "sha256": "25634870716a58cdbbe992db04771bdb3c541ac664ed6926fa499e352a919f02"
+      },
+      {
+        "path": "proof/ControlReturnProof.lean",
+        "sha256": "596ed71d47792f98ffd1f2a49bf8ef809db9541ba894f8c4e0b08247e974834a"
+      },
+      {
+        "path": "proof/CopybackClipProof.lean",
+        "sha256": "ec69c0256c73e30ea4b381dc85b4bddd68f9b2de688536ebb4178d7156e60341"
+      },
+      {
+        "path": "proof/CopybackDomainProof.lean",
+        "sha256": "ea82bd01da782234ca0b405e5ae6a80e72d6d14bbd8b2646985df23c5023cf62"
+      },
+      {
+        "path": "proof/CopybackFieldProof.lean",
+        "sha256": "6d9e5bbfd159a147bf9444992942cc6edc15ba63199f068bedd827a7fb1caa6c"
+      },
+      {
+        "path": "proof/CopybackStructuredProof.lean",
+        "sha256": "fa480b6870f0eb313e58ca61c0e127f57f41e0efb1ff4250874d18ec8d5cee6d"
+      },
+      {
+        "path": "proof/LoopDomainProof.lean",
+        "sha256": "4c5aa018ac2f77b7b43c0e034670eb378426f01f6e817ad3ff07e618908c0b77"
+      },
+      {
+        "path": "proof/MathAlgebraProof.lean",
+        "sha256": "57c2fd7324d572043643a7c935dfd72c41fcbb8889529a4cdb182cc2a59eacaa"
+      },
+      {
+        "path": "proof/MathQuantizeProof.lean",
+        "sha256": "8bd9d7fc5cfae536a140b6dc4fcf534568d51b4f8bc32c61c97de60321fb6029"
+      },
+      {
+        "path": "proof/MathSmoothProof.lean",
+        "sha256": "b0d2e15b94fa7e6b69140f838879c0e541a25f6d9175f3658c9ccacdcb3e7038"
+      },
+      {
+        "path": "proof/PackedProof.lean",
+        "sha256": "23f6f7c83b3fb47984fbb8d59d72a30b568c0040f98defd092da34c1b84b3d6e"
+      },
+      {
+        "path": "proof/PackingDomainProof.lean",
+        "sha256": "47aa5763e5a11ae38d52033b981ffd0bb674ac0c95564e54d11f84f6d44aa8de"
+      },
+      {
+        "path": "proof/ShaderFormalize/BootstrapSmoke.lean",
+        "sha256": "88f77d8883a35ee60fd474527e2edbd945bb2c0d580b567027b60d1d5e870121"
+      },
+      {
+        "path": "proof/ShaderFormalize/Compute.lean",
+        "sha256": "00d4ffd9a7b943fd7e33919b22371f576b01b3e16c318bd0bef2e61e793e2190"
+      },
+      {
+        "path": "proof/ShaderFormalize/ComputeTexture.lean",
+        "sha256": "fb44e5eb15521b8823fb84b6c32b82dbcbe4a67a1d61846d386ebac8da74bc9d"
+      },
+      {
+        "path": "proof/ShaderFormalize/Control.lean",
+        "sha256": "1bdb1e21015cd10e05593ec42bf1c8c6d522ed9d9ffb2ac6f33f8bda4f90b44b"
+      },
+      {
+        "path": "proof/ShaderFormalize/Fragment.lean",
+        "sha256": "c7a4195c9b5b84ce39a959e1fff8870ccb4a6f9e302bda8aa957302bf1ea069a"
+      },
+      {
+        "path": "proof/ShaderFormalize/Model.lean",
+        "sha256": "5a3af29b09a4696a1632b0e30595d5465d9486cd71d604bdb1fbcea512133d4e"
+      },
+      {
+        "path": "proof/ShaderFormalize/Packing.lean",
+        "sha256": "b7a28c0eeb178976e7060e1053bd45926eccf6e395d6087b3851632ef841f350"
+      },
+      {
+        "path": "proof/SharedHelperDomainProof.lean",
+        "sha256": "ea82bd01da782234ca0b405e5ae6a80e72d6d14bbd8b2646985df23c5023cf62"
+      },
+      {
+        "path": "proof/SharedHelperFieldProof.lean",
+        "sha256": "b45c5c11ea64e05a32068b6f50a8499284d4da089494c38c63c2a4e00e4644de"
+      },
+      {
+        "path": "proof/SharedStructuredProof.lean",
+        "sha256": "a41641447f9c8e72ee296a74cbe81ba3625b0d3959ddb8eee9a93fbd316f04af"
+      },
+      {
+        "path": "proof/StructuredProof.lean",
+        "sha256": "bfb0e583b8b54223e5c56d67c1d9e081e1b0d49a196f5e61df62ad38133e1487"
+      },
+      {
+        "path": "proof/TexturedProof.lean",
+        "sha256": "9bc224cce89c955f816e709e026a759e765abf83e3a70e8f14a823032a29556b"
+      },
+      {
+        "path": "proof/UnlitProof.lean",
+        "sha256": "bfb0e583b8b54223e5c56d67c1d9e081e1b0d49a196f5e61df62ad38133e1487"
+      },
+      {
+        "path": "proof/lake-manifest.json",
+        "sha256": "2361539daebd83c20a8fda2474732916f9056b1dc9c8a5fcc951a1583f05009c"
+      },
+      {
+        "path": "proof/lakefile.lean",
+        "sha256": "b423395ef31289ae6470ccc1476fc61e9f786815ec062dec71c3a160eadc0586"
+      },
+      {
+        "path": "proof/lean-toolchain",
+        "sha256": "27e73059e3a4d568450f74e39c2f79676c4f8d41373fff15170690f124e3bacd"
+      },
+      {
+        "path": "tools/analyze_shader.py",
+        "sha256": "59d4d00785b30f77a193672ae507ec233b6fb74bccd253d655f8c684c7f8c993"
+      },
+      {
+        "path": "tools/bootstrap.ps1",
+        "sha256": "c91b6942b515a40095897262696812c053de50b1c3685ad4413bfec033b2f6b9"
+      },
+      {
+        "path": "tools/cache_targets.py",
+        "sha256": "9ae7f72aefdcf1c8fcbe4492278c2410115edb0192225e3a1695cf8e3c8d6d97"
+      },
+      {
+        "path": "tools/computeformalize.py",
+        "sha256": "4f2bc2d43050eb1c604e14e2169131f1e35a4a7664bf2c0a8dda351f22a6c5ed"
+      },
+      {
+        "path": "tools/download_release.py",
+        "sha256": "4d12da52a50fd07d638dfb5cc411f4f2a01391d76c839ba06186d9d8866d2c31"
+      },
+      {
+        "path": "tools/dxc_ast_index.py",
+        "sha256": "a65f87aabfc62bfd1e8dd2989a6d32254c64127cd23b5ed4b8a8682a9766fda0"
+      },
+      {
+        "path": "tools/environment.ps1",
+        "sha256": "f393516200fbe0ff10c5292b91883470e4766c69f3ada5ab6e9da2ffca4f9bdb"
+      },
+      {
+        "path": "tools/ieeeformalize.py",
+        "sha256": "972696a67441d203311c6cfce7fff14034cb9ee0f5f27dc40ac85c844244b646"
+      },
+      {
+        "path": "tools/inventory_hdrp.py",
+        "sha256": "c58139c192cecf71b4ec2ebeb560a0cd74c4b64c4dfff0c9cea7d873180f60de"
+      },
+      {
+        "path": "tools/lean_environment.py",
+        "sha256": "e4b18a2720bb7e56efacb316d1dc9184455fea75a5edd0e40f43cdc2eb114502"
+      },
+      {
+        "path": "tools/proof_contract.py",
+        "sha256": "6060520c440647c05fe248ba865e8d6970ee8dd91413a147e30504fec2e8c6ce"
+      },
+      {
+        "path": "tools/run_compute_suite.py",
+        "sha256": "4d84b5282dc6d29f6ec9b3daedb6b2f1c8a1f628316e4cf79030c426590bc858"
+      },
+      {
+        "path": "tools/run_demo.ps1",
+        "sha256": "2b1d8794c8b518bac555a79dea6ac315f3bca1fc7d4db2f8af1c64e6c9a22852"
+      },
+      {
+        "path": "tools/run_ieee_probe.py",
+        "sha256": "22a3e19389a558a31a6a5b99303bf5822fc700943a38109b6bf9271aee875f5d"
+      },
+      {
+        "path": "tools/run_ieee_suite.py",
+        "sha256": "235d04a838d3d67cbe06ea0d694f7e5bd6c261056ef7333698afd75673e2c504"
+      },
+      {
+        "path": "tools/run_sync_suite.py",
+        "sha256": "154cec03ab43c7c4570e087d87a2cbc5f454010e0e6db12a1b3134a7dfbe7c3d"
+      },
+      {
+        "path": "tools/run_unity.py",
+        "sha256": "6bbb21288c03ea240c221927ce6883ac3f873dd64cb8e164f278cdb13f574985"
+      },
+      {
+        "path": "tools/run_unity_suite.ps1",
+        "sha256": "8a1e6c3df88690b1c1cf78826aac0bfab807005c736454b0e0d38e52b7fda723"
+      },
+      {
+        "path": "tools/seed_dependencies.py",
+        "sha256": "36dbc9b476f8944568ad8e8344b8aa6ecaea2c50b40423e6bab90370da40a91b"
+      },
+      {
+        "path": "tools/shader_access.py",
+        "sha256": "d22ad3e260e9c62c85593eb328359421684a08962a39ee257002b28f3b70a9b2"
+      },
+      {
+        "path": "tools/shader_addresses.py",
+        "sha256": "ea21e5e7af4ce3b20a12ff8acf1161d2ee3b4679af2e8cd1c2d7422b854c3a30"
+      },
+      {
+        "path": "tools/shader_aggregate.py",
+        "sha256": "30a92b2277582496b71c97efc15db279f1015ba3b6807496bbc167419b4d8181"
+      },
+      {
+        "path": "tools/shader_aggregate_metadata.py",
+        "sha256": "973c6981c3fead2bb5b5ca74d530d40412e913dbb3f8f662907600e76ca523f1"
+      },
+      {
+        "path": "tools/shader_aggregate_types.py",
+        "sha256": "7efe9536a257091651202bc61352a2c289a03facc0f961a291fbefa43bf50406"
+      },
+      {
+        "path": "tools/shader_aggregate_values.py",
+        "sha256": "7e75d66016e8d5461d09535b0f5c45f37243d06d278709f6a67c6ebb57e231d1"
+      },
+      {
+        "path": "tools/shader_ast.py",
+        "sha256": "4f369885048951a027834ffae295d1e50744d41f1a3d4dbb0d8ac8dba6f26d8d"
+      },
+      {
+        "path": "tools/shader_boolean.py",
+        "sha256": "11cb4ae5b82f6054cb0f2e5f2e65dddc49ac5267157c6a055552e22f2387ec18"
+      },
+      {
+        "path": "tools/shader_compute.py",
+        "sha256": "ed2fb903fa3ba75c8826b7b08c9b9d97670a8ed267949168bf05d8b628ba6d8c"
+      },
+      {
+        "path": "tools/shader_compute_math.py",
+        "sha256": "7fad3e8a92841586f320cc28f122b5adbb2753f471cb3d9c04328d29b8fb9bbc"
+      },
+      {
+        "path": "tools/shader_compute_texture.py",
+        "sha256": "906d4f7a7f66ee5aa313f386b727cce40d41d66c2cb2c0b7d2c86bd3327e4261"
+      },
+      {
+        "path": "tools/shader_control.py",
+        "sha256": "a38a92ca6028e6cb25d118cff283f6fcbc5a6d77c51386626f2ea55cdc7fea59"
+      },
+      {
+        "path": "tools/shader_control_eval.py",
+        "sha256": "13f5d2c5c82063a73150b0ed503a8b25aea4180a01dbcdc9c4327175a0846052"
+      },
+      {
+        "path": "tools/shader_control_lean.py",
+        "sha256": "acf54553fe2d68d06a735563f2481810cee234aedb8d57c5c53687d9f18cf086"
+      },
+      {
+        "path": "tools/shader_control_values.py",
+        "sha256": "5172f501d5dec5590a32c874706fe6381080cb3f26782ccf2e179bb7fee4c15f"
+      },
+      {
+        "path": "tools/shader_copyback.py",
+        "sha256": "9e7af61e321bc16124742be7874c18ac5463de1b782dd02c187b3520ccc7d1d9"
+      },
+      {
+        "path": "tools/shader_effects.py",
+        "sha256": "2c9eb1c0681285a8ec8001d52e65879974b7ddf094bcf34e6db222f1ce0bbe2f"
+      },
+      {
+        "path": "tools/shader_eval.py",
+        "sha256": "85b92ee0c691b5d612c601dc726700e0dddbe8729f0c3bbe4f400f4e8c5bf63b"
+      },
+      {
+        "path": "tools/shader_fragment.py",
+        "sha256": "2a348d951af36bbb794cefd8e55b6d60ee0365f67156a15cc3178b50f49fc4c5"
+      },
+      {
+        "path": "tools/shader_fragment_eval.py",
+        "sha256": "260c92a88e03382aeb199ae613f1b2f6974c8d5cf9440e82406e8eb949c7aab8"
+      },
+      {
+        "path": "tools/shader_frontend.py",
+        "sha256": "f537f12b809a08b8f7e16c46445d8ea3f2b3872efb12fbf185af22342edc57aa"
+      },
+      {
+        "path": "tools/shader_lean.py",
+        "sha256": "04398a37afe5bf02baae3e13ffbec9ea983acf7d6c8af801be5e0ae72fbec63f"
+      },
+      {
+        "path": "tools/shader_loop_metadata.py",
+        "sha256": "1a040c91c18e4ea3eb3ae460df7538d2286206dbbd33c437664e81040c1443d9"
+      },
+      {
+        "path": "tools/shader_loops.py",
+        "sha256": "a87cc4a286eb8b508c25236bd1fa89edb40ab0c777447216cdc63d70f07b4746"
+      },
+      {
+        "path": "tools/shader_math.py",
+        "sha256": "f7218dff89174bf7a7754b7a77c1c06c20d3cfbc8c38544b1b63b393df5ba2ba"
+      },
+      {
+        "path": "tools/shader_model.py",
+        "sha256": "26ab13684bd54c4fcd59891721ccba20bef52da7d54c0d00180c41ca48b97ccc"
+      },
+      {
+        "path": "tools/shader_packing.py",
+        "sha256": "fbb9726d1027cecdc30f71be45f33af559bfd9c1f6fbb09218560dc261f2a23b"
+      },
+      {
+        "path": "tools/shader_packing_eval.py",
+        "sha256": "f9083a2040d0c230d7af7cb1b66cc048d6f8a5521541f691744b9de91f281915"
+      },
+      {
+        "path": "tools/shader_packing_lean.py",
+        "sha256": "c23f044f82482ede07994ff6e495a22c34262f381a4e58753903a6b6f8daf356"
+      },
+      {
+        "path": "tools/shader_shared.py",
+        "sha256": "d4e24c1e6b4b5e508c4084f631c4542102ad1e2ebe810385e83aa77dab69ccba"
+      },
+      {
+        "path": "tools/shader_shared_eval.py",
+        "sha256": "7f77f0c97c8c277958fc315b3a8fe666d0b502aa7fc79a2ca3b6ae97636d8a06"
+      },
+      {
+        "path": "tools/shader_shared_lean.py",
+        "sha256": "3fd8452f6fb4ff6578efa3a651eaed9f1585be8323aa6e232bf3d517d77cf7be"
+      },
+      {
+        "path": "tools/shader_sync.py",
+        "sha256": "2d9d52feff79f8ccd5de8942a4634a2af486fdea98bb61b9cefad1b260f8816a"
+      },
+      {
+        "path": "tools/shader_types.py",
+        "sha256": "efee0e5f755ce022034a7e143492fefb07cc0ec607c4a4920e72eddb7c30d361"
+      },
+      {
+        "path": "tools/shader_validation.py",
+        "sha256": "8116367656732068a701fc9433bdcd2d47f645c7f47cda043108ffc206f8c10a"
+      },
+      {
+        "path": "tools/shaderformalize.py",
+        "sha256": "b9ac11ffa0b732a55b915f1c8bd3a074c34cea9d7035b9754828d2f486e64a85"
+      },
+      {
+        "path": "tools/syncformalize.py",
+        "sha256": "b8a65a4696f5d5dd16b80a9c1e87c96dfa89ec271c69a0d65ac9f148db81519c"
+      },
+      {
+        "path": "tools/test_aggregate.py",
+        "sha256": "cc926db2d5f051b90e8f7b115fd0acd998fb838ecc2f6244c7ed16894d6cebb7"
+      },
+      {
+        "path": "tools/test_ast_index.py",
+        "sha256": "755c0f431141e8fedde6ab27e11672cd3ab88552660a4a708bff7ee0c59b2839"
+      },
+      {
+        "path": "tools/test_basic_math.py",
+        "sha256": "4965d8ab6944bb8dcdca6fcf0cacce8ec30d6a306fbc7623bc276ca0c4ac1d9a"
+      },
+      {
+        "path": "tools/test_boolean.py",
+        "sha256": "09836732038797be7c862a37c3b08951a88571644ae8b09a234439b13c08bc6d"
+      },
+      {
+        "path": "tools/test_compute.py",
+        "sha256": "21c6e875dba9fa82d634fa4e205a2273f848e86da58f95c461395c258554363d"
+      },
+      {
+        "path": "tools/test_control.py",
+        "sha256": "20855ab2c6789574905d4d2c3c08efc6961d576a0fd53bbf84d6cacf86237643"
+      },
+      {
+        "path": "tools/test_copyback.py",
+        "sha256": "344abc8baf1922951bebe62bdf9940543995ca0b98472a176520edcc122c0591"
+      },
+      {
+        "path": "tools/test_fragment.py",
+        "sha256": "4dd059d9ecfdbdc2e49e1d139fb09a585ea45ce94266c6bf6df5024e061715d8"
+      },
+      {
+        "path": "tools/test_loops.py",
+        "sha256": "2a6ffb69b3bed3a53dffa27c280deff9bcbd7765e8060fc6b77ecc6cfbc374ee"
+      },
+      {
+        "path": "tools/test_math_extensions.py",
+        "sha256": "417dc1559f69a6c2df7fce43d679dec8bca6d2296bf92b5838f19a1c76110922"
+      },
+      {
+        "path": "tools/test_packing.py",
+        "sha256": "ac666957f0ed83c3d33d8d16f798f8bc5c9d68338dc5a747a4e8e81b25a710f6"
+      },
+      {
+        "path": "tools/test_portability.py",
+        "sha256": "28aae7d28d18c13a54962a16cdd7a2f07dc39f71f05aace37c0e02a504724ebc"
+      },
+      {
+        "path": "tools/test_shaderformalize.py",
+        "sha256": "f66b09d95453e8514cf8faf388ad447ba9ec4456cc848002cacba04b3419930c"
+      },
+      {
+        "path": "tools/test_shared.py",
+        "sha256": "53b3db67ae8218565010bb4fd53d312ed5b291766cf8861004afd8ff09d2222b"
+      },
+      {
+        "path": "tools/test_structured.py",
+        "sha256": "89f18804b4209e8ace186b543a02dea159a3e3de2d81118c4834ed15f81190c9"
+      },
+      {
+        "path": "tools/test_sync.py",
+        "sha256": "7709886e60e5ba332ec658fb07ea8756eaa9430191a194c1ddeb33d752cd63f9"
+      },
+      {
+        "path": "tools/test_unlit.py",
+        "sha256": "a7daeef26df2b5d9222a6facf85bf7a7148d27275ab120fcb40d81e179773761"
+      },
+      {
+        "path": "tools/verify_demo.py",
+        "sha256": "46ee2cdead90e552363ce9c8e355537bd00b095c2f9dfb50b4f2519936d87506"
+      }
+    ]
+  },
+  "validated_sources": {
+    "tools/shader_ieee_frontend.py": "84258523f50aa818e515d2ac54a7b3f5a3e6b6a8592b95b32b5ee2a4184cc47b",
+    "tools/shader_ieee_lean.py": "a624ef92101bef0c21257e8ed73a1fa2a75d16d34520802edfd2c4701652c1a6",
+    "tools/test_ieee.py": "2c08a8ad3e1a3d1a41bf8c4c94c9ef17cd3f24c248a77d366ed4625d2bf4de48",
+    "tools/ieeeformalize.py": "972696a67441d203311c6cfce7fff14034cb9ee0f5f27dc40ac85c844244b646",
+    "tools/run_ieee_suite.py": "235d04a838d3d67cbe06ea0d694f7e5bd6c261056ef7333698afd75673e2c504",
+    "proof/ShaderIeee/Model.lean": "229f298986a144be3e5cdfb1ec959ddb05ca59e0015c3f3cc5ee87d4b8c29cb4",
+    "proof/ShaderIeee/BitsProof.lean": "aa1bb270d06bf53d20dcced96571f80c5fab93dee75325f0ffca2c5866279a42",
+    "proof/ShaderIeee/ShiftProof.lean": "2dee729ed237e8940aefe25e6fc77bc1e0364d0c11a7f39646dda7b12c40ceed",
+    "proof/ShaderIeee/WrapProof.lean": "6e573f99c4ca404f5fe6f4687578c1ea16652d1d812f70dacea386ca224daf51",
+    "examples/ieee/controls.json": "cf671e337f3be043c8ea1f8cfcbe2fa57f309b3bdd243df46be1afece47a5748"
+  },
+  "independent_review": {
+    "status": "PASS",
+    "phase": "Q",
+    "round": 1,
+    "reviewer": "/root/binary_pipeline_frame_review",
+    "recorded_at": "2026-10-31T08:38:03.119458-07:00",
+    "issues": [],
+    "method": "Independent read-only source, reports and current-byte provenance review; no Lean run or file edits",
+    "checked": [
+      "21 formal controls and each current HLSL/SubmittedProof snapshot",
+      "9 positive input/target/Model/verification-log hashes and three-axiom audit",
+      "10 validated source fingerprints",
+      "122 protected fingerprints and actual git diff against base",
+      "312 Python tests, 22 IEEE unit tests, 19 prototype checks and legacy PROVED",
+      "Six new negative controls reach SubmittedProof; hash maxRecDepth explicitly retained",
+      "Current documentation and exact first-slice grant agree; broader migration remains pending"
+    ]
+  },
+  "limits": [
+    "Default real and Compute execution models not migrated by this slice",
+    "No GPU profile match; pinned DXC and translator remain trusted",
+    "uint vectors, signed int, integer division/remainder, numeric casts, general if/loops and resources excluded",
+    "Old 83-control core suite not rerun; protected-source comparison plus actual real switchback used",
+    "Hash equivalence does not prove statistical quality; G-buffer format conversion not modeled"
+  ],
+  "provenance_audit": {
+    "status": "PASSED",
+    "controls": 21,
+    "scope": "Current HLSL/proof bytes match each check snapshot; positive reports match target/model/dependency hashes"
+  }
+}

@@ -1,14 +1,164 @@
 {
   "schema": 1,
   "cases": [
-    {"name": "struct-helper-cbuffer", "original": "examples/ieee/original.hlsl", "optimized": "examples/ieee/optimized.hlsl", "proof": "prototypes/ieee/proof/IdentityProof.lean", "expected": "IEEE_PROVED"},
-    {"name": "ordered-arithmetic-sqrt", "original": "examples/ieee/arithmetic-original.hlsl", "optimized": "examples/ieee/arithmetic-optimized.hlsl", "proof": "prototypes/ieee/proof/IdentityProof.lean", "expected": "IEEE_PROVED"},
-    {"name": "stored-bit-roundtrip", "original": "examples/ieee/bits-original.hlsl", "optimized": "examples/ieee/bits-optimized.hlsl", "proof": "prototypes/ieee/proof/RoundtripProof.lean", "expected": "IEEE_PROVED"},
-    {"name": "reassociation-zero-one", "original": "examples/ieee/reassociated-original.hlsl", "optimized": "examples/ieee/reassociated-optimized.hlsl", "proof": "prototypes/ieee/proof/IdentityProof.lean", "expected": "UNPROVED", "message": "lean-SubmittedProof.log"},
-    {"name": "signed-zero-merge", "original": "examples/ieee/zeros-original.hlsl", "optimized": "examples/ieee/zeros-optimized.hlsl", "proof": "prototypes/ieee/proof/IdentityProof.lean", "expected": "UNPROVED", "message": "lean-SubmittedProof.log"},
-    {"name": "nan-self-compare-true", "original": "examples/ieee/nan-original.hlsl", "optimized": "examples/ieee/nan-optimized.hlsl", "proof": "prototypes/ieee/proof/IdentityProof.lean", "expected": "UNPROVED", "message": "lean-SubmittedProof.log"},
-    {"name": "sorry-rejected", "original": "examples/ieee/original.hlsl", "optimized": "examples/ieee/optimized.hlsl", "proof": "prototypes/ieee/proof/SorryProof.lean", "expected": "UNPROVED", "message": "sorryAx"},
-    {"name": "extra-axiom-rejected", "original": "examples/ieee/original.hlsl", "optimized": "examples/ieee/optimized.hlsl", "proof": "prototypes/ieee/proof/ExtraAxiomProof.lean", "expected": "UNPROVED", "message": "unapproved"},
-    {"name": "forged-target-rejected", "original": "examples/ieee/original.hlsl", "optimized": "examples/ieee/optimized.hlsl", "proof": "prototypes/ieee/proof/ForgedProof.lean", "expected": "UNPROVED", "message": "target binding"}
+    {
+      "name": "struct-helper-cbuffer",
+      "original": "examples/ieee/original.hlsl",
+      "optimized": "examples/ieee/optimized.hlsl",
+      "proof": "prototypes/ieee/proof/IdentityProof.lean",
+      "expected": "IEEE_PROVED"
+    },
+    {
+      "name": "ordered-arithmetic-sqrt",
+      "original": "examples/ieee/arithmetic-original.hlsl",
+      "optimized": "examples/ieee/arithmetic-optimized.hlsl",
+      "proof": "prototypes/ieee/proof/IdentityProof.lean",
+      "expected": "IEEE_PROVED"
+    },
+    {
+      "name": "stored-bit-roundtrip",
+      "original": "examples/ieee/bits-original.hlsl",
+      "optimized": "examples/ieee/bits-optimized.hlsl",
+      "proof": "prototypes/ieee/proof/RoundtripProof.lean",
+      "expected": "IEEE_PROVED"
+    },
+    {
+      "name": "reassociation-zero-one",
+      "original": "examples/ieee/reassociated-original.hlsl",
+      "optimized": "examples/ieee/reassociated-optimized.hlsl",
+      "proof": "prototypes/ieee/proof/IdentityProof.lean",
+      "expected": "UNPROVED",
+      "message": "lean-SubmittedProof.log"
+    },
+    {
+      "name": "signed-zero-merge",
+      "original": "examples/ieee/zeros-original.hlsl",
+      "optimized": "examples/ieee/zeros-optimized.hlsl",
+      "proof": "prototypes/ieee/proof/IdentityProof.lean",
+      "expected": "UNPROVED",
+      "message": "lean-SubmittedProof.log"
+    },
+    {
+      "name": "nan-self-compare-true",
+      "original": "examples/ieee/nan-original.hlsl",
+      "optimized": "examples/ieee/nan-optimized.hlsl",
+      "proof": "prototypes/ieee/proof/IdentityProof.lean",
+      "expected": "UNPROVED",
+      "message": "lean-SubmittedProof.log"
+    },
+    {
+      "name": "sorry-rejected",
+      "original": "examples/ieee/original.hlsl",
+      "optimized": "examples/ieee/optimized.hlsl",
+      "proof": "prototypes/ieee/proof/SorryProof.lean",
+      "expected": "UNPROVED",
+      "message": "sorryAx"
+    },
+    {
+      "name": "extra-axiom-rejected",
+      "original": "examples/ieee/original.hlsl",
+      "optimized": "examples/ieee/optimized.hlsl",
+      "proof": "prototypes/ieee/proof/ExtraAxiomProof.lean",
+      "expected": "UNPROVED",
+      "message": "unapproved"
+    },
+    {
+      "name": "forged-target-rejected",
+      "original": "examples/ieee/original.hlsl",
+      "optimized": "examples/ieee/optimized.hlsl",
+      "proof": "prototypes/ieee/proof/ForgedProof.lean",
+      "expected": "UNPROVED",
+      "message": "target binding"
+    },
+    {
+      "name": "binary-packing",
+      "original": "examples/ieee-bits/packing.original.hlsl",
+      "optimized": "examples/ieee-bits/packing.optimized.hlsl",
+      "proof": "proof/ShaderIeee/BitsProof.lean",
+      "expected": "IEEE_PROVED"
+    },
+    {
+      "name": "binary-packing-wrong",
+      "original": "examples/ieee-bits/packing.original.hlsl",
+      "optimized": "examples/ieee-bits/packing.wrong.hlsl",
+      "proof": "proof/ShaderIeee/BitsProof.lean",
+      "expected": "UNPROVED",
+      "message": "lean-SubmittedProof.log"
+    },
+    {
+      "name": "binary-hash",
+      "original": "examples/ieee-bits/hash.original.hlsl",
+      "optimized": "examples/ieee-bits/hash.optimized.hlsl",
+      "proof": "prototypes/ieee/proof/IdentityProof.lean",
+      "expected": "IEEE_PROVED"
+    },
+    {
+      "name": "binary-hash-wrong",
+      "original": "examples/ieee-bits/hash.original.hlsl",
+      "optimized": "examples/ieee-bits/hash.wrong.hlsl",
+      "proof": "prototypes/ieee/proof/IdentityProof.lean",
+      "expected": "UNPROVED",
+      "message": "lean-SubmittedProof.log"
+    },
+    {
+      "name": "binary-shift",
+      "original": "examples/ieee-bits/shift.original.hlsl",
+      "optimized": "examples/ieee-bits/shift.optimized.hlsl",
+      "proof": "proof/ShaderIeee/ShiftProof.lean",
+      "expected": "IEEE_PROVED"
+    },
+    {
+      "name": "binary-shift-wrong",
+      "original": "examples/ieee-bits/shift.original.hlsl",
+      "optimized": "examples/ieee-bits/shift.wrong.hlsl",
+      "proof": "proof/ShaderIeee/ShiftProof.lean",
+      "expected": "UNPROVED",
+      "message": "lean-SubmittedProof.log"
+    },
+    {
+      "name": "binary-wrap",
+      "original": "examples/ieee-bits/wrap.original.hlsl",
+      "optimized": "examples/ieee-bits/wrap.optimized.hlsl",
+      "proof": "proof/ShaderIeee/WrapProof.lean",
+      "expected": "IEEE_PROVED"
+    },
+    {
+      "name": "binary-wrap-wrong",
+      "original": "examples/ieee-bits/wrap.original.hlsl",
+      "optimized": "examples/ieee-bits/wrap.wrong.hlsl",
+      "proof": "proof/ShaderIeee/WrapProof.lean",
+      "expected": "UNPROVED",
+      "message": "lean-SubmittedProof.log"
+    },
+    {
+      "name": "binary-unsigned",
+      "original": "examples/ieee-bits/unsigned.original.hlsl",
+      "optimized": "examples/ieee-bits/unsigned.optimized.hlsl",
+      "proof": "prototypes/ieee/proof/RoundtripProof.lean",
+      "expected": "IEEE_PROVED"
+    },
+    {
+      "name": "binary-unsigned-wrong",
+      "original": "examples/ieee-bits/unsigned.original.hlsl",
+      "optimized": "examples/ieee-bits/unsigned.wrong.hlsl",
+      "proof": "prototypes/ieee/proof/RoundtripProof.lean",
+      "expected": "UNPROVED",
+      "message": "lean-SubmittedProof.log"
+    },
+    {
+      "name": "binary-roundtrip",
+      "original": "examples/ieee-bits/roundtrip.original.hlsl",
+      "optimized": "examples/ieee-bits/roundtrip.optimized.hlsl",
+      "proof": "prototypes/ieee/proof/RoundtripProof.lean",
+      "expected": "IEEE_PROVED"
+    },
+    {
+      "name": "binary-roundtrip-wrong",
+      "original": "examples/ieee-bits/roundtrip.original.hlsl",
+      "optimized": "examples/ieee-bits/roundtrip.wrong.hlsl",
+      "proof": "prototypes/ieee/proof/RoundtripProof.lean",
+      "expected": "UNPROVED",
+      "message": "lean-SubmittedProof.log"
+    }
   ]
 }
