@@ -168,10 +168,10 @@
     },
     "B": {
       "commits": [],
-      "grant_reference": "",
+      "grant_reference": "planning/binary-pipeline/execution-authority.md#binary-data-grant-003@r1",
       "result": "IN_PROGRESS",
-      "summary": "data-design r1 independent P round1 passed; awaiting A completion and exact derived grant; no product changes.",
-      "updated_at": "2026-10-31T12:37:47-07:00"
+      "summary": "Exact binary-data-003 r1 grant derived after A completion and independent P1 PASS; Approved persisted before product edits; baseline110 ready.",
+      "updated_at": "2026-10-31T13:36:55-07:00"
     },
     "C": {
       "commits": [],
@@ -192,7 +192,7 @@
   "schema_version": 1,
   "session_id": "shader-binary-data-compute-2026-10-31",
   "status": "running",
-  "updated_at": "2026-10-31T13:35:35-07:00"
+  "updated_at": "2026-10-31T13:36:55-07:00"
 }
 ```
 <!-- SMART_OVERNIGHT_STATE_END -->

@@ -8,6 +8,22 @@
 - session: planning/overnight/current.md，由Smart脚本维护；沿用已有planning项目根，不创建新Project。
 - 共用checkout保持一个产品/Lean workspace writer；允许并行只读调查和独立审阅。依赖、全局配置、默认入口、Unity/C++、合并及节点归档不在委托内；非强制push沿用既有授权。
 
+## binary-data-grant-003
+
+- status: active
+- source: derived_session
+- authorizing_message_exact: 按此范围执行 Overnight
+- parent_session: planning/overnight/current.md，shader-binary-data-compute-2026-10-31，running；seal hash为2ad97543e86f3d582cbf38ba23414e24ed37b0bccb8292c9eba3c55482aedcce，脚本实际核对hash_valid=true。
+- envelope: overnight-proposal-2026-10-31.md，固定SHA256为3511fdce37d81babb7dbe671577540cad3ac9127482c2794b5e18114160be19e；B为PLAN_AND_CODE，未超过上限。
+- node_frame: delta.md与data-design.md修订1，精确检查点e701125897c16bc051d8f84ca3fbf2789003af86。
+- target_slices: binary-data-003@r1（uint向量、局部定长数组与固定循环，单Slice两实施阶段）。
+- readiness_evidence: 独立P第1轮PASS、无阻断；实际DXC向量/数组循环探针exit0；A完整验收与独立Q第2轮通过，完成记录e701125已推送并核对远程精确SHA；迁移前83核心+27IEEE共110项prepare目标/状态已实际保存artifacts/binary-data/before/result.json。
+- allowed_actions: 方案内公共类型/普通值/地址/数组/静态循环提取、IEEE frontend/emitter接入、四组实际HLSL正负例与Lean证明、针对性及完整验收、独立Q、自主合同内修复、文档与证据、命名提交和既有非强制push。
+- exclusions: 动态/符号循环、break/continue/循环内提前return、资源或Compute扩张、矩阵、数值cast、bool向量、uint stage/cbuffer、依赖或全局配置、C盘worktree、Unity/C++、默认入口切换、merge或节点归档。
+- stop_conditions: 新profile/执行IR语义或公理、弱化初始化/边界/绑定、超出envelope、不可用关键oracle或第三轮审阅仍有关键遗留；普通编译/测试/证明失败自主修复。
+- acceptance_boundary: 四组全称完整输出位正例与实际SubmittedProof负控、全部Python/IEEE扩展suite/原型19/完整核心83、110旧目标/状态比较、独立Q与真实机器证据后完成本片，不提前授权C/D代码。
+- recorded_at_local_date: 2026-10-31 America/Tijuana
+
 ## binary-control-grant-002
 
 - status: completed
