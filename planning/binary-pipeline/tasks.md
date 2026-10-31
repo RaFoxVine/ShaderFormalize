@@ -6,9 +6,9 @@
 |---|---|---|---|---|
 | 二进制标量位运算接入（binary-bits-001@r1） | Execution Ready，独立实施前审阅通过 | Completed：binary-bits-grant-001 | Completed：312单元、21正式控制、原型19、实数回切及独立Q通过，功能提交1f7c57a已推送并核对 | 无本片遗留；后续迁移见下列切片 |
 | 二进制分支与局部赋值（binary-control-002@r1） | Execution Ready，control-design.md独立P第1轮通过 | Approved：用户“按此实施”，binary-control-grant-002 | Implementing | 104旧目标/状态逐项一致，29项IEEE初测通过；继续真实证明及完整回归 |
-| Overnight B：二进制向量、局部数组、固定循环 | Candidate，分片细化中 | 限定PLAN_AND_CODE委托，见overnight-request-2026-10-31.txt | 只读调查；精确grant前不写代码 | 共享类型/值及数组循环责任、每片具体范围、独立P与验收 |
-| Overnight C：uint Buffer单pass Compute | Candidate，具体方案调查中 | 限定PLAN_AND_CODE委托，见overnight-request-2026-10-31.txt | 只读调查；精确grant前不写代码 | uint资源与表达式接入、内存安全/输出同源目标、独立P与验收 |
-| Overnight D：规格与计算图下一批方案 | Candidate | PLAN_ONLY委托 | 可调查/拟稿，不实施 | 用B/C实际结果形成规格/图具体接口与符号循环依赖 |
+| Overnight B：binary-data-003@r1 | data-design.md独立P第1轮通过，待A完成依赖 | 限定PLAN_AND_CODE委托，见overnight-request-2026-10-31.txt | 已具体规划；精确grant前不写代码 | A完整验收及Q、派生精确grant与Approved |
+| Overnight C：binary-compute-004 | Candidate，compute-uint-design.md草案 | 限定PLAN_AND_CODE委托，见overnight-request-2026-10-31.txt | 已只读调查/拟稿；精确grant前不写代码 | 用B实际接口对齐、独立P、精确grant与验收 |
+| Overnight D：规格与计算图下一批方案 | Candidate，spec-graph-design.md草案 | PLAN_ONLY委托 | 已调查/拟稿，不实施 | 用B/C实际结果对齐；首规格片与符号循环/图发布具体化 |
 | 固定规格与二进制执行的公共接口 | Outlined（二进制后细化） | 目标保留 | 未实施 | 先跑通实际流程再形成P/R细节，保留输入依赖和数组整体误差能力 |
 | 二进制语言与整数资源/循环支持 | Candidate | 仅调查/拟稿 | 未实施 | AST/DXIL选择、符号有界循环、类型化资源、旧入口迁移及回归语义 |
 | 手写计算图及多pass内存组合 | Candidate | 仅调查/拟稿 | 未实施 | 数据格式、符号尺寸计算及uint32转换/溢出、尾块guard、初始化/别名/同步、VerCors访问事件与Lean执行语义的对应合同 |
