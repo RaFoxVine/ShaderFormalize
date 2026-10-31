@@ -28,7 +28,7 @@ Program构造中Resources与function_declaration硬编码需提成默认保持�
 
 read_buffer发生在types建立前，validate_extra_definitions发生在bindings/guard/frame建立前，只能收集并静态检查；C覆盖IEEE原来的资源拒绝检查。C.model自行建立Count/dispatch并调用共用helper初始化检查和invoke，不能走会删除events/resources并生成pixel输出的IeeeSemantics.model。初始化检查仍使用guarded版本，overlay由有序事件发射至Lean，不另建Python可变内存状态。
 
-Store通过validate_statement/execute_statement接入；读取通过资源表达式/地址扩展接入。每次访问捕获当时guard、物理identity、uint地址和值。相同线程按源码顺序更新overlay，后续Load包括不同声明别名视图都读取此时overlay；最后一次写入决定该线程该地址结果。
+Store通过validate_statement/execute_statement接入；读取通过资源表达式/地址扩展接入。每次访问捕获当时guard、物理identity、uint地址和值。相同线程按源码顺序更新overlay，后续Load包括不同声明别名视图都读取此时overlay；最后一次写入决定该线程该地址结果。Count是只读uniform输入，纯helper可直接读取或通过参数传入；helper内禁止Buffer访问，所有局部/参数赋值仍走共用只读与值语义检查。
 
 纯IEEE解释目前可eager处理&&/||/?:，有资源后必须增加明确的operand-evaluation hook：先捕获左值/条件，&&右侧使用原guard∧左值，||右侧使用原guard∧非左值，三元两臂分别使用条件及其反。try/finally恢复guard，嵌套表达式与helper调用不能泄漏执行条件。旧纯表达式默认行为和目标字节保持；资源未选侧不生成有效访问义务。
 
