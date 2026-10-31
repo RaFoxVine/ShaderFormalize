@@ -44,3 +44,8 @@
 - Q1修复检查点fcb2cce8cfafa37a2e1d8b37486dc2423a146d4f已显式提交：compound统一由IeeeSemantics核验所有计算类型/别名，vector-pack改为独立scalar参照，原版补uint2/uint3双向位往返。targeted-06串行IEEE37/aggregate25/loops23通过；formal-03修订后pack为IEEE_PROVED，wrong成功生成目标后在SubmittedProof第一lane留下xor1差异。另三正例formal-01通过、三wrong在formal-02均SubmittedProof失败。旧pack记录为修订前历史，不冒称当前源码结果。
 - 作者已明确交回产品与Lean writer，无活跃检查；root接回后才冻结当前源码并启动最终串行队列。Q1后修订尚待最终Q2独立覆盖，当前不能标本片Completed。
 - root唯一writer的最终队列为exec session30543，脚本artifacts/binary-data/run_final.py，心跳与阶段记录final1/result.json，日志final1/{compatibility,core,ieee,prototype}.log。源码检查点fcb2cce的146源及186个example输入/契约已冻结于frozen-sources.json；先after prepare比较110旧目标（已exit0、逐项一致），再默认verify_demo.py（327全单元已通过，83核心仍在运行）、完整IEEE35/专项37/实数回切、原型19。后续恢复先核对该队列/心跳与writer静止，不能并行开第二套Lean或提前修改冻结产品源。
+- Q2已完成只读源码核对：Q1两项P2实质关闭，未发现新增源码阻断；reviewer独立核对146冻结源hash，formal-03当前输入/证明与真实正负结果对应。其最终PASS明确等待final1全部门禁和持久机器证据，没有把源码阶段结论当作本片验收。
+
+## Overnight D（PLAN_ONLY）
+
+- /root/spec_graph_plan_review完成只读草案审查，未发现两项规格或两图scan的数学错误；不是最终Execution Ready独立P，未运行测试、prepare或Lean。root据此澄清任意P的信任边界，首批任务提供见证而一般接口不强制非空；继续具体化固定ABI、frame、单候选和expected task_id绑定。C真实接口、task_id规范及最终目标构造仍需在下次具体实施前冻结和独立P，未获得或实施D产品代码。
