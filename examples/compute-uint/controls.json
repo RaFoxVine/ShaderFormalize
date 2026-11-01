@@ -1,0 +1,117 @@
+{
+  "cases": [
+    {
+      "name": "hash",
+      "original": "examples/compute-uint/hash.original.hlsl",
+      "optimized": "examples/compute-uint/hash.optimized.hlsl",
+      "constraints": "examples/compute-uint/hash.constraints.json",
+      "proof": "proof/ComputeUintHashProof.lean",
+      "expected": "PROVED"
+    },
+    {
+      "name": "alias",
+      "original": "examples/compute-uint/alias.original.hlsl",
+      "optimized": "examples/compute-uint/alias.optimized.hlsl",
+      "constraints": "examples/compute-uint/alias.constraints.json",
+      "proof": "proof/ComputeUintAliasProof.lean",
+      "expected": "PROVED"
+    },
+    {
+      "name": "packing",
+      "original": "examples/compute-uint/packing.original.hlsl",
+      "optimized": "examples/compute-uint/packing.optimized.hlsl",
+      "constraints": "examples/compute-uint/packing.constraints.json",
+      "proof": "proof/ComputeUintPackingProof.lean",
+      "expected": "PROVED"
+    },
+    {
+      "name": "guards",
+      "original": "examples/compute-uint/guards.hlsl",
+      "optimized": "examples/compute-uint/guards.hlsl",
+      "constraints": "examples/compute-uint/hash.constraints.json",
+      "proof": "proof/ComputeUintGuardsProof.lean",
+      "expected": "PROVED"
+    },
+    {
+      "name": "wrong",
+      "original": "examples/compute-uint/hash.original.hlsl",
+      "optimized": "examples/compute-uint/wrong.hlsl",
+      "constraints": "examples/compute-uint/hash.constraints.json",
+      "proof": "proof/ComputeUintHashProof.lean",
+      "expected": "UNPROVED"
+    },
+    {
+      "name": "out-of-bounds",
+      "original": "examples/compute-uint/out-of-bounds.hlsl",
+      "optimized": "examples/compute-uint/out-of-bounds.hlsl",
+      "constraints": "examples/compute-uint/hash.constraints.json",
+      "proof": "proof/ComputeUintHashProof.lean",
+      "expected": "UNPROVED"
+    },
+    {
+      "name": "write-write",
+      "original": "examples/compute-uint/write-write.hlsl",
+      "optimized": "examples/compute-uint/write-write.hlsl",
+      "constraints": "examples/compute-uint/write-write.constraints.json",
+      "proof": "proof/ComputeUintWriteWriteProof.lean",
+      "expected": "UNPROVED",
+      "isolation": true
+    },
+    {
+      "name": "write-read",
+      "original": "examples/compute-uint/write-read.hlsl",
+      "optimized": "examples/compute-uint/write-read.hlsl",
+      "constraints": "examples/compute-uint/write-read.constraints.json",
+      "proof": "proof/ComputeUintWriteReadProof.lean",
+      "expected": "UNPROVED",
+      "isolation": true
+    },
+    {
+      "name": "forged",
+      "original": "examples/compute-uint/hash.original.hlsl",
+      "optimized": "examples/compute-uint/hash.optimized.hlsl",
+      "constraints": "examples/compute-uint/hash.constraints.json",
+      "proof": "proof/ComputeUintForgedProof.lean",
+      "expected": "UNPROVED",
+      "failure_reason": "Independent Compute target binding"
+    },
+    {
+      "name": "sorry",
+      "original": "examples/compute-uint/hash.original.hlsl",
+      "optimized": "examples/compute-uint/hash.optimized.hlsl",
+      "constraints": "examples/compute-uint/hash.constraints.json",
+      "proof": "proof/ComputeUintSorryProof.lean",
+      "expected": "UNPROVED",
+      "failure_reason": "unapproved axioms"
+    },
+    {
+      "name": "extra-axiom",
+      "original": "examples/compute-uint/hash.original.hlsl",
+      "optimized": "examples/compute-uint/hash.optimized.hlsl",
+      "constraints": "examples/compute-uint/hash.constraints.json",
+      "proof": "proof/ComputeUintAxiomProof.lean",
+      "expected": "UNPROVED",
+      "failure_reason": "unapproved axioms"
+    },
+    {
+      "name": "tamper-target",
+      "original": "examples/compute-uint/hash.original.hlsl",
+      "optimized": "examples/compute-uint/hash.optimized.hlsl",
+      "constraints": "examples/compute-uint/hash.constraints.json",
+      "proof": "proof/ComputeUintHashProof.lean",
+      "expected": "UNPROVED",
+      "failure_reason": "target changed during checking",
+      "tamper": "target"
+    },
+    {
+      "name": "tamper-semantic",
+      "original": "examples/compute-uint/hash.original.hlsl",
+      "optimized": "examples/compute-uint/hash.optimized.hlsl",
+      "constraints": "examples/compute-uint/hash.constraints.json",
+      "proof": "proof/ComputeUintHashProof.lean",
+      "expected": "UNPROVED",
+      "failure_reason": "semantic/proof source changed during checking",
+      "tamper": "semantic"
+    }
+  ]
+}

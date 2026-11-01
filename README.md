@@ -14,6 +14,8 @@
 
 [实验性 Compute 入口](docs/compute.md)已支持一维 StructuredBuffer 及二维 Texture2D 两输入两输出、物理资源别名、同线程有序读写、纯 helper 和精确整数坐标；完整 Lean 目标同时检查数学定义域、访问范围、跨线程冲突和最终内存相等。使用 `python tools/computeformalize.py check`，或 `pwsh -File tools/run_demo.ps1 -Example compute`。这条路径仍使用理想实数，尚未接入纹理格式转换、共享内存或原子操作。
 
+[uint Buffer单pass Compute](docs/compute-uint.md)通过`python tools/computeformalize.py check --model uint32-buffer`显式选择schema3。它复用uint32位运算与公共分支骨架，支持标量uint/bool、纯helper、Count尾线程guard和uint Buffer有序读写；完整目标要求双方bounds/WW/WR安全及全部最终内存相同。每次调用以独占run_id目录保存结果，stdout给出result_path。普通向量、数组/循环、float资源、同步和多pass不在此入口范围；[覆盖与验收入口](docs/compute-uint-coverage.csv)。
+
 显式`--frontend shared`已支持实际共享helper定义、默认参数、out/inout及正常struct写法。[光照材质原版](examples/copyback/original.hlsl)通过out结构体和inout颜色累积，与[手工等价改写版](examples/copyback/optimized.hlsl)的完整数学目标已获证明；用法和边界见[共享函数说明](docs/shared-functions.md)。矩阵/数组及元素写回已接入，[新材质与具体契约](docs/aggregate-values.md)。[固定次数uint循环与组合材质](docs/static-loops.md)进一步组合采样、裁剪和导数；默认auto保留此前证明，完整HDRP/Lit Forward尚未完成。
 
 [整数打包示例](examples/packed/original.hlsl)包含颜色量化、uint掩码/移位、float载体复制和拆包；[改写版](examples/packed/optimized.hlsl)直接使用量化结果。实数计算和位载体明确区分，完整范围及证明方式见[整数打包说明](docs/integer-packing.md)。

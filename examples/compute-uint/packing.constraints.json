@@ -1,0 +1,46 @@
+{
+  "schema": 3,
+  "dispatch_groups": 2,
+  "count_range": [
+    0,
+    113
+  ],
+  "bindings": {
+    "Src0": {
+      "identity": 0,
+      "capacity": 113
+    },
+    "Src1": {
+      "identity": 1,
+      "capacity": 113
+    },
+    "Src2": {
+      "identity": 2,
+      "capacity": 113
+    },
+    "Src3": {
+      "identity": 3,
+      "capacity": 113
+    },
+    "Packed": {
+      "identity": 4,
+      "capacity": 113
+    },
+    "Dec0": {
+      "identity": 5,
+      "capacity": 113
+    },
+    "Dec1": {
+      "identity": 6,
+      "capacity": 113
+    },
+    "Dec2": {
+      "identity": 7,
+      "capacity": 113
+    },
+    "Dec3": {
+      "identity": 8,
+      "capacity": 113
+    }
+  }
+}

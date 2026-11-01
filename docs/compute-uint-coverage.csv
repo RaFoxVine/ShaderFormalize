@@ -1,0 +1,10 @@
+area,implementation,acceptance
+uint_scalar,shared IeeeSemantics and IeeeEmitter,hash wrap full-memory proof
+memory,ComputeMemory generic ordered overlay,packing RW readback and last store
+alias,explicit physical identity and capacity,hash shared input/output identity
+bounds,guarded access obligations,Store out of bounds negative
+race,arbitrary distinct threads WW and WR,constant Store and aliased neighbor negatives
+expression_guard,shared operand hooks and captured full guard,128 threads capacity113 AND OR ternary
+scope,restricted scalar registry and main-only resources,DXC import positive and unsupported controls
+result_owner,per invocation exclusive run directory,same/different container busy and history identity controls
+binding,expected theorem plus semantic/input/target hashes,forged goal tamper and axiom controls

@@ -15,3 +15,7 @@ __pycache__/
 proof/ShaderIeee/GeneratedModel.lean
 proof/ShaderIeee/SubmittedProof.lean
 proof/ShaderIeee/Verify.lean
+
+proof/ShaderComputeUint/GeneratedModel.lean
+proof/ShaderComputeUint/SubmittedProof.lean
+proof/ShaderComputeUint/Verify.lean

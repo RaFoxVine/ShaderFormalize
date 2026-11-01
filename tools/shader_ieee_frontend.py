@@ -89,6 +89,12 @@ class IeeeSemantics:
     branching = False
     type_registry = IeeeTypeRegistry
 
+    def binary_operands(self, node, symbols):
+        return [self.expression(child, symbols) for child in node.children]
+
+    def conditional_operands(self, node, symbols):
+        return [self.expression(child, symbols) for child in node.children]
+
     def validate_statement(self, node, result_type, effects_allowed):
         if node.kind == "IfStmt" and self.branching:
             return None
@@ -348,7 +354,7 @@ class IeeeSemantics:
             raise ModelError(f"Unsupported IEEE unary operator: {operator}")
         if node.kind == "BinaryOperator" and len(node.children) == 2:
             operator = quoted(node.text)[-1]
-            arguments = [self.expression(child, symbols) for child in node.children]
+            arguments = self.binary_operands(node, symbols)
             if kind in self.types.extra_leaves and operator in UINT_OPERATORS and all(value_type(arg) == kind for arg in arguments):
                 return operation(UINT_OPERATORS[operator], kind, arguments)
             if operator in ("+", "-", "*", "/") and isinstance(kind, int):
@@ -367,7 +373,7 @@ class IeeeSemantics:
                 return result
             raise ModelError(f"Unsupported IEEE binary operator: {operator}")
         if node.kind == "ConditionalOperator" and len(node.children) == 3:
-            condition, yes, no = [self.expression(child, symbols) for child in node.children]
+            condition, yes, no = self.conditional_operands(node, symbols)
             if value_type(condition) != "bool":
                 raise ModelError("Conditional condition must be scalar bool")
             return choose_value(condition, yes, no)

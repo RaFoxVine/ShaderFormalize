@@ -65,14 +65,19 @@ def write_json(path, value):
 
 def run_tool(arguments, cwd, log, timeout=180):
     started = time.monotonic()
+    command = [str(argument) for argument in arguments]
+    process = subprocess.Popen(command, cwd=cwd, env=local_environment(), stdout=subprocess.PIPE,
+                               stderr=subprocess.PIPE, text=True, encoding="utf-8", errors="replace")
     try:
-        result = subprocess.run(
-            [str(argument) for argument in arguments], cwd=cwd,
-            env=local_environment(), capture_output=True, text=True,
-            encoding="utf-8", errors="replace", timeout=timeout,
-        )
-    except subprocess.TimeoutExpired as error:
-        raise ModelError(f"Tool timed out: {arguments[0]}", "INCONCLUSIVE") from error
+        stdout, stderr = process.communicate(timeout=timeout)
+    except (subprocess.TimeoutExpired, KeyboardInterrupt) as error:
+        subprocess.run(["taskkill", "/F", "/T", "/PID", str(process.pid)], capture_output=True)
+        stdout, stderr = process.communicate()
+        write_text(log, stdout + "\n--- stderr ---\n" + stderr)
+        if isinstance(error, KeyboardInterrupt):
+            raise
+        raise ModelError(f"Tool timed out and its process tree was stopped: {arguments[0]}", "INCONCLUSIVE") from error
+    result = subprocess.CompletedProcess(command, process.returncode, stdout, stderr)
     write_text(log, result.stdout + "\n--- stderr ---\n" + result.stderr)
     return result, round(time.monotonic() - started, 3)
 

@@ -102,6 +102,12 @@ class Program:
     packing = False
     type_registry = TypeRegistry
 
+    def make_resources(self, nodes):
+        return Resources(nodes, self.types)
+
+    def read_function(self, node):
+        return function_declaration(node, self.types)
+
     def read_buffer(self, node):
         return buffer_declaration(node)
 
@@ -154,10 +160,10 @@ class Program:
             else:
                 raise ModelError(f"Unsupported top-level declaration: {node.kind}")
         self.types = self.type_registry(records, allow_bool=self.control)
-        self.resources = Resources(resources, self.types)
+        self.resources = self.make_resources(resources)
         self.functions, self.main = {}, None
         for node in functions:
-            function = function_declaration(node, self.types)
+            function = self.read_function(node)
             if function["id"] in self.functions or len(self.functions) >= 128:
                 raise ModelError("Repeated or excessive function definitions")
             self.functions[function["id"]] = function

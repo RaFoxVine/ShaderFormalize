@@ -1,6 +1,6 @@
 # 实验性 Compute 验证
 
-此入口将两份实际 HLSL Compute Shader 经固定 DXC 的 typed AST 转成 Lean，比较其完整最终资源，并把地址合法性和跨线程冲突检查放进同一个待证目标。它复用核心本地 DXC/Lean/mathlib，不依赖 Unity。数值仍采用实数，索引采用精确 uint32；IEEE 接入是独立原型。
+此入口将两份实际 HLSL Compute Shader 经固定 DXC 的 typed AST 转成 Lean，比较其完整最终资源，并把地址合法性和跨线程冲突检查放进同一个待证目标。它复用核心本地 DXC/Lean/mathlib，不依赖 Unity。本页描述默认legacy/schema1/2：数值采用实数，索引采用精确uint32。显式`--model uint32-buffer`的schema3纯uint单pass入口、范围和每run结果API见[uint Compute](compute-uint.md)。
 
 ```powershell
 python tools/computeformalize.py prepare

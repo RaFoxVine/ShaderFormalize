@@ -18,3 +18,6 @@ lean_lib ShaderFormalize where
 
 lean_lib ShaderIeee where
   roots := #[`ShaderIeee.Model, `ShaderIeee.Probe]
+
+lean_lib ShaderComputeUint where
+  roots := #[`ShaderComputeUint.Model]

@@ -1,0 +1,18 @@
+{
+  "schema": 3,
+  "dispatch_groups": 2,
+  "count_range": [
+    0,
+    113
+  ],
+  "bindings": {
+    "Source": {
+      "identity": 0,
+      "capacity": 113
+    },
+    "Output": {
+      "identity": 0,
+      "capacity": 113
+    }
+  }
+}
