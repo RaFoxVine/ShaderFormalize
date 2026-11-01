@@ -13,3 +13,5 @@ IEEE入口接受uint2/3/4构造、同族标量广播、swizzle读取及局部写
 公共形状、局部地址、partial值、固定数组和静态循环机制由real与IEEE共同使用；数值操作、内部零值、下标安全政策分别属于后端。real的矩阵/布局/copyback/bit-carrier和bounded_index义务由原入口保留。IEEE输出目标量化全部输入存储位，使用既有binary32 profile及原公理审计；gpu_profile_matched仍为false。
 
 真实示例位于examples/ieee-data，四组分别覆盖向量打包、逐分量运算、数组hash、嵌套数组循环。各组original/optimized/wrong分别用于完整位等价和错误改写证明失败控制；正式结果由对应artifacts记录。
+
+2026-10-31完整回归实际通过：327全单元/83核心，37专项单元/35 IEEE控制、实数回切、原型19；110旧目标及状态逐项相同。四组新增正例均证明完整输出位等价，错误版均在SubmittedProof实际失败。当前独立最终Q待完成，[持久机器证据](../planning/evidence/binary-data-2026-10-31.json)记录冻结源/输入、生成目标、证明、语义与日志指纹。

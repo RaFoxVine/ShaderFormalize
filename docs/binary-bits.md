@@ -36,6 +36,6 @@ python tools/run_ieee_suite.py
 
 ## 当前范围
 
-复用已有 struct、按值 helper 和 float 向量支持，入口仍为返回 float4 的像素 main。[纯计算分支和局部赋值](binary-control.md)支持if/else、提前返回和八种uint复合赋值。uint 向量、signed int、整数除余、循环、资源访问和数值 cast 尚未接入；未支持的写法明确拒绝。当前只接受空 schema2 输入约束。
+复用struct、按值helper和float向量，入口为返回float4的像素main。[纯计算分支和局部赋值](binary-control.md)支持if/else、提前返回和八种uint复合赋值；[局部数据](binary-data.md)支持uint2/3/4、同lane位重解释、swizzle写入、局部数组和固定次数for。signed int、整数除余、动态循环、资源访问和数值cast未接入；不支持的写法明确拒绝。当前只接受空schema2输入约束。
 
 所有检查共用仓库内的 Lean4.35、依赖及 workspace 写锁。主实数入口和 Compute 入口保持既有语义；本片完成不代表整体二进制迁移已经闭合。完整迁移目标及后续规格/计算图工作见 [迁移节点](../planning/binary-pipeline/tasks.md)。

@@ -20,6 +20,6 @@ python tools/ieeeformalize.py check --original examples/ieee-control/branch-reco
 
 所有非void函数仍须在所有语法路径返回。分支一侧没有初始化而后续读取、未调用helper中的错误、写入只读输入、递归或超出规模限制都会拒绝。内部证明占位值不能替用户局部补初始化。当前上限为32层分支、每个函数调用帧128个返回分支、4096个SSA绑定及既有helper/struct限制。
 
-分支和函数返回使用与实数前端共用的`shader_flow.py`，表达式仍由各自后端解释。没有if的旧IEEE程序继续走原直线前端；默认实数CLI的意义未改变。循环、资源、Compute、clip/discard、导数、采样、数值cast及uint向量还不属于这个二进制入口，整体迁移状态见[任务表](../planning/binary-pipeline/tasks.md)。
+分支和函数返回使用与实数前端共用的`shader_flow.py`，表达式由各后端解释。普通直线IEEE程序保留原路径；[局部数据前端](binary-data.md)处理uint向量、数组及固定循环。资源、Compute、clip/discard、导数、采样、数值cast和动态循环不属于该二进制像素入口，整体迁移状态见[任务表](../planning/binary-pipeline/tasks.md)。
 
 2026-10-31完整验收及独立Q通过：319项全Python测试及83项核心控制全部实际运行，IEEE专项29项单元与27项控制、默认实数回切和原型19项均符合预期。原83核心加21旧IEEE的104项目标/状态在提取前后逐项一致。最终机器证据和独立Q状态见[binary-control证据](../planning/evidence/binary-control-2026-10-31.json)。
