@@ -52,3 +52,7 @@
 ## Overnight D（PLAN_ONLY）
 
 - /root/spec_graph_plan_review完成只读草案审查，未发现两项规格或两图scan的数学错误；不是最终Execution Ready独立P，未运行测试、prepare或Lean。root据此澄清任意P的信任边界，首批任务提供见证而一般接口不强制非空；继续具体化固定ABI、frame、单候选和expected task_id绑定。C真实接口、task_id规范及最终目标构造仍需在下次具体实施前冻结和独立P，未获得或实施D产品代码。
+
+## binary-compute-004
+
+- B完成提交30d67525fa588bc47594e0641f1a066bd0ab5f0d已非强制推送并与远程精确匹配，产品/Lean writer静止；C改动前118项实际目标已保存。r2独立P第2轮PASS，session running且seal有效，root核实不越过C委托上限后派生binary-compute-grant-004及Approved状态，命名提交先于任何C产品代码。

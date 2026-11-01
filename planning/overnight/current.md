@@ -177,10 +177,10 @@
     },
     "C": {
       "commits": [],
-      "grant_reference": "",
+      "grant_reference": "planning/binary-pipeline/execution-authority.md#binary-compute-grant-004@r2",
       "result": "IN_PROGRESS",
-      "summary": "compute-uint-design r2 independent P round2 PASS; output ownership resolved by unique run directories; awaiting B full gates/Q before derived code grant.",
-      "updated_at": "2026-10-31T14:37:46-07:00"
+      "summary": "A/B complete and Q passed; r2 P2 passed;118 old targets saved; exact compute-grant-004 and Approved recorded before code.",
+      "updated_at": "2026-10-31T17:50:47-07:00"
     },
     "D": {
       "commits": [],
@@ -194,7 +194,7 @@
   "schema_version": 1,
   "session_id": "shader-binary-data-compute-2026-10-31",
   "status": "running",
-  "updated_at": "2026-10-31T17:49:48-07:00"
+  "updated_at": "2026-10-31T17:50:47-07:00"
 }
 ```
 <!-- SMART_OVERNIGHT_STATE_END -->

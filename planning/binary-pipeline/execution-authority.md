@@ -8,6 +8,23 @@
 - session: planning/overnight/current.md，由Smart脚本维护；沿用已有planning项目根，不创建新Project。
 - 共用checkout保持一个产品/Lean workspace writer；允许并行只读调查和独立审阅。依赖、全局配置、默认入口、Unity/C++、合并及节点归档不在委托内；非强制push沿用既有授权。
 
+## binary-compute-grant-004
+
+- status: active
+- source: delegated_session
+- authorization_message_exact: 按此范围执行 Overnight
+- delegated_session: shader-binary-data-compute-2026-10-31，item C，PLAN_AND_CODE；planning/overnight/current.md仍running，seal hash为2ad97543e86f3d582cbf38ba23414e24ed37b0bccb8292c9eba3c55482aedcce，脚本实际核对hash_valid=true。
+- envelope: overnight-proposal-2026-10-31.md，固定SHA256为3511fdce37d81babb7dbe671577540cad3ac9127482c2794b5e18114160be19e；目标、动作、消费者均在C委托内。
+- node_frame: delta.md及compute-uint-design.md修订2；当前具体规划/依赖检查点30d67525fa588bc47594e0641f1a066bd0ab5f0d。
+- target_slices: binary-compute-004@r2（一维uint Buffer单pass Compute、完整内存等价与bounds/WW/WR安全）。
+- readiness_evidence: 独立P第2轮PASS，复核检查点58658d9813e54b95ba2d12d69beac46ab1be4b42，结果归属P1已通过每次调用独占run目录政策关闭；DXC纯uint实际规划探针exit0。A/B均完整验收及独立Q通过；B完成30d6752已推送且ls-remote精确匹配。root实际准备83核心+35IEEE共118旧目标于artifacts/binary-compute/before/result.json，状态SNAPSHOT_COMPLETE；writer已静止。
+- self_review: 已核对r2真实B接口、公共解释器/泛型内存/共享engine职责、consumer与每调用结果归属、完整安全及内存目标、正负oracle、旧入口迁移和受保护边界；没有未决产品选择或适用停止条件。
+- allowed_actions: 方案内Program默认保持构造hook、IEEE默认保持operand hook、专用scalar uint/bool资源前端与复用emitter、泛型memory提取及原名称export、公共prepare/check backend化及显式uint生命周期、schema3严格契约、独立namespaced候选、真实HLSL/proof/单元/完整回归、独立Q、自主合同内修复、文档与证据、命名提交及既有非强制push。
+- exclusions: float值/资源、数值cast、一般向量/数组/循环或资源helper、groupshared/barrier/atomics/跨线程通信、多pass/规格代码、依赖与全局配置、C盘worktree、Unity/C++、默认入口切换、force push、merge和节点归档。
+- stop_conditions: 新profile/公理，弱化bounds/WW/WR/完整内存或任务绑定，超出envelope，owner保护/终态合同漂移，不可用关键oracle或第三轮审阅仍有关键遗留；普通编译/测试/证明及合同内缺陷自主修复。
+- acceptance_boundary: hash/packing与alias真实正例；错误计算/Store越界/WW/alias WR到SubmittedProof真实失败；非冗余短路/三元安全正例；每run结果归属与旧成功拒绝控制；118旧目标/状态逐项比较、全部Python/83核心/35IEEE/实数回切/原型19及新uint控制、独立Q与真实证据后仅完成本片。D仍PLAN_ONLY，整体二进制迁移未闭合。
+- recorded_at_local_date: 2026-10-31 America/Tijuana
+
 ## binary-data-grant-003
 
 - status: completed
