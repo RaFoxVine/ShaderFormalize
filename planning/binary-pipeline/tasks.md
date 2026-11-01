@@ -7,7 +7,7 @@
 | 二进制标量位运算接入（binary-bits-001@r1） | Execution Ready，独立实施前审阅通过 | Completed：binary-bits-grant-001 | Completed：312单元、21正式控制、原型19、实数回切及独立Q通过，功能提交1f7c57a已推送并核对 | 无本片遗留；后续迁移见下列切片 |
 | 二进制分支与局部赋值（binary-control-002@r1） | 独立P第1轮通过 | Completed：binary-control-grant-002 | Completed：319全单元/83核心、29IEEE单元/27控制、实数回切、原型19、独立Q第2轮均通过 | 无本片遗留；104旧目标/状态一致，证据见binary-control-2026-10-31.json |
 | Overnight B：binary-data-003@r1 | Execution Ready，data-design.md独立P第1轮通过 | Completed：binary-data-grant-003，先提交13ea195 | Completed：完整门禁及独立Q2 PASS | 无本片遗留；327/83、37/35、实数回切、原型19及110旧目标比较符合预期 |
-| Overnight C：binary-compute-004@r2 | Execution Ready，compute-uint-design.md修订2，独立P第2轮通过，A/B依赖完成 | Approved：binary-compute-grant-004，先提交c3157e0后代码 | Implementing：758a5cf独立Q1有两项P2，按合同内修复 | 五adversarial已实际PASSED、77905结束且源码恢复；交作者修环境分类、隔离Store OOB及边界补测，118比较/全回归待完成 |
+| Overnight C：binary-compute-004@r2 | Execution Ready，compute-uint-design.md修订2，独立P第2轮通过，A/B依赖完成 | Approved：binary-compute-grant-004，先提交c3157e0后代码 | Implementing：25ff191修复后Q3源码无待修，writer交回root | 冻结源码串行118旧目标比较/全Python及83core/37+35IEEE/实数回切/prototype19/uint全suite；最终Q3待证据 |
 | Overnight D：规格与计算图下一批方案 | 首片spec-single-005@r2独立P2 PASS；图/符号循环Candidate | PLAN_ONLY委托 | 首片已对齐C初版接口，规划无遗留阻断；不实施 | C最终验收/Q及检查点接口核对后首片可待批；图后续逐片细化 |
 | 固定规格与二进制执行的公共接口 | Outlined（二进制后细化） | 目标保留 | 未实施 | 先跑通实际流程再形成P/R细节，保留输入依赖和数组整体误差能力 |
 | 二进制语言与整数资源/循环支持 | Candidate | 仅调查/拟稿 | 未实施 | AST/DXIL选择、符号有界循环、类型化资源、旧入口迁移及回归语义 |

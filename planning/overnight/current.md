@@ -177,12 +177,13 @@
     },
     "C": {
       "commits": [
-        "758a5cf735c296d7867a53b78cdcc26b48d20cef"
+        "758a5cf735c296d7867a53b78cdcc26b48d20cef",
+        "25ff1915742ce9dbc8f06bb7eff41877dad2dc89"
       ],
       "grant_reference": "planning/binary-pipeline/execution-authority.md#binary-compute-grant-004@r2",
       "result": "IN_PROGRESS",
-      "summary": "Q1 requests2 P2 repairs plus boundary evidence. Root adversarial-01 five audit/tamper cases PASSED,77905 ended,all product sources restored758. Writer returns author for in-scope environment/OOB fixes and planned edge cases; final gates pending.",
-      "updated_at": "2026-10-31T19:05:47-07:00"
+      "summary": "Q3 source has no remaining issues at25ff191; final Q pending actual full gates. Author handed back quiescent writer; root freezes current source for118 compare/all Python83core/IEEE37+35/switchback/proto19/full uint suite.",
+      "updated_at": "2026-10-31T19:48:42-07:00"
     },
     "D": {
       "commits": [],
@@ -196,7 +197,7 @@
   "schema_version": 1,
   "session_id": "shader-binary-data-compute-2026-10-31",
   "status": "running",
-  "updated_at": "2026-10-31T19:05:47-07:00"
+  "updated_at": "2026-10-31T19:48:42-07:00"
 }
 ```
 <!-- SMART_OVERNIGHT_STATE_END -->
