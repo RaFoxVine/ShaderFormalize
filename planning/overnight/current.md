@@ -182,8 +182,8 @@
       ],
       "grant_reference": "planning/binary-pipeline/execution-authority.md#binary-compute-grant-004@r2",
       "result": "IN_PROGRESS",
-      "summary": "Final66545 active:170source/211fixtures frozen8a7f369;118 compatibility identical,all347 Python units passed;83core controls ongoing,IEEE/prototype/full uint pending; Q3 final waits evidence.",
-      "updated_at": "2026-10-31T19:56:10-07:00"
+      "summary": "All five final gates actual PASSED:347/83,37/35 and real switchback,prototype19,uint16(6 PROVED10 UNPROVED),118 old targets identical and232 generated snapshots.170 sources211 fixtures verified. Persistent evidence VALIDATION_PASSED_REVIEW_PENDING; same final Q3 reviewing.",
+      "updated_at": "2026-10-31T23:45:09-07:00"
     },
     "D": {
       "commits": [],
@@ -197,7 +197,7 @@
   "schema_version": 1,
   "session_id": "shader-binary-data-compute-2026-10-31",
   "status": "running",
-  "updated_at": "2026-10-31T19:56:10-07:00"
+  "updated_at": "2026-10-31T23:45:09-07:00"
 }
 ```
 <!-- SMART_OVERNIGHT_STATE_END -->
