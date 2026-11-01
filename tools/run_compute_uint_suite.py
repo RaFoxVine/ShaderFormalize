@@ -26,6 +26,15 @@ def read_run_result(process, container):
     return report
 
 
+def standard_axiom_audit(log, theorem):
+    """Require the actual Lean audit for this declaration and exclude extra axioms."""
+    audit = re.search(re.escape(theorem) + r"' depends on axioms:\s*\[([^]]*)\]", log)
+    allowed = {"propext", "Classical.choice", "Quot.sound"}
+    if audit:
+        return {name.strip() for name in audit[1].split(",")} <= allowed
+    return theorem + "' does not depend on any axioms" in log
+
+
 def main(names=None, directory=None):
     directory = Path(directory) if directory else ROOT / "artifacts/compute-uint/acceptance"
     directory.mkdir(parents=True, exist_ok=True)
@@ -62,14 +71,16 @@ def main(names=None, directory=None):
             match = match and reason in report.get("message", "")
         if case.get("isolation"):
             log = (run_directory / "lean-ShaderComputeUint-SubmittedProof.log").read_text(encoding="utf-8")
-            audit = re.search(r"conditions' depends on axioms:\s*\[([^]]*)\]", log)
-            allowed = {"propext", "Classical.choice", "Quot.sound"}
-            isolated = bool(audit and {name.strip() for name in audit[1].split(",")} <= allowed)
-            isolated = isolated or "conditions' does not depend on any axioms" in log
+            isolated = standard_axiom_audit(log, "conditions")
             report["isolation_proved"] = isolated
             match = match and isolated
             if case.get("residual_goal"):
                 match = match and case["residual_goal"] in log
+        if case.get("observability"):
+            log = (run_directory / "lean-ShaderComputeUint-SubmittedProof.log").read_text(encoding="utf-8")
+            audits = {name: standard_axiom_audit(log, name) for name in case["observability"]}
+            report["observability_audits"] = audits
+            match = match and all(audits.values())
         reports.append({"case": case["name"], "matches": match, "report": report})
         print(case["name"] + ": " + report["status"], flush=True)
         if not match:

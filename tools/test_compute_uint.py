@@ -12,7 +12,7 @@ from shader_compute_uint import import_uint_compute, uint_contract
 from shader_compute_uint_lean import generate_uint_compute
 from shader_ast import ModelError
 from shaderformalize import ROOT, validate_dxc, local_environment, workspace_lock
-from run_compute_uint_suite import read_run_result
+from run_compute_uint_suite import read_run_result, standard_axiom_audit
 
 
 class UintComputeTests(unittest.TestCase):
@@ -301,6 +301,18 @@ sys.exit(cf.uint_main(argparse.Namespace(output=root,command='prepare')))
             mutant=self.compile(source)
         with self.assertRaises(AssertionError):
             assert_active_final_load(mutant)
+
+    def test_observability_requires_every_actual_theorem_audit(self):
+        names=['reference_binding','each_operation','shared_counts']
+        log="\n".join("'_private.Model.0."+name+"' depends on axioms: [propext, Classical.choice, Quot.sound]" for name in names)
+        self.assertTrue(all(standard_axiom_audit(log,name) for name in names))
+        for target in names:
+            with self.subTest(target=target):
+                missing="\n".join(line for line in log.splitlines() if target+"'" not in line)
+                self.assertFalse(all(standard_axiom_audit(missing,name) for name in names))
+                extra=log.replace(target+"' depends on axioms: [propext,",target+"' depends on axioms: [sorryAx,")
+                self.assertFalse(all(standard_axiom_audit(extra,name) for name in names))
+        self.assertTrue(standard_axiom_audit("'each_operation' does not depend on any axioms",'each_operation'))
 
     def test_runner_rejects_old_success(self):
         with tempfile.TemporaryDirectory() as d:

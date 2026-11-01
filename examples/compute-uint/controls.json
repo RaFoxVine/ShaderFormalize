@@ -131,7 +131,8 @@
       "optimized": "examples/compute-uint/boundaries.optimized.hlsl",
       "constraints": "examples/compute-uint/boundaries.constraints.json",
       "proof": "proof/ComputeUintBoundariesProof.lean",
-      "expected": "PROVED"
+      "expected": "PROVED",
+      "observability": ["reference_binding", "each_operation", "shared_counts"]
     },
     {
       "name": "nested-guards",
