@@ -176,11 +176,13 @@
       "updated_at": "2026-10-31T17:49:48-07:00"
     },
     "C": {
-      "commits": [],
+      "commits": [
+        "758a5cf735c296d7867a53b78cdcc26b48d20cef"
+      ],
       "grant_reference": "planning/binary-pipeline/execution-authority.md#binary-compute-grant-004@r2",
       "result": "IN_PROGRESS",
-      "summary": "A/B complete and Q passed; r2 P2 passed;118 old targets saved; exact compute-grant-004 and Approved recorded before code.",
-      "updated_at": "2026-10-31T17:50:47-07:00"
+      "summary": "Product758a5cf handed back to root;16units and4positive/4negative initial controls passed, WW/WR isolated. Q1 source underway;root serial adversarial-01 runs five remaining audit/tamper cases; full gates pending.",
+      "updated_at": "2026-10-31T18:54:20-07:00"
     },
     "D": {
       "commits": [],
@@ -194,7 +196,7 @@
   "schema_version": 1,
   "session_id": "shader-binary-data-compute-2026-10-31",
   "status": "running",
-  "updated_at": "2026-10-31T18:16:07-07:00"
+  "updated_at": "2026-10-31T18:54:20-07:00"
 }
 ```
 <!-- SMART_OVERNIGHT_STATE_END -->
