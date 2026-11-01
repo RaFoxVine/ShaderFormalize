@@ -2,7 +2,7 @@
 
 本文件是 Overnight D 的 PLAN_ONLY 交付，具体化“给定固定 Lean 输入性质与输出关系，验证一份真实 HLSL”的首片。总体目标与规格信任边界见 spec-graph-design.md；多 pass、符号循环和发布语义仍由该文件规划。本片没有代码 grant，也未完成最终独立 P，不标 Execution Ready。
 
-前置 C（binary-compute-004@r2）目前只有已审设计，尚未交付代码。下文明确拟定接口，最终须对应 C 的实际 importer、公共 engine、内存 emitter、缓存与每次调用结果目录；不能把设计中的名称当作已经存在的 API。B/C 的实际验收与接口对齐是本片进入实施授权前的依赖。
+前置C（binary-compute-004@r2）已在实施，以下接口已由作者核实，泛型内存与生成模型已完成首次编译，C整体尚未最终验收。B已验收；C最终代码检查点、完整回归与独立Q仍是本片实施授权的依赖。下文区分已出现的C接口与首规格片拟增加的责任，不把规格功能说成当前能力。
 
 ## 交付目的与范围
 
@@ -35,6 +35,8 @@ computeformalize.py check --model uint32-spec
 prepare 使用相同任务身份和候选参数，生成目标但不声称证明成功。新模式拒绝 pair 的 original/optimized 参数；不将同一候选复制两次。默认 legacy 和 C 的 uint32-buffer selector 不变，不从 JSON 或坏输入自动猜测模式。
 
 公共 engine 的源输入由 backend 显式提供：pair 为 original/optimized 两项，spec 为 candidate 一项。它对这些源执行同一套快照和 DXC→IR 流程，再调用 backend 的契约核验与目标生成。旧 prepare(args, output)、check(args, output) 的默认调用保持兼容。具体 backend 配置对象及扩展点以 C 交付为准，不预先要求 C 实现未承诺的规格功能。
+
+C当前Backend只有uint、prefix、theorem三个字段，prepare/check接收默认LEGACY的keyword-only backend；源快照/DXC和模块编译循环已共享。首规格片将其扩为明确的源角色、importer、契约构造、目标生成及语义模块配置，公共循环消费这些配置；legacy/uint pair各提供两个角色，spec只提供candidate。现有Backend常量和默认direct caller保留。单候选uint契约检查抽出公共资源/入口核验，旧uint_contract(data,original,optimized)继续包装同一核验；不复制一次candidate去填pair。
 
 spec 运行沿用 C 每调用独占新 run 子目录的政策，stdout 返回本次 run_id/result_path；runner 只读取匹配身份的结果。共享 workspace 仍只允许一个 writer，不维护有竞争的 latest 报告。
 
@@ -71,6 +73,8 @@ constraints 嵌入完整 C schema3 约束，不再指向另一份可变 JSON。s
 
 稳定 Lean ABI 拟提供 Input（count : UInt32、initial : uint 内存）与 Output（最终 uint 内存），以及 Source/Output identity 常量。任务模块提供精确类型 P : Input → Prop 和 R : Input → Output → Prop。内存类型是 C 实际 uint 内存特化的别名；不能在实施时重建一份看似相同但独立的内存语义。
 
+C当前ShaderComputeUint.Model将Memory/ThreadResult分别特化为泛型ComputeMemory的UInt32版本；Memory实际为Nat→Nat→UInt32，safe接收threads与kernel，finish接收threads、initial及kernel。ABI直接使用这些声明。UintComputeEmitter.definition(name,contract)拥有kernel发射，现generate_uint_compute(original,optimized,contract)拥有pair组装；规格backend复用前者，并在共用模块组装中增加单候选expected，不重新定义uint运算或内存。
+
 允许修改区域由 manifest 固定为 Output[0,Count)。Frame 对所有物理 identity 和地址量化：该区域以外的值都必须等于 initial，涵盖 Source、Output 尾部及其它地址。候选不能通过输出选择或提交证明放宽 Frame。P/R 如何表达真实目标由任务发起者负责，Frame 的固定构造由检查器负责。
 
 ## 发布、lock 与 task_id
@@ -86,6 +90,8 @@ lock payload 拟包含 schema、task.json 原始字节 SHA256、任务源的模�
 ## 规格依赖、编译和结束核对
 
 任务模块使用保留前缀 ShaderComputeSpec.Task。运行时复制准确源快照到对应受控模块位置，保持原模块/namespace，不重写 Lean 源。任务不能覆盖稳定 ABI、语义模块或候选动态文件。真实导入闭包中允许 lock 声明的任务模块、已绑定的本项目稳定依赖及固定上游库；触达任何候选 GeneratedModel、SubmittedProof 或 Verify 均拒绝，未声明的其它本地模块也拒绝。
+
+受控任务模块具体位于proof/ShaderComputeSpec/Task/<模块后缀>.lean，由本次run在workspace锁内安装，映射以显式任务模块注册表为准；该运行目录纳入.gitignore，不存放用户的发布源。任务真实源与快照保留在任务目录/本次run。已有同名前任务文件不参与新闭包，编译只消费本次注册来源；稳定library只列Abi，不让失败候选或历史任务进入默认build。模块source/olean位置通过共享engine的显式模块映射提供，不能另起编译器循环。
 
 本地 Lean4.35 源码提供 --deps-json，可用于获得实际 import，而不另写完整 Lean 头部解析器。只读依据为 Lean/Shell.lean 中 deps-json 分支，以及 Lean/Elab/ParseImportsFast.lean 的 printImportsJson；输出含 errors，未来实现须检查内容，不能只看 exit0。本次只核实了源码，未实际运行该命令，其实际输出及模块解析接点仍待实施验证。
 
@@ -135,7 +141,7 @@ Domain 来自固定任务的 Count/launch 契约。candidate 是实际 HLSL 生�
 
 所有结果归属与 workspace busy 处理沿用 C 已审政策：先创建本次独占 run，再取锁；busy 返回本次 INCONCLUSIVE，不改 owner 产物，不继续解析坏约束或工具。参数或输出路径本身不能落盘时明确 stderr/nonzero，不声称保存了报告。
 
-锁空闲后，坏 manifest/lock/schema、初始任务身份不匹配或不支持的候选为 INVALID_INPUT；固定依赖缺失/损坏为 ENVIRONMENT_ERROR；超时为 INCONCLUSIVE；实际目标/证明/审计失败为 UNPROVED。运行中已绑定内容发生变化拒绝当前证明并报告具体原因，不能保留 PROVED。任务 Lean 语法或类型错误须标明任务阶段；意外内部错误独立报告。最终阶段分类与 C 的实际终态 API 对齐，不将内部错误包装成数学反例。
+锁空闲后，坏manifest/lock/schema、初始任务身份不匹配、不支持的候选，以及任务Lean语法/类型或P/R签名错误为INVALID_INPUT并标明task阶段；固定依赖缺失/损坏为ENVIRONMENT_ERROR；超时为INCONCLUSIVE；实际目标/证明/审计失败为UNPROVED。运行中已绑定内容发生变化拒绝当前证明并报告具体原因，不能保留PROVED。意外内部错误独立报告，不能包装成数学反例；shared编译器根据模块角色报告task错误与submitted-proof失败，底层调用与缓存只有一份。
 
 PROVED 表示在记录的 Domain、P、uint32 语义及固定任务下，候选安全、遵守 Frame 并满足 R；不声明已经匹配具体 GPU。UNPROVED 只表示当前提交未通过，不一律称实现已被证伪。PREPARED 也不代表任务性质已证明。
 
@@ -155,6 +161,6 @@ PROVED 表示在记录的 Domain、P、uint32 语义及固定任务下，候选�
 
 进入实施前须完成 B/C 验收与独立 Q，核实 C 的 backend/缓存/契约/emitter/结果 API，把以上文件归属与签名对应到实际代码，再对最终冻结稿独立 P并取得新的精确代码授权。D 的 PLAN_ONLY 不派生代码 grant。
 
-目前未冻结的是 C 实际扩展点、任务依赖快照的模块路径接入、完整目标的实际 Lean 类型/签名，以及未来实现时 --deps-json 的运行行为；这些不是已经验证的能力。首 ABI、manifest/lock/task_id 和失败政策在本稿中有具体提案，仍接受最终 P 对合同内问题的修正。
+本稿已对应作者确认的C初版接口，明确了模块快照路径、单候选契约/目标及Backend所需扩展；这些都是首规格片未来修改，不要求C现在实现。最终需核对C命名检查点的接口是否保持、完成独立P，并在实施时实际检验--deps-json输出与闭包。接口细节若不改变本合同可机械对齐；若改变ABI、任务身份或完整目标，必须修订设计。首ABI、manifest/lock/task_id和失败政策均为具体提案，不是已实现能力。
 
 若需要新增执行 profile/公理、绕过固定任务身份、弱化安全/Frame/完整目标、扩到符号循环/图/新资源，或关键真实验收不可用，应停下受影响项重新规划。普通 API 对应、编译诊断、证明和合同内缺陷可在取得该片授权后自主解决。当前不因这些待对齐项重开已确认的二进制与自定义规格方向。
