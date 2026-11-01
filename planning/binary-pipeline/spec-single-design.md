@@ -1,6 +1,6 @@
 # 单候选自定义规格：spec-single-005@r2
 
-本文件是Overnight D的PLAN_ONLY交付，具体化“给定固定Lean输入性质与输出关系，验证一份真实HLSL”的首片，当前Candidate等待独立P。总体目标与规格信任边界见spec-graph-design.md；多pass、符号循环和发布语义仍由该文件规划。本片没有代码grant；C依赖尚未最终验收，不标Execution Ready。
+本文件是Overnight D的PLAN_ONLY交付，具体化“给定固定Lean输入性质与输出关系，验证一份真实HLSL”的首片，独立P第2轮通过。总体目标与规格信任边界见spec-graph-design.md；多pass、符号循环和发布语义仍由该文件规划。本片没有代码grant；C依赖尚未最终验收，不标Execution Ready。
 
 前置C（binary-compute-004@r2）已在实施，以下接口已由作者核实，泛型内存与生成模型已完成首次编译，C整体尚未最终验收。B已验收；C最终代码检查点、完整回归与独立Q仍是本片实施授权的依赖。下文区分已出现的C接口与首规格片拟增加的责任，不把规格功能说成当前能力。
 
@@ -169,4 +169,4 @@ PROVED 表示在记录的 Domain、P、uint32 语义及固定任务下，候选�
 
 ## 独立规划审阅
 
-独立P第1轮由/root/binary_data_plan_review只读检查f03eb67，发现1项P1：缺少仅safe失败的单候选真实负控，不能用C旧pair模式负控检验spec新目标组装。修订2已补上述Count=0额外读取的具体验收；其余单候选/任务身份/真实C接口/完整目标和两项数学任务未发现阻断。当前待第2轮复核；没有为本规划执行Lean或写规格功能代码，C最终验收/Q依赖仍保留。
+独立P第1轮由/root/binary_data_plan_review只读检查f03eb67，发现1项P1：缺少仅safe失败的单候选真实负控，不能用C旧pair模式负控检验spec新目标组装。修订2补上述Count=0额外读取的具体验收后，第2轮审阅b7060153d453be42bc98444d61d650d88d0d9758实际PASS、issues=[]；单候选/任务身份/真实C接口/完整目标和两项数学任务均无剩余规划阻断。没有为本规划执行Lean或写规格功能代码；C最终验收/Q依赖仍保留，P通过本身不授予实施权。
