@@ -6,6 +6,7 @@ import sys
 import json
 import os
 import uuid
+import re
 from proof_contract import verification_module
 
 from shader_ast import ModelError, validate_source
@@ -23,6 +24,54 @@ class Backend:
 
 LEGACY = Backend()
 UINT = Backend(True)
+
+
+def fixed_environment(backend, operation, *args, **kwargs):
+    """Only fixed tool/configuration operations use this classification boundary."""
+    if not backend.uint:
+        return operation(*args, **kwargs)
+    try:
+        return operation(*args, **kwargs)
+    except ModelError:
+        raise
+    except (OSError, ValueError, KeyError, TypeError, AttributeError) as error:
+        raise ModelError("Invalid fixed environment: " + str(error), "ENVIRONMENT_ERROR") from error
+
+
+def uint_dependency_lock():
+    lock = read_json(ROOT / "dependencies.lock.json")
+    if not isinstance(lock, dict):
+        raise ValueError("Dependency lock must be an object")
+    if type(lock.get("schema")) is not int or lock["schema"] != 1:
+        raise ValueError("Invalid dependency lock schema")
+    for section, required in (("dxc", {"dxc.exe", "dxcompiler.dll", "dxil.dll"}),
+                              ("lean", {"lean.exe", "lake.exe"})):
+        item = lock[section]
+        if not isinstance(item, dict) or not isinstance(item["version"], str) or not item["version"]:
+            raise ValueError("Invalid fixed " + section + " metadata")
+        binaries = item["binaries"]
+        if not isinstance(binaries, dict) or not required <= set(binaries):
+            raise ValueError("Missing fixed " + section + " binary hashes")
+        for name, digest in binaries.items():
+            if (not isinstance(name, str) or Path(name).name != name or not isinstance(digest, str)
+                    or not re.fullmatch("[0-9a-f]{64}", digest)):
+                raise ValueError("Invalid fixed binary hash")
+    return lock
+
+
+def read_uint_cache(path):
+    cache = read_json(path) if path.is_file() else {}
+    if not isinstance(cache, dict) or any(not isinstance(entry, dict) for entry in cache.values()):
+        raise ValueError("Invalid compiled-module cache")
+    for entry in cache.values():
+        if (set(entry) != {"inputs", "output_sha256"} or not isinstance(entry["inputs"], dict)
+                or not isinstance(entry["output_sha256"], str)
+                or not re.fullmatch("[0-9a-f]{64}", entry["output_sha256"])
+                or any(not isinstance(key, str) or not isinstance(value, str)
+                       or not re.fullmatch("[0-9a-f]{64}", value)
+                       for key, value in entry["inputs"].items())):
+            raise ValueError("Invalid compiled-module cache entry")
+    return cache
 
 
 def prepare(args, output, *, backend=LEGACY):
@@ -43,7 +92,8 @@ def prepare(args, output, *, backend=LEGACY):
             raise ModelError("schema 3 requires --model uint32-buffer", "INVALID_INPUT")
         importer, contract_fn, generator = import_compute, compute_contract, generate_compute
     if backend.uint:
-        dxc = validate_dxc()
+        fixed_environment(backend, uint_dependency_lock)
+        dxc = fixed_environment(backend, validate_dxc)
     if not isinstance(supplied_contract, dict):
         raise ModelError("Compute contract must be a JSON object", "INVALID_INPUT")
     models = []
@@ -55,7 +105,7 @@ def prepare(args, output, *, backend=LEGACY):
         validate_source(source)
         snapshot = output / f"{role}.input.hlsl"
         snapshot.write_bytes(source_bytes)
-        result, seconds = run_tool([dxc, "-T", "cs_6_0", "-E", "main", "-HV", "2021", "-ast-dump", snapshot],
+        result, seconds = fixed_environment(backend, run_tool, [dxc, "-T", "cs_6_0", "-E", "main", "-HV", "2021", "-ast-dump", snapshot],
                                    output, output / f"{role}.dxc.log")
         if result.returncode:
             raise ModelError(f"DXC rejected {role} (exit {result.returncode}); see its log", "INVALID_INPUT")
@@ -74,7 +124,7 @@ def prepare(args, output, *, backend=LEGACY):
             "generated_sha256": sha256(output / "GeneratedModel.lean"),
             "gpu_profile_matched": False,
             "guarantee": "exact uint32 modular values, guarded ordered overlay, bounds and race-free complete final memory" if backend.uint else "ideal real values, exact uint32, guarded thread-local forwarding and proved race-free unique-writer final memory; experimental typed AST translator remains trusted",
-            "dxc_files": read_json(ROOT / "dependencies.lock.json")["dxc"]["binaries"]}
+            "dxc_files": (fixed_environment(backend, uint_dependency_lock) if backend.uint else read_json(ROOT / "dependencies.lock.json"))["dxc"]["binaries"]}
 
 
 def hash_matches(path, expected, *, missing_is_mismatch=False):
@@ -88,7 +138,9 @@ def hash_matches(path, expected, *, missing_is_mismatch=False):
 
 def check(args, output, *, backend=LEGACY):
     summary = prepare(args, output, backend=backend)
-    lake = validate_lean()
+    if backend.uint:
+        fixed_environment(backend, uint_dependency_lock)
+    lake = fixed_environment(backend, validate_lean)
     proof_bytes = Path(args.agent_proof).read_bytes()
     write_text(PROOF / (backend.prefix + "SubmittedProof.lean"), proof_bytes.decode("utf-8-sig"))
     write_text(output / "SubmittedProof.lean", proof_bytes.decode("utf-8-sig"))
@@ -108,7 +160,7 @@ end ShaderFormalize.Verification
     # Unlike `lake build`, it never starts missing mathlib source builds.
     build_seconds = 0
     cache_path = ROOT / ".cache" / ("compute-uint-compiled-modules.json" if backend.uint else "compute-compiled-modules.json")
-    cache = read_json(cache_path) if cache_path.is_file() else {}
+    cache = fixed_environment(backend, read_uint_cache, cache_path) if backend.uint else (read_json(cache_path) if cache_path.is_file() else {})
     module_hashes = {}
     modules = (["ShaderFormalize/ComputeMemory", "ShaderIeee/Model", "ShaderComputeUint/Model"] if backend.uint
                else ["ShaderFormalize/Model", "ShaderFormalize/ComputeMemory", "ShaderFormalize/Compute"])
@@ -120,29 +172,29 @@ end ShaderFormalize.Verification
     baseline_paths += [PROOF / (backend.prefix + "Verify.lean"), PROOF / "lake-manifest.json", PROOF / "lakefile.lean", PROOF / "lean-toolchain", ROOT / "dependencies.lock.json"]
     if backend.uint:
         baseline_paths += [output / name for name in ("constraints.input.json", "original.input.hlsl", "optimized.input.hlsl", "original.model.json", "optimized.model.json", "original.dxc.log", "optimized.dxc.log", "GeneratedModel.lean", "SubmittedProof.lean", "Verify.lean")]
-    baseline = {str(path): sha256(path) for path in baseline_paths}
+    baseline = {str(path): fixed_environment(backend, sha256, path) for path in baseline_paths}
     for module in modules:
-        module_hashes[module] = sha256(PROOF / (module + ".lean"))
+        module_hashes[module] = fixed_environment(backend, sha256, PROOF / (module + ".lean"))
         dependency_hashes = dict(module_hashes)
-        dependency_hashes["manifest"] = sha256(PROOF / "lake-manifest.json")
-        dependency_hashes["lakefile"] = sha256(PROOF / "lakefile.lean")
-        dependency_hashes["lean_toolchain"] = sha256(PROOF / "lean-toolchain")
-        dependency_hashes["tool_lock"] = sha256(ROOT / "dependencies.lock.json")
+        dependency_hashes["manifest"] = fixed_environment(backend, sha256, PROOF / "lake-manifest.json")
+        dependency_hashes["lakefile"] = fixed_environment(backend, sha256, PROOF / "lakefile.lean")
+        dependency_hashes["lean_toolchain"] = fixed_environment(backend, sha256, PROOF / "lean-toolchain")
+        dependency_hashes["tool_lock"] = fixed_environment(backend, sha256, ROOT / "dependencies.lock.json")
         target = PROOF / ".lake" / "build" / "lib" / "lean" / (module + ".olean")
-        target.parent.mkdir(parents=True, exist_ok=True)
+        fixed_environment(backend, target.parent.mkdir, parents=True, exist_ok=True)
         log = output / ("lean-" + module.replace("/", "-") + ".log")
         cached = cache.get(module, {})
         if (cached.get("inputs") == dependency_hashes and target.is_file()
-                and cached.get("output_sha256") == sha256(target)):
+                and cached.get("output_sha256") == fixed_environment(backend, sha256, target)):
             write_text(log, "Reused own compiled module; source/dependency/tool/olean hashes match.\n")
             continue
-        result, seconds = run_tool([lake, "env", "lean", "-o", target, module + ".lean"], PROOF, log, 900 if backend.uint else 180)
+        result, seconds = fixed_environment(backend, run_tool, [lake, "env", "lean", "-o", target, module + ".lean"], PROOF, log, 900 if backend.uint else 180)
         build_seconds += seconds
         if result.returncode:
             raise ModelError(f"Compute target/proof failed Lean; see {log.name}", "UNPROVED")
-        cache[module] = {"inputs": dependency_hashes, "output_sha256": sha256(target)}
-        write_json(cache_path, cache)
-    result, verify_seconds = run_tool([lake, "env", "lean", backend.prefix + "Verify.lean"], PROOF, output / "lean-verify.log", 900 if backend.uint else 180)
+        cache[module] = {"inputs": dependency_hashes, "output_sha256": fixed_environment(backend, sha256, target)}
+        fixed_environment(backend, write_json, cache_path, cache)
+    result, verify_seconds = fixed_environment(backend, run_tool, [lake, "env", "lean", backend.prefix + "Verify.lean"], PROOF, output / "lean-verify.log", 900 if backend.uint else 180)
     if result.returncode:
         raise ModelError("Independent Compute target binding failed", "UNPROVED")
     axioms = audit_axioms(result.stdout + "\n" + result.stderr, backend.theorem)
@@ -154,14 +206,14 @@ end ShaderFormalize.Verification
         raise ModelError("Compute target/input/semantic binding changed during checking", "UNPROVED")
     summary.update(status="PROVED", theorem=backend.theorem, axioms=axioms,
                    agent_proof_sha256=hashlib.sha256(proof_bytes).hexdigest(),
-                    semantic_modules={name: module_hashes[name] for name in semantic_modules},
-                   lake_manifest_sha256=sha256(PROOF / "lake-manifest.json"),
+                    semantic_modules={(name if backend.uint else name.rsplit("/", 1)[-1] + ".lean"): module_hashes[name] for name in semantic_modules},
+                   lake_manifest_sha256=fixed_environment(backend, sha256, PROOF / "lake-manifest.json"),
                    lean_build_seconds=build_seconds, lean_verify_seconds=verify_seconds)
     if backend.uint:
         paths = [output / "constraints.input.json", output / "original.input.hlsl", output / "optimized.input.hlsl",
                  output / "original.model.json", output / "optimized.model.json", output / "original.dxc.log", output / "optimized.dxc.log", output / "GeneratedModel.lean",
                  output / "SubmittedProof.lean", output / "Verify.lean", PROOF / "lake-manifest.json", PROOF / "lakefile.lean", PROOF / "lean-toolchain", ROOT / "dependencies.lock.json"]
-        summary["artifact_sha256"] = {str(path): sha256(path) for path in paths}
+        summary["artifact_sha256"] = {str(path): fixed_environment(backend, sha256, path) for path in paths}
     return summary
 
 

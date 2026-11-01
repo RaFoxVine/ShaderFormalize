@@ -231,6 +231,77 @@ sys.exit(cf.uint_main(argparse.Namespace(output=root,command='prepare')))
             self.assertIn('Cannot save',stderr.getvalue())
             self.assertEqual(report.read_bytes(),original)
 
+    def test_real_fixed_lock_failures_are_environment_errors(self):
+        import argparse
+        from contextlib import redirect_stdout
+        import io
+        import computeformalize as cf
+        import lean_environment
+        import shaderformalize
+        good=json.loads((ROOT/'dependencies.lock.json').read_text(encoding='utf-8'))
+        malformed=[None,'{','[]','null','{}',json.dumps(dict(good,lean=[])),json.dumps(dict(good,dxc=None))]
+        for payload in malformed:
+            with self.subTest(payload=payload),tempfile.TemporaryDirectory() as d:
+                root=Path(d);lock=root/'dependencies.lock.json'
+                if payload is not None:lock.write_text(payload,encoding='utf-8')
+                args=argparse.Namespace(output=root/'runs',command='prepare',constraints=ROOT/'examples/compute-uint/hash.constraints.json')
+                stream=io.StringIO()
+                with patch.object(cf,'ROOT',root),redirect_stdout(stream):
+                    code=cf.uint_main(args)
+                report=json.loads(Path(json.loads(stream.getvalue())['result_path']).read_text())
+                self.assertEqual((code,report['status']),(1,'ENVIRONMENT_ERROR'))
+                # Actual validator reads use the same boundary; no fake ModelError.
+                for module,validator in [(shaderformalize,cf.validate_dxc),(lean_environment,cf.validate_lean)]:
+                    with patch.object(module,'ROOT',root):
+                        with self.assertRaises(ModelError) as caught:
+                            cf.fixed_environment(cf.UINT,validator)
+                        self.assertEqual(caught.exception.status,'ENVIRONMENT_ERROR')
+
+    def test_environment_boundary_excludes_user_inputs_and_legacy(self):
+        import computeformalize as cf
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d);lock=root/'dependencies.lock.json';lock.write_text('{',encoding='utf-8')
+            with patch.object(cf,'ROOT',root):
+                with self.assertRaises(json.JSONDecodeError):
+                    cf.fixed_environment(cf.LEGACY,cf.uint_dependency_lock)
+            cache=root/'cache.json'
+            for payload in ['{','[]','{"bad":null}']:
+                cache.write_text(payload,encoding='utf-8')
+                with self.assertRaises(ModelError) as caught:
+                    cf.fixed_environment(cf.UINT,cf.read_uint_cache,cache)
+                self.assertEqual(caught.exception.status,'ENVIRONMENT_ERROR')
+            bad_source=root/'bad.hlsl'
+            bad_source.write_bytes(b'\xff')
+            result=read_run_result(self.cli(root/'inputs','--original',str(bad_source)),root/'inputs')
+            self.assertEqual(result['status'],'INVALID_INPUT')
+            # local_environment reads a real malformed lock before launching tools.
+            import lean_environment
+            with patch.object(lean_environment,'ROOT',root):
+                with self.assertRaises(ModelError) as caught:
+                    cf.fixed_environment(cf.UINT,cf.run_tool,[sys.executable,'-c','pass'],ROOT,root/'tool.log')
+                self.assertEqual(caught.exception.status,'ENVIRONMENT_ERROR')
+
+    def test_active_load_oob_requires_restored_guard_in_same_expression(self):
+        from shader_compute_uint import UintComputeProgram
+        from shader_control_values import logical
+        source=(ROOT/'examples/compute-uint/load-out-of-bounds.hlsl').read_text(encoding='utf-8')
+        def assert_active_final_load(model):
+            loads=[event for event in model['events'] if event.get('kind')=='load']
+            self.assertEqual(len(loads),2)
+            self.assertEqual(loads[-1]['guard'],{'kind':'boolean','width':'bool','value':True})
+        assert_active_final_load(self.compile(source))
+        original=UintComputeProgram.conditional_operands
+        def leaking_operand_guard(program,node,symbols):
+            previous=program.current_guard
+            values=original(program,node,symbols)
+            program.current_guard=logical('and',previous,logical('not',values[0]))
+            return values
+        # Fault injection proves this oracle rejects the exact missing-restore bug.
+        with patch.object(UintComputeProgram,'conditional_operands',leaking_operand_guard):
+            mutant=self.compile(source)
+        with self.assertRaises(AssertionError):
+            assert_active_final_load(mutant)
+
     def test_runner_rejects_old_success(self):
         with tempfile.TemporaryDirectory() as d:
             p=Path(d);(p/'result.json').write_text('{"status":"PROVED"}')

@@ -68,6 +68,8 @@ def main(names=None, directory=None):
             isolated = isolated or "conditions' does not depend on any axioms" in log
             report["isolation_proved"] = isolated
             match = match and isolated
+            if case.get("residual_goal"):
+                match = match and case["residual_goal"] in log
         reports.append({"case": case["name"], "matches": match, "report": report})
         print(case["name"] + ": " + report["status"], flush=True)
         if not match:

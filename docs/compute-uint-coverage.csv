@@ -8,3 +8,7 @@ expression_guard,shared operand hooks and captured full guard,128 threads capaci
 scope,restricted scalar registry and main-only resources,DXC import positive and unsupported controls
 result_owner,per invocation exclusive run directory,same/different container busy and history identity controls
 binding,expected theorem plus semantic/input/target hashes,forged goal tamper and axiom controls
+fixed_environment,uint-only fixed lock/cache/tool boundary,real temporary missing/malformed/type-invalid locks and legacy/user-input classification
+shift_address_edges,shared uint operations and full-memory proof,left/right shifts0/31/32/33/MAX and active address0/MAX/wrap
+isolated_bounds,Count1 conditions proof and residual-goal audit,Store and active Load113<113 without race or prior proof failures
+nested_guard_restore,shared operand hooks with helper frames,nested short-circuit/ternary proof and missing-restore mutation rejection

@@ -44,9 +44,11 @@
       "name": "out-of-bounds",
       "original": "examples/compute-uint/out-of-bounds.hlsl",
       "optimized": "examples/compute-uint/out-of-bounds.hlsl",
-      "constraints": "examples/compute-uint/hash.constraints.json",
-      "proof": "proof/ComputeUintHashProof.lean",
-      "expected": "UNPROVED"
+      "constraints": "examples/compute-uint/bounds.constraints.json",
+      "proof": "proof/ComputeUintStoreBoundsProof.lean",
+      "expected": "UNPROVED",
+      "isolation": true,
+      "residual_goal": "⊢ 113 < 113"
     },
     {
       "name": "write-write",
@@ -112,6 +114,32 @@
       "expected": "UNPROVED",
       "failure_reason": "semantic/proof source changed during checking",
       "tamper": "semantic"
+    },
+    {
+      "name": "load-out-of-bounds",
+      "original": "examples/compute-uint/load-out-of-bounds.hlsl",
+      "optimized": "examples/compute-uint/load-out-of-bounds.hlsl",
+      "constraints": "examples/compute-uint/bounds.constraints.json",
+      "proof": "proof/ComputeUintLoadBoundsProof.lean",
+      "expected": "UNPROVED",
+      "isolation": true,
+      "residual_goal": "⊢ 113 < 113"
+    },
+    {
+      "name": "boundaries",
+      "original": "examples/compute-uint/boundaries.original.hlsl",
+      "optimized": "examples/compute-uint/boundaries.optimized.hlsl",
+      "constraints": "examples/compute-uint/boundaries.constraints.json",
+      "proof": "proof/ComputeUintBoundariesProof.lean",
+      "expected": "PROVED"
+    },
+    {
+      "name": "nested-guards",
+      "original": "examples/compute-uint/nested-guards.original.hlsl",
+      "optimized": "examples/compute-uint/nested-guards.optimized.hlsl",
+      "constraints": "examples/compute-uint/hash.constraints.json",
+      "proof": "proof/ComputeUintNestedGuardsProof.lean",
+      "expected": "PROVED"
     }
   ]
 }
