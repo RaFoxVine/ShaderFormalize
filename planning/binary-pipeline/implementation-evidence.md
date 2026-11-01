@@ -56,3 +56,4 @@
 ## binary-compute-004
 
 - B完成提交30d67525fa588bc47594e0641f1a066bd0ab5f0d已非强制推送并与远程精确匹配，产品/Lean writer静止；C改动前118项实际目标已保存。r2独立P第2轮PASS，session running且seal有效，root核实不越过C委托上限后派生binary-compute-grant-004及Approved状态，命名提交先于任何C产品代码。
+- grant/Approved提交c3157e0f9190927fa2fde04ef06e3260d8ccd9c2已推送。root随后将唯一产品及Lean workspace writer交给/root/binary_compute_plan，root没有活跃prepare/测试/Lean；代理负责方案内实现和串行初测，root只维护planning/证据及只读审阅。正式最终全门禁在代理交回并冻结源码后由root统一运行，不与初测并发。
