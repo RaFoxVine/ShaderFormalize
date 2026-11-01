@@ -46,6 +46,8 @@
 - root唯一writer的最终队列为exec session30543，脚本artifacts/binary-data/run_final.py，心跳与阶段记录final1/result.json，日志final1/{compatibility,core,ieee,prototype}.log。源码检查点fcb2cce的146源及186个example输入/契约已冻结于frozen-sources.json；先after prepare比较110旧目标（已exit0、逐项一致），再默认verify_demo.py（327全单元已通过，83核心仍在运行）、完整IEEE35/专项37/实数回切、原型19。后续恢复先核对该队列/心跳与writer静止，不能并行开第二套Lean或提前修改冻结产品源。
 - Q2已完成只读源码核对：Q1两项P2实质关闭，未发现新增源码阻断；reviewer独立核对146冻结源hash，formal-03当前输入/证明与真实正负结果对应。其最终PASS明确等待final1全部门禁和持久机器证据，没有把源码阶段结论当作本片验收。
 - 最终session30543实际exit0：110旧目标比较85.156秒；默认完整核心7441.687秒（327全单元、83控制：38 PROVED/43 UNPROVED/2 INVALID_INPUT）；IEEE专项4577.235秒（37单元、35控制：16 IEEE_PROVED/19 UNPROVED，含实数回切）；原型19耗时60.172秒。所有控制符合预期。builder核对146源、186输入与当前完整产物，写入planning/evidence/binary-data-2026-10-31.json，状态VALIDATION_PASSED_REVIEW_PENDING。汇总器首次遇到历史case-summary为JSON数组，保留原文件并补充数组汇总读取后成功，不修改或重跑产品结果。
+- 独立Q第2轮最终PASS、issues=[]，reviewer为/root/binary_data_plan_review：独立核对146源/186输入、110旧目标及前后216份生成目标、83核心逐案与35IEEE当前源/快照/证明、16正例128个产物hash及原三公理，四个新wrong均在SubmittedProof真实失败；README/docs/coverage边界准确。机器证据收为PASSED，003/grant完成。没有重跑或改写历史失败；C不在本次验收内。
+- C改动前旧目标快照由root在B完整门禁结束后实际保存：exec75597 exit0，artifacts/binary-compute/before/result.json为SNAPSHOT_COMPLETE，83核心+35IEEE共118项；不覆盖B历史证据，不修改产品源。
 
 ## Overnight D（PLAN_ONLY）
 

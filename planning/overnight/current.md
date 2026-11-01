@@ -171,9 +171,9 @@
         "fcb2cce8cfafa37a2e1d8b37486dc2423a146d4f"
       ],
       "grant_reference": "planning/binary-pipeline/execution-authority.md#binary-data-grant-003@r1",
-      "result": "IN_PROGRESS",
-      "summary": "Implementation checkpoints eae9ff9/fcb2cce; Q1 repairs implemented; targeted37/25/23 and actual4positive/4negative initial checks passed; root took writer and froze sources for final gates.",
-      "updated_at": "2026-10-31T14:21:16-07:00"
+      "result": "DONE",
+      "summary": "Full actual gates and independent Q2 PASS;327/83,37/35,real switchback,prototype19,110 old targets identical; persistent evidence PASSED. Only data-003 completed.",
+      "updated_at": "2026-10-31T17:49:48-07:00"
     },
     "C": {
       "commits": [],
@@ -194,7 +194,7 @@
   "schema_version": 1,
   "session_id": "shader-binary-data-compute-2026-10-31",
   "status": "running",
-  "updated_at": "2026-10-31T15:59:09-07:00"
+  "updated_at": "2026-10-31T17:49:48-07:00"
 }
 ```
 <!-- SMART_OVERNIGHT_STATE_END -->

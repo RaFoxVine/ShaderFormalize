@@ -8,7 +8,7 @@
 
 [二进制分支与局部赋值](docs/binary-control.md)支持纯if/else、嵌套分支、main/helper提前返回、struct字段汇合及八种uint复合赋值。[二进制局部数据](docs/binary-data.md)支持uint2/3/4、同lane位重解释、swizzle写入、局部定长数组和规范固定次数for。公共分支、局部值和循环机制由实数与IEEE前端共用，数值含义和安全政策由各后端拥有。二进制像素入口仍使用float输入/cbuffer与float4输出，不接受资源访问或动态循环。
 
-2026-10-31局部数据批次完整回归：327项Python测试、83项核心控制（38 PROVED、43 UNPROVED、2 INVALID_INPUT）、37项IEEE专项单元、35项IEEE正负控制（16 IEEE_PROVED、19 UNPROVED）、默认实数回切及19项原型均符合预期。83项核心全部实际重跑，110项旧目标/状态逐项一致，四组新增正例证明完整输出位相同，错误版保留真实提交证明失败。独立最终Q待完成，[机器证据与审阅状态](planning/evidence/binary-data-2026-10-31.json)记录当前进度。UNPROVED不等于已证明不等价。
+2026-10-31局部数据批次完整验收及独立Q通过：327项Python测试、83项核心控制（38 PROVED、43 UNPROVED、2 INVALID_INPUT）、37项IEEE专项单元、35项IEEE正负控制（16 IEEE_PROVED、19 UNPROVED）、默认实数回切及19项原型均符合预期。83项核心全部实际重跑，110项旧目标/状态逐项一致，四组新增正例证明完整输出位相同，错误版保留真实提交证明失败。[机器证据与审阅状态](planning/evidence/binary-data-2026-10-31.json)。UNPROVED不等于已证明不等价。
 
 语言覆盖以[官方目录](planning/coverage-expansion/coverage.csv)逐项推进。[基础数学运算](docs/basic-math.md)已接入现有实数模型，包括 min/max/abs/clamp、除法、sqrt/rcp/rsqrt、length/distance、floor/ceil/frac/step/smoothstep/cross/reflect，按实际执行条件证明受限域。[并行扩展范围](planning/coverage-expansion/parallel-plan.md)另包含独立浮点库接入及 Compute/同步工作；各方向当前进度见[任务状态](planning/coverage-expansion/tasks.md)。
 

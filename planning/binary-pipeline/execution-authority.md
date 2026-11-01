@@ -10,7 +10,7 @@
 
 ## binary-data-grant-003
 
-- status: active
+- status: completed
 - source: derived_session
 - authorizing_message_exact: 按此范围执行 Overnight
 - parent_session: planning/overnight/current.md，shader-binary-data-compute-2026-10-31，running；seal hash为2ad97543e86f3d582cbf38ba23414e24ed37b0bccb8292c9eba3c55482aedcce，脚本实际核对hash_valid=true。
@@ -23,6 +23,7 @@
 - stop_conditions: 新profile/执行IR语义或公理、弱化初始化/边界/绑定、超出envelope、不可用关键oracle或第三轮审阅仍有关键遗留；普通编译/测试/证明失败自主修复。
 - acceptance_boundary: 四组全称完整输出位正例与实际SubmittedProof负控、全部Python/IEEE扩展suite/原型19/完整核心83、110旧目标/状态比较、独立Q与真实机器证据后完成本片，不提前授权C/D代码。
 - recorded_at_local_date: 2026-10-31 America/Tijuana
+- completion_evidence: planning/evidence/binary-data-2026-10-31.json；327全单元/83核心、37专项单元/35IEEE控制、实数回切、原型19及110旧目标比较全部通过，独立Q第2轮PASS、issues=[]。产品检查点fcb2cce，最终证据检查点c0af8ad；只完成本片，C仍需单独派生精确grant。
 
 ## binary-control-grant-002
 
