@@ -52,6 +52,7 @@
 ## Overnight D（PLAN_ONLY）
 
 - /root/spec_graph_plan_review完成只读草案审查，未发现两项规格或两图scan的数学错误；不是最终Execution Ready独立P，未运行测试、prepare或Lean。root据此澄清任意P的信任边界，首批任务提供见证而一般接口不强制非空；继续具体化固定ABI、frame、单候选和expected task_id绑定。C真实接口、task_id规范及最终目标构造仍需在下次具体实施前冻结和独立P，未获得或实施D产品代码。
+- spec-single-005@r1已按C作者确认的实际Backend、emitter与Memory/Access/safe/finish接口具体化，独立P第1轮审f03eb67发现1项P1：新spec组装目标缺少仅safe失败的真实负控。root修订r2增加Count=0/thread0额外读取Source[113]而不写的安全负控，R/Frame成立但bounds失败；未改目标或扩范围。当前待P2，C实际全验收/Q依赖及D PLAN_ONLY保持。
 
 ## binary-compute-004
 

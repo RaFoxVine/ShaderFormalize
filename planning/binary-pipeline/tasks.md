@@ -8,7 +8,7 @@
 | 二进制分支与局部赋值（binary-control-002@r1） | 独立P第1轮通过 | Completed：binary-control-grant-002 | Completed：319全单元/83核心、29IEEE单元/27控制、实数回切、原型19、独立Q第2轮均通过 | 无本片遗留；104旧目标/状态一致，证据见binary-control-2026-10-31.json |
 | Overnight B：binary-data-003@r1 | Execution Ready，data-design.md独立P第1轮通过 | Completed：binary-data-grant-003，先提交13ea195 | Completed：完整门禁及独立Q2 PASS | 无本片遗留；327/83、37/35、实数回切、原型19及110旧目标比较符合预期 |
 | Overnight C：binary-compute-004@r2 | Execution Ready，compute-uint-design.md修订2，独立P第2轮通过，A/B依赖完成 | Approved：binary-compute-grant-004，先提交c3157e0后代码 | Implementing：唯一产品/Lean writer已交给/root/binary_compute_plan | 118旧目标已保存；按r2实现、初测、独立Q与完整回归 |
-| Overnight D：规格与计算图下一批方案 | Candidate，整体spec-graph-design.md与首片spec-single-design.md | PLAN_ONLY委托 | 草案审查与首片具体化完成，不实施 | 用B/C实际结果对齐首片；最终独立P；符号循环/图发布后续逐片细化 |
+| Overnight D：规格与计算图下一批方案 | Candidate，整体spec-graph-design.md与首片spec-single-005@r2 | PLAN_ONLY委托 | 首片已对齐C初版接口，P1安全负控缺口已补、待P2；不实施 | C最终验收/Q依赖；首片最终P；符号循环/图发布后续逐片细化 |
 | 固定规格与二进制执行的公共接口 | Outlined（二进制后细化） | 目标保留 | 未实施 | 先跑通实际流程再形成P/R细节，保留输入依赖和数组整体误差能力 |
 | 二进制语言与整数资源/循环支持 | Candidate | 仅调查/拟稿 | 未实施 | AST/DXIL选择、符号有界循环、类型化资源、旧入口迁移及回归语义 |
 | 手写计算图及多pass内存组合 | Candidate | 仅调查/拟稿 | 未实施 | 数据格式、符号尺寸计算及uint32转换/溢出、尾块guard、初始化/别名/同步、VerCors访问事件与Lean执行语义的对应合同 |
