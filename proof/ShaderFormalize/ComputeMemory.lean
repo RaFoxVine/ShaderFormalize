@@ -103,6 +103,3 @@ theorem finish_eq_of_observations (threads : Nat) (initial : Memory α)
   · rfl
 
 end ShaderFormalize.ComputeMemory
-
-
-
