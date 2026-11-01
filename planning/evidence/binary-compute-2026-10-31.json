@@ -2,7 +2,7 @@
   "schema": 1,
   "date": "2026-10-31",
   "recorded_at": "2026-10-31T23:44:03.910959-07:00",
-  "status": "VALIDATION_PASSED_REVIEW_PENDING",
+  "status": "PASSED",
   "slice": "binary-compute-004@r2",
   "grant_commit": "c3157e0",
   "source_checkpoint": "8a7f369c1c0ec3ac85d6c5900d5b3ee7ecbb3a04",
@@ -13485,7 +13485,22 @@
     "interpretation": "Historical attempts retain original reports and hashes, not current-byte acceptance. Includes initial missing import/180s timeout, Nat helper conversion failures, old OOB intro-N failure, early WW/WR isolation failures, q1 mod simplification, q2 unfolding and wrong right-shift-33 witness. Final acceptance below is the current-byte oracle."
   },
   "independent_Q": {
-    "status": "PENDING"
+    "status": "PASSED",
+    "round": 3,
+    "reviewer": "/root/binary_compute_plan_review",
+    "review_checkpoint": "4c9e8b1",
+    "product_checkpoint": "25ff191",
+    "issues": [],
+    "hashes_independently_verified": 2438,
+    "frozen_sources_verified": 170,
+    "frozen_inputs_verified": 211,
+    "legacy_targets_compared": 118,
+    "actual_legacy_generated_files_verified": 232,
+    "current_run_identity_verified": 16,
+    "Q1_Q2_repairs_verified": true,
+    "safety_isolation_verified": true,
+    "boundary_binding_and_observability_verified": true,
+    "scope": "binary-compute-004@r2 only; D remains PLAN_ONLY; no default execution migration"
   },
   "profile": {
     "uint_semantics": "Existing ShaderIeee.Model exact uint32 modular operations; no new GPU profile",

@@ -1,6 +1,6 @@
 # 二进制程序、自定义性质与多 pass 验证：下一阶段讨论稿
 
-本文件供用户和后续实现agent理解下一阶段目标。方向已获用户确认，用户进一步要求先实施二进制、完成后进入新主线；本文仍不是具体代码grant或现有能力声明。首个就绪切片见design.md修订1，其余工作逐步细化。本阶段起始基线为9b68e9d，当前能力及实测见仓库README、tasks.md与planning/evidence。
+本文件供用户和后续实现agent理解阶段目标。方向已获用户确认，用户要求先推进二进制，再进入自定义规格及多pass主线；本文不是具体代码grant。已交付切片见tasks.md及planning/evidence，下一就绪切片为spec-single-design.md修订2，其余工作逐步细化。本阶段起始基线为9b68e9d，当前能力及实测由仓库README和各验收证据记录。
 
 ## 为什么扩展及用户已确认的边界
 
@@ -62,4 +62,6 @@ P/R由任务发起者预先固定，候选不能替换。一般接口允许发�
 
 ## 当前规划状态
 
-本稿确定总体需求；首个二进制标量位运算切片已具体化并经独立实施前审阅，用户按design.md修订1批准实施，精确授权见execution-authority.md，实际进度见tasks.md及implementation-evidence.md。公共执行IR、循环语义、规格绑定接口、图的数据格式、整体迁移策略和安全后端合同继续逐片细化；这些未就绪切片没有实施授权。本首片不变更依赖。
+二进制标量、纯计算分支、局部向量/定长数组/静态循环及纯uint Buffer单pass Compute均已完成各自真实验收和独立Q，精确授权与证据见execution-authority.md、tasks.md及implementation-evidence.md。默认入口与完整二进制迁移仍待后续切片。
+
+下一片spec-single-005@r2具体化固定任务身份、单候选P/R、安全及Frame，独立P第2轮通过且B/C前置完成，为Execution Ready、等待实施批准。图的数据格式、跨pass发布、符号尺寸/循环及整体迁移继续逐片细化；这些功能尚未实施。本轮未改变依赖、Unity或默认入口。

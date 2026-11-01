@@ -54,6 +54,7 @@
 - /root/spec_graph_plan_review完成只读草案审查，未发现两项规格或两图scan的数学错误；不是最终Execution Ready独立P，未运行测试、prepare或Lean。root据此澄清任意P的信任边界，首批任务提供见证而一般接口不强制非空；继续具体化固定ABI、frame、单候选和expected task_id绑定。C真实接口、task_id规范及最终目标构造仍需在下次具体实施前冻结和独立P，未获得或实施D产品代码。
 - spec-single-005@r1已按C作者确认的实际Backend、emitter与Memory/Access/safe/finish接口具体化，独立P第1轮审f03eb67发现1项P1：新spec组装目标缺少仅safe失败的真实负控。root修订r2增加Count=0/thread0额外读取Source[113]而不写的安全负控，R/Frame成立但bounds失败；未改目标或扩范围。当前待P2，C实际全验收/Q依赖及D PLAN_ONLY保持。
 - 独立P第2轮只读审阅b7060153d453be42bc98444d61d650d88d0d9758，实际PASS、issues=[]，确认新负控区分仅safe失败，P1关闭。C最终验收/Q及接口检查点核对仍未满足，不提前标Execution Ready；D没有代码grant。
+- C最终完整验收及独立Q3通过后，root核对其冻结产品25ff191与规划使用的Backend、kernel/emitter和Memory/safe/finish声明未变，规格首片spec-single-005@r2的依赖已满足，收为Execution Ready/READY_FOR_APPROVAL。既有独立P2继续覆盖同一合同；只更新规划状态，不新增D代码grant。图/发布/符号循环仍Candidate，不将整体多pass方案冒称可直接实施。
 
 ## binary-compute-004
 
@@ -74,3 +75,4 @@
 - 最终冻结检查点8a7f369c1c0ec3ac85d6c5900d5b3ee7ecbb3a04（产品25ff191），170源码/配置及211示例指纹保存artifacts/binary-compute/frozen-sources.json；该检查点已推送且ls-remote精确匹配。root唯一队列exec66545，artifacts/binary-compute/run_final.py，心跳final1/result.json，串行compatibility→core→ieee→prototype→uint。118旧目标实际after比较95.219秒exit0、全部目标/状态一致；当前core正在运行。全部Python/83核心、37/35IEEE/实数回切、原型19和新uint全suite尚未完成，不能提前报门禁全过。恢复先核对66545心跳/活跃状态，不可另开Lean或修改冻结产品。
 - 最终队列66545继续实际完成core（7266.422秒，347项全Python单元及83项核心控制）、ieee（4932.859秒，37专项单元/35控制及实数回切）和prototype（60.156秒，19项），均exit0。当前唯一活跃阶段为uint完整16项控制；未完成前不写最终机器PASS，Q3最终结论仍待该证据。170源码/211示例继续冻结，collector仅待全部五阶段成功后读取实际产物。
 - exec66545最终实际exit0，final1/result.json为PASSED；uint完整16项（6 PROVED、10 UNPROVED）全部符合预期。collector实际exit0，逐一核对170源码/211示例、118旧目标/状态及232份实际生成快照、本次run_id和报告归属、输入/证明/语义/产物指纹、安全负例隔离及20+6可观察性定理后生成planning/evidence/binary-compute-2026-10-31.json，状态VALIDATION_PASSED_REVIEW_PENDING。历史失败和修复产物保持原记录，未覆盖为当前成功；同一审阅者继续最终Q第3轮，只读实际证据，不另起审阅轮次或重跑门禁。
+- 独立Q第3轮最终PASS、issues=[]，reviewer为/root/binary_compute_plan_review，产品25ff191、证据检查点4c9e8b1。只读独立核对2438项hash、16个当前run身份和约束/证明/源对应；118旧目标与232生成文件吻合，四安全负例真实义务隔离，boundaries实际kernel绑定Std3及20+6观测不等式仅propext，前轮三项P2全部关闭。机器证据改为PASSED，004及其grant完成；默认实数入口、依赖、Unity和D代码边界未变。

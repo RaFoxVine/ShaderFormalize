@@ -10,7 +10,7 @@
 
 ## binary-compute-grant-004
 
-- status: active
+- status: completed
 - source: delegated_session
 - authorization_message_exact: 按此范围执行 Overnight
 - delegated_session: shader-binary-data-compute-2026-10-31，item C，PLAN_AND_CODE；planning/overnight/current.md仍running，seal hash为2ad97543e86f3d582cbf38ba23414e24ed37b0bccb8292c9eba3c55482aedcce，脚本实际核对hash_valid=true。
@@ -24,6 +24,7 @@
 - stop_conditions: 新profile/公理，弱化bounds/WW/WR/完整内存或任务绑定，超出envelope，owner保护/终态合同漂移，不可用关键oracle或第三轮审阅仍有关键遗留；普通编译/测试/证明及合同内缺陷自主修复。
 - acceptance_boundary: hash/packing与alias真实正例；错误计算/Store越界/WW/alias WR到SubmittedProof真实失败；非冗余短路/三元安全正例；每run结果归属与旧成功拒绝控制；118旧目标/状态逐项比较、全部Python/83核心/35IEEE/实数回切/原型19及新uint控制、独立Q与真实证据后仅完成本片。D仍PLAN_ONLY，整体二进制迁移未闭合。
 - recorded_at_local_date: 2026-10-31 America/Tijuana
+- completion_evidence: planning/evidence/binary-compute-2026-10-31.json；产品25ff191、验收证据检查点4c9e8b1，完整五阶段实际通过。347全单元/83核心、37专项单元/35IEEE控制及实数回切、原型19、新uint16控制（6正例/10负例）均符合预期；118旧目标/状态及232生成快照一致。独立Q第3轮PASS、issues=[]，只读核实2438项hash。只完成本片，不授予D代码或整体二进制迁移完成状态。
 
 ## binary-data-grant-003
 

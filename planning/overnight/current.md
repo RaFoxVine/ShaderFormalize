@@ -181,23 +181,25 @@
         "25ff1915742ce9dbc8f06bb7eff41877dad2dc89"
       ],
       "grant_reference": "planning/binary-pipeline/execution-authority.md#binary-compute-grant-004@r2",
-      "result": "IN_PROGRESS",
-      "summary": "All five final gates actual PASSED:347/83,37/35 and real switchback,prototype19,uint16(6 PROVED10 UNPROVED),118 old targets identical and232 generated snapshots.170 sources211 fixtures verified. Persistent evidence VALIDATION_PASSED_REVIEW_PENDING; same final Q3 reviewing.",
-      "updated_at": "2026-10-31T23:45:09-07:00"
+      "result": "DONE",
+      "summary": "Completed uint Buffer single-pass: full gates PASSED, independent Q3 PASS issues=[] at4c9e8b1,2438 hashes independently verified.347/83,37/35 with real switchback,prototype19,uint16,118 old targets232 snapshots; persistent evidence PASSED.",
+      "updated_at": "2026-10-31T23:47:36-07:00"
     },
     "D": {
-      "commits": [],
+      "commits": [
+        "b7060153d453be42bc98444d61d650d88d0d9758"
+      ],
       "grant_reference": "",
-      "result": "IN_PROGRESS",
-      "summary": "spec-single-005 r2 independent P2 PASS; graph visibility/dimensions candidate documented; awaiting final C acceptance/Q and interface checkpoint before READY_FOR_APPROVAL; PLAN_ONLY no code.",
-      "updated_at": "2026-10-31T18:16:07-07:00"
+      "result": "READY_FOR_APPROVAL",
+      "summary": "PLAN_ONLY delivered: spec-single-005@r2 Execution Ready with independent P2 PASS; B/C complete and actual C interfaces frozen25ff191 verified. Fixed task identity,single candidate P/R,safety and Frame,two exact/error tasks specified. Multipass/symbolic loops remain Candidate; no D code grant or implementation.",
+      "updated_at": "2026-10-31T23:47:36-07:00"
     }
   },
   "request_text": "用户询问：接下来我们开始Overnight，哪些是你认为可以这次一并搞定的内容？\n\n唯一待批问题：是否按这份范围执行 Overnight：A 完成当前批次验收；B 实现二进制 uint 向量、局部定长数组与固定次数循环；C 打通仅 uint Buffer 的单 pass Compute，验证完整输出及内存安全；D 只细化自定义规格和多 pass 方案？B/C 由我在此范围内完成具体设计、独立审阅后实施，不再逐批等你确认；保持现有依赖和默认入口，完成后提交推送。具体边界已写入 planning/binary-pipeline/overnight-proposal-2026-10-31.md。\n\n用户精确回答：按此范围执行 Overnight\n\n提案SHA256：3511fdce37d81babb7dbe671577540cad3ac9127482c2794b5e18114160be19e\n会话标识：shader-binary-data-compute-2026-10-31\n范围所有者：planning/binary-pipeline；沿用planning作为已有Smart兼容项目根，不创建新Project。\nA沿用现有binary-control-grant-002；B/C取得限定委托，逐个完成独立P与精确grant后才写产品代码；D只规划。既有非强制push授权继续有效。",
   "schema_version": 1,
   "session_id": "shader-binary-data-compute-2026-10-31",
   "status": "running",
-  "updated_at": "2026-10-31T23:45:09-07:00"
+  "updated_at": "2026-10-31T23:47:36-07:00"
 }
 ```
 <!-- SMART_OVERNIGHT_STATE_END -->

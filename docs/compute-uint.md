@@ -15,3 +15,5 @@ schema 3 严格包含 schema、dispatch_groups、count_range、bindings。每个
 边界控制通过实际Compute验证左右移位0/31/32/33/UINTMAX，以及地址0、UINTMAX和uint模回绕。计数31使用地址0的输入，UINTMAX使用独立的末地址输入及奇数权重11，避免相同输入上的移位项在模算术中抵消。证明把实际生成kernel的两个输出绑定到标准UInt32表达式，再用有限输入分别证明十项移位的删除和错误计数都会改变输出，并检查共同处理31/MAX或0/32的删除错误可见；suite要求绑定和两组可观察性定理的公理审计均通过。Source容量2^32允许在抽象Memory中读取最后一个合法地址，无需实际分配Buffer。嵌套短路、三元与纯helper正例覆盖执行guard的恢复；活动Load越界控制把越界读取放在同一表达式的三元/helper之后。Store与Load越界控制均使用单线程Count=1，先证明其它访问合法、independence和输出自反，再留下实际的113<113边界目标。验收同时检查隔离证明仅依赖原三公理，不能用前置证明错误充当越界拒绝。
 
 uint入口把固定依赖锁、二进制验证、编译缓存和工具启动环境的读取/结构错误报告为ENVIRONMENT_ERROR；用户约束及HLSL输入错误仍为INVALID_INPUT。legacy的异常分类及报告位置保持原合同，semantic_modules仍使用Model.lean/Compute.lean等文件名键，并包含提取后的ComputeMemory.lean。
+
+2026-10-31完整验收及独立Q第3轮通过：本入口16项真实控制全部符合预期，6项正例为完整目标PROVED；10项负例保留对应的实际证明、绑定或公理审计失败。Store/Load越界与WW/WR控制分别隔离安全义务。347项全Python单元、83项核心控制、37项IEEE专项单元/35项控制、实数回切与19项原型全部重跑通过，118项旧目标/状态一致。[持久证据](../planning/evidence/binary-compute-2026-10-31.json)绑定170份源码、211份示例和实际验收产物；本结论只覆盖上述参考语义与支持范围。
